@@ -8,27 +8,27 @@ import categories from "@/data/categories.json";
 
 const galleryItems = [
   {
-    src: "/images/gallery-1.jpg",
+    src: "/images/gallery-1.svg",
     title: "Kuliner Khas",
     desc: "Aneka makanan tradisional",
   },
   {
-    src: "/images/gallery-2.jpg",
+    src: "/images/gallery-2.svg",
     title: "Kerajinan Tangan",
     desc: "Produk handmade kreatif",
   },
   {
-    src: "/images/gallery-3.jpg",
+    src: "/images/gallery-3.svg",
     title: "Fashion Lokal",
     desc: "Busana khas Ciangsana",
   },
   {
-    src: "/images/gallery-4.jpg",
+    src: "/images/gallery-4.svg",
     title: "Minuman Segar",
     desc: "Minuman tradisional & modern",
   },
   {
-    src: "/images/gallery-5.jpg",
+    src: "/images/gallery-5.svg",
     title: "Sembako",
     desc: "Kebutuhan pokok sehari-hari",
   },
@@ -76,7 +76,7 @@ export default function HomePage() {
             <div className="relative order-first md:order-last">
               <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl">
                 <img
-                  src="/images/hero-1.jpg"
+                  src="/images/hero-1.svg"
                   alt=""
                   className="w-full aspect-[4/3] object-cover"
                 />
@@ -201,9 +201,7 @@ export default function HomePage() {
             </Link>
           </div>
           {/* [SCROLL] Jelajahi Koleksi - horizontal scroll tanpa overlap */}
-          <div
-            className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory scrollbar-thin"
-          >
+          <div className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory scrollbar-thin">
             {galleryItems.map((item, i) => (
               <div
                 key={i}

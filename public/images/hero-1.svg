@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600">
+  <rect width="1200" height="600" fill="#F5F0E8"/>
+  <!-- Mountain icon -->
+  <path d="M200 450 L400 200 L530 320 L600 250 L700 350 L1000 450" fill="none" stroke="#B91C1C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Sun -->
+  <circle cx="900" cy="150" r="40" fill="none" stroke="#B91C1C" stroke-width="3"/>
+  <!-- Hero Image text -->
+  <text x="600" y="520" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#2D2D2D" text-anchor="middle">Hero Image</text>
+  <!-- Decorative dots -->
+  <circle cx="150" cy="100" r="3" fill="#B91C1C" opacity="0.4"/>
+  <circle cx="1050" cy="100" r="3" fill="#B91C1C" opacity="0.4"/>
+  <circle cx="150" cy="500" r="3" fill="#B91C1C" opacity="0.4"/>
+  <circle cx="1050" cy="500" r="3" fill="#B91C1C" opacity="0.4"/>
+</svg>
