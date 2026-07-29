@@ -1,11 +1,12 @@
-import './globals.css'
-import Navbar from '@/components/layout/Navbar'
-import Footer from '@/components/layout/Footer'
+import "./globals.css";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 export const metadata = {
-  title: 'UMKM Ciangsana — Katalog Digital Produk Lokal',
-  description: 'Temukan produk UMKM unggulan dari Ciangsana, Gunung Putri, Bogor. Belanja langsung dari pengrajin lokal.',
-}
+  title: "UMKM Ciangsana — Katalog Digital Produk Lokal",
+  description:
+    "Temukan produk UMKM unggulan dari Ciangsana, Gunung Putri, Bogor. Belanja langsung dari pengrajin lokal.",
+};
 
 export default function RootLayout({ children }) {
   return (
@@ -16,5 +17,5 @@ export default function RootLayout({ children }) {
         <Footer />
       </body>
     </html>
-  )
+  );
 }

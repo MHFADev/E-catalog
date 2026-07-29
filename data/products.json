@@ -158,7 +158,7 @@
   {
     "id": "prod-0013",
     "name": "Frozen Food",
-    "categoryId": "frozen-minuman",
+    "categoryId": "frozen-food",
     "sellerId": "umkm-003",
     "price": null,
     "priceUnit": "Hubungi untuk harga",
@@ -171,7 +171,7 @@
   {
     "id": "prod-0014",
     "name": "Aneka Sambal Kemasan",
-    "categoryId": "frozen-minuman",
+    "categoryId": "frozen-food",
     "sellerId": "umkm-003",
     "price": null,
     "priceUnit": "Hubungi untuk harga",
@@ -184,7 +184,7 @@
   {
     "id": "prod-0015",
     "name": "Minuman Tradisional",
-    "categoryId": "frozen-minuman",
+    "categoryId": "camilan-minuman",
     "sellerId": "umkm-003",
     "price": null,
     "priceUnit": "Hubungi untuk harga",
@@ -197,7 +197,7 @@
   {
     "id": "prod-0016",
     "name": "Anting Manik",
-    "categoryId": "aksesoris-fashion",
+    "categoryId": "fasion-aksesoris",
     "sellerId": "umkm-004",
     "price": null,
     "priceUnit": "Hubungi untuk harga",
@@ -210,7 +210,7 @@
   {
     "id": "prod-0017",
     "name": "Gelang Manik",
-    "categoryId": "aksesoris-fashion",
+    "categoryId": "fasion-aksesoris",
     "sellerId": "umkm-004",
     "price": null,
     "priceUnit": "Hubungi untuk harga",
@@ -223,7 +223,7 @@
   {
     "id": "prod-0018",
     "name": "Kalung Manik",
-    "categoryId": "aksesoris-fashion",
+    "categoryId": "fasion-aksesoris",
     "sellerId": "umkm-004",
     "price": null,
     "priceUnit": "Hubungi untuk harga",
@@ -236,7 +236,7 @@
   {
     "id": "prod-0019",
     "name": "Tas Kerajinan",
-    "categoryId": "aksesoris-fashion",
+    "categoryId": "fasion-aksesoris",
     "sellerId": "umkm-004",
     "price": null,
     "priceUnit": "Hubungi untuk harga",
@@ -275,7 +275,7 @@
   {
     "id": "prod-0022",
     "name": "Sempol",
-    "categoryId": "jajanan-hampers",
+    "categoryId": "makanan-hampers",
     "sellerId": "umkm-005",
     "price": null,
     "priceUnit": "Hubungi untuk harga",
@@ -288,7 +288,7 @@
   {
     "id": "prod-0023",
     "name": "Jasuke (Jagung Susu Keju)",
-    "categoryId": "jajanan-hampers",
+    "categoryId": "makanan-hampers",
     "sellerId": "umkm-005",
     "price": null,
     "priceUnit": "Hubungi untuk harga",
@@ -301,7 +301,7 @@
   {
     "id": "prod-0024",
     "name": "Souvenir / Hampers",
-    "categoryId": "jajanan-hampers",
+    "categoryId": "makanan-hampers",
     "sellerId": "umkm-005",
     "price": null,
     "priceUnit": "Hubungi untuk harga",

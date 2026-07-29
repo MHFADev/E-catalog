@@ -1,23 +1,39 @@
-'use client'
-import { useEffect } from 'react'
-import Icon from '@/components/common/Icon'
-import CategoryChip from '@/components/category/CategoryChip'
+"use client";
+import { useEffect } from "react";
+import Icon from "@/components/common/Icon";
+import CategoryChip from "@/components/category/CategoryChip";
 
 const priceOptions = [
-  { value: 'all', label: 'Semua Harga' },
-  { value: 'under25', label: '< Rp 25.000' },
-  { value: 'mid', label: 'Rp 25.000 - Rp 50.000' },
-  { value: 'over50', label: '> Rp 50.000' },
-]
+  { value: "all", label: "Semua Harga" },
+  { value: "under25", label: "< Rp 25.000" },
+  { value: "mid", label: "Rp 25.000 - Rp 50.000" },
+  { value: "over50", label: "> Rp 50.000" },
+];
 
-export default function FilterDrawer({ open, onClose, categories, selectedCategory, onSelectCategory, priceRange, onPriceRange, sellerId, onSellerId, sellers }) {
+export default function FilterDrawer({
+  open,
+  onClose,
+  categories,
+  selectedCategory,
+  onSelectCategory,
+  priceRange,
+  onPriceRange,
+  sellerId,
+  onSellerId,
+  sellers,
+}) {
   useEffect(() => {
-    if (open) { document.body.style.overflow = 'hidden' }
-    else { document.body.style.overflow = '' }
-    return () => { document.body.style.overflow = '' }
-  }, [open])
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
-  if (!open) return null
+  if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[100] md:hidden">
@@ -25,7 +41,10 @@ export default function FilterDrawer({ open, onClose, categories, selectedCatego
       <div className="absolute bottom-0 left-0 right-0 max-h-[90vh] bg-cotton rounded-t-3xl overflow-y-auto animate-slideUp">
         <div className="sticky top-0 bg-cotton z-10 flex items-center justify-between px-5 pt-5 pb-3 border-b border-cotton-warm">
           <h2 className="text-base font-bold tracking-tight">Filter</h2>
-          <button onClick={onClose} className="w-8 h-8 rounded-full bg-cotton-warm flex items-center justify-center text-noir-soft">
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-full bg-cotton-warm flex items-center justify-center text-noir-soft"
+          >
             <Icon name="close" size={18} />
           </button>
         </div>
@@ -36,8 +55,13 @@ export default function FilterDrawer({ open, onClose, categories, selectedCatego
               <span className="w-0.5 h-3 bg-cherry rounded-sm" /> Kategori
             </label>
             <div className="flex flex-wrap gap-2">
-              {categories.map(cat => (
-                <CategoryChip key={cat.id} category={cat} active={selectedCategory === cat.id} onClick={onSelectCategory} />
+              {categories.map((cat) => (
+                <CategoryChip
+                  key={cat.id}
+                  category={cat}
+                  active={selectedCategory === cat.id}
+                  onClick={onSelectCategory}
+                />
               ))}
             </div>
           </div>
@@ -47,14 +71,18 @@ export default function FilterDrawer({ open, onClose, categories, selectedCatego
               <span className="w-0.5 h-3 bg-cherry rounded-sm" /> Harga
             </label>
             <div className="flex flex-wrap gap-2">
-              {priceOptions.map(opt => (
-                <button key={opt.value}
+              {priceOptions.map((opt) => (
+                <button
+                  key={opt.value}
                   className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
                     priceRange === opt.value
-                      ? 'bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md'
-                      : 'bg-white border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry'
+                      ? "bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md"
+                      : "bg-white border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry"
                   }`}
-                  onClick={() => onPriceRange(priceRange === opt.value ? 'all' : opt.value)}>
+                  onClick={() =>
+                    onPriceRange(priceRange === opt.value ? "all" : opt.value)
+                  }
+                >
                   {opt.label}
                 </button>
               ))}
@@ -68,26 +96,36 @@ export default function FilterDrawer({ open, onClose, categories, selectedCatego
             <div className="flex flex-wrap gap-2">
               <button
                 className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                  sellerId === 'all'
-                    ? 'bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md'
-                    : 'bg-white border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry'
+                  sellerId === "all"
+                    ? "bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md"
+                    : "bg-white border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry"
                 }`}
-                onClick={() => onSellerId('all')}>Semua Toko</button>
-              {sellers.map(s => (
-                <button key={s.id}
+                onClick={() => onSellerId("all")}
+              >
+                Semua Toko
+              </button>
+              {sellers.map((s) => (
+                <button
+                  key={s.id}
                   className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
                     sellerId === s.id
-                      ? 'bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md'
-                      : 'bg-white border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry'
+                      ? "bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md"
+                      : "bg-white border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry"
                   }`}
-                  onClick={() => onSellerId(sellerId === s.id ? 'all' : s.id)}>{s.name}</button>
+                  onClick={() => onSellerId(sellerId === s.id ? "all" : s.id)}
+                >
+                  {s.name}
+                </button>
               ))}
             </div>
           </div>
         </div>
 
         <div className="sticky bottom-0 bg-cotton border-t border-cotton-warm p-5">
-          <button onClick={onClose} className="w-full py-3 bg-cherry text-white font-semibold rounded-full text-sm shadow-md">
+          <button
+            onClick={onClose}
+            className="w-full py-3 bg-cherry text-white font-semibold rounded-full text-sm shadow-md"
+          >
             Lihat Hasil
           </button>
         </div>
@@ -98,5 +136,5 @@ export default function FilterDrawer({ open, onClose, categories, selectedCatego
         .animate-slideUp { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
       `}</style>
     </div>
-  )
+  );
 }

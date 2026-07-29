@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Icon from '@/components/common/Icon'
 
+// [FOOTER] Copyright rata tengah sesuai permintaan
 export default function Footer() {
   return (
     <footer className="bg-noir text-cotton-warm py-12 mt-16">
@@ -30,7 +31,8 @@ export default function Footer() {
             </a>
           </div>
         </div>
-        <div className="flex flex-wrap justify-between gap-2 pt-6 text-xs text-cool-gray">
+        {/* [FOOTER] Copyright di tengah */}
+        <div className="flex flex-wrap justify-center gap-2 pt-6 text-xs text-cool-gray">
           <p>&copy; {new Date().getFullYear()} E-Catalog UMKM Ciangsana. Semua hak dilindungi.</p>
         </div>
       </div>

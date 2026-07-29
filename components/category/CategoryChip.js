@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Icon from '@/components/common/Icon'
 
+// [HOVER] Desktop: teks berubah #991B1B saat hover (md:)
 export default function CategoryChip({ category, active, onClick }) {
   const [imgError, setImgError] = useState(false)
 
@@ -10,7 +11,7 @@ export default function CategoryChip({ category, active, onClick }) {
       className={`relative inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium overflow-hidden transition-all duration-300 border ${
         active
           ? 'border-cherry-deep text-white shadow-md'
-          : 'border-cotton-warm bg-cotton-pure text-noir-soft hover:border-cherry hover:text-white'
+          : 'border-cotton-warm bg-cotton-pure text-noir-soft md:hover:border-cherry-deep md:hover:text-cherry-deep'
       }`}
     >
       <span className="absolute inset-0 z-0 transition-opacity duration-300"
