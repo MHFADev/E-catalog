@@ -1,0 +1,619 @@
+﻿Γû▓ Next.js 16.2.12 (Turbopack)
+
+  Creating an optimized production build ...
+node.exe : 
+At line:1 char:1
++ & "C:\nvm4w\nodejs/node.exe" "C:\nvm4w\nodejs/node_modules/npm/bin/np ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+> Build error occurred
+Error: Turbopack build failed with 24 errors:
+./app/catalog/page.js:8:1
+Module not found: Can't resolve '@/components/category/CategoryFilterBar'
+  [90m 6 |[0m [36mimport[0m { [33mSkeletonGrid[0m } [36mfrom[0m [32m'@/components/common/Loader'[0m
+  [90m 7 |[0m [36mimport[0m [33mEmptyState[0m [36mfrom[0m [32m'@/components/common/EmptyState'[0m
+[31m[1m>[0m [90m 8 |[0m [36mimport[0m [33mCategoryFilterBar[0m [36mfrom[0m 
+[32m'@/components/category/CategoryFilterBar'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 9 |[0m [36mimport[0m [33mProductGrid[0m [36mfrom[0m [32m'@/components/product/ProductGrid'[0m
+  [90m10 |[0m [36mimport[0m { useDebounce } [36mfrom[0m [32m'@/lib/useDebounce'[0m
+  [90m11 |[0m [36mimport[0m { useProductFilter } [36mfrom[0m [32m'@/lib/useProductFilter'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/catalog/page.js [Client Component Browser]
+    ./app/catalog/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/catalog/page.js [Client Component SSR]
+    ./app/catalog/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/catalog/page.js:7:1
+Module not found: Can't resolve '@/components/common/EmptyState'
+  [90m 5 |[0m [36mimport[0m [33mSearchBar[0m [36mfrom[0m [32m'@/components/common/SearchBar'[0m
+  [90m 6 |[0m [36mimport[0m { [33mSkeletonGrid[0m } [36mfrom[0m [32m'@/components/common/Loader'[0m
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mEmptyState[0m [36mfrom[0m 
+[32m'@/components/common/EmptyState'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m [33mCategoryFilterBar[0m [36mfrom[0m 
+[32m'@/components/category/CategoryFilterBar'[0m
+  [90m 9 |[0m [36mimport[0m [33mProductGrid[0m [36mfrom[0m [32m'@/components/product/ProductGrid'[0m
+  [90m10 |[0m [36mimport[0m { useDebounce } [36mfrom[0m [32m'@/lib/useDebounce'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/catalog/page.js [Client Component Browser]
+    ./app/catalog/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/catalog/page.js [Client Component SSR]
+    ./app/catalog/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/about/page.js:2:1
+Module not found: Can't resolve '@/components/common/Icon'
+  [90m1 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m
+[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mIcon[0m [36mfrom[0m [32m'@/components/common/Icon'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m3 |[0m
+  [90m4 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mAboutPage[0m() {
+  [90m5 |[0m   [36mreturn[0m (
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/page.js:4:1
+Module not found: Can't resolve '@/components/common/Icon'
+  [90m2 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m
+  [90m3 |[0m [36mimport[0m [33mProductGrid[0m [36mfrom[0m [32m'@/components/product/ProductGrid'[0m
+[31m[1m>[0m [90m4 |[0m [36mimport[0m [33mIcon[0m [36mfrom[0m [32m'@/components/common/Icon'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m productsData [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m6 |[0m [36mimport[0m sellersData [36mfrom[0m [32m'@/data/sellers.json'[0m
+  [90m7 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/product/[id]/page.js:4:1
+Module not found: Can't resolve '@/components/common/Icon'
+  [90m2 |[0m [36mimport[0m { useParams, notFound } [36mfrom[0m [32m'next/navigation'[0m
+  [90m3 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m
+[31m[1m>[0m [90m4 |[0m [36mimport[0m [33mIcon[0m [36mfrom[0m [32m'@/components/common/Icon'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { generateWhatsAppLink } [36mfrom[0m [32m'@/lib/generateWhatsAppLink'[0m
+  [90m6 |[0m [36mimport[0m { [33mWHATSAPP_PREFILL[0m } [36mfrom[0m [32m'@/lib/constants'[0m
+  [90m7 |[0m [36mimport[0m products [36mfrom[0m [32m'@/data/products.json'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/product/[id]/page.js [Client Component Browser]
+    ./app/product/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/product/[id]/page.js [Client Component SSR]
+    ./app/product/[id]/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/catalog/page.js:6:1
+Module not found: Can't resolve '@/components/common/Loader'
+  [90m4 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m
+  [90m5 |[0m [36mimport[0m [33mSearchBar[0m [36mfrom[0m [32m'@/components/common/SearchBar'[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mSkeletonGrid[0m } [36mfrom[0m 
+[32m'@/components/common/Loader'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m [33mEmptyState[0m [36mfrom[0m [32m'@/components/common/EmptyState'[0m
+  [90m8 |[0m [36mimport[0m [33mCategoryFilterBar[0m [36mfrom[0m 
+[32m'@/components/category/CategoryFilterBar'[0m
+  [90m9 |[0m [36mimport[0m [33mProductGrid[0m [36mfrom[0m [32m'@/components/product/ProductGrid'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/catalog/page.js [Client Component Browser]
+    ./app/catalog/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/catalog/page.js [Client Component SSR]
+    ./app/catalog/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/catalog/page.js:5:1
+Module not found: Can't resolve '@/components/common/SearchBar'
+  [90m3 |[0m [36mimport[0m { useSearchParams } [36mfrom[0m [32m'next/navigation'[0m
+  [90m4 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m
+[31m[1m>[0m [90m5 |[0m [36mimport[0m [33mSearchBar[0m [36mfrom[0m [32m'@/components/common/SearchBar'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mSkeletonGrid[0m } [36mfrom[0m [32m'@/components/common/Loader'[0m
+  [90m7 |[0m [36mimport[0m [33mEmptyState[0m [36mfrom[0m [32m'@/components/common/EmptyState'[0m
+  [90m8 |[0m [36mimport[0m [33mCategoryFilterBar[0m [36mfrom[0m 
+[32m'@/components/category/CategoryFilterBar'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/catalog/page.js [Client Component Browser]
+    ./app/catalog/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/catalog/page.js [Client Component SSR]
+    ./app/catalog/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/layout.js:3:1
+Module not found: Can't resolve '@/components/layout/Footer'
+  [90m1 |[0m [36mimport[0m [32m'./globals.css'[0m
+  [90m2 |[0m [36mimport[0m [33mNavbar[0m [36mfrom[0m [32m'@/components/layout/Navbar'[0m
+[31m[1m>[0m [90m3 |[0m [36mimport[0m [33mFooter[0m [36mfrom[0m [32m'@/components/layout/Footer'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m4 |[0m
+  [90m5 |[0m [36mexport[0m [36mconst[0m metadata = {
+  [90m6 |[0m   title: [32m'E-Catalog UMKM Ciangsana'[0m,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/layout.js:2:1
+Module not found: Can't resolve '@/components/layout/Navbar'
+  [90m1 |[0m [36mimport[0m [32m'./globals.css'[0m
+[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mNavbar[0m [36mfrom[0m [32m'@/components/layout/Navbar'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m3 |[0m [36mimport[0m [33mFooter[0m [36mfrom[0m [32m'@/components/layout/Footer'[0m
+  [90m4 |[0m
+  [90m5 |[0m [36mexport[0m [36mconst[0m metadata = {
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/catalog/page.js:9:1
+Module not found: Can't resolve '@/components/product/ProductGrid'
+  [90m 7 |[0m [36mimport[0m [33mEmptyState[0m [36mfrom[0m [32m'@/components/common/EmptyState'[0m
+  [90m 8 |[0m [36mimport[0m [33mCategoryFilterBar[0m [36mfrom[0m 
+[32m'@/components/category/CategoryFilterBar'[0m
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m [33mProductGrid[0m [36mfrom[0m 
+[32m'@/components/product/ProductGrid'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { useDebounce } [36mfrom[0m [32m'@/lib/useDebounce'[0m
+  [90m11 |[0m [36mimport[0m { useProductFilter } [36mfrom[0m [32m'@/lib/useProductFilter'[0m
+  [90m12 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/catalog/page.js [Client Component Browser]
+    ./app/catalog/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/catalog/page.js [Client Component SSR]
+    ./app/catalog/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/page.js:3:1
+Module not found: Can't resolve '@/components/product/ProductGrid'
+  [90m1 |[0m [32m'use client'[0m
+  [90m2 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m
+[31m[1m>[0m [90m3 |[0m [36mimport[0m [33mProductGrid[0m [36mfrom[0m 
+[32m'@/components/product/ProductGrid'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m4 |[0m [36mimport[0m [33mIcon[0m [36mfrom[0m [32m'@/components/common/Icon'[0m
+  [90m5 |[0m [36mimport[0m productsData [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m6 |[0m [36mimport[0m sellersData [36mfrom[0m [32m'@/data/sellers.json'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/catalog/page.js:12:1
+Module not found: Can't resolve '@/data/categories.json'
+  [90m10 |[0m [36mimport[0m { useDebounce } [36mfrom[0m [32m'@/lib/useDebounce'[0m
+  [90m11 |[0m [36mimport[0m { useProductFilter } [36mfrom[0m [32m'@/lib/useProductFilter'[0m
+[31m[1m>[0m [90m12 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m13 |[0m [36mimport[0m productsData [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m14 |[0m [36mimport[0m sellersData [36mfrom[0m [32m'@/data/sellers.json'[0m
+  [90m15 |[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/catalog/page.js [Client Component Browser]
+    ./app/catalog/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/catalog/page.js [Client Component SSR]
+    ./app/catalog/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/page.js:7:1
+Module not found: Can't resolve '@/data/categories.json'
+  [90m 5 |[0m [36mimport[0m productsData [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m 6 |[0m [36mimport[0m sellersData [36mfrom[0m [32m'@/data/sellers.json'[0m
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mconst[0m galleryItems = [
+  [90m10 |[0m   { src: [32m'/images/gallery-1.jpg'[0m, title: [32m'Kuliner Khas'[0m, desc: [32m'Aneka makanan 
+tradisional'[0m },
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/product/[id]/page.js:9:1
+Module not found: Can't resolve '@/data/categories.json'
+  [90m 7 |[0m [36mimport[0m products [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m 8 |[0m [36mimport[0m sellers [36mfrom[0m [32m'@/data/sellers.json'[0m
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m
+  [90m11 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mProductDetailPage[0m() {
+  [90m12 |[0m   [36mconst[0m { id } = useParams()
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/product/[id]/page.js [Client Component Browser]
+    ./app/product/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/product/[id]/page.js [Client Component SSR]
+    ./app/product/[id]/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/catalog/page.js:13:1
+Module not found: Can't resolve '@/data/products.json'
+  [90m11 |[0m [36mimport[0m { useProductFilter } [36mfrom[0m [32m'@/lib/useProductFilter'[0m
+  [90m12 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+[31m[1m>[0m [90m13 |[0m [36mimport[0m productsData [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m14 |[0m [36mimport[0m sellersData [36mfrom[0m [32m'@/data/sellers.json'[0m
+  [90m15 |[0m
+  [90m16 |[0m [36mconst[0m priceOptions = [
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/catalog/page.js [Client Component Browser]
+    ./app/catalog/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/catalog/page.js [Client Component SSR]
+    ./app/catalog/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/page.js:5:1
+Module not found: Can't resolve '@/data/products.json'
+  [90m3 |[0m [36mimport[0m [33mProductGrid[0m [36mfrom[0m [32m'@/components/product/ProductGrid'[0m
+  [90m4 |[0m [36mimport[0m [33mIcon[0m [36mfrom[0m [32m'@/components/common/Icon'[0m
+[31m[1m>[0m [90m5 |[0m [36mimport[0m productsData [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m sellersData [36mfrom[0m [32m'@/data/sellers.json'[0m
+  [90m7 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+  [90m8 |[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/product/[id]/page.js:7:1
+Module not found: Can't resolve '@/data/products.json'
+  [90m 5 |[0m [36mimport[0m { generateWhatsAppLink } [36mfrom[0m [32m'@/lib/generateWhatsAppLink'[0m
+  [90m 6 |[0m [36mimport[0m { [33mWHATSAPP_PREFILL[0m } [36mfrom[0m [32m'@/lib/constants'[0m
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m products [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m sellers [36mfrom[0m [32m'@/data/sellers.json'[0m
+  [90m 9 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+  [90m10 |[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/product/[id]/page.js [Client Component Browser]
+    ./app/product/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/product/[id]/page.js [Client Component SSR]
+    ./app/product/[id]/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/catalog/page.js:14:1
+Module not found: Can't resolve '@/data/sellers.json'
+  [90m12 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+  [90m13 |[0m [36mimport[0m productsData [36mfrom[0m [32m'@/data/products.json'[0m
+[31m[1m>[0m [90m14 |[0m [36mimport[0m sellersData [36mfrom[0m [32m'@/data/sellers.json'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m15 |[0m
+  [90m16 |[0m [36mconst[0m priceOptions = [
+  [90m17 |[0m   { value: [32m'all'[0m, label: [32m'Semua Harga'[0m },
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/catalog/page.js [Client Component Browser]
+    ./app/catalog/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/catalog/page.js [Client Component SSR]
+    ./app/catalog/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/page.js:6:1
+Module not found: Can't resolve '@/data/sellers.json'
+  [90m4 |[0m [36mimport[0m [33mIcon[0m [36mfrom[0m [32m'@/components/common/Icon'[0m
+  [90m5 |[0m [36mimport[0m productsData [36mfrom[0m [32m'@/data/products.json'[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m sellersData [36mfrom[0m [32m'@/data/sellers.json'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+  [90m8 |[0m
+  [90m9 |[0m [36mconst[0m galleryItems = [
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/product/[id]/page.js:8:1
+Module not found: Can't resolve '@/data/sellers.json'
+  [90m 6 |[0m [36mimport[0m { [33mWHATSAPP_PREFILL[0m } [36mfrom[0m [32m'@/lib/constants'[0m
+  [90m 7 |[0m [36mimport[0m products [36mfrom[0m [32m'@/data/products.json'[0m
+[31m[1m>[0m [90m 8 |[0m [36mimport[0m sellers [36mfrom[0m [32m'@/data/sellers.json'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 9 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+  [90m10 |[0m
+  [90m11 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mProductDetailPage[0m() {
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/product/[id]/page.js [Client Component Browser]
+    ./app/product/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/product/[id]/page.js [Client Component SSR]
+    ./app/product/[id]/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/product/[id]/page.js:6:1
+Module not found: Can't resolve '@/lib/constants'
+  [90m4 |[0m [36mimport[0m [33mIcon[0m [36mfrom[0m [32m'@/components/common/Icon'[0m
+  [90m5 |[0m [36mimport[0m { generateWhatsAppLink } [36mfrom[0m [32m'@/lib/generateWhatsAppLink'[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mWHATSAPP_PREFILL[0m } [36mfrom[0m [32m'@/lib/constants'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m products [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m8 |[0m [36mimport[0m sellers [36mfrom[0m [32m'@/data/sellers.json'[0m
+  [90m9 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/product/[id]/page.js [Client Component Browser]
+    ./app/product/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/product/[id]/page.js [Client Component SSR]
+    ./app/product/[id]/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/product/[id]/page.js:5:1
+Module not found: Can't resolve '@/lib/generateWhatsAppLink'
+  [90m3 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m
+  [90m4 |[0m [36mimport[0m [33mIcon[0m [36mfrom[0m [32m'@/components/common/Icon'[0m
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { generateWhatsAppLink } [36mfrom[0m 
+[32m'@/lib/generateWhatsAppLink'[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mWHATSAPP_PREFILL[0m } [36mfrom[0m [32m'@/lib/constants'[0m
+  [90m7 |[0m [36mimport[0m products [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m8 |[0m [36mimport[0m sellers [36mfrom[0m [32m'@/data/sellers.json'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/product/[id]/page.js [Client Component Browser]
+    ./app/product/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/product/[id]/page.js [Client Component SSR]
+    ./app/product/[id]/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/catalog/page.js:10:1
+Module not found: Can't resolve '@/lib/useDebounce'
+  [90m 8 |[0m [36mimport[0m [33mCategoryFilterBar[0m [36mfrom[0m 
+[32m'@/components/category/CategoryFilterBar'[0m
+  [90m 9 |[0m [36mimport[0m [33mProductGrid[0m [36mfrom[0m [32m'@/components/product/ProductGrid'[0m
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { useDebounce } [36mfrom[0m [32m'@/lib/useDebounce'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { useProductFilter } [36mfrom[0m [32m'@/lib/useProductFilter'[0m
+  [90m12 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+  [90m13 |[0m [36mimport[0m productsData [36mfrom[0m [32m'@/data/products.json'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/catalog/page.js [Client Component Browser]
+    ./app/catalog/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/catalog/page.js [Client Component SSR]
+    ./app/catalog/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/catalog/page.js:11:1
+Module not found: Can't resolve '@/lib/useProductFilter'
+  [90m 9 |[0m [36mimport[0m [33mProductGrid[0m [36mfrom[0m [32m'@/components/product/ProductGrid'[0m
+  [90m10 |[0m [36mimport[0m { useDebounce } [36mfrom[0m [32m'@/lib/useDebounce'[0m
+[31m[1m>[0m [90m11 |[0m [36mimport[0m { useProductFilter } [36mfrom[0m [32m'@/lib/useProductFilter'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m12 |[0m [36mimport[0m categories [36mfrom[0m [32m'@/data/categories.json'[0m
+  [90m13 |[0m [36mimport[0m productsData [36mfrom[0m [32m'@/data/products.json'[0m
+  [90m14 |[0m [36mimport[0m sellersData [36mfrom[0m [32m'@/data/sellers.json'[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/catalog/page.js [Client Component Browser]
+    ./app/catalog/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/catalog/page.js [Client Component SSR]
+    ./app/catalog/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (./app/catalog/page.js:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/catalog/page.js:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/about/page.js:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/page.js:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/product/[id]/page.js:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/catalog/page.js:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/catalog/page.js:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/layout.js:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/layout.js:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/catalog/page.js:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/page.js:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/catalog/page.js:12:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/page.js:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/product/[id]/page.js:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/catalog/page.js:13:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/page.js:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/product/[id]/page.js:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/catalog/page.js:14:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/page.js:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/product/[id]/page.js:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/product/[id]/page.js:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/product/[id]/page.js:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/catalog/page.js:10:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/catalog/page.js:11:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
