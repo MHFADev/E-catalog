@@ -20,7 +20,7 @@ export default function CategoryChip({ category, active, onClick }) {
         }}
       >
         {!imgError && (
-          <img src={`/images/categories/${category.id}.jpg`} alt=""
+          <img src={`/images/categories/${category.id}.svg`} alt=""
             className="w-full h-full object-cover blur-sm"
             onError={() => setImgError(true)}
           />
