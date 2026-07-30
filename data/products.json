@@ -7,7 +7,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Kue jintan dengan varian rasa manis, renyah dan gurih, dikemas modern.",
-    "images": ["/images/kue-jintan-manis.jpg"],
+    "images": ["/images/webp/kue-jintan-manis.webp"],
     "isFeatured": true,
     "isAvailable": true,
     "tags": ["kue jintan", "manis", "camilan"]
@@ -20,7 +20,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Kue jintan dengan varian rasa asin/gurih, cocok jadi teman santai.",
-    "images": ["/images/kue-jintan-asin.jpg"],
+    "images": ["/images/webp/kue-jintan-asin.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["kue jintan", "asin", "camilan"]
@@ -33,7 +33,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Keripik pisang renyah produksi rumahan, tersedia juga di gerai retail modern.",
-    "images": ["/images/keripik-pisang.jpeg"],
+    "images": ["/images/webp/keripik-pisang.webp"],
     "isFeatured": true,
     "isAvailable": true,
     "tags": ["keripik", "pisang"]
@@ -46,7 +46,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Rengginang khas produksi Aneka Cemilan 39, gurih dan renyah.",
-    "images": ["/images/rengginang.jpg"],
+    "images": ["/images/webp/rengginang.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["rengginang", "tradisional"]
@@ -59,7 +59,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Makaroni goreng dengan bumbu pedas, camilan hits favorit.",
-    "images": ["/images/makaroni-pedas.jpg"],
+    "images": ["/images/webp/makaroni-pedas.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["makaroni", "pedas", "hits"]
@@ -72,7 +72,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Kerupuk kulit ikan (fish skin) renyah, salah satu produk andalan.",
-    "images": ["/images/fish-skin.jpg"],
+    "images": ["/images/webp/fish-skin.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["fish skin", "kerupuk"]
@@ -85,7 +85,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Kerupuk rambak asli dari kulit sapi pilihan, renyah dan gurih, kualitas premium — favorit pelanggan hingga kalangan pejabat dan TNI.",
-    "images": ["/images/kerupuk-kulit-sapi.jpg"],
+    "images": ["/images/webp/kerupuk-kulit-sapi.webp"],
     "isFeatured": true,
     "isAvailable": true,
     "tags": ["kerupuk", "kulit sapi", "premium"]
@@ -98,7 +98,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Varian kerupuk rambak berbahan tapioka, renyah dengan cita rasa gurih khas.",
-    "images": ["/images/kerupuk-rambak-tapioka.jpg"],
+    "images": ["/images/webp/kerupuk-rambak-tapioka.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["kerupuk", "tapioka"]
@@ -111,7 +111,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Selat solo khas, perpaduan daging, sayur, dan saus segar ala foodcourt Nusadaya.",
-    "images": ["/images/selat-solo.avif"],
+    "images": ["/images/webp/selat-solo.avif"],
     "isFeatured": true,
     "isAvailable": true,
     "tags": ["selat solo", "masakan"]
@@ -124,7 +124,7 @@
     "price": null,
     "priceUnit": "per porsi",
     "description": "Nasi liwet gurih dengan lauk pelengkap khas rumahan.",
-    "images": ["/images/nasi-liwet.jpg"],
+    "images": ["/images/webp/nasi-liwet.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["nasi liwet", "masakan berat"]
@@ -137,7 +137,7 @@
     "price": null,
     "priceUnit": "per porsi",
     "description": "Pecel sayur dengan bumbu kacang khas, segar dan mengenyangkan.",
-    "images": ["/images/pecel.jpg"],
+    "images": ["/images/webp/pecel.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["pecel", "sayur"]
@@ -150,7 +150,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Sambal krecek pedas gurih, cocok jadi pelengkap nasi liwet atau pecel.",
-    "images": ["/images/sambal-krecek.jpg"],
+    "images": ["/images/webp/sambal-krecek.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["sambal", "krecek", "pedas"]
@@ -163,7 +163,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Aneka frozen food praktis siap masak dari lapak-lapak UMKM binaan Foodcourt Nusadaya.",
-    "images": ["/images/frozen-food.jpg"],
+    "images": ["/images/webp/frozen-food.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["frozen food", "praktis"]
@@ -176,7 +176,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Sambal kemasan siap saji dengan berbagai varian rasa pedas.",
-    "images": ["/images/aneka-sambal-kemasan.jpg"],
+    "images": ["/images/webp/aneka-sambal-kemasan.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["sambal", "kemasan"]
@@ -189,7 +189,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Minuman tradisional segar dari lapak-lapak foodcourt Nusadaya Pasir Angin.",
-    "images": ["/images/cendol.jpg"],
+    "images": ["/images/webp/cendol.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["minuman", "tradisional"]
@@ -202,7 +202,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Anting berbahan manik, buatan tangan dengan desain unik, hasil karya IKM Cileungsi.",
-    "images": ["/images/anting-manik.jpg"],
+    "images": ["/images/webp/anting-manik.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["aksesoris", "manik", "anting"]
@@ -215,7 +215,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Gelang manik handmade dengan berbagai motif dan warna.",
-    "images": ["/images/gelang-manik.jpg"],
+    "images": ["/images/webp/gelang-manik.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["aksesoris", "manik", "gelang"]
@@ -228,7 +228,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Kalung manik buatan tangan, cocok untuk pelengkap gaya sehari-hari.",
-    "images": ["/images/kalung-manik.jpg"],
+    "images": ["/images/webp/kalung-manik.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["aksesoris", "manik", "kalung"]
@@ -241,7 +241,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Tas kerajinan tangan dari pelaku IKM Cileungsi, unik dan tahan lama.",
-    "images": ["/images/tas-kerajinan.WEBP"],
+    "images": ["/images/webp/tas-kerajinan.WEBP"],
     "isFeatured": true,
     "isAvailable": true,
     "tags": ["tas", "kerajinan", "handmade"]
@@ -254,7 +254,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Nugget berbahan dasar jamur tiram, sehat dan gurih, cocok untuk semua usia.",
-    "images": ["/images/nugget-jamur-tiram.jpg"],
+    "images": ["/images/webp/nugget-jamur-tiram.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["nugget", "jamur tiram", "sehat"]
@@ -267,7 +267,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Kebutuhan sembako sehari-hari yang tersedia di Smart Shop UMKM RW 010.",
-    "images": ["/images/sembako.jpg"],
+    "images": ["/images/webp/sembako.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["sembako", "kebutuhan harian"]
@@ -280,7 +280,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Sempol ayam khas jajanan rumahan, digoreng gurih dan disajikan hangat.",
-    "images": ["/images/sempol.jpg"],
+    "images": ["/images/webp/sempol.webp"],
     "isFeatured": true,
     "isAvailable": true,
     "tags": ["sempol", "jajanan"]
@@ -293,7 +293,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Jagung manis disiram susu dan keju, jajanan manis favorit segala usia.",
-    "images": ["/images/jasuke.jpg"],
+    "images": ["/images/webp/jasuke.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["jasuke", "jajanan", "manis"]
@@ -306,7 +306,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Paket souvenir/hampers untuk berbagai acara dan perayaan.",
-    "images": ["/images/souvenir.jpg"],
+    "images": ["/images/webp/souvenir.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["souvenir", "hampers"]
@@ -319,7 +319,7 @@
     "price": null,
     "priceUnit": "Hubungi untuk harga",
     "description": "Pouch custom sesuai permintaan, cocok untuk kado atau kebutuhan pribadi.",
-    "images": ["/images/pouch-custom.jpg"],
+    "images": ["/images/webp/pouch-custom.webp"],
     "isFeatured": false,
     "isAvailable": true,
     "tags": ["pouch", "custom"]

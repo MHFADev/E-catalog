@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import ProductGrid from "@/components/product/ProductGrid";
 import Icon from "@/components/common/Icon";
@@ -35,6 +36,89 @@ const galleryItems = [
 ];
 
 export default function HomePage() {
+  // ===== CAROUSEL STATE =====
+  const slideImages = [
+    "/image-header/1.jpg",
+    "/image-header/2.jpg",
+    "/image-header/3.jpg",
+    "/image-header/4.jpg",
+  ];
+  // Clone slide pertama di akhir agar loop 4→1 tetap animasi ke kanan
+  const extendedSlides = [...slideImages, slideImages[0]];
+  const TOTAL_SLIDES = slideImages.length;
+
+  const [displayIndex, setDisplayIndex] = useState(0);
+  const [showControls, setShowControls] = useState(false);
+  const trackRef = useRef(null);
+  const displayIndexRef = useRef(0); // ref biar event listener lihat nilai terbaru
+
+  // Sinkronkan ref dengan state
+  useEffect(() => {
+    displayIndexRef.current = displayIndex;
+  }, [displayIndex]);
+
+  // Fungsi pindah slide — maju ke kanan (tanpa wrap, extendedSlides yang handle loop)
+  const goNext = useCallback(() => {
+    setDisplayIndex((prev) => prev + 1);
+  }, []);
+
+  // Fungsi pindah slide — mundur ke kiri
+  const goPrev = useCallback(() => {
+    setDisplayIndex((prev) => (prev === 0 ? TOTAL_SLIDES - 1 : prev - 1));
+  }, [TOTAL_SLIDES]);
+
+  // Auto-slide setiap 3.5 detik
+  useEffect(() => {
+    const timer = setInterval(goNext, 3800);
+    return () => clearInterval(timer);
+  }, [goNext]);
+
+  // Saat transisi selesai — jika di clone (index = TOTAL_SLIDES),
+  // loncat ke index 0 tanpa animasi (loop 4→1 tetap ke kanan)
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const onEnd = () => {
+      if (displayIndexRef.current >= TOTAL_SLIDES) {
+        track.style.transition = "none"; // matikan transisi
+        setDisplayIndex(0);
+        track.style.transform = "translateX(0%)"; // loncat ke slide 0
+        track.offsetHeight; // paksa reflow
+        track.style.transition = ""; // hidupkan transisi lagi
+      }
+    };
+
+    track.addEventListener("transitionend", onEnd);
+    return () => track.removeEventListener("transitionend", onEnd);
+  }, [TOTAL_SLIDES]);
+
+  // Tampilkan navbar 2 detik setelah interaksi, lalu sembunyi lagi
+  const revealControls = useCallback(() => {
+    setShowControls(true);
+    const hideTimer = setTimeout(() => setShowControls(false), 1500);
+    return hideTimer;
+  }, []);
+
+  // Touch/Swipe untuk mobile — deteksi geser kiri/kanan
+  const touchStartX = useCallback((e) => {
+    e.currentTarget.dataset.touchStart = e.touches[0].clientX;
+  }, []);
+  const touchEndX = useCallback(
+    (e) => {
+      const startX = parseFloat(e.currentTarget.dataset.touchStart);
+      if (!startX) return;
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+      if (diff > 50) {
+        goNext();
+      } else if (diff < -50) {
+        goPrev();
+      }
+    },
+    [goNext, goPrev],
+  );
+
   const enriched = productsData.map((p) => ({
     ...p,
     sellerName: sellersData.find((s) => s.id === p.sellerId)?.name || "",
@@ -73,13 +157,123 @@ export default function HomePage() {
                 </Link>
               </div>
             </div>
-            <div className="relative order-first md:order-last">
-              <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl">
-                <img
-                  src="/images/burger.jpg"
-                  alt=""
-                  className="w-full aspect-[4/3] object-cover"
-                />
+            {/* ===== CAROUSEL: 4 slide geser + swipe + infinite kanan ===== */}
+            <div
+              className="relative order-first md:order-last select-none"
+              onMouseEnter={() => {
+                clearTimeout(window._ctrlTimer);
+                setShowControls(true);
+              }}
+              onMouseLeave={() => {
+                const t = setTimeout(() => setShowControls(false), 2000);
+                window._ctrlTimer = t;
+              }}
+              onFocus={() => setShowControls(true)}
+              onBlur={() => {
+                const t = setTimeout(() => setShowControls(false), 2000);
+                window._ctrlTimer = t;
+              }}
+            >
+              <div
+                className="rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl relative"
+                onTouchStart={touchStartX}
+                onTouchEnd={touchEndX}
+              >
+                {/* ===== TRACK: semua slide + clone di akhir (animasi geser) ===== */}
+                <div
+                  ref={trackRef}
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{ transform: `translateX(-${displayIndex * 100}%)` }}
+                >
+                  {extendedSlides.map((src, i) => (
+                    <div key={i} className="w-full flex-shrink-0">
+                      <img
+                        src={src}
+                        alt={`Slide ${i + 1}`}
+                        className="w-full aspect-[4/3] object-cover"
+                        draggable={false}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Tombol prev/next — muncul 2 detik setelah interaksi */}
+                <button
+                  onClick={() => {
+                    const t = revealControls();
+                    window._ctrlTimer = t;
+                    goPrev();
+                  }}
+                  className={`absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition-all duration-300 ${
+                    showControls
+                      ? "opacity-100"
+                      : "opacity-0 pointer-events-none"
+                  }`}
+                  aria-label="Slide sebelumnya"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => {
+                    const t = revealControls();
+                    window._ctrlTimer = t;
+                    goNext();
+                  }}
+                  className={`absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition-all duration-300 ${
+                    showControls
+                      ? "opacity-100"
+                      : "opacity-0 pointer-events-none"
+                  }`}
+                  aria-label="Slide berikutnya"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
+
+                {/* Indikator titik-titik di bawah (hanya 4 titik, bukan 5) */}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                  {slideImages.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        const t = revealControls();
+                        window._ctrlTimer = t;
+                        setDisplayIndex(i);
+                      }}
+                      className={`w-2.5 h-2.5 rounded-full transition-all ${
+                        i === displayIndex
+                          ? "bg-white scale-110 shadow-md"
+                          : "bg-white/50 hover:bg-white/70"
+                      }`}
+                      aria-label={`Slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
