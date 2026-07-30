@@ -49,14 +49,14 @@ export default async function ProductDetailPage({ params }) {
               {category?.name}
             </div>
             <div className="flex gap-1.5 mb-2 md:mb-3">
-              <span className="w-[49px] h-[49px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
+              <span className="w-[77px] h-[77px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
                 <img
                   src="/assets/badges/halal.png"
                   alt="Halal"
                   className="w-full h-full object-contain"
                 />
               </span>
-              <span className="w-[49px] h-[49px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
+              <span className="w-[77px] h-[77px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
                 <img
                   src="/assets/badges/cinta-indonesia.png"
                   alt="Cinta Indonesia"
