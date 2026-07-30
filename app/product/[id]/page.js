@@ -1,5 +1,4 @@
-"use client";
-import { useParams, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
@@ -8,8 +7,12 @@ import products from "@/data/products.json";
 import sellers from "@/data/sellers.json";
 import categories from "@/data/categories.json";
 
-export default function ProductDetailPage() {
-  const { id } = useParams();
+export function generateStaticParams() {
+  return products.map((p) => ({ id: p.id }));
+}
+
+export default async function ProductDetailPage({ params }) {
+  const { id } = await params;
   const product = products.find((p) => p.id === id);
   const seller = product
     ? sellers.find((s) => s.id === product.sellerId)
