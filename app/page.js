@@ -94,10 +94,12 @@ export default function HomePage() {
   }, [TOTAL_SLIDES]);
 
   // Tampilkan navbar 2 detik setelah interaksi, lalu sembunyi lagi
+  const hideTimerRef = useRef(null); // pakai ref agar timer bisa dibersihkan kapan saja
   const revealControls = useCallback(() => {
+    // Bersihkan timer sebelumnya agar tidak bertumpuk
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     setShowControls(true);
-    const hideTimer = setTimeout(() => setShowControls(false), 1500);
-    return hideTimer;
+    hideTimerRef.current = setTimeout(() => setShowControls(false), 2000);
   }, []);
 
   // Touch/Swipe untuk mobile — deteksi geser kiri/kanan
@@ -161,17 +163,20 @@ export default function HomePage() {
             <div
               className="relative order-first md:order-last select-none"
               onMouseEnter={() => {
-                clearTimeout(window._ctrlTimer);
+                if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
                 setShowControls(true);
               }}
               onMouseLeave={() => {
-                const t = setTimeout(() => setShowControls(false), 2000);
-                window._ctrlTimer = t;
+                if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+                hideTimerRef.current = setTimeout(() => setShowControls(false), 2000);
               }}
-              onFocus={() => setShowControls(true)}
+              onFocus={() => {
+                if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+                setShowControls(true);
+              }}
               onBlur={() => {
-                const t = setTimeout(() => setShowControls(false), 2000);
-                window._ctrlTimer = t;
+                if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+                hideTimerRef.current = setTimeout(() => setShowControls(false), 2000);
               }}
             >
               <div
@@ -200,8 +205,7 @@ export default function HomePage() {
                 {/* Tombol prev/next — muncul 2 detik setelah interaksi */}
                 <button
                   onClick={() => {
-                    const t = revealControls();
-                    window._ctrlTimer = t;
+                    revealControls();
                     goPrev();
                   }}
                   className={`absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition-all duration-300 ${
@@ -228,8 +232,7 @@ export default function HomePage() {
                 </button>
                 <button
                   onClick={() => {
-                    const t = revealControls();
-                    window._ctrlTimer = t;
+                    revealControls();
                     goNext();
                   }}
                   className={`absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition-all duration-300 ${
@@ -261,8 +264,7 @@ export default function HomePage() {
                     <button
                       key={i}
                       onClick={() => {
-                        const t = revealControls();
-                        window._ctrlTimer = t;
+                        revealControls();
                         setDisplayIndex(i);
                       }}
                       className={`w-2.5 h-2.5 rounded-full transition-all ${
