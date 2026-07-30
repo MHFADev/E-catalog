@@ -3,7 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata = {
-  title: "UMKM Ciangsana — Katalog Digital Produk Lokal",
+  title: "UMKM Kemayoran — Katalog Digital Produk Lokal",
   description:
     "Temukan produk UMKM unggulan dari Ciangsana, Gunung Putri, Bogor. Belanja langsung dari pengrajin lokal.",
 };

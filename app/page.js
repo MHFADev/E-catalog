@@ -135,15 +135,15 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-6 md:gap-16 items-center">
             <div className="flex flex-col gap-3 md:gap-4">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 w-fit bg-cherry/10 text-cherry font-mono text-[10px] md:text-xs uppercase tracking-wider rounded-full font-semibold">
-                UMKM Ciangsana
+                UMKM Kemayoran
               </span>
               <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tighter text-noir">
                 Temukan <span className="text-cherry">Produk Lokal</span>
                 <br />
-                Ciangsana
+                Kemayoran
               </h1>
               <p className="text-sm md:text-lg text-warm-gray leading-relaxed max-w-md">
-                Jelajahi produk UMKM lokal dari Ciangsana dan sekitarnya
+                Jelajahi produk UMKM lokal dari Kemayoran dan sekitarnya
               </p>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-1 md:mt-2">
                 <Link
@@ -464,7 +464,7 @@ export default function HomePage() {
                 <h3 className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight text-white mb-1 md:mb-2">
                   Produk Lokal
                   <br />
-                  Ciangsana
+                  Kemayoran
                 </h3>
                 <p className="text-xs md:text-sm text-white/70 mb-3 md:mb-4">
                   Dukung UMKM tetangga kita sendiri
