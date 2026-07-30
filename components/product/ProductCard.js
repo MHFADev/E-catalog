@@ -4,7 +4,7 @@ import Icon from '@/components/common/Icon'
 
 export default function ProductCard({ product, category }) {
   const [imgError, setImgError] = useState(false)
-  const productImg = imgError ? '/images/keripik-pisang.jpeg' : (product.images?.[0] || '/images/keripik-pisang.jpeg')
+  const productImg = imgError ? '/images/camilan-ciangsana.jpeg' : (product.images?.[0] || '/images/camilan-ciangsana.jpeg')
   return (
     <Link href={`/product/${product.id}`} className="group flex flex-col bg-white border border-cotton-warm rounded-xl md:rounded-2xl overflow-hidden transition-all duration-300 hover:border-cherry/30 hover:shadow-xl hover:-translate-y-1">
       <div className="relative aspect-[4/3] bg-cotton-warm overflow-hidden">
@@ -20,9 +20,6 @@ export default function ProductCard({ product, category }) {
         <span className="text-[9px] md:text-xs font-semibold text-cherry uppercase tracking-wider">{category?.name}</span>
         <h3 className="text-xs md:text-base font-semibold text-noir leading-tight line-clamp-2">{product.name}</h3>
         <span className="text-[10px] md:text-sm text-warm-gray truncate">{product.sellerName}</span>
-        <span className={`text-[11px] md:text-sm font-semibold ${product.price !== null ? 'text-cherry' : 'text-warm-gray font-mono'}`}>
-          {product.price ? `Rp ${product.price.toLocaleString('id-ID')}` : product.priceUnit}
-        </span>
       </div>
     </Link>
   )

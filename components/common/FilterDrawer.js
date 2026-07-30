@@ -3,21 +3,12 @@ import { useEffect } from "react";
 import Icon from "@/components/common/Icon";
 import CategoryChip from "@/components/category/CategoryChip";
 
-const priceOptions = [
-  { value: "all", label: "Semua Harga" },
-  { value: "under25", label: "< Rp 25.000" },
-  { value: "mid", label: "Rp 25.000 - Rp 50.000" },
-  { value: "over50", label: "> Rp 50.000" },
-];
-
 export default function FilterDrawer({
   open,
   onClose,
   categories,
   selectedCategory,
   onSelectCategory,
-  priceRange,
-  onPriceRange,
   sellerId,
   onSellerId,
   sellers,
@@ -62,29 +53,6 @@ export default function FilterDrawer({
                   active={selectedCategory === cat.id}
                   onClick={onSelectCategory}
                 />
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-noir-soft mb-3">
-              <span className="w-0.5 h-3 bg-cherry rounded-sm" /> Harga
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {priceOptions.map((opt) => (
-                <button
-                  key={opt.value}
-                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                    priceRange === opt.value
-                      ? "bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md"
-                      : "bg-white border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry"
-                  }`}
-                  onClick={() =>
-                    onPriceRange(priceRange === opt.value ? "all" : opt.value)
-                  }
-                >
-                  {opt.label}
-                </button>
               ))}
             </div>
           </div>

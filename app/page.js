@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import ProductGrid from "@/components/product/ProductGrid";
 import Icon from "@/components/common/Icon";
+import ImageSlider from "@/components/common/ImageSlider";
 import productsData from "@/data/products.json";
 import sellersData from "@/data/sellers.json";
 import categories from "@/data/categories.json";
@@ -11,12 +12,12 @@ const galleryItems = [
   {
     src: "/images/koleksi/kuliner-khas.webp",
     title: "Kuliner Khas",
-    desc: "Aneka makanan tradisional",
+    desc: "Aneka camilan tradisional UMKM Ciangsana",
   },
   {
     src: "/images/koleksi/kerajinan-tangan.webp",
     title: "Kerajinan Tangan",
-    desc: "Produk handmade kreatif",
+    desc: "Produk handmade kreatif IKM Cileungsi",
   },
   {
     src: "/images/koleksi/fasion-lokal.webp",
@@ -331,6 +332,118 @@ export default function HomePage() {
             <Link href="/catalog" className="btn-primary text-sm md:text-base">
               Lihat Semua Produk <Icon name="arrowRight" size={14} />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-10 md:py-16 bg-cotton">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
+            Mengapa Pilih <span className="text-cherry">Kami</span>
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {[
+              {
+                icon: "store",
+                title: "Produk Lokal Asli",
+                desc: "Setiap produk berasal dari UMKM nyata di sekitar Ciangsana",
+              },
+              {
+                icon: "whatsapp",
+                title: "Pesan Langsung",
+                desc: "Hubungi penjual via WhatsApp tanpa perantara",
+              },
+              {
+                icon: "heart",
+                title: "Dukung UMKM",
+                desc: "Setiap pembelian membantu ekonomi warga lokal",
+              },
+              {
+                icon: "refresh",
+                title: "Terus Bertambah",
+                desc: "Katalog produk selalu diperbarui secara berkala",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-7 text-center border border-cotton-warm hover:border-cherry/20 hover:shadow-lg transition-all"
+              >
+                <span className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-cherry/10 text-cherry mb-3 md:mb-4">
+                  <Icon name={item.icon} size={20} />
+                </span>
+                <h3 className="text-sm md:text-base font-bold text-noir mb-1">
+                  {item.title}
+                </h3>
+                <p className="text-xs md:text-sm text-warm-gray leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-10 md:py-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
+            Kata <span className="text-cherry">Mereka</span>
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {[
+              {
+                name: "Siti Nurhaliza",
+                role: "Pemilik Aneka Cemilan 39",
+                avatar: "SN",
+                quote:
+                  "Sejak bergabung, produk saya semakin dikenal. Banyak pelanggan baru yang datang lewat katalog ini.",
+              },
+              {
+                name: "Ahmad Rizki",
+                role: "Pembeli",
+                avatar: "AR",
+                quote:
+                  "Gampang banget cari oleh-oleh khas Ciangsana. Tinggal klik langsung chat WA penjualnya.",
+              },
+              {
+                name: "Dewi Lestari",
+                role: "Pemilik Smart Shop RW 010",
+                avatar: "DL",
+                quote:
+                  "Platform ini sangat membantu UMKM kecil seperti saya buat promosi tanpa biaya.",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-7 border border-cotton-warm"
+              >
+                <div className="flex items-center gap-3 mb-3 md:mb-4">
+                  <span className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-cherry/10 text-cherry flex items-center justify-center font-bold text-sm md:text-base">
+                    {item.avatar}
+                  </span>
+                  <div>
+                    <div className="text-sm md:text-base font-bold text-noir">
+                      {item.name}
+                    </div>
+                    <div className="text-xs md:text-sm text-warm-gray">
+                      {item.role}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-0.5 mb-2">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <span
+                      key={s}
+                      className="text-yellow-500 text-xs md:text-sm"
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+                <p className="text-xs md:text-sm text-cool-gray leading-relaxed italic">
+                  &ldquo;{item.quote}&rdquo;
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Icon from '@/components/common/Icon'
+import { generateWhatsAppLink } from '@/lib/generateWhatsAppLink'
+import { ADMIN_WHATSAPP, WHATSAPP_JOIN_MESSAGE } from '@/lib/constants'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -20,6 +22,7 @@ export default function Navbar() {
   const links = [
     { href: '/', label: 'Beranda', icon: 'store' },
     { href: '/catalog', label: 'Katalog', icon: 'search' },
+    { href: '/artikel', label: 'Artikel', icon: 'file' },
     { href: '/about', label: 'Tentang', icon: 'info' },
   ]
 
@@ -44,6 +47,11 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+          <a href={generateWhatsAppLink(ADMIN_WHATSAPP, WHATSAPP_JOIN_MESSAGE)}
+             target="_blank" rel="noopener noreferrer"
+             className="ml-2 flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-cherry rounded-full hover:bg-cherry-deep transition-all no-underline">
+            <Icon name="whatsapp" size={16} /> Gabung
+          </a>
         </div>
 
         <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-cotton-warm transition-colors" aria-label="Menu">
@@ -69,6 +77,11 @@ export default function Navbar() {
                 </Link>
               )
             })}
+            <a href={generateWhatsAppLink(ADMIN_WHATSAPP, WHATSAPP_JOIN_MESSAGE)}
+               target="_blank" rel="noopener noreferrer"
+               className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-bold text-white bg-cherry no-underline">
+              <Icon name="whatsapp" size={20} /> Gabung Mitra
+            </a>
           </div>
         </div>
       )}

@@ -1,5 +1,4 @@
-"use client";
-import { useParams, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
@@ -8,8 +7,12 @@ import products from "@/data/products.json";
 import sellers from "@/data/sellers.json";
 import categories from "@/data/categories.json";
 
-export default function ProductDetailPage() {
-  const { id } = useParams();
+export function generateStaticParams() {
+  return products.map((p) => ({ id: p.id }));
+}
+
+export default async function ProductDetailPage({ params }) {
+  const { id } = await params;
   const product = products.find((p) => p.id === id);
   const seller = product
     ? sellers.find((s) => s.id === product.sellerId)
@@ -64,14 +67,9 @@ export default function ProductDetailPage() {
             <h1 className="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight text-noir mb-1 md:mb-2">
               {product.name}
             </h1>
-            <div
-              className={`text-base md:text-lg font-semibold mb-3 md:mb-4 ${product.price ? "text-cherry" : "text-warm-gray font-mono"}`}
-            >
-              {product.price
-                ? `Rp ${product.price.toLocaleString("id-ID")}`
-                : product.priceUnit}
+            <div className="flex items-center gap-1.5 text-xs md:text-sm font-medium text-cherry bg-cherry/5 rounded-full px-3 py-1 w-fit mb-3 md:mb-4">
+              <Icon name="whatsapp" size={12} /> Hubungi penjual untuk informasi harga & pembayaran
             </div>
-
             <p className="text-sm md:text-base leading-relaxed text-cool-gray mb-4 md:mb-6">
               {product.description}
             </p>
