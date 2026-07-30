@@ -64,14 +64,9 @@ export default function ProductDetailPage() {
             <h1 className="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight text-noir mb-1 md:mb-2">
               {product.name}
             </h1>
-            <div
-              className={`text-base md:text-lg font-semibold mb-3 md:mb-4 ${product.price ? "text-cherry" : "text-warm-gray font-mono"}`}
-            >
-              {product.price
-                ? `Rp ${product.price.toLocaleString("id-ID")}`
-                : product.priceUnit}
+            <div className="flex items-center gap-1.5 text-xs md:text-sm font-medium text-cherry bg-cherry/5 rounded-full px-3 py-1 w-fit mb-3 md:mb-4">
+              <Icon name="whatsapp" size={12} /> Hubungi penjual untuk informasi harga & pembayaran
             </div>
-
             <p className="text-sm md:text-base leading-relaxed text-cool-gray mb-4 md:mb-6">
               {product.description}
             </p>

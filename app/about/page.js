@@ -65,27 +65,9 @@ export default function AboutPage() {
             Untuk UMKM
           </h2>
           <p className="text-base leading-relaxed text-cool-gray">
-            Ingin produk UMKM Anda tampil di katalog ini? Hubungi tim pengelola
-            untuk mendaftarkan produk Anda. Syarat: memiliki nomor WhatsApp
-            aktif dan produk fisik yang siap dipasarkan.
+            Ingin produk UMKM Anda tampil di katalog ini? Cukup klik tombol <strong>Gabung</strong> di pojok kanan atas untuk mendaftarkan produk Anda. Syarat: memiliki nomor WhatsApp aktif dan produk fisik yang siap dipasarkan.
           </p>
         </section>
-
-        <div className="bg-white rounded-3xl p-8 text-center">
-          <h3 className="flex items-center justify-center gap-2 text-xl font-semibold mb-3">
-            <Icon name="phone" size={20} /> Hubungi Pengelola
-          </h3>
-          <p className="text-warm-gray mb-6">
-            Untuk pendaftaran UMKM, pertanyaan, atau masukan, silakan hubungi
-            tim pengelola katalog.
-          </p>
-          <a
-            href="mailto:admin@ciangsana-umkm.id"
-            className="btn-primary no-underline inline-flex"
-          >
-            Email: admin@ciangsana-umkm.id
-          </a>
-        </div>
       </div>
     </div>
   );

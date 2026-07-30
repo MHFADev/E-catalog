@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useState, useEffect, useMemo, useCallback } from "react";
+import { Suspense, useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import SearchBar from "@/components/common/SearchBar";
@@ -15,13 +15,6 @@ import categories from "@/data/categories.json";
 import productsData from "@/data/products.json";
 import sellersData from "@/data/sellers.json";
 
-const priceOptions = [
-  { value: "all", label: "Semua" },
-  { value: "under25", label: "< Rp25rb" },
-  { value: "mid", label: "Rp25-50rb" },
-  { value: "over50", label: "> Rp50rb" },
-];
-
 function CatalogContent() {
   const searchParams = useSearchParams();
   const [searchInput, setSearchInput] = useState(
@@ -30,10 +23,16 @@ function CatalogContent() {
   const [selectedCategory, setSelectedCategory] = useState(
     searchParams.get("category") || null,
   );
-  const [priceRange, setPriceRange] = useState("all");
   const [sellerId, setSellerId] = useState("all");
   const [loading, setLoading] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
+  const catScrollRef = useRef(null);
+
+  const scrollCat = (dir) => {
+    if (catScrollRef.current) {
+      catScrollRef.current.scrollBy({ left: dir * 200, behavior: 'smooth' })
+    }
+  }
 
   const debouncedSearch = useDebounce(searchInput, 200);
 
@@ -54,8 +53,7 @@ function CatalogContent() {
   );
 
   const visibleCategories = sortedCategories.slice(0, 3);
-  const hasActiveFilter =
-    selectedCategory || priceRange !== "all" || sellerId !== "all";
+  const hasActiveFilter = selectedCategory || sellerId !== "all";
 
   const enriched = useMemo(
     () =>
@@ -75,7 +73,6 @@ function CatalogContent() {
   const filtered = useProductFilter(enriched, sellersData, {
     search: debouncedSearch,
     categoryIds: selectedCategory ? [selectedCategory] : [],
-    priceRange,
     sellerId,
   });
 
@@ -96,8 +93,11 @@ function CatalogContent() {
       </div>
 
       {/* [MOBILE FILTER] Scroll horizontal untuk kategori + tombol filter */}
-      <div className="md:hidden flex items-start gap-2 mb-4 overflow-x-auto scrollbar-thin pb-1">
-        <div className="flex gap-2 shrink-0">
+      <div className="md:hidden flex items-center gap-2 mb-4">
+        <button onClick={() => scrollCat(-1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cotton-warm shadow-sm shrink-0 text-noir-soft hover:text-cherry transition-all">
+          <Icon name="chevronLeft" size={16} />
+        </button>
+        <div ref={catScrollRef} className="flex-1 flex gap-2 overflow-x-auto scrollbar-thin py-1 scroll-smooth">
           {sortedCategories.map((cat) => (
             <CategoryChip
               key={cat.id}
@@ -106,20 +106,23 @@ function CatalogContent() {
               onClick={setSelectedCategory}
             />
           ))}
+          <button
+            onClick={() => setFilterOpen(true)}
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium border transition-all shrink-0 ${
+              hasActiveFilter
+                ? "bg-cherry text-white border-cherry shadow-sm"
+                : "bg-cotton-pure text-noir-soft border-cotton-warm"
+            }`}
+          >
+            <Icon name="filter" size={14} />
+            Filter
+            {hasActiveFilter && (
+              <span className="w-1.5 h-1.5 rounded-full bg-white" />
+            )}
+          </button>
         </div>
-        <button
-          onClick={() => setFilterOpen(true)}
-          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium border transition-all shrink-0 ${
-            hasActiveFilter
-              ? "bg-cherry text-white border-cherry shadow-sm"
-              : "bg-cotton-pure text-noir-soft border-cotton-warm"
-          }`}
-        >
-          <Icon name="filter" size={14} />
-          Filter
-          {hasActiveFilter && (
-            <span className="w-1.5 h-1.5 rounded-full bg-white" />
-          )}
+        <button onClick={() => scrollCat(1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cotton-warm shadow-sm shrink-0 text-noir-soft hover:text-cherry transition-all">
+          <Icon name="chevronRight" size={16} />
         </button>
       </div>
 
@@ -137,30 +140,8 @@ function CatalogContent() {
       </div>
 
       <div className="hidden md:block bg-white rounded-3xl p-8 mb-8 shadow-sm border border-cotton-warm">
-        <div className="flex flex-row gap-12 items-start">
-          <div className="flex-1 flex flex-col gap-3">
-            <label className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-noir-soft">
-              <span className="w-0.5 h-3.5 bg-cherry rounded-sm" /> Harga
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {priceOptions.map((opt) => (
-                <button
-                  key={opt.value}
-                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                    priceRange === opt.value
-                      ? "bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md"
-                      : "bg-cotton-pure border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry hover:bg-cherry/5 hover:-translate-y-0.5"
-                  }`}
-                  onClick={() =>
-                    setPriceRange(priceRange === opt.value ? "all" : opt.value)
-                  }
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="flex-1 flex flex-col gap-3">
+        <div className="flex flex-wrap gap-12 items-start">
+          <div className="flex flex-col gap-3">
             <label className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-noir-soft">
               <span className="w-0.5 h-3.5 bg-cherry rounded-sm" /> Toko
             </label>
@@ -221,8 +202,6 @@ function CatalogContent() {
         categories={sortedCategories}
         selectedCategory={selectedCategory}
         onSelectCategory={setSelectedCategory}
-        priceRange={priceRange}
-        onPriceRange={setPriceRange}
         sellerId={sellerId}
         onSellerId={setSellerId}
         sellers={sellersData}
