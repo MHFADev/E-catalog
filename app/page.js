@@ -9,27 +9,27 @@ import categories from "@/data/categories.json";
 
 const galleryItems = [
   {
-    src: "/images/keripik-pisang.jpeg",
+    src: "/images/koleksi/kuliner-khas.webp",
     title: "Kuliner Khas",
     desc: "Aneka makanan tradisional",
   },
   {
-    src: "/images/keripik-pisang.jpeg",
+    src: "/images/koleksi/kerajinan-tangan.webp",
     title: "Kerajinan Tangan",
     desc: "Produk handmade kreatif",
   },
   {
-    src: "/images/keripik-pisang.jpeg",
+    src: "/images/koleksi/fasion-lokal.webp",
     title: "Fashion Lokal",
     desc: "Busana khas Ciangsana",
   },
   {
-    src: "/images/keripik-pisang.jpeg",
+    src: "/images/koleksi/minuman-segar.webp",
     title: "Minuman Segar",
     desc: "Minuman tradisional & modern",
   },
   {
-    src: "/images/sembako.jpg",
+    src: "/images/koleksi/sembako.webp",
     title: "Sembako",
     desc: "Kebutuhan pokok sehari-hari",
   },
@@ -168,7 +168,10 @@ export default function HomePage() {
               }}
               onMouseLeave={() => {
                 if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-                hideTimerRef.current = setTimeout(() => setShowControls(false), 2000);
+                hideTimerRef.current = setTimeout(
+                  () => setShowControls(false),
+                  2000,
+                );
               }}
               onFocus={() => {
                 if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
@@ -176,7 +179,10 @@ export default function HomePage() {
               }}
               onBlur={() => {
                 if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-                hideTimerRef.current = setTimeout(() => setShowControls(false), 2000);
+                hideTimerRef.current = setTimeout(
+                  () => setShowControls(false),
+                  2000,
+                );
               }}
             >
               <div

@@ -3,42 +3,49 @@
     "id": "kuliner",
     "name": "Kuliner",
     "icon": "utensils",
+    "image": "/images/filter/kuliner.webp",
     "description": "Aneka kuliner dan camilan khas UMKM Ciangsana"
   },
   {
     "id": "masakan-siap-saji",
     "name": "Masakan Siap Saji",
     "icon": "soup",
+    "image": "/images/filter/masakan-siap-saji.webp",
     "description": "Masakan siap santap seperti selat solo, nasi liwet, pecel, dan sambal krecek"
   },
   {
     "id": "fasion-aksesoris",
     "name": "Fasion & Aksesoris",
     "icon": "gem",
+    "image": "/images/filter/fasion-aksesoris.webp",
     "description": "Aksesoris manik dan tas kerajinan buatan tangan"
   },
   {
     "id": "frozen-food",
     "name": "Frozen Food",
     "icon": "package",
+    "image": "/images/filter/frozen-food.webp",
     "description": "Frozen food, sambal kemasan, dan makanan beku praktis"
   },
   {
     "id": "camilan-minuman",
     "name": "Camilan & Minuman",
     "icon": "grid",
+    "image": "/images/filter/camilan-minuman.webp",
     "description": "Aneka camilan ringan dan minuman tradisional"
   },
   {
     "id": "makanan-hampers",
     "name": "Makanan & Hampers",
     "icon": "gift",
+    "image": "/images/filter/makanan-hampers.webp",
     "description": "Jajanan rumahan dan souvenir/hampers untuk berbagai acara"
   },
   {
     "id": "sembako-rumah-tangga",
     "name": "Sembako & Rumah Tangga",
     "icon": "shopping-basket",
+    "image": "/images/filter/sembako-rumah-tangga.webp",
     "description": "Sembako, pouch custom, dan kebutuhan rumah tangga"
   }
 ]
