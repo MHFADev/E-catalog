@@ -6,7 +6,7 @@
     "whatsapp": "6287867711181",
     "address": "Kidul, Jalan Cagak Raya, RT.03/RW.09, Ciangsana",
     "description": "Produsen camilan tradisional dengan kemasan modern — fokus pada kue jintan, keripik pisang, rengginang, makaroni pedas, dan fish skin.",
-    "logo": "/assets/sellers/umkm-001.jpg"
+    "logo": "/images/keripik-pisang.jpeg"
   },
   {
     "id": "umkm-002",
@@ -15,7 +15,7 @@
     "whatsapp": "6281380405190",
     "address": "Perbatasan Ciangsana, Gunung Putri, Kabupaten Bogor",
     "description": "Produsen kerupuk kulit sapi (rambak) asli dan rambak tapioka kualitas premium; pelanggan sudah mencakup kalangan pejabat dan TNI karena kualitasnya yang renyah dan gurih.",
-    "logo": "/assets/sellers/umkm-002.jpg"
+    "logo": "/images/keripik-pisang.jpeg"
   },
   {
     "id": "umkm-003",
@@ -25,7 +25,7 @@
     "whatsappAlt": "628558501236",
     "address": "Jl. Griya Alam Sentosa No.2, Pasir Angin (berbatasan langsung dengan Ciangsana)",
     "description": "Pusat kuliner binaan Dompet Dhuafa & OK OCE yang memberdayakan 10 pengusaha UMKM lokal di perbatasan Ciangsana.",
-    "logo": "/assets/sellers/umkm-003.jpg"
+    "logo": "/images/keripik-pisang.jpeg"
   },
   {
     "id": "umkm-004",
@@ -34,7 +34,7 @@
     "whatsapp": "6281218449728",
     "address": "Sekitar Cileungsi-Ciangsana",
     "description": "Showcase/pusat oleh-oleh bagi berbagai produk unggulan dari pelaku IKM dan UMKM di wilayah Cileungsi dan sekitarnya.",
-    "logo": "/assets/sellers/umkm-004.jpg"
+    "logo": "/images/keripik-pisang.jpeg"
   },
   {
     "id": "umkm-005",
@@ -43,6 +43,6 @@
     "whatsapp": "6282310003879",
     "address": "Jatisari (dekat Ciangsana)",
     "description": "Inisiatif toko lokal untuk memasarkan produk-produk kreatif dari warga tingkat RW.",
-    "logo": "/assets/sellers/umkm-005.jpg"
+    "logo": "/images/keripik-pisang.jpeg"
   }
 ]

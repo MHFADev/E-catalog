@@ -8,27 +8,27 @@ import categories from "@/data/categories.json";
 
 const galleryItems = [
   {
-    src: "/images/gallery-1.svg",
+    src: "/images/keripik-pisang.jpeg",
     title: "Kuliner Khas",
     desc: "Aneka makanan tradisional",
   },
   {
-    src: "/images/gallery-2.svg",
+    src: "/images/keripik-pisang.jpeg",
     title: "Kerajinan Tangan",
     desc: "Produk handmade kreatif",
   },
   {
-    src: "/images/gallery-3.svg",
+    src: "/images/keripik-pisang.jpeg",
     title: "Fashion Lokal",
     desc: "Busana khas Ciangsana",
   },
   {
-    src: "/images/gallery-4.svg",
+    src: "/images/keripik-pisang.jpeg",
     title: "Minuman Segar",
     desc: "Minuman tradisional & modern",
   },
   {
-    src: "/images/gallery-5.svg",
+    src: "/images/sembako.jpg",
     title: "Sembako",
     desc: "Kebutuhan pokok sehari-hari",
   },
@@ -76,7 +76,7 @@ export default function HomePage() {
             <div className="relative order-first md:order-last">
               <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl">
                 <img
-                  src="/images/hero-1.svg"
+                  src="/images/burger.jpg"
                   alt=""
                   className="w-full aspect-[4/3] object-cover"
                 />

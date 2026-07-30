@@ -1,9 +1,44 @@
 [
-  { "id": "kuliner", "name": "Kuliner", "icon": "utensils", "description": "Aneka kuliner dan camilan khas UMKM Ciangsana" },
-  { "id": "masakan-siap-saji", "name": "Masakan Siap Saji", "icon": "soup", "description": "Masakan siap santap seperti selat solo, nasi liwet, pecel, dan sambal krecek" },
-  { "id": "fasion-aksesoris", "name": "Fasion & Aksesoris", "icon": "gem", "description": "Aksesoris manik dan tas kerajinan buatan tangan" },
-  { "id": "frozen-food", "name": "Frozen Food", "icon": "package", "description": "Frozen food, sambal kemasan, dan makanan beku praktis" },
-  { "id": "camilan-minuman", "name": "Camilan & Minuman", "icon": "grid", "description": "Aneka camilan ringan dan minuman tradisional" },
-  { "id": "makanan-hampers", "name": "Makanan & Hampers", "icon": "gift", "description": "Jajanan rumahan dan souvenir/hampers untuk berbagai acara" },
-  { "id": "sembako-rumah-tangga", "name": "Sembako & Rumah Tangga", "icon": "shopping-basket", "description": "Sembako, pouch custom, dan kebutuhan rumah tangga" }
+  {
+    "id": "kuliner",
+    "name": "Kuliner",
+    "icon": "utensils",
+    "description": "Aneka kuliner dan camilan khas UMKM Ciangsana"
+  },
+  {
+    "id": "masakan-siap-saji",
+    "name": "Masakan Siap Saji",
+    "icon": "soup",
+    "description": "Masakan siap santap seperti selat solo, nasi liwet, pecel, dan sambal krecek"
+  },
+  {
+    "id": "fasion-aksesoris",
+    "name": "Fasion & Aksesoris",
+    "icon": "gem",
+    "description": "Aksesoris manik dan tas kerajinan buatan tangan"
+  },
+  {
+    "id": "frozen-food",
+    "name": "Frozen Food",
+    "icon": "package",
+    "description": "Frozen food, sambal kemasan, dan makanan beku praktis"
+  },
+  {
+    "id": "camilan-minuman",
+    "name": "Camilan & Minuman",
+    "icon": "grid",
+    "description": "Aneka camilan ringan dan minuman tradisional"
+  },
+  {
+    "id": "makanan-hampers",
+    "name": "Makanan & Hampers",
+    "icon": "gift",
+    "description": "Jajanan rumahan dan souvenir/hampers untuk berbagai acara"
+  },
+  {
+    "id": "sembako-rumah-tangga",
+    "name": "Sembako & Rumah Tangga",
+    "icon": "shopping-basket",
+    "description": "Sembako, pouch custom, dan kebutuhan rumah tangga"
+  }
 ]
