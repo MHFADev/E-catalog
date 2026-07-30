@@ -38,10 +38,10 @@ const galleryItems = [
 export default function HomePage() {
   // ===== CAROUSEL STATE =====
   const slideImages = [
-    "/image-header/1.jpg",
-    "/image-header/2.jpg",
-    "/image-header/3.jpg",
-    "/image-header/4.jpg",
+    "/image-header/1.webp",
+    "/image-header/2.webp",
+    "/image-header/3.webp",
+    "/image-header/4.webp",
   ];
   // Clone slide pertama di akhir agar loop 4→1 tetap animasi ke kanan
   const extendedSlides = [...slideImages, slideImages[0]];
