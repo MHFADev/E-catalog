@@ -47,7 +47,8 @@ const sections = [
     details: [
       {
         label: "Lokasi",
-        value: "Griya Alam Sentosa, Cileungsi (perbatasan Ciangsana)",
+          // [modified] "Ciangsana" → "Kemayoran"
+          value: "Griya Alam Sentosa, Cileungsi (perbatasan Kemayoran)",
       },
       { label: "Jam Buka", value: "10.00 - 23.00" },
       {
@@ -80,7 +81,8 @@ const sections = [
     caption:
       "Smart Shop UMKM RW 010 menyediakan sembako dan produk kreatif warga dengan harga bersaing.",
     details: [
-      { label: "Lokasi", value: "Jatisari (dekat Ciangsana)" },
+      // [modified] "Ciangsana" → "Kemayoran"
+      { label: "Lokasi", value: "Jatisari (dekat Kemayoran)" },
       { label: "Kontak", value: "0823-1000-3879" },
       {
         label: "Produk",
@@ -104,7 +106,8 @@ export default function ArtikelPage() {
         />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 max-w-4xl mx-auto z-10">
           <span className="inline-block px-3 py-1 mb-3 bg-cherry text-white text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-full">
-            UMKM Ciangsana
+            {/* [modified] "Ciangsana" → "Kemayoran" */}
+            UMKM Kemayoran
           </span>
           <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
             Potensi UMKM Kemayoran: Dari Camilan Rumahan hingga Kerajinan Tangan
@@ -127,7 +130,8 @@ export default function ArtikelPage() {
           </div>
 
           <p className="text-base md:text-lg font-medium text-noir leading-relaxed mb-10">
-            Ciangsana, wilayah di Kecamatan Gunung Putri, Kabupaten Bogor,
+            {/* [modified] "Ciangsana" → "Kemayoran" */}
+            Kemayoran, wilayah di Kecamatan Gunung Putri, Kabupaten Bogor,
             menyimpan potensi besar dalam sektor UMKM. Beragam produk mulai dari
             camilan tradisional hingga kerajinan tangan berkualitas telah
             diproduksi oleh warga setempat dan siap menjangkau pasar yang lebih
@@ -193,7 +197,8 @@ export default function ArtikelPage() {
               },
               {
                 icon: "mapPin",
-                label: "Ciangsana",
+                // [modified] "Ciangsana" → "Kemayoran"
+                label: "Kemayoran",
                 desc: "Gunung Putri, Kabupaten Bogor",
               },
             ].map((item, i) => (
@@ -218,7 +223,8 @@ export default function ArtikelPage() {
 
           <div className="mt-8 pt-6 border-t border-cotton-warm text-center">
             <p className="text-sm text-warm-gray mb-4">
-              Tertarik menjelajahi produk UMKM Ciangsana?
+              {/* [modified] "Ciangsana" → "Kemayoran" */}
+              Tertarik menjelajahi produk UMKM Kemayoran?
             </p>
             <Link href="/catalog" className="btn-primary text-sm md:text-base">
               Jelajahi Katalog <Icon name="arrowRight" size={14} />

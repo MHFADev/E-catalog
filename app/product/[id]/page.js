@@ -30,8 +30,17 @@ export default async function ProductDetailPage({ params }) {
 
   return (
     <div className="bg-cotton min-h-screen">
-      <div className="relative h-[30vh] md:h-[40vh] min-h-[200px] md:min-h-[300px] overflow-hidden bg-gradient-to-br from-maroon to-cherry-deep flex items-center justify-center text-cotton">
-        <Icon name="image" size={48} />
+      {/* [modified] ganti placeholder icon dengan gambar produk dari product.images */}
+      <div className="relative h-[30vh] md:h-[40vh] min-h-[200px] md:min-h-[300px] overflow-hidden bg-cotton-warm flex items-center justify-center">
+        {product.images?.[0] ? (
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <Icon name="image" size={48} className="text-warm-gray" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
       </div>
 
