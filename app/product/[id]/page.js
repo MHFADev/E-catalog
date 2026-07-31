@@ -58,14 +58,14 @@ export default async function ProductDetailPage({ params }) {
               {category?.name}
             </div>
             <div className="flex gap-1.5 mb-2 md:mb-3">
-              <span className="w-[49px] h-[49px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
+              <span className="w-[77px] h-[77px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
                 <img
                   src="/assets/badges/halal.png"
                   alt="Halal"
                   className="w-full h-full object-contain"
                 />
               </span>
-              <span className="w-[49px] h-[49px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
+              <span className="w-[77px] h-[77px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
                 <img
                   src="/assets/badges/cinta-indonesia.png"
                   alt="Cinta Indonesia"
@@ -96,7 +96,7 @@ export default async function ProductDetailPage({ params }) {
               </div>
             )}
 
-            <div className="flex gap-3 p-3 md:p-4 bg-cotton-warm rounded-xl md:rounded-2xl mb-4 md:mb-6">
+            <div className="flex gap-3 p-3 md:p-4 bg-cotton-warm rounded-xl md:rounded-2xl mb-3">
               <span className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-cherry/10 flex items-center justify-center shrink-0 text-cherry">
                 <Icon name="store" size={18} />
               </span>
@@ -114,6 +114,21 @@ export default async function ProductDetailPage({ params }) {
                 </div>
               </div>
             </div>
+
+            {seller.location && (
+              <div className="rounded-xl md:rounded-2xl overflow-hidden mb-4 md:mb-6 border border-cotton-warm h-[200px] md:h-[250px]">
+                <iframe
+                  src={`https://maps.google.com/maps?q=${seller.location.lat},${seller.location.lng}&z=15&output=embed`}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={`Lokasi ${seller.name}`}
+                />
+              </div>
+            )}
 
             <a
               href={waLink}
