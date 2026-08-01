@@ -530,10 +530,11 @@ export default function HomePage() {
                     <img
                       src={item.src}
                       alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-100"
                     />
                   </div>
-                  <div className="pt-2">
+                  {/* [FIX] px-2 menambah padding kiri-kanan agar teks tidak terpotong tepi kartu saat hover */}
+                  <div className="px-2 pt-2">
                     <h3 className="text-sm md:text-base font-semibold tracking-tight">
                       {item.title}
                     </h3>
@@ -575,7 +576,7 @@ export default function HomePage() {
 
       {/* [SCROLL] Scrollbar tipis untuk Jelajahi Koleksi */}
       <style>{`
-        .scrollbar-thin::-webkit-scrollbar { height: 4px; }
+        .scrollbar-thin::-webkit-scrollbar { height: 5px; }
         .scrollbar-thin::-webkit-scrollbar-track { background: #F5F0E8; border-radius: 2px; }
         .scrollbar-thin::-webkit-scrollbar-thumb { background: #B91C1C; border-radius: 2px; }
       `}</style>
