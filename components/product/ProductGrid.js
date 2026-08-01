@@ -1,4 +1,5 @@
-import ProductCard from './ProductCard'
+"use client";
+import ProductCard from "./ProductCard";
 
 export default function ProductGrid({ products, categories }) {
   const getCat = id => categories.find(c => c.id === id)

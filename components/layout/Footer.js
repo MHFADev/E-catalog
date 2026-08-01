@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
+import ContactForm from "@/components/common/ContactForm";
 
 // [FOOTER] Copyright rata tengah sesuai permintaan
 export default function Footer() {
@@ -11,7 +12,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-2">
               <img
                 src="/icon.png"
-                alt="UMKM Ciangsana"
+                alt="UMKM Kemayoran"
                 className="h-8 md:h-9 w-auto"
               />
               <span className="font-bold text-base text-cotton-pure">
@@ -53,10 +54,11 @@ export default function Footer() {
             </h4>
             <a
               href="mailto:admin@Kemayoran-umkm.id"
-              className="text-sm text-warm-gray hover:text-cotton-pure transition-colors flex items-center gap-1"
+              className="text-sm text-warm-gray hover:text-cotton-pure transition-colors flex items-center gap-1 mb-3"
             >
               <Icon name="externalLink" size={14} /> admin@Kemayoran-umkm.id
             </a>
+            <ContactForm />
           </div>
         </div>
         {/* [FOOTER] Copyright di tengah */}

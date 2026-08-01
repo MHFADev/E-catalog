@@ -1,18 +1,49 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
+import ProductGallery from "@/components/product/ProductGallery";
+import ProductGrid from "@/components/product/ProductGrid";
+import ReviewSection from "@/components/product/ReviewSection";
 import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
 import { WHATSAPP_PREFILL } from "@/lib/constants";
-import products from "@/data/products.json";
-import sellers from "@/data/sellers.json";
-import categories from "@/data/categories.json";
+import {
+  getProducts,
+  getSellers,
+  getCategories,
+  getReviews,
+} from "@/lib/catalog";
 
-export function generateStaticParams() {
-  return products.map((p) => ({ id: p.id }));
+// ===== Harga produk: data pakai format campuran, rapikan di sini =====
+// - priceUnit sudah "Rp..." / "Harga..." / "Hubungi..." -> pakai apa adanya
+// - priceUnit cuma satuan ("/ ikat", "per porsi") -> gabung dengan price
+function priceLabel(product) {
+  return /^(Rp|Harga|Hubungi)/.test(product.priceUnit)
+    ? product.priceUnit
+    : `Rp${product.price.toLocaleString("id-ID")} ${product.priceUnit}`;
+}
+
+// ===== Rata-rata rating dari daftar komentar =====
+function avgRating(list) {
+  return list.length
+    ? list.reduce((s, r) => s + r.rating, 0) / list.length
+    : 0;
+}
+
+// ===== Ubah link YouTube biasa -> URL embed =====
+function embedUrl(url) {
+  if (!url) return null;
+  const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/);
+  return m ? `https://www.youtube.com/embed/${m[1]}` : url;
 }
 
 export default async function ProductDetailPage({ params }) {
   const { id } = await params;
+  const [products, sellers, categories, reviews] = await Promise.all([
+    getProducts(),
+    getSellers(),
+    getCategories(),
+    getReviews(id),
+  ]);
   const product = products.find((p) => p.id === id);
   const seller = product
     ? sellers.find((s) => s.id === product.sellerId)
@@ -23,141 +54,326 @@ export default async function ProductDetailPage({ params }) {
 
   if (!product) notFound();
 
+  // Link WA utama + alternatif (kalau penjual punya nomor kedua)
   const waLink = generateWhatsAppLink(
     seller.whatsapp,
     WHATSAPP_PREFILL(seller.name, product.name),
   );
+  const waLinkAlt = seller.whatsappAlt
+    ? generateWhatsAppLink(
+        seller.whatsappAlt,
+        WHATSAPP_PREFILL(seller.name, product.name),
+      )
+    : null;
+
+  const price = priceLabel(product);
+
+  // ===== Komentar produk ini =====
+  const productReviews = reviews.filter((r) => r.productId === product.id);
+  const rating = avgRating(productReviews);
+
+  // ===== Statistik toko: jumlah produk + rating rata-rata semua produk toko =====
+  const sellerProducts = products.filter((p) => p.sellerId === seller.id);
+  const sellerRating = avgRating(
+    reviews.filter((r) =>
+      sellerProducts.some((p) => p.id === r.productId),
+    ),
+  );
+
+  // ===== Produk serupa: kategori sama dulu, sisanya isi produk unggulan =====
+  const sameCat = products.filter(
+    (p) => p.categoryId === product.categoryId && p.id !== product.id,
+  );
+  let related = sameCat.slice(0, 4);
+  if (related.length < 4) {
+    const others = products
+      .filter((p) => !sameCat.includes(p) && p.id !== product.id)
+      .sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
+    related = [...related, ...others].slice(0, 4);
+  }
+  const relatedEnriched = related.map((p) => ({
+    ...p,
+    sellerName: sellers.find((s) => s.id === p.sellerId)?.name || "",
+  }));
 
   return (
-    <div className="bg-cotton min-h-screen">
-      {/* [modified] ganti placeholder icon dengan gambar produk dari product.images */}
-      <div className="relative h-[30vh] md:h-[40vh] min-h-[200px] md:min-h-[300px] overflow-hidden bg-cotton-warm flex items-center justify-center">
-        {product.images?.[0] ? (
-          <img
-            src={product.images[0]}
-            alt={product.name}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <Icon name="image" size={48} className="text-warm-gray" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 md:px-6 relative -mt-12 md:-mt-16 z-10 pb-12 md:pb-16">
-        <div className="max-w-2xl mx-auto">
+    <div className="bg-cotton min-h-screen pb-24 md:pb-0">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-4 md:py-8">
+        {/* ===== Breadcrumb: Beranda / Katalog / Kategori ===== */}
+        <nav className="flex items-center gap-1.5 text-xs md:text-sm text-warm-gray mb-4 md:mb-6 whitespace-nowrap overflow-x-auto">
+          <Link href="/" className="hover:text-cherry transition-colors shrink-0">
+            Beranda
+          </Link>
+          <span className="shrink-0">/</span>
           <Link
             href="/catalog"
-            className="inline-flex items-center gap-1 px-3 md:px-4 py-1.5 md:py-2 mb-3 md:mb-4 bg-white/70 backdrop-blur-md border border-white/30 rounded-full text-xs md:text-sm font-medium text-noir-soft hover:bg-white hover:-translate-x-1 transition-all"
+            className="hover:text-cherry transition-colors shrink-0"
           >
-            ← Kembali
+            Katalog
           </Link>
+          {category && (
+            <>
+              <span className="shrink-0">/</span>
+              <span className="text-noir-soft truncate">{category.name}</span>
+            </>
+          )}
+        </nav>
 
-          <div className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-10 shadow-sm">
-            <div className="font-mono text-[10px] md:text-xs uppercase tracking-wider text-cherry mb-1.5 md:mb-2">
-              {category?.name}
-            </div>
-            <div className="flex gap-1.5 mb-2 md:mb-3">
-              <span className="w-[77px] h-[77px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
-                <img
-                  src="/assets/badges/halal.png"
-                  alt="Halal"
-                  className="w-full h-full object-contain"
-                />
-              </span>
-              <span className="w-[77px] h-[77px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
-                <img
-                  src="/assets/badges/cinta-indonesia.png"
-                  alt="Cinta Indonesia"
-                  className="w-full h-full object-contain"
-                />
-              </span>
-            </div>
-            <h1 className="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight text-noir mb-1 md:mb-2">
-              {product.name}
-            </h1>
-            <div className="flex items-center gap-1.5 text-xs md:text-sm font-medium text-cherry bg-cherry/5 rounded-full px-3 py-1 w-fit mb-3 md:mb-4">
-              <Icon name="whatsapp" size={12} /> Hubungi penjual untuk informasi harga & pembayaran
-            </div>
-            <p className="text-sm md:text-base leading-relaxed text-cool-gray mb-4 md:mb-6">
-              {product.description}
-            </p>
+        {/* ===== Layout utama: galeri kiri, info kanan ===== */}
+        <div className="grid md:grid-cols-2 gap-4 md:gap-8 items-start">
+          {/* Galeri foto — lengket saat scroll di desktop */}
+          <div className="md:sticky md:top-24">
+            <ProductGallery images={product.images} name={product.name} />
+          </div>
 
-            {product.tags?.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mb-4 md:mb-6">
-                {product.tags.map((tag) => (
+          <div className="flex flex-col gap-4 md:gap-5">
+            {/* ===== Kartu info produk ===== */}
+            <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-7 shadow-sm">
+              <div className="flex items-start justify-between gap-3 mb-2 md:mb-3">
+                <span className="font-mono text-[10px] md:text-xs uppercase tracking-wider text-cherry pt-1">
+                  {category?.name}
+                </span>
+                <div className="flex gap-1.5 shrink-0">
+                  <span className="w-[42px] h-[42px] md:w-[49px] md:h-[49px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
+                    <img
+                      src="/assets/badges/halal.png"
+                      alt="Halal"
+                      className="w-full h-full object-contain"
+                    />
+                  </span>
+                  <span className="w-[42px] h-[42px] md:w-[49px] md:h-[49px] rounded-md overflow-hidden bg-cotton-warm flex items-center justify-center">
+                    <img
+                      src="/assets/badges/cinta-indonesia.png"
+                      alt="Cinta Indonesia"
+                      className="w-full h-full object-contain"
+                    />
+                  </span>
+                </div>
+              </div>
+
+              <h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-noir mb-2 md:mb-3">
+                {product.name}
+              </h1>
+
+              {/* Harga besar ala marketplace */}
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-cherry mb-1.5">
+                {price}
+              </div>
+              <div className="flex items-center gap-1.5 text-xs md:text-sm text-warm-gray mb-3 md:mb-4">
+                <Icon
+                  name="whatsapp"
+                  size={14}
+                  className="text-cherry shrink-0"
+                />
+                Hubungi penjual untuk informasi harga &amp; pembayaran
+              </div>
+
+              {/* Rating + lokasi toko */}
+              {productReviews.length > 0 && (
+                <div className="flex items-center gap-3 text-xs md:text-sm text-warm-gray mb-3 md:mb-4">
+                  <span className="flex items-center gap-1 text-amber-500 font-semibold">
+                    ★ {rating.toFixed(1)}
+                  </span>
+                  <span className="text-muted">•</span>
+                  <span>{productReviews.length} komentar</span>
+                  <span className="text-muted">•</span>
+                  <span className="flex items-center gap-1 truncate">
+                    <Icon name="mapPin" size={14} className="shrink-0" />
+                    <span className="truncate">{seller.address}</span>
+                  </span>
+                </div>
+              )}
+
+              {/* Trust chips — penguat jaminan pembeli */}
+              <div className="flex flex-wrap gap-1.5 md:gap-2">
+                {[
+                  { icon: "lock", label: "Transaksi Aman" },
+                  { icon: "star", label: "Kualitas Lokal" },
+                  { icon: "refresh", label: "Stok Terbaru" },
+                ].map((c) => (
                   <span
-                    key={tag}
-                    className="font-mono text-[10px] md:text-xs px-2 md:px-2.5 py-1 bg-cherry/10 text-cherry rounded-full"
+                    key={c.label}
+                    className="inline-flex items-center gap-1 px-2 py-1 md:px-2.5 md:py-1.5 bg-cotton-pure border border-cotton-warm rounded-full text-[9px] md:text-xs font-medium text-cool-gray"
                   >
-                    {tag}
+                    <Icon name={c.icon} size={11} className="text-cherry" />
+                    {c.label}
                   </span>
                 ))}
               </div>
-            )}
-
-            <div className="flex gap-3 p-3 md:p-4 bg-cotton-warm rounded-xl md:rounded-2xl mb-3">
-              <span className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-cherry/10 flex items-center justify-center shrink-0 text-cherry">
-                <Icon name="store" size={18} />
-              </span>
-              <div className="min-w-0">
-                <div className="font-semibold text-sm md:text-base truncate">
-                  {seller.name}
-                </div>
-                {seller.owner && (
-                  <div className="text-xs md:text-sm text-warm-gray truncate">
-                    Pemilik: {seller.owner}
-                  </div>
-                )}
-                <div className="text-xs md:text-sm text-warm-gray line-clamp-2">
-                  {seller.address}
-                </div>
-              </div>
             </div>
 
-            {seller.location && (
-              <div className="rounded-xl md:rounded-2xl overflow-hidden mb-4 md:mb-6 border border-cotton-warm h-[200px] md:h-[250px]">
-                <iframe
-                  src={`https://maps.google.com/maps?q=${seller.location.lat},${seller.location.lng}&z=15&output=embed`}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title={`Lokasi ${seller.name}`}
-                />
+            {/* ===== Kartu deskripsi + tags ===== */}
+            <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-7 shadow-sm">
+              <h2 className="flex items-center gap-2 text-sm md:text-base font-bold text-noir mb-2 md:mb-3">
+                <span className="w-0.5 h-4 bg-cherry rounded-sm" />
+                Deskripsi Produk
+              </h2>
+              <p className="text-sm md:text-base leading-relaxed text-cool-gray mb-3 md:mb-4">
+                {product.description}
+              </p>
+              {product.tags?.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {product.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="font-mono text-[10px] md:text-xs px-2 md:px-2.5 py-1 bg-cherry/10 text-cherry rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* ===== Kartu toko + statistik penjual ===== */}
+            <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm">
+              <div className="flex items-center gap-3">
+                <span className="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden bg-cotton-warm flex items-center justify-center shrink-0">
+                  {seller.logo ? (
+                    <img
+                      src={seller.logo}
+                      alt={seller.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <Icon name="store" size={20} className="text-cherry" />
+                  )}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="font-semibold text-sm md:text-base text-noir truncate">
+                    {seller.name}
+                  </div>
+                  {seller.owner && (
+                    <div className="text-xs md:text-sm text-warm-gray truncate">
+                      Pemilik: {seller.owner}
+                    </div>
+                  )}
+                  <div className="text-xs md:text-sm text-warm-gray line-clamp-2">
+                    {seller.address}
+                  </div>
+                </div>
+                <a
+                  href={waLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 inline-flex items-center gap-1.5 px-3 md:px-4 py-2 rounded-full border border-cherry/30 text-cherry text-xs md:text-sm font-semibold hover:bg-cherry/5 transition-all no-underline"
+                >
+                  <Icon name="whatsapp" size={14} /> Chat
+                </a>
               </div>
-            )}
 
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block no-underline"
-            >
-              <button className="btn-primary w-full text-sm md:text-base py-2.5 md:py-3 mb-1.5 md:mb-2">
-                <Icon name="whatsapp" size={16} /> Hubungi Penjual via WhatsApp
-              </button>
-            </a>
+              {/* Statistik toko: jumlah produk + rating */}
+              <div className="grid grid-cols-2 gap-2 mt-3 border-t border-cotton-warm pt-3">
+                <div className="flex items-center gap-2 text-xs md:text-sm text-cool-gray">
+                  <Icon name="grid" size={14} className="text-cherry" />
+                  <span>{sellerProducts.length} produk</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs md:text-sm text-cool-gray">
+                  <Icon name="star" size={14} className="text-cherry" />
+                  <span>{sellerRating ? `★ ${sellerRating.toFixed(1)} rating toko` : "UMKM Lokal"}</span>
+                </div>
+              </div>
 
-            {seller.whatsappAlt && (
+              {seller.description && (
+                <p className="text-xs md:text-sm text-cool-gray leading-relaxed mt-3 border-t border-cotton-warm pt-3">
+                  {seller.description}
+                </p>
+              )}
+
+              {seller.videoUrl && (
+                <div className="mt-3 border-t border-cotton-warm pt-3">
+                  <div className="aspect-video rounded-xl overflow-hidden bg-cotton-warm">
+                    <iframe
+                      src={embedUrl(seller.videoUrl)}
+                      title={`Video ${seller.name}`}
+                      className="w-full h-full"
+                      allowFullScreen
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ===== CTA WhatsApp (desktop) ===== */}
+            <div className="hidden md:flex flex-col gap-2.5">
               <a
-                href={generateWhatsAppLink(
-                  seller.whatsappAlt,
-                  WHATSAPP_PREFILL(seller.name, product.name),
-                )}
+                href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block no-underline"
+                className="no-underline"
               >
-                <button className="btn-secondary w-full text-sm md:text-base py-2.5 md:py-3">
-                  Kontak Alternatif
+                <button className="btn-primary w-full text-sm md:text-base py-3 md:py-3.5">
+                  <Icon name="whatsapp" size={18} />
+                  Hubungi Penjual via WhatsApp
                 </button>
               </a>
-            )}
+              {waLinkAlt && (
+                <a
+                  href={waLinkAlt}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="no-underline"
+                >
+                  <button className="btn-secondary w-full text-sm md:text-base py-3 md:py-3.5">
+                    <Icon name="phone" size={16} />
+                    Kontak Alternatif
+                  </button>
+                </a>
+              )}
+            </div>
           </div>
         </div>
+
+        {/* ===== Komentar & penilaian (full width) ===== */}
+        <div className="mt-8 md:mt-12">
+          <ReviewSection initial={productReviews} productId={product.id} />
+        </div>
+
+        {/* ===== Produk serupa ===== */}
+        {relatedEnriched.length > 0 && (
+          <div className="mt-8 md:mt-12">
+            <div className="flex items-center justify-between mb-4 md:mb-6">
+              <h2 className="flex items-center gap-2 text-base md:text-xl font-bold tracking-tight text-noir">
+                <span className="w-1 h-5 md:w-1 md:h-6 bg-cherry rounded-sm" />
+                Produk Serupa
+              </h2>
+              <Link
+                href="/catalog"
+                className="flex items-center gap-1 text-xs md:text-sm font-medium text-warm-gray hover:text-cherry transition-all"
+              >
+                Lihat Semua <Icon name="arrowRight" size={12} />
+              </Link>
+            </div>
+            <ProductGrid
+              products={relatedEnriched}
+              categories={categories}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* ===== Sticky bar bawah (mobile): harga + tombol WA ===== */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-cotton-warm px-4 py-3 flex items-center gap-3">
+        <div className="min-w-0">
+          <div className="font-mono text-[10px] uppercase tracking-wider text-warm-gray mb-0.5">
+            Harga
+          </div>
+          <div className="text-sm md:text-base font-bold text-cherry truncate">
+            {price}
+          </div>
+        </div>
+        <a
+          href={waLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="no-underline flex-1 shrink-0"
+        >
+          <button className="btn-primary w-full text-sm py-3">
+            <Icon name="whatsapp" size={16} />
+            Hubungi Penjual
+          </button>
+        </a>
       </div>
     </div>
   );

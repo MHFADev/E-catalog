@@ -3,3 +3,9 @@ node_modules/
 *.log
 *.tmp
 *.txt
+
+# env
+.env
+.env.local
+.env*.local
+!.env.local.example

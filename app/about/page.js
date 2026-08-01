@@ -9,7 +9,7 @@ export default function AboutPage() {
           Tentang <span className="text-cherry">Inisiatif</span>
         </h1>
         <p className="text-lg text-warm-gray max-w-xl mx-auto leading-relaxed">
-          Menghubungkan pelaku UMKM Ciangsana dengan calon pembeli melalui
+          Menghubungkan pelaku UMKM Kemayoran dengan calon pembeli melalui
           platform katalog digital yang modern dan mudah digunakan.
         </p>
       </div>
@@ -21,13 +21,13 @@ export default function AboutPage() {
           </h2>
           <div className="text-base leading-relaxed text-cool-gray space-y-4">
             <p>
-              Ciangsana — wilayah administratif Kecamatan Gunung Putri,
+              Kemayoran — wilayah administratif Kecamatan Gunung Putri,
               Kabupaten Bogor — memiliki banyak pelaku UMKM yang produknya belum
               terpusat dalam satu platform digital yang mudah diakses calon
               pembeli.
             </p>
             <p>
-              <strong>E-Catalog UMKM Ciangsana</strong> hadir sebagai solusi
+              <strong>E-Catalog UMKM Kemayoran</strong> hadir sebagai solusi
               etalase digital yang menampilkan seluruh produk UMKM secara
               terstruktur, mudah dicari berdasarkan kategori, dan memungkinkan
               calon pembeli langsung menghubungi penjual melalui WhatsApp hanya

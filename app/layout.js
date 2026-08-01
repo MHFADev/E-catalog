@@ -5,7 +5,7 @@ import Footer from "@/components/layout/Footer";
 export const metadata = {
   title: "UMKM Kemayoran — Katalog Digital Produk Lokal",
   description:
-    "Temukan produk UMKM unggulan dari Ciangsana, Gunung Putri, Bogor. Belanja langsung dari pengrajin lokal.",
+    "Temukan produk UMKM unggulan dari Kemayoran, Gunung Putri, Bogor. Belanja langsung dari pengrajin lokal.",
 };
 
 export default function RootLayout({ children }) {

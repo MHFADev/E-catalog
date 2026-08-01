@@ -3,13 +3,15 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Icon from "@/components/common/Icon";
-import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
-import { ADMIN_WHATSAPP, WHATSAPP_JOIN_MESSAGE } from "@/lib/constants";
+import JoinModal from "@/components/common/JoinModal";
+import { useUser } from "@/lib/useUser";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [joinOpen, setJoinOpen] = useState(false);
   const pathname = usePathname();
+  const { user } = useUser();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -40,7 +42,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2 shrink-0">
           <img
             src="/icon.png"
-            alt="UMKM Ciangsana"
+            alt="UMKM Kemayoran"
             className="h-8 md:h-9 w-auto"
           />
           <span className="font-bold text-sm md:text-base text-noir hidden sm:block">
@@ -62,14 +64,27 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
-          <a
-            href={generateWhatsAppLink(ADMIN_WHATSAPP, WHATSAPP_JOIN_MESSAGE)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-2 flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-cherry rounded-full hover:bg-cherry-deep transition-all no-underline"
+          <button
+            onClick={() => setJoinOpen(true)}
+            className="ml-2 flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-cherry rounded-full hover:bg-cherry-deep transition-all"
           >
             <Icon name="whatsapp" size={16} /> Gabung
-          </a>
+          </button>
+          {user ? (
+            <Link
+              href="/seller"
+              className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-noir-soft hover:bg-cotton-warm rounded-full transition-all"
+            >
+              <Icon name="store" size={15} /> Toko Saya
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-noir-soft hover:bg-cotton-warm rounded-full transition-all"
+            >
+              <Icon name="user" size={15} /> Masuk
+            </Link>
+          )}
         </div>
 
         <button
@@ -112,17 +127,37 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            <a
-              href={generateWhatsAppLink(ADMIN_WHATSAPP, WHATSAPP_JOIN_MESSAGE)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-bold text-white bg-cherry no-underline"
+            <button
+              onClick={() => {
+                setMenuOpen(false);
+                setJoinOpen(true);
+              }}
+              className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-bold text-white bg-cherry w-full text-left"
             >
               <Icon name="whatsapp" size={20} /> Gabung Mitra
-            </a>
+            </button>
+            {user ? (
+              <Link
+                href="/seller"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-semibold text-cherry bg-cherry/5"
+              >
+                <Icon name="store" size={20} /> Toko Saya
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-semibold text-noir-soft hover:bg-cotton-warm"
+              >
+                <Icon name="user" size={20} /> Masuk
+              </Link>
+            )}
           </div>
         </div>
       )}
+
+      <JoinModal open={joinOpen} onClose={() => setJoinOpen(false)} />
     </nav>
   );
 }
