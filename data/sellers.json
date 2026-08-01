@@ -4,18 +4,20 @@
     "name": "Aneka Cemilan 39",
     "owner": null,
     "whatsapp": "6287867711181",
-    "address": "Kidul, Jalan Cagak Raya, RT.03/RW.09, Kemayoran",
+    "address": "Kidul, Jalan Cagak Raya, RT.03/RW.09, Gn. Putri, Kab. Bogor",
     "description": "Produsen camilan tradisional dengan kemasan modern — fokus pada kue jintan, keripik pisang, rengginang, makaroni pedas, dan fish skin.",
-    "logo": "/images/camilan-ciangsana.jpeg"
+    "logo": "/images/camilan-ciangsana.jpeg",
+    "location": { "lat": -6.4602619, "lng": 106.898185 }
   },
   {
     "id": "umkm-002",
     "name": "Kerupuk Rambak Djawa (Lancar Barokah)",
     "owner": "Ibu Yatini",
     "whatsapp": "6281380405190",
-    "address": "Perbatasan Kemayoran, Gunung Putri, Kabupaten Bogor",
+    "address": "Jl. Raya Gn. Putri, RT.02/RW.06, Gn. Putri, Kab. Bogor",
     "description": "Produsen kerupuk kulit sapi (rambak) asli dan rambak tapioka kualitas premium; pelanggan sudah mencakup kalangan pejabat dan TNI karena kualitasnya yang renyah dan gurih.",
-    "logo": "/images/umkm-lancar-barokah.jpg"
+    "logo": "/images/umkm-lancar-barokah.jpg",
+    "location": { "lat": -6.4667218, "lng": 106.8866344 }
   },
   {
     "id": "umkm-003",
@@ -23,26 +25,29 @@
     "owner": null,
     "whatsapp": "628111544488",
     "whatsappAlt": "628558501236",
-    "address": "Jl. Griya Alam Sentosa No.2, Pasir Angin (berbatasan langsung dengan Kemayoran)",
-    "description": "Pusat kuliner binaan Dompet Dhuafa & OK OCE yang memberdayakan 10 pengusaha UMKM lokal di perbatasan Kemayoran.",
-    "logo": "/images/foodcourt-nusadaya-3.jpg"
+    "address": "Jl. Griya Alam Sentosa No.2, Pasir Angin, Kec. Cileungsi, Kab. Bogor",
+    "description": "Pusat kuliner binaan Dompet Dhuafa & OK OCE yang memberdayakan 10 pengusaha UMKM lokal di perbatasan Ciangsana.",
+    "logo": "/images/foodcourt-nusadaya-3.jpg",
+    "location": { "lat": -6.3947222, "lng": 106.9591667 }
   },
   {
     "id": "umkm-004",
     "name": "Galeri UMKM - IKM Cileungsi",
     "owner": null,
     "whatsapp": "6281218449728",
-    "address": "Sekitar Cileungsi-Kemayoran",
+    "address": "JX3G+5PH, Cileungsi, Kec. Cileungsi, Kab. Bogor",
     "description": "Showcase/pusat oleh-oleh bagi berbagai produk unggulan dari pelaku IKM dan UMKM di wilayah Cileungsi dan sekitarnya.",
-    "logo": "/images/galeri-umkm-etam.jpg"
+    "logo": "/images/galeri-umkm-etam.jpg",
+    "location": { "lat": -6.3947222, "lng": 106.9591667 }
   },
   {
     "id": "umkm-005",
     "name": "Smart Shop UMKM RW 010",
     "owner": null,
     "whatsapp": "6282310003879",
-    "address": "Jatisari (dekat Kemayoran)",
+    "address": "Jl. Primadana XIV, RT.007/RW.010, Jatisari, Kota Bekasi",
     "description": "Inisiatif toko lokal untuk memasarkan produk-produk kreatif dari warga tingkat RW.",
-    "logo": "/images/jajanan-jatisari.jpeg"
+    "logo": "/images/jajanan-jatisari.jpeg",
+    "location": { "lat": -6.3015, "lng": 106.9945 }
   }
 ]

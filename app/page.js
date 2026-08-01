@@ -4,6 +4,7 @@ import Link from "next/link";
 import ProductGrid from "@/components/product/ProductGrid";
 import Icon from "@/components/common/Icon";
 import ImageSlider from "@/components/common/ImageSlider";
+import MultiPinMap from "@/components/common/MultiPinMap";
 import productsData from "@/data/products.json";
 import sellersData from "@/data/sellers.json";
 import categories from "@/data/categories.json";
@@ -544,6 +545,32 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-10 md:pb-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
+            Lokasi <span className="text-cherry">UMKM</span>
+          </h2>
+          <div className="rounded-2xl md:rounded-3xl overflow-hidden border border-cotton-warm h-[300px] md:h-[450px]">
+            <MultiPinMap
+              center={[-6.40, 106.93]}
+              zoom={12}
+              markers={sellersData.filter(s => s.location).map(s => ({
+                lat: s.location.lat,
+                lng: s.location.lng,
+                name: s.name,
+              }))}
+            />
+          </div>
+          <div className="flex flex-wrap justify-center gap-2 mt-4">
+            {sellersData.filter(s => s.location).map(s => (
+              <span key={s.id} className="text-[10px] md:text-xs px-3 py-1.5 bg-white border border-cotton-warm rounded-full text-warm-gray">
+                {s.name}
+              </span>
             ))}
           </div>
         </div>
