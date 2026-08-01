@@ -4,7 +4,8 @@ import Icon from '@/components/common/Icon'
 
 export default function ProductCard({ product, category }) {
   const [imgError, setImgError] = useState(false)
-  const productImg = imgError ? '/images/camilan-ciangsana.jpeg' : (product.images?.[0] || '/images/camilan-ciangsana.jpeg')
+  // [FIX] Fallback gambar lama dipindah: kini /images/webp-2/camilan-ciangsana.webp
+  const productImg = imgError ? '/images/webp-2/camilan-ciangsana.webp' : (product.images?.[0] || '/images/webp-2/camilan-ciangsana.webp')
   return (
     <Link href={`/product/${product.id}`} className="group flex flex-col bg-white border border-cotton-warm rounded-xl md:rounded-2xl overflow-hidden transition-all duration-300 hover:border-cherry/30 hover:shadow-xl hover:-translate-y-1">
       <div className="relative aspect-[4/3] bg-cotton-warm overflow-hidden">

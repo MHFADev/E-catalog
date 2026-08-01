@@ -4,10 +4,11 @@ import Icon from "@/components/common/Icon";
 
 export default function ProductGallery({ images, name }) {
   // Fallback ke gambar default kalau produk tidak punya foto
-  const imgs = images?.length ? images : ["/images/camilan-ciangsana.jpeg"];
+  // [FIX] Fallback gambar lama dipindah: kini /images/webp-2/camilan-ciangsana.webp
+  const imgs = images?.length ? images : ["/images/webp-2/camilan-ciangsana.webp"];
   const [idx, setIdx] = useState(0);
   const [err, setErr] = useState(false); // kalau gambar error, pakai gambar default
-  const src = err ? "/images/camilan-ciangsana.jpeg" : imgs[idx];
+  const src = err ? "/images/webp-2/camilan-ciangsana.webp" : imgs[idx];
   const showThumbs = imgs.length > 1; // thumbnail cuma muncul kalau foto lebih dari satu
 
   return (
@@ -67,7 +68,7 @@ export default function ProductGallery({ images, name }) {
                 alt=""
                 className="w-full h-full object-cover bg-cotton-warm"
                 onError={(e) => {
-                  e.currentTarget.src = "/images/camilan-ciangsana.jpeg";
+                  e.currentTarget.src = "/images/webp-2/camilan-ciangsana.webp";
                 }}
               />
             </button>

@@ -2,18 +2,21 @@ import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import ImageSlider from "@/components/common/ImageSlider";
 
+// [FIX] Path gambar diperbarui dari /images/*.jpg/.jpeg ke /images/webp-2/*.webp
+// sesuai dengan direktori & format terbaru (gambar lama sudah dipindah).
 const heroSlides = [
-  "/images/foodcourt-nusadaya-2.jpg",
-  "/images/umkm-lancar-barokah.jpg",
-  "/images/foodcourt-nusadaya-1.jpg",
-  "/images/camilan-ciangsana.jpeg",
-  "/images/galeri-umkm-etam.jpg",
+  "/images/webp-2/foodcourt-nusadaya-2.webp",
+  "/images/webp-2/umkm-lancar-barokah.webp",
+  "/images/webp-2/foodcourt-nusadaya-1.webp",
+  "/images/webp-2/camilan-ciangsana.webp",
+  "/images/webp-2/galeri-umkm-etam.webp",
 ];
 
 const sections = [
   {
     title: "Aneka Cemilan 39 — Camilan Tradisional Kemasan Modern",
-    image: "/images/camilan-ciangsana.jpeg",
+    // [FIX] Path gambar baru di /images/webp-2/ sesuai format webp
+    image: "/images/webp-2/camilan-ciangsana.webp",
     caption:
       "Produksi keripik pisang rumahan Aneka Cemilan 39, dikemas modern untuk menjangkau pasar yang lebih luas.",
     details: [
@@ -29,7 +32,8 @@ const sections = [
   },
   {
     title: "Kerupuk Rambak Djawa — Kulit Sapi Asli Premium",
-    image: "/images/umkm-lancar-barokah.jpg",
+    // [FIX] Path gambar baru di /images/webp-2/ sesuai format webp
+    image: "/images/webp-2/umkm-lancar-barokah.webp",
     caption:
       "Kerupuk rambak kulit sapi asli produksi Lancar Barokah, telah menembus pasar nasional hingga kalangan pejabat dan TNI.",
     details: [
@@ -41,7 +45,8 @@ const sections = [
   },
   {
     title: "Foodcourt Nusadaya Pasir Angin — Pusat Kuliner Pemberdayaan UMKM",
-    image: "/images/foodcourt-nusadaya-1.jpg",
+    // [FIX] Path gambar baru di /images/webp-2/ sesuai format webp
+    image: "/images/webp-2/foodcourt-nusadaya-1.webp",
     caption:
       "Selat Solo, salah satu menu unggulan di Foodcourt Nusadaya yang memberdayakan 10 pengusaha UMKM lokal.",
     details: [
@@ -60,7 +65,8 @@ const sections = [
   },
   {
     title: "Galeri UMKM — IKM Cileungsi: Kerajinan & Inovasi Pangan",
-    image: "/images/galeri-umkm-etam.jpg",
+    // [FIX] Path gambar baru di /images/webp-2/ sesuai format webp
+    image: "/images/webp-2/galeri-umkm-etam.webp",
     caption:
       "Tas anyaman handmade karya perajin IKM Cileungsi, kombinasi seni tradisional dan desain modern.",
     details: [
@@ -76,7 +82,8 @@ const sections = [
   },
   {
     title: "Smart Shop UMKM RW 010 — Inisiatif Warga Jatisari",
-    image: "/images/jajanan-jatisari.jpeg",
+    // [FIX] Path gambar baru di /images/webp-2/ sesuai format webp
+    image: "/images/webp-2/jajanan-jatisari.webp",
     caption:
       "Smart Shop UMKM RW 010 menyediakan sembako dan produk kreatif warga dengan harga bersaing.",
     details: [
