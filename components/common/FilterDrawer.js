@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect } from "react";
 import Icon from "@/components/common/Icon";
 import CategoryChip from "@/components/category/CategoryChip";
@@ -29,12 +29,12 @@ export default function FilterDrawer({
   return (
     <div className="fixed inset-0 z-[100] md:hidden">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="absolute bottom-0 left-0 right-0 max-h-[90vh] bg-cotton rounded-t-3xl overflow-y-auto animate-slideUp">
-        <div className="sticky top-0 bg-cotton z-10 flex items-center justify-between px-5 pt-5 pb-3 border-b border-cotton-warm">
+      <div className="absolute bottom-0 left-0 right-0 max-h-[90vh] bg-cream rounded-t-3xl overflow-y-auto animate-slideUp">
+        <div className="sticky top-0 bg-cream z-10 flex items-center justify-between px-5 pt-5 pb-3 border-b border-cream-warm">
           <h2 className="text-base font-bold tracking-tight">Filter</h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-cotton-warm flex items-center justify-center text-noir-soft"
+            className="w-8 h-8 rounded-full bg-cream-warm flex items-center justify-center text-noir-soft"
           >
             <Icon name="close" size={18} />
           </button>
@@ -43,7 +43,7 @@ export default function FilterDrawer({
         <div className="p-5 space-y-6">
           <div>
             <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-noir-soft mb-3">
-              <span className="w-0.5 h-3 bg-cherry rounded-sm" /> Kategori
+              <span className="w-0.5 h-3 bg-forest rounded-sm" /> Kategori
             </label>
             <div className="flex flex-wrap gap-2">
               {categories.map((cat) => (
@@ -59,14 +59,14 @@ export default function FilterDrawer({
 
           <div>
             <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-noir-soft mb-3">
-              <span className="w-0.5 h-3 bg-cherry rounded-sm" /> Toko
+              <span className="w-0.5 h-3 bg-forest rounded-sm" /> Toko
             </label>
             <div className="flex flex-wrap gap-2">
               <button
                 className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
                   sellerId === "all"
-                    ? "bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md"
-                    : "bg-white border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry"
+                    ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
+                    : "bg-white border-cream-warm text-noir-soft hover:border-forest hover:text-forest"
                 }`}
                 onClick={() => onSellerId("all")}
               >
@@ -77,8 +77,8 @@ export default function FilterDrawer({
                   key={s.id}
                   className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
                     sellerId === s.id
-                      ? "bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md"
-                      : "bg-white border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry"
+                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
+                      : "bg-white border-cream-warm text-noir-soft hover:border-forest hover:text-forest"
                   }`}
                   onClick={() => onSellerId(sellerId === s.id ? "all" : s.id)}
                 >
@@ -89,10 +89,10 @@ export default function FilterDrawer({
           </div>
         </div>
 
-        <div className="sticky bottom-0 bg-cotton border-t border-cotton-warm p-5">
+        <div className="sticky bottom-0 bg-cream border-t border-cream-warm p-5">
           <button
             onClick={onClose}
-            className="w-full py-3 bg-cherry text-white font-semibold rounded-full text-sm shadow-md"
+            className="w-full py-3 bg-forest text-white font-semibold rounded-full text-sm shadow-md"
           >
             Lihat Hasil
           </button>

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
 
 export default function AboutPage() {
@@ -6,7 +6,7 @@ export default function AboutPage() {
     <div className="max-w-7xl mx-auto px-6 py-12">
       <div className="text-center py-12">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
-          Tentang <span className="text-cherry">Inisiatif</span>
+          Tentang <span className="text-forest">Inisiatif</span>
         </h1>
         <p className="text-lg text-warm-gray max-w-xl mx-auto leading-relaxed">
           Menghubungkan pelaku UMKM Kemayoran dengan calon pembeli melalui
@@ -21,8 +21,8 @@ export default function AboutPage() {
           </h2>
           <div className="text-base leading-relaxed text-cool-gray space-y-4">
             <p>
-              Kemayoran — wilayah administratif Kecamatan Gunung Putri,
-              Kabupaten Bogor — memiliki banyak pelaku UMKM yang produknya belum
+              Kemayoran â€” wilayah administratif Kecamatan Gunung Putri,
+              Kabupaten Bogor â€” memiliki banyak pelaku UMKM yang produknya belum
               terpusat dalam satu platform digital yang mudah diakses calon
               pembeli.
             </p>

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { toggleMessageRead, deleteMessage } from "../actions";
 
 export default async function AdminMessagesPage() {
@@ -16,7 +16,7 @@ export default async function AdminMessagesPage() {
 
       <div className="space-y-3">
         {messages?.length === 0 && (
-          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cotton-warm p-6 text-center">
+          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
             Belum ada pesan masuk.
           </p>
         )}
@@ -25,14 +25,14 @@ export default async function AdminMessagesPage() {
           <div
             key={m.id}
             className={`bg-white rounded-2xl p-4 border transition-colors ${
-              m.is_read ? "border-cotton-warm" : "border-cherry/40"
+              m.is_read ? "border-cream-warm" : "border-forest/40"
             }`}
           >
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1.5">
               <span className="text-sm font-semibold text-noir">{m.name}</span>
               <a
                 href={`mailto:${m.email}`}
-                className="text-xs text-cherry hover:underline"
+                className="text-xs text-forest hover:underline"
               >
                 {m.email}
               </a>
@@ -40,7 +40,7 @@ export default async function AdminMessagesPage() {
                 {new Date(m.created_at).toLocaleString("id-ID")}
               </span>
               {!m.is_read && (
-                <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-cherry text-white">
+                <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-forest text-white">
                   Baru
                 </span>
               )}
@@ -56,13 +56,13 @@ export default async function AdminMessagesPage() {
               <form action={toggleMessageRead}>
                 <input type="hidden" name="id" value={m.id} />
                 <input type="hidden" name="value" value={String(!m.is_read)} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cotton-warm text-noir-soft hover:bg-cotton transition-all">
+                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cream-warm text-noir-soft hover:bg-cream transition-all">
                   {m.is_read ? "Tandai belum dibaca" : "Tandai sudah dibaca"}
                 </button>
               </form>
               <form action={deleteMessage}>
                 <input type="hidden" name="id" value={m.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cherry/10 text-cherry hover:bg-cherry/20 transition-all">
+                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
                   Hapus
                 </button>
               </form>

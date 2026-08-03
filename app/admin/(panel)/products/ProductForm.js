@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { saveProduct } from "../actions";
 import ImageUploader from "@/components/common/ImageUploader";
 
 const inputClass =
-  "w-full bg-cotton-pure border border-cotton-warm rounded-xl px-3 py-2 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-cherry/50 focus:ring-2 focus:ring-cherry/10 transition-all";
+  "w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all";
 
 export default function ProductForm({ categories, sellers, initial = null }) {
   const [message, setMessage] = useState("");
@@ -57,7 +57,7 @@ export default function ProductForm({ categories, sellers, initial = null }) {
         <input
           name="priceUnit"
           defaultValue={initial?.priceUnit ?? ""}
-          placeholder="Satuan harga (cth. per porsi, Rp12.000 – Rp42.000)"
+          placeholder="Satuan harga (cth. per porsi, Rp12.000 â€“ Rp42.000)"
           className={inputClass}
         />
         <div className="sm:col-span-2">

@@ -4,16 +4,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cherry: {
-          DEFAULT: "#B91C1C",
-          light: "#DC2626",
-          deep: "#991B1B",
-          bright: "#EF4444",
+        forest: {
+          DEFAULT: "#1E7A3D",
+          light: "#2F9152",
+          deep: "#166B33",
+          bright: "#3FBF5F",
+          dark: "#0B3319",
         },
-        maroon: { DEFAULT: "#751515", dark: "#501010", light: "#9B1B1B" },
-        cotton: { DEFAULT: "#F5F0E8", warm: "#EDE4D3", pure: "#FAF8F0" },
-        cream: "#E8DFC8",
-        noir: { DEFAULT: "#181717", soft: "#2D2D2D", light: "#3D3D3D" },
+        hutan: { DEFAULT: "#0B3319", dark: "#062012", light: "#0F3D22" },
+        laut: { DEFAULT: "#1E3A8A", deep: "#172A6E", light: "#2563EB" },
+        langit: { DEFAULT: "#3B82F6", light: "#60A5FA", deep: "#2563EB" },
+        cream: { DEFAULT: "#FAF7F0", warm: "#F3EDDF", pure: "#FFFDF8" },
+        clay: { DEFAULT: "#F97316", light: "#FB923C", deep: "#EA580C" },
+        noir: { DEFAULT: "#18211B", soft: "#26332A", light: "#3A4A3F" },
         "energy-gold": "#D4A017",
         "warm-gray": "#8B8680",
         "cool-gray": "#5C5A56",

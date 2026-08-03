@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -34,7 +34,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || menuOpen
-          ? "bg-white/95 backdrop-blur-xl border-b border-cotton-warm shadow-sm"
+          ? "bg-white/95 backdrop-blur-xl border-b border-cream-warm shadow-sm"
           : "bg-transparent"
       }`}
     >
@@ -57,8 +57,8 @@ export default function Navbar() {
               href={l.href}
               className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
                 pathname === l.href
-                  ? "bg-cherry text-white"
-                  : "text-cool-gray hover:bg-cotton-warm hover:text-noir-soft"
+                  ? "bg-forest text-white"
+                  : "text-cool-gray hover:bg-cream-warm hover:text-noir-soft"
               }`}
             >
               {l.label}
@@ -66,21 +66,21 @@ export default function Navbar() {
           ))}
           <button
             onClick={() => setJoinOpen(true)}
-            className="ml-2 flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-cherry rounded-full hover:bg-cherry-deep transition-all"
+            className="ml-2 flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-forest rounded-full hover:bg-forest-deep transition-all"
           >
-            <Icon name="whatsapp" size={16} /> Gabung
+            <Icon name="whatsapp" size={16} /> Daftar UMKM
           </button>
           {user ? (
             <Link
               href="/seller"
-              className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-noir-soft hover:bg-cotton-warm rounded-full transition-all"
+              className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-noir-soft hover:bg-cream-warm rounded-full transition-all"
             >
               <Icon name="store" size={15} /> Toko Saya
             </Link>
           ) : (
             <Link
               href="/login"
-              className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-noir-soft hover:bg-cotton-warm rounded-full transition-all"
+              className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-noir-soft hover:bg-cream-warm rounded-full transition-all"
             >
               <Icon name="user" size={15} /> Masuk
             </Link>
@@ -89,7 +89,7 @@ export default function Navbar() {
 
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-cotton-warm transition-colors"
+          className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-cream-warm transition-colors"
           aria-label="Menu"
         >
           {menuOpen ? (
@@ -101,7 +101,7 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden border-t border-cotton-warm bg-white/95 backdrop-blur-xl">
+        <div className="md:hidden border-t border-cream-warm bg-white/95 backdrop-blur-xl">
           <div className="px-4 py-3 space-y-1">
             {links.map((l) => {
               const isActive = pathname === l.href;
@@ -111,18 +111,18 @@ export default function Navbar() {
                   href={l.href}
                   className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-medium transition-all ${
                     isActive
-                      ? "bg-cherry/10 text-cherry"
-                      : "text-noir-soft hover:bg-cotton-warm"
+                      ? "bg-forest/10 text-forest"
+                      : "text-noir-soft hover:bg-cream-warm"
                   }`}
                 >
                   <span
-                    className={`${isActive ? "text-cherry" : "text-cool-gray"}`}
+                    className={`${isActive ? "text-forest" : "text-cool-gray"}`}
                   >
                     <Icon name={l.icon} size={20} />
                   </span>
                   {l.label}
                   {isActive && (
-                    <span className="ml-auto w-1.5 h-1.5 rounded-full bg-cherry" />
+                    <span className="ml-auto w-1.5 h-1.5 rounded-full bg-forest" />
                   )}
                 </Link>
               );
@@ -132,15 +132,15 @@ export default function Navbar() {
                 setMenuOpen(false);
                 setJoinOpen(true);
               }}
-              className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-bold text-white bg-cherry w-full text-left"
+              className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-bold text-white bg-forest w-full text-left"
             >
-              <Icon name="whatsapp" size={20} /> Gabung Mitra
+              <Icon name="whatsapp" size={20} /> Daftar UMKM
             </button>
             {user ? (
               <Link
                 href="/seller"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-semibold text-cherry bg-cherry/5"
+                className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-semibold text-forest bg-forest/5"
               >
                 <Icon name="store" size={20} /> Toko Saya
               </Link>
@@ -148,7 +148,7 @@ export default function Navbar() {
               <Link
                 href="/login"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-semibold text-noir-soft hover:bg-cotton-warm"
+                className="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-semibold text-noir-soft hover:bg-cream-warm"
               >
                 <Icon name="user" size={20} /> Masuk
               </Link>

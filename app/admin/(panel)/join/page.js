@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { setJoinStatus, deleteJoin } from "../actions";
 
 const statusBadge = {
@@ -25,7 +25,7 @@ export default async function AdminJoinPage() {
 
       <div className="space-y-3">
         {joins?.length === 0 && (
-          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cotton-warm p-6 text-center">
+          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
             Belum ada permintaan gabung.
           </p>
         )}
@@ -33,7 +33,7 @@ export default async function AdminJoinPage() {
         {joins?.map((j) => (
           <div
             key={j.id}
-            className="bg-white rounded-2xl p-4 border border-cotton-warm"
+            className="bg-white rounded-2xl p-4 border border-cream-warm"
           >
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1.5">
               <span className="text-sm font-semibold text-noir">
@@ -43,7 +43,7 @@ export default async function AdminJoinPage() {
                 href={`https://wa.me/${j.whatsapp.replace(/^0/, "62")}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-cherry hover:underline"
+                className="text-xs text-forest hover:underline"
               >
                 {j.whatsapp}
               </a>
@@ -77,14 +77,14 @@ export default async function AdminJoinPage() {
                   <form key={s} action={setJoinStatus}>
                     <input type="hidden" name="id" value={j.id} />
                     <input type="hidden" name="status" value={s} />
-                    <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cotton-warm text-noir-soft hover:bg-cotton transition-all capitalize">
+                    <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cream-warm text-noir-soft hover:bg-cream transition-all capitalize">
                       {s}
                     </button>
                   </form>
                 ))}
               <form action={deleteJoin}>
                 <input type="hidden" name="id" value={j.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cherry/10 text-cherry hover:bg-cherry/20 transition-all">
+                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
                   Hapus
                 </button>
               </form>

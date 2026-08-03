@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { approveSellerAccount, rejectSellerAccount } from "../actions";
 
 const statusBadge = {
@@ -27,7 +27,7 @@ export default async function AdminAccountsPage() {
 
       <div className="space-y-3">
         {accounts?.length === 0 && (
-          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cotton-warm p-6 text-center">
+          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
             Belum ada akun penjual terdaftar.
           </p>
         )}
@@ -35,7 +35,7 @@ export default async function AdminAccountsPage() {
         {accounts?.map((a) => (
           <div
             key={a.user_id}
-            className="bg-white rounded-2xl p-4 border border-cotton-warm"
+            className="bg-white rounded-2xl p-4 border border-cream-warm"
           >
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1.5">
               <span className="text-sm font-semibold text-noir">
@@ -46,7 +46,7 @@ export default async function AdminAccountsPage() {
                   href={`https://wa.me/${a.whatsapp.replace(/^0/, "62")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-cherry hover:underline"
+                  className="text-xs text-forest hover:underline"
                 >
                   {a.whatsapp}
                 </a>
@@ -62,8 +62,8 @@ export default async function AdminAccountsPage() {
             </div>
 
             <div className="text-[11px] md:text-xs text-warm-gray mb-2">
-              User: {a.user_id} • Terhubung ke:{" "}
-              <span className="text-noir-soft">{a.sellers?.name ?? "—"}</span>
+              User: {a.user_id} â€¢ Terhubung ke:{" "}
+              <span className="text-noir-soft">{a.sellers?.name ?? "â€”"}</span>
             </div>
 
             {a.status !== "approved" && (
@@ -73,9 +73,9 @@ export default async function AdminAccountsPage() {
                   <div className="text-[10px] text-warm-gray mb-0.5">Hubungkan ke toko:</div>
                   <select
                     name="sellerId"
-                    className="bg-cotton-pure border border-cotton-warm rounded-lg px-2 py-1.5 text-xs text-noir"
+                    className="bg-cream-pure border border-cream-warm rounded-lg px-2 py-1.5 text-xs text-noir"
                   >
-                    <option value="">— pilih toko —</option>
+                    <option value="">â€” pilih toko â€”</option>
                     {sellers?.map((s) => (
                       <option key={s.id} value={s.id}>{s.name}</option>
                     ))}
@@ -86,7 +86,7 @@ export default async function AdminAccountsPage() {
                   <input
                     name="newSellerName"
                     placeholder="Nama UMKM baru"
-                    className="bg-cotton-pure border border-cotton-warm rounded-lg px-2 py-1.5 text-xs text-noir w-44"
+                    className="bg-cream-pure border border-cream-warm rounded-lg px-2 py-1.5 text-xs text-noir w-44"
                   />
                 </div>
                 <div>
@@ -94,7 +94,7 @@ export default async function AdminAccountsPage() {
                   <input
                     name="newSellerWa"
                     placeholder="628..."
-                    className="bg-cotton-pure border border-cotton-warm rounded-lg px-2 py-1.5 text-xs text-noir w-32"
+                    className="bg-cream-pure border border-cream-warm rounded-lg px-2 py-1.5 text-xs text-noir w-32"
                   />
                 </div>
                 <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-emerald-600 text-white hover:bg-emerald-700 transition-all">
@@ -105,14 +105,14 @@ export default async function AdminAccountsPage() {
 
             {a.status === "approved" && (
               <div className="text-xs text-emerald-700">
-                Akun aktif — pemilik dapat mengelola produk toko ini.
+                Akun aktif â€” pemilik dapat mengelola produk toko ini.
               </div>
             )}
 
             {a.status !== "rejected" && (
               <form action={rejectSellerAccount} className="mt-2">
                 <input type="hidden" name="userId" value={a.user_id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 transition-all">
+                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-all">
                   Tolak
                 </button>
               </form>

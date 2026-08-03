@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { setReviewStatus, deleteReview } from "../actions";
 
 const statusBadge = {
@@ -10,8 +10,8 @@ const statusBadge = {
 function Stars({ value }) {
   return (
     <span className="text-amber-500 text-xs">
-      {"★".repeat(value)}
-      <span className="text-muted/30">{"★".repeat(5 - value)}</span>
+      {"â˜…".repeat(value)}
+      <span className="text-muted/30">{"â˜…".repeat(5 - value)}</span>
     </span>
   );
 }
@@ -31,7 +31,7 @@ export default async function AdminReviewsPage() {
 
       <div className="space-y-3">
         {reviews?.length === 0 && (
-          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cotton-warm p-6 text-center">
+          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
             Belum ada komentar.
           </p>
         )}
@@ -39,7 +39,7 @@ export default async function AdminReviewsPage() {
         {reviews?.map((r) => (
           <div
             key={r.id}
-            className="bg-white rounded-2xl p-4 border border-cotton-warm"
+            className="bg-white rounded-2xl p-4 border border-cream-warm"
           >
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1.5">
               <span className="text-sm font-semibold text-noir">{r.name}</span>
@@ -81,7 +81,7 @@ export default async function AdminReviewsPage() {
               )}
               <form action={deleteReview}>
                 <input type="hidden" name="id" value={r.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cherry/10 text-cherry hover:bg-cherry/20 transition-all">
+                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
                   Hapus
                 </button>
               </form>

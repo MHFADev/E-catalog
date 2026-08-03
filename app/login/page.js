@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
-  "w-full bg-cotton-pure border border-cotton-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-cherry/50 focus:ring-2 focus:ring-cherry/10 transition-all";
+  "w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all";
 
 function LoginForm() {
   const router = useRouter();
@@ -58,11 +58,11 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-[60vh] bg-cotton flex items-center justify-center px-4 py-10">
+    <div className="min-h-[60vh] bg-cream flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-sm">
-        <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-sm border border-cotton-warm">
+        <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-sm border border-cream-warm">
           <h1 className="text-xl font-bold tracking-tight mb-1">
-            Masuk <span className="text-cherry">Akun</span>
+            Masuk <span className="text-forest">Akun</span>
           </h1>
           <p className="text-xs text-warm-gray mb-5">
             Login untuk mengirim komentar dan menilai produk.
@@ -105,12 +105,12 @@ function LoginForm() {
           </form>
 
           {error && (
-            <p className="mt-3 text-xs text-cherry bg-cherry/5 border border-cherry/20 rounded-lg px-3 py-2">
+            <p className="mt-3 text-xs text-forest bg-forest/5 border border-forest/20 rounded-lg px-3 py-2">
               {error}
             </p>
           )}
           {message && (
-            <p className="mt-3 text-xs text-noir-soft bg-cotton-warm rounded-lg px-3 py-2 leading-relaxed">
+            <p className="mt-3 text-xs text-noir-soft bg-cream-warm rounded-lg px-3 py-2 leading-relaxed">
               {message}
             </p>
           )}
@@ -121,7 +121,7 @@ function LoginForm() {
               setError("");
               setMessage("");
             }}
-            className="mt-4 w-full text-xs text-warm-gray hover:text-cherry transition-colors"
+            className="mt-4 w-full text-xs text-warm-gray hover:text-forest transition-colors"
           >
             {mode === "login"
               ? "Belum punya akun? Daftar sekarang"
@@ -132,9 +132,9 @@ function LoginForm() {
         <p className="text-center mt-4">
           <Link
             href="/"
-            className="text-xs text-warm-gray hover:text-cherry transition-colors"
+            className="text-xs text-warm-gray hover:text-forest transition-colors"
           >
-            ← Kembali ke Beranda
+            â† Kembali ke Beranda
           </Link>
         </p>
       </div>

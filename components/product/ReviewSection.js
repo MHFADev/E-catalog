@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
@@ -14,7 +14,7 @@ function Stars({ value, size = 12, className = "" }) {
           style={{ fontSize: size }}
           className={i <= value ? "" : "opacity-25"}
         >
-          ★
+          â˜…
         </span>
       ))}
     </div>
@@ -43,9 +43,9 @@ function fmtDate(iso) {
 // ===== Kartu satu komentar =====
 function ReviewCard({ review }) {
   return (
-    <div className="bg-white rounded-2xl p-4 md:p-5 border border-cotton-warm">
+    <div className="bg-white rounded-2xl p-4 md:p-5 border border-cream-warm">
       <div className="flex items-center gap-3 mb-2">
-        <span className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-cherry/10 text-cherry flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
+        <span className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
           {initials(review.name)}
         </span>
         <div className="min-w-0 flex-1">
@@ -117,10 +117,10 @@ function CommentForm({ productId, onAdd }) {
   return (
     <form
       onSubmit={submit}
-      className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 border border-cotton-warm"
+      className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 border border-cream-warm"
     >
       <h3 className="flex items-center gap-2 text-sm md:text-base font-bold text-noir mb-3">
-        <Icon name="user" size={16} className="text-cherry" />
+        <Icon name="user" size={16} className="text-forest" />
         Tulis Komentar
       </h3>
 
@@ -130,10 +130,10 @@ function CommentForm({ productId, onAdd }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Nama kamu"
-          className="w-full bg-cotton-pure border border-cotton-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-cherry/50 focus:ring-2 focus:ring-cherry/10 transition-all"
+          className="w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all"
         />
         {/* Pilih bintang saat hover */}
-        <div className="flex items-center gap-1 bg-cotton-pure border border-cotton-warm rounded-xl px-3 py-2.5">
+        <div className="flex items-center gap-1 bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5">
           {[1, 2, 3, 4, 5].map((i) => (
             <button
               type="button"
@@ -146,7 +146,7 @@ function CommentForm({ productId, onAdd }) {
               }`}
               aria-label={`${i} bintang`}
             >
-              ★
+              â˜…
             </button>
           ))}
         </div>
@@ -157,7 +157,7 @@ function CommentForm({ productId, onAdd }) {
         onChange={(e) => setComment(e.target.value)}
         placeholder="Tulis pengalamanmu tentang produk ini..."
         rows={3}
-        className="w-full bg-cotton-pure border border-cotton-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-cherry/50 focus:ring-2 focus:ring-cherry/10 transition-all mb-3 resize-none"
+        className="w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all mb-3 resize-none"
       />
 
       <button
@@ -202,13 +202,13 @@ export default function ReviewSection({ initial = [], productId }) {
   return (
     <section>
       <h2 className="flex items-center gap-2 text-base md:text-xl font-bold tracking-tight text-noir mb-4 md:mb-6">
-        <span className="w-1 h-5 md:w-1 md:h-6 bg-cherry rounded-sm" />
+        <span className="w-1 h-5 md:w-1 md:h-6 bg-forest rounded-sm" />
         Komentar &amp; Penilaian
       </h2>
 
       {/* Ringkasan rating ala marketplace */}
-      <div className="grid sm:grid-cols-[auto_1fr] gap-4 md:gap-8 bg-white rounded-2xl md:rounded-3xl p-4 md:p-7 border border-cotton-warm mb-4 md:mb-6">
-        <div className="text-center sm:border-r sm:border-cotton-warm sm:pr-8 flex flex-col items-center justify-center">
+      <div className="grid sm:grid-cols-[auto_1fr] gap-4 md:gap-8 bg-white rounded-2xl md:rounded-3xl p-4 md:p-7 border border-cream-warm mb-4 md:mb-6">
+        <div className="text-center sm:border-r sm:border-cream-warm sm:pr-8 flex flex-col items-center justify-center">
           <div className="text-4xl md:text-5xl font-bold text-noir leading-none mb-1">
             {avg.toFixed(1)}
           </div>
@@ -221,11 +221,11 @@ export default function ReviewSection({ initial = [], productId }) {
           {dist.map((d) => (
             <div key={d.star} className="flex items-center gap-2 text-xs md:text-sm">
               <span className="w-6 text-right text-warm-gray shrink-0">
-                {d.star}★
+                {d.star}â˜…
               </span>
-              <div className="flex-1 h-2 rounded-full bg-cotton-warm overflow-hidden">
+              <div className="flex-1 h-2 rounded-full bg-cream-warm overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-cherry-light to-cherry rounded-full transition-all"
+                  className="h-full bg-gradient-to-r from-forest-light to-forest rounded-full transition-all"
                   style={{ width: `${total ? (d.count / total) * 100 : 0}%` }}
                 />
               </div>
@@ -245,20 +245,20 @@ export default function ReviewSection({ initial = [], productId }) {
           ))}
         </div>
       ) : (
-        <div className="text-center py-8 bg-white rounded-2xl border border-cotton-warm mb-4 md:mb-6 text-sm text-warm-gray">
+        <div className="text-center py-8 bg-white rounded-2xl border border-cream-warm mb-4 md:mb-6 text-sm text-warm-gray">
           Belum ada komentar. Jadilah yang pertama!
         </div>
       )}
 
-      {/* Form komentar — wajib login */}
+      {/* Form komentar â€” wajib login */}
       {loading ? null : user ? (
         <CommentForm
           productId={productId}
           onAdd={(rev) => setReviews((prev) => [rev, ...prev])}
         />
       ) : (
-        <div className="bg-white rounded-2xl md:rounded-3xl p-6 border border-cotton-warm text-center">
-          <Icon name="lock" size={20} className="text-cherry mx-auto mb-2" />
+        <div className="bg-white rounded-2xl md:rounded-3xl p-6 border border-cream-warm text-center">
+          <Icon name="lock" size={20} className="text-forest mx-auto mb-2" />
           <p className="text-sm font-semibold text-noir mb-1">
             Login untuk mengirim komentar
           </p>

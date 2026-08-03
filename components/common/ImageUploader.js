@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { compressImage } from "@/lib/compressImage";
 import { uploadImage } from "@/lib/github";
@@ -43,8 +43,8 @@ export default function ImageUploader({
       <label
         className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
           busy
-            ? "bg-cotton-warm text-warm-gray cursor-wait"
-            : "bg-cotton-warm text-noir-soft hover:bg-cotton"
+            ? "bg-cream-warm text-warm-gray cursor-wait"
+            : "bg-cream-warm text-noir-soft hover:bg-cream"
         }`}
       >
         <input
@@ -63,16 +63,16 @@ export default function ImageUploader({
         placeholder={placeholder}
         rows={2}
         disabled={disabled}
-        className="w-full mt-2 bg-cotton-pure border border-cotton-warm rounded-xl px-3 py-2 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-cherry/50 focus:ring-2 focus:ring-cherry/10 transition-all resize-none"
+        className="w-full mt-2 bg-cream-pure border border-cream-warm rounded-xl px-3 py-2 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all resize-none"
       />
       {preview && (
         <img
           src={preview}
           alt="Preview"
-          className="mt-2 h-24 w-24 object-cover rounded-xl border border-cotton-warm"
+          className="mt-2 h-24 w-24 object-cover rounded-xl border border-cream-warm"
         />
       )}
-      {err && <p className="text-xs text-cherry mt-1.5">{err}</p>}
+      {err && <p className="text-xs text-forest mt-1.5">{err}</p>}
     </div>
   );
 }

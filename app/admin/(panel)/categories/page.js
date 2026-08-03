@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import CategoryForm from "./CategoryForm";
 import { deleteCategory } from "../actions";
@@ -16,11 +16,11 @@ export default async function AdminCategoriesPage() {
         Kelola Kategori ({categories?.length ?? 0})
       </h2>
 
-      <details className="bg-white rounded-2xl border border-cotton-warm mb-6 overflow-hidden">
-        <summary className="px-4 py-3 text-sm font-semibold text-cherry cursor-pointer hover:bg-cotton-warm/50 transition-colors">
+      <details className="bg-white rounded-2xl border border-cream-warm mb-6 overflow-hidden">
+        <summary className="px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
           + Tambah Kategori Baru
         </summary>
-        <div className="p-4 md:p-5 border-t border-cotton-warm">
+        <div className="p-4 md:p-5 border-t border-cream-warm">
           <CategoryForm />
         </div>
       </details>
@@ -29,27 +29,27 @@ export default async function AdminCategoriesPage() {
         {categories?.map((c) => (
           <div
             key={c.id}
-            className="bg-white rounded-2xl p-4 border border-cotton-warm"
+            className="bg-white rounded-2xl p-4 border border-cream-warm"
           >
-            <div className="w-14 h-14 rounded-xl overflow-hidden bg-cotton-warm mb-2">
+            <div className="w-14 h-14 rounded-xl overflow-hidden bg-cream-warm mb-2">
               {c.image && (
                 <img src={c.image} alt={c.name} className="w-full h-full object-cover" />
               )}
             </div>
             <div className="text-sm font-semibold text-noir">{c.name}</div>
             <div className="text-[11px] text-warm-gray mb-2 truncate">
-              {c.description || "—"}
+              {c.description || "â€”"}
             </div>
             <div className="flex gap-2">
               <Link
                 href={`/admin/categories/${c.id}`}
-                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cotton-warm text-noir-soft hover:bg-cotton transition-all"
+                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cream-warm text-noir-soft hover:bg-cream transition-all"
               >
                 Edit
               </Link>
               <form action={deleteCategory}>
                 <input type="hidden" name="id" value={c.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cherry/10 text-cherry hover:bg-cherry/20 transition-all">
+                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
                   Hapus
                 </button>
               </form>
