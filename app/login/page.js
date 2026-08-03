@@ -2,6 +2,7 @@
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Icon from "@/components/common/Icon";
 import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
@@ -57,6 +58,18 @@ function LoginForm() {
     setBusy(false);
   };
 
+  const googleLogin = async () => {
+    setError("");
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+      },
+    });
+    if (error) setError(error.message);
+  };
+
   return (
     <div className="min-h-[60vh] bg-cream flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-sm">
@@ -65,8 +78,23 @@ function LoginForm() {
             Masuk <span className="text-forest">Akun</span>
           </h1>
           <p className="text-xs text-warm-gray mb-5">
-            Login untuk mengirim komentar dan menilai produk.
+            Login untuk mengirim komentar, menilai produk, dan mengelola toko.
           </p>
+
+          <button
+            onClick={googleLogin}
+            className="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-white border border-cream-warm text-sm font-semibold text-noir-soft hover:border-forest/40 hover:bg-cream-pure transition-all"
+          >
+            <Icon name="google" size={18} /> Masuk dengan Google
+          </button>
+
+          <div className="flex items-center gap-3 my-4">
+            <span className="flex-1 h-px bg-cream-warm" />
+            <span className="text-[10px] uppercase tracking-wider text-muted">
+              atau
+            </span>
+            <span className="flex-1 h-px bg-cream-warm" />
+          </div>
 
           <form onSubmit={submit} className="space-y-3">
             {mode === "signup" && (
