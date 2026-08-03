@@ -6,7 +6,7 @@
     "whatsapp": "6287867711181",
     "address": "Kidul, Jalan Cagak Raya, RT.03/RW.09, Gn. Putri, Kab. Bogor",
     "description": "Produsen camilan tradisional dengan kemasan modern — fokus pada kue jintan, keripik pisang, rengginang, makaroni pedas, dan fish skin.",
-    "logo": "/images/camilan-ciangsana.jpeg",
+    "logo": "/images/webp-2/camilan-ciangsana.webp",
     "location": { "lat": -6.4602619, "lng": 106.898185 }
   },
   {
@@ -16,7 +16,7 @@
     "whatsapp": "6281380405190",
     "address": "Jl. Raya Gn. Putri, RT.02/RW.06, Gn. Putri, Kab. Bogor",
     "description": "Produsen kerupuk kulit sapi (rambak) asli dan rambak tapioka kualitas premium; pelanggan sudah mencakup kalangan pejabat dan TNI karena kualitasnya yang renyah dan gurih.",
-    "logo": "/images/umkm-lancar-barokah.jpg",
+    "logo": "/images/webp-2/umkm-lancar-barokah.webp",
     "location": { "lat": -6.4667218, "lng": 106.8866344 }
   },
   {
@@ -27,7 +27,7 @@
     "whatsappAlt": "628558501236",
     "address": "Jl. Griya Alam Sentosa No.2, Pasir Angin, Kec. Cileungsi, Kab. Bogor",
     "description": "Pusat kuliner binaan Dompet Dhuafa & OK OCE yang memberdayakan 10 pengusaha UMKM lokal di perbatasan Ciangsana.",
-    "logo": "/images/foodcourt-nusadaya-3.jpg",
+    "logo": "/images/webp-2/foodcourt-nusadaya-3.webp",
     "location": { "lat": -6.3947222, "lng": 106.9591667 }
   },
   {
@@ -37,7 +37,7 @@
     "whatsapp": "6281218449728",
     "address": "JX3G+5PH, Cileungsi, Kec. Cileungsi, Kab. Bogor",
     "description": "Showcase/pusat oleh-oleh bagi berbagai produk unggulan dari pelaku IKM dan UMKM di wilayah Cileungsi dan sekitarnya.",
-    "logo": "/images/galeri-umkm-etam.jpg",
+    "logo": "/images/webp-2/galeri-umkm-etam.webp",
     "location": { "lat": -6.3947222, "lng": 106.9591667 }
   },
   {
@@ -47,7 +47,7 @@
     "whatsapp": "6282310003879",
     "address": "Jl. Primadana XIV, RT.007/RW.010, Jatisari, Kota Bekasi",
     "description": "Inisiatif toko lokal untuk memasarkan produk-produk kreatif dari warga tingkat RW.",
-    "logo": "/images/jajanan-jatisari.jpeg",
+    "logo": "/images/webp-2/jajanan-jatisari.webp",
     "location": { "lat": -6.3015, "lng": 106.9945 }
   }
 ]

@@ -23,7 +23,15 @@ export default function CatalogContent({ categories, productsData, sellersData }
   const [sellerId, setSellerId] = useState("all");
   const [loading, setLoading] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
+  // [LIHAT LEBIH BANYAK] Jumlah produk awal yang ditampilkan (sampai produk ke-18).
+  const [visibleCount, setVisibleCount] = useState(18);
   const catScrollRef = useRef(null);
+
+  // [LIHAT LEBIH SEDIKIT] Setiap reload/reset halaman, kembalikan tampilan ke
+  // jumlah awal (18) sehingga tombol "Lihat Lebih Banyak" muncul lagi.
+  useEffect(() => {
+    setVisibleCount(18);
+  }, []);
 
   const scrollCat = (dir) => {
     if (catScrollRef.current) {
@@ -72,6 +80,9 @@ export default function CatalogContent({ categories, productsData, sellersData }
     categoryIds: selectedCategory ? [selectedCategory] : [],
     sellerId,
   });
+
+  // [LIHAT LEBIH BANYAK] Potong daftar sesuai jumlah yang tampil saat ini.
+  const visibleProducts = filtered.slice(0, visibleCount);
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-12">
@@ -183,7 +194,32 @@ export default function CatalogContent({ categories, productsData, sellersData }
           description="Coba ubah kata kunci pencarian, pilih kategori lain, atau atur ulang filter."
         />
       ) : (
-        <ProductGrid products={filtered} categories={categories} />
+        <ProductGrid products={visibleProducts} categories={categories} />
+      )}
+
+      {/* [LIHAT LEBIH BANYAK] Tombol muncul bila masih ada produk tersembunyi */}
+      {!loading && filtered.length > visibleCount && (
+        <div className="flex justify-center mt-8 md:mt-12">
+          <button
+            onClick={() => setVisibleCount(filtered.length)}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-cotton-warm text-sm font-semibold text-noir-soft hover:border-cherry hover:text-cherry hover:-translate-y-0.5 transition-all"
+          >
+            Lihat Lebih Banyak ({filtered.length - visibleCount} produk lagi)
+          </button>
+        </div>
+      )}
+
+      {/* [LIHAT LEBIH SEDIKIT] Tombol muncul saat semua produk sudah tampil,
+          untuk menutup kembali ke jumlah awal (18). */}
+      {!loading && filtered.length > 18 && visibleCount >= filtered.length && (
+        <div className="flex justify-center mt-8 md:mt-12">
+          <button
+            onClick={() => setVisibleCount(18)}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-cotton-warm text-sm font-semibold text-noir-soft hover:border-cherry hover:text-cherry hover:-translate-y-0.5 transition-all"
+          >
+            Lihat Lebih Sedikit
+          </button>
+        </div>
       )}
 
       {/* Scrollbar style untuk mobile filter */}

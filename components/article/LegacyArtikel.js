@@ -2,18 +2,21 @@
 import Icon from "@/components/common/Icon";
 import ImageSlider from "@/components/common/ImageSlider";
 
+// [FIX] Path gambar diperbarui dari /images/*.jpg/.jpeg ke /images/webp-2/*.webp
+// sesuai dengan direktori & format terbaru (gambar lama sudah dipindah).
 const heroSlides = [
-  "/images/foodcourt-nusadaya-2.jpg",
-  "/images/umkm-lancar-barokah.jpg",
-  "/images/foodcourt-nusadaya-1.jpg",
-  "/images/camilan-ciangsana.jpeg",
-  "/images/galeri-umkm-etam.jpg",
+  "/images/webp-2/foodcourt-nusadaya-2.webp",
+  "/images/webp-2/umkm-lancar-barokah.webp",
+  "/images/webp-2/foodcourt-nusadaya-1.webp",
+  "/images/webp-2/camilan-ciangsana.webp",
+  "/images/webp-2/galeri-umkm-etam.webp",
 ];
 
 const sections = [
   {
-    title: "Aneka Cemilan 39 â€” Camilan Tradisional Kemasan Modern",
-    image: "/images/camilan-ciangsana.jpeg",
+    title: "Aneka Cemilan 39 — Camilan Tradisional Kemasan Modern",
+    // [FIX] Path gambar baru di /images/webp-2/ sesuai format webp
+    image: "/images/webp-2/camilan-ciangsana.webp",
     caption:
       "Produksi keripik pisang rumahan Aneka Cemilan 39, dikemas modern untuk menjangkau pasar yang lebih luas.",
     details: [
@@ -28,8 +31,9 @@ const sections = [
     body: "Berawal dari dapur rumah, Aneka Cemilan 39 kini memproduksi berbagai camilan tradisional dengan kemasan modern. Kue jintan manis dan asin, keripik pisang renyah, rengginang gurih, makaroni pedas, hingga fish skin menjadi produk andalan yang dipasarkan ke berbagai daerah.",
   },
   {
-    title: "Kerupuk Rambak Djawa â€” Kulit Sapi Asli Premium",
-    image: "/images/umkm-lancar-barokah.jpg",
+    title: "Kerupuk Rambak Djawa — Kulit Sapi Asli Premium",
+    // [FIX] Path gambar baru di /images/webp-2/ sesuai format webp
+    image: "/images/webp-2/umkm-lancar-barokah.webp",
     caption:
       "Kerupuk rambak kulit sapi asli produksi Lancar Barokah, telah menembus pasar nasional hingga kalangan pejabat dan TNI.",
     details: [
@@ -40,8 +44,9 @@ const sections = [
     body: "Kerupuk Rambak Djawa (Lancar Barokah) memproduksi kerupuk kulit sapi 100% asli dengan kualitas premium. Tersedia dalam varian stick 250g, kerupuk rambak sapi, dan kerupuk kulit Barokah Jabar 220g. Produk ini telah merambah pasar hingga kalangan pejabat dan TNI.",
   },
   {
-    title: "Foodcourt Nusadaya Pasir Angin â€” Pusat Kuliner Pemberdayaan UMKM",
-    image: "/images/foodcourt-nusadaya-1.jpg",
+    title: "Foodcourt Nusadaya Pasir Angin — Pusat Kuliner Pemberdayaan UMKM",
+    // [FIX] Path gambar baru di /images/webp-2/ sesuai format webp
+    image: "/images/webp-2/foodcourt-nusadaya-1.webp",
     caption:
       "Selat Solo, salah satu menu unggulan di Foodcourt Nusadaya yang memberdayakan 10 pengusaha UMKM lokal.",
     details: [
@@ -59,8 +64,9 @@ const sections = [
     body: "Binaan Dompet Dhuafa dan OK OCE, Foodcourt Nusadaya Pasir Angin menjadi pusat kuliner yang memberdayakan ekonomi warga lokal. Dengan konsep harga terjangkau, pengunjung dapat menikmati Selat Solo, Nasi Liwet, Pecel, Ayam Goreng, dan aneka jajanan ringan.",
   },
   {
-    title: "Galeri UMKM â€” IKM Cileungsi: Kerajinan & Inovasi Pangan",
-    image: "/images/galeri-umkm-etam.jpg",
+    title: "Galeri UMKM — IKM Cileungsi: Kerajinan & Inovasi Pangan",
+    // [FIX] Path gambar baru di /images/webp-2/ sesuai format webp
+    image: "/images/webp-2/galeri-umkm-etam.webp",
     caption:
       "Tas anyaman handmade karya perajin IKM Cileungsi, kombinasi seni tradisional dan desain modern.",
     details: [
@@ -75,8 +81,9 @@ const sections = [
     body: "Galeri UMKM & IKM Cileungsi menjadi showcase produk unggulan wilayah Cileungsi dan sekitarnya. Mulai dari aksesoris manik handmade, tas kerajinan anyaman, hingga nugget jamur tiram sebagai inovasi pangan sehat.",
   },
   {
-    title: "Smart Shop UMKM RW 010 â€” Inisiatif Warga Jatisari",
-    image: "/images/jajanan-jatisari.jpeg",
+    title: "Smart Shop UMKM RW 010 — Inisiatif Warga Jatisari",
+    // [FIX] Path gambar baru di /images/webp-2/ sesuai format webp
+    image: "/images/webp-2/jajanan-jatisari.webp",
     caption:
       "Smart Shop UMKM RW 010 menyediakan sembako dan produk kreatif warga dengan harga bersaing.",
     details: [
