@@ -2,10 +2,25 @@ import Link from 'next/link'
 import { useState } from 'react'
 import Icon from '@/components/common/Icon'
 
+// [PRODUK CONTOH] Peta id kategori -> ikon kategori di /images/categories.
+// Dipakai sebagai gambar kartu untuk produk yang tidak punya foto (images kosong),
+// misal produk contoh 1-15. Di halaman detail (/product/[id]) gambar tetap kosong.
+const CATEGORY_FALLBACK_IMAGES = {
+  kuliner: "/images/categories/kuliner.svg",
+  "fasion-aksesoris": "/images/categories/aksesoris-fashion.svg",
+  "camilan-minuman": "/images/categories/frozen-minuman.svg",
+  "frozen-food": "/images/categories/frozen-minuman.svg",
+  "masakan-siap-saji": "/images/categories/masakan-siap-saji.svg",
+  "makanan-hampers": "/images/categories/jajanan-hampers.svg",
+  "sembako-rumah-tangga": "/images/categories/sembako-rumah-tangga.svg",
+};
+
 export default function ProductCard({ product, category }) {
   const [imgError, setImgError] = useState(false)
   // [FIX] Fallback gambar lama dipindah: kini /images/webp-2/camilan-ciangsana.webp
-  const productImg = imgError ? '/images/webp-2/camilan-ciangsana.webp' : (product.images?.[0] || '/images/webp-2/camilan-ciangsana.webp')
+  // [PRODUK CONTOH] Jika produk tak punya foto, pakai ikon kategori sebagai gambar kartu.
+  const fallbackImg = CATEGORY_FALLBACK_IMAGES[product.categoryId] || '/images/webp-2/camilan-ciangsana.webp';
+  const productImg = imgError ? fallbackImg : (product.images?.[0] || fallbackImg)
   return (
     <Link href={`/product/${product.id}`} className="group flex flex-col bg-white border border-cotton-warm rounded-xl md:rounded-2xl overflow-hidden transition-all duration-300 hover:border-cherry/30 hover:shadow-xl hover:-translate-y-1">
       <div className="relative aspect-[4/3] bg-cotton-warm overflow-hidden">
