@@ -26,20 +26,18 @@ Katalog digital UMKM lokal Kemayoran (Gunung Putri, Bogor). Next.js 16 App Route
    GITHUB_REPO=<nama repo gambar>
    GITHUB_TOKEN=<PAT>
    GITHUB_IMAGE_PATH=images
+   ADMIN_EMAIL=admin@contoh.com
+   ADMIN_PASSWORD=<password kuat>
+   ADMIN_SESSION_SECRET=<string acak panjang>
    ```
 3. Jalankan:
    ```bash
    npm run dev
    ```
 
-## Membuat Akun Admin
+## Login Admin
 
-1. Buka `/admin/login`, pilih "Buat akun admin baru" (email + password), konfirmasi email.
-2. Di Supabase SQL editor (atau minta via MCP), jadikan akun tersebut admin:
-   ```sql
-   select public.promote_admin('email-anda@contoh.com');
-   ```
-3. Login ulang di `/admin`.
+Tidak ada register. Akun admin ditentukan lewat env (`ADMIN_EMAIL` + `ADMIN_PASSWORD`). Buka `/admin/login`, isi sesuai env, langsung masuk.
 
 ## Alur Penjual UMKM
 
@@ -62,7 +60,7 @@ Katalog digital UMKM lokal Kemayoran (Gunung Putri, Bogor). Next.js 16 App Route
 1. Push repo ke GitHub.
 2. Import di Vercel (framework terdeteksi otomatis: Next.js).
 3. Tambah Environment Variables (sama seperti `.env.local`):
-   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `GITHUB_REPO_OWNER`, `GITHUB_REPO`, `GITHUB_TOKEN`, `GITHUB_IMAGE_PATH`.
+   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `GITHUB_REPO_OWNER`, `GITHUB_REPO`, `GITHUB_TOKEN`, `GITHUB_IMAGE_PATH`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`.
 4. Di Supabase dashboard → Authentication → URL Configuration: set **Site URL** ke URL Vercel Anda, tambahkan URL Vercel ke Redirect URLs.
 5. Deploy.
 
