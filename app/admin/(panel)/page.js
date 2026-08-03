@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
 async function count(client, table, filters = {}) {
@@ -42,10 +42,10 @@ export default async function AdminDashboard() {
             key={s.label}
             href={s.href}
             className={`bg-white rounded-2xl p-4 md:p-5 border shadow-sm hover:shadow-md transition-all ${
-              s.highlight && s.value > 0 ? "border-cherry/40" : "border-cotton-warm"
+              s.highlight && s.value > 0 ? "border-forest/40" : "border-cream-warm"
             }`}
           >
-            <div className={`text-2xl md:text-3xl font-bold ${s.highlight && s.value > 0 ? "text-cherry" : "text-noir"}`}>
+            <div className={`text-2xl md:text-3xl font-bold ${s.highlight && s.value > 0 ? "text-forest" : "text-noir"}`}>
               {s.value}
             </div>
             <div className="text-[11px] md:text-xs text-warm-gray mt-1">
@@ -55,7 +55,7 @@ export default async function AdminDashboard() {
         ))}
       </div>
 
-      <div className="mt-6 bg-cherry/5 border border-cherry/20 rounded-2xl p-4 md:p-5">
+      <div className="mt-6 bg-forest/5 border border-forest/20 rounded-2xl p-4 md:p-5">
         <p className="text-xs md:text-sm text-noir-soft leading-relaxed">
           <strong>Tips:</strong> kelola produk, moderasi komentar, dan baca pesan
           dari pengunjung lewat menu di atas. Perubahan langsung tampil di situs

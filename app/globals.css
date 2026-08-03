@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --color-glass-cherry: rgba(185, 28, 28, 0.12);
-  --color-glass-cotton: rgba(245, 240, 232, 0.72);
+  --color-glass-forest: rgba(30, 122, 61, 0.12);
+  --color-glass-cream: rgba(250, 247, 240, 0.72);
 }
 html {
   scroll-behavior: smooth;
@@ -16,8 +16,8 @@ body {
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
-  color: #2d2d2d;
-  background: #f5f0e8;
+  color: #26332a;
+  background: #faf7f0;
 }
 a {
   color: inherit;
@@ -28,7 +28,7 @@ button {
   cursor: pointer;
 }
 .text-accent {
-  color: #b91c1c;
+  color: #1e7a3d;
 }
 .btn-primary {
   display: inline-flex;
@@ -39,14 +39,14 @@ button {
   font-weight: 500;
   border-radius: 9999px;
   border: none;
-  background: linear-gradient(135deg, #b91c1c, #991b1b);
+  background: linear-gradient(135deg, #1e7a3d, #166b33);
   color: white;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-primary:hover {
   transform: translateY(-2px) scale(1.02);
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  background: linear-gradient(135deg, #2f9152, #1e7a3d);
 }
 .btn-secondary {
   display: inline-flex;
@@ -57,14 +57,32 @@ button {
   font-weight: 500;
   border-radius: 9999px;
   background: white;
-  color: #b91c1c;
-  border: 1px solid #ede4d3;
+  color: #1e7a3d;
+  border: 1px solid #f3eddf;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-secondary:hover {
-  background: #f5f0e8;
-  border-color: #e8dfc8;
+  background: #faf7f0;
+  border-color: #f3eddf;
+}
+.btn-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: none;
+  background: #25d366;
+  color: #063b1c;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-wa:hover {
+  background: #1fb85a;
+  transform: translateY(-2px) scale(1.02);
 }
 @keyframes cardEntrance {
   from {

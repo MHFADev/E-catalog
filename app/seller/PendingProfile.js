@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerSellerAccount } from "./actions";
 
 const inputClass =
-  "w-full bg-cotton-pure border border-cotton-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-cherry/50 focus:ring-2 focus:ring-cherry/10 transition-all";
+  "w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all";
 
 export default function PendingProfile() {
   const router = useRouter();
@@ -35,9 +35,9 @@ export default function PendingProfile() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-10">
-      <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-sm border border-cotton-warm">
+      <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-sm border border-cream-warm">
         <h1 className="text-lg font-bold text-noir mb-1">
-          Lengkapi Profil <span className="text-cherry">UMKM</span>
+          Lengkapi Profil <span className="text-forest">UMKM</span>
         </h1>
         <p className="text-xs text-warm-gray mb-4 leading-relaxed">
           Beri tahu kami usaha Anda. Admin akan menghubungkan akun ke toko UMKM
@@ -73,7 +73,7 @@ export default function PendingProfile() {
           </p>
         )}
         {error && (
-          <p className="mt-3 text-xs text-cherry bg-cherry/5 border border-cherry/20 rounded-lg px-3 py-2">
+          <p className="mt-3 text-xs text-forest bg-forest/5 border border-forest/20 rounded-lg px-3 py-2">
             {error}
           </p>
         )}

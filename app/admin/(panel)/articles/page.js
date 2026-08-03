@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ArticleForm from "./ArticleForm";
 import { deleteArticle } from "../actions";
@@ -16,18 +16,18 @@ export default async function AdminArticlesPage() {
         Kelola Artikel ({articles?.length ?? 0})
       </h2>
 
-      <details className="bg-white rounded-2xl border border-cotton-warm mb-6 overflow-hidden">
-        <summary className="px-4 py-3 text-sm font-semibold text-cherry cursor-pointer hover:bg-cotton-warm/50 transition-colors">
+      <details className="bg-white rounded-2xl border border-cream-warm mb-6 overflow-hidden">
+        <summary className="px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
           + Tulis Artikel Baru
         </summary>
-        <div className="p-4 md:p-5 border-t border-cotton-warm">
+        <div className="p-4 md:p-5 border-t border-cream-warm">
           <ArticleForm />
         </div>
       </details>
 
       <div className="space-y-3">
         {articles?.length === 0 && (
-          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cotton-warm p-6 text-center">
+          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
             Belum ada artikel.
           </p>
         )}
@@ -35,9 +35,9 @@ export default async function AdminArticlesPage() {
         {articles?.map((a) => (
           <div
             key={a.id}
-            className="bg-white rounded-2xl p-4 border border-cotton-warm flex flex-wrap items-center gap-3"
+            className="bg-white rounded-2xl p-4 border border-cream-warm flex flex-wrap items-center gap-3"
           >
-            <div className="w-16 h-12 rounded-xl overflow-hidden bg-cotton-warm shrink-0">
+            <div className="w-16 h-12 rounded-xl overflow-hidden bg-cream-warm shrink-0">
               {a.image && (
                 <img src={a.image} alt={a.title} className="w-full h-full object-cover" />
               )}
@@ -47,7 +47,7 @@ export default async function AdminArticlesPage() {
                 {a.title}
               </div>
               <div className="text-[11px] md:text-xs text-warm-gray">
-                {a.author} • {a.published_at} •{" "}
+                {a.author} â€¢ {a.published_at} â€¢{" "}
                 <span className={a.published ? "text-emerald-600 font-semibold" : "text-amber-600 font-semibold"}>
                   {a.published ? "Published" : "Draft"}
                 </span>
@@ -57,19 +57,19 @@ export default async function AdminArticlesPage() {
               <Link
                 href={`/artikel/${a.slug}`}
                 target="_blank"
-                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cotton-warm text-noir-soft hover:bg-cotton transition-all"
+                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cream-warm text-noir-soft hover:bg-cream transition-all"
               >
                 Lihat
               </Link>
               <Link
                 href={`/admin/articles/${a.id}`}
-                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cotton-warm text-noir-soft hover:bg-cotton transition-all"
+                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cream-warm text-noir-soft hover:bg-cream transition-all"
               >
                 Edit
               </Link>
               <form action={deleteArticle}>
                 <input type="hidden" name="id" value={a.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cherry/10 text-cherry hover:bg-cherry/20 transition-all">
+                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
                   Hapus
                 </button>
               </form>

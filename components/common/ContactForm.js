@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 export default function ContactForm() {
@@ -36,7 +36,7 @@ export default function ContactForm() {
         onChange={(e) => setName(e.target.value)}
         placeholder="Nama kamu"
         required
-        className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-xs text-cotton-pure placeholder:text-warm-gray focus:outline-none focus:border-cherry/60"
+        className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-xs text-cream-pure placeholder:text-warm-gray focus:outline-none focus:border-forest/60"
       />
       <input
         type="email"
@@ -44,7 +44,7 @@ export default function ContactForm() {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email kamu"
         required
-        className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-xs text-cotton-pure placeholder:text-warm-gray focus:outline-none focus:border-cherry/60"
+        className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-xs text-cream-pure placeholder:text-warm-gray focus:outline-none focus:border-forest/60"
       />
       <textarea
         value={message}
@@ -52,12 +52,12 @@ export default function ContactForm() {
         placeholder="Pesan kamu..."
         rows={3}
         required
-        className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-xs text-cotton-pure placeholder:text-warm-gray focus:outline-none focus:border-cherry/60 resize-none"
+        className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-xs text-cream-pure placeholder:text-warm-gray focus:outline-none focus:border-forest/60 resize-none"
       />
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full bg-cherry text-white text-xs font-semibold py-2 rounded-lg hover:bg-cherry-deep transition-all disabled:opacity-60"
+        className="w-full bg-forest text-white text-xs font-semibold py-2 rounded-lg hover:bg-forest-deep transition-all disabled:opacity-60"
       >
         {status === "sending" ? "Mengirim..." : "Kirim Pesan"}
       </button>

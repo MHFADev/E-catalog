@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import Icon from "@/components/common/Icon";
 
-// CategoryChip — tombol kategori dengan background blur unik per kategori
+// CategoryChip â€” tombol kategori dengan background blur unik per kategori
 // Setiap kategori punya gambar latar sendiri (field "image" di categories.json)
 // Taruh gambar di public/images/categories/{id}.jpg, nanti tampil blur saat aktif
 export default function CategoryChip({ category, active, onClick }) {
@@ -14,11 +14,11 @@ export default function CategoryChip({ category, active, onClick }) {
       // shrink-0 & whitespace-nowrap agar di scroll horizontal mobile tidak mengecil/membungkus
       className={`relative inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium overflow-hidden transition-all duration-300 border shrink-0 whitespace-nowrap ${
         active
-          ? "border-cherry-deep text-white shadow-md"
-          : "border-cotton-warm bg-cotton-pure text-noir-soft md:hover:border-cherry-deep md:hover:text-cherry-deep"
+          ? "border-forest-deep text-white shadow-md"
+          : "border-cream-warm bg-cream-pure text-noir-soft md:hover:border-forest-deep md:hover:text-forest-deep"
       }`}
     >
-      {/* Background blur — muncul hanya saat aktif agar tidak loading gambar sia-sia */}
+      {/* Background blur â€” muncul hanya saat aktif agar tidak loading gambar sia-sia */}
       {active && (
         <span className="absolute inset-0 z-0 transition-opacity duration-300">
           {!imgError ? (
@@ -30,7 +30,7 @@ export default function CategoryChip({ category, active, onClick }) {
             />
           ) : (
             // fallback gradien jika gambar gagal dimuat
-            <span className="absolute inset-0 bg-gradient-to-br from-cherry to-cherry-deep" />
+            <span className="absolute inset-0 bg-gradient-to-br from-forest to-forest-deep" />
           )}
         </span>
       )}

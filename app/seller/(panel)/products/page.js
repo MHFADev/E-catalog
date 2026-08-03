@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { getSellerAccount } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import SellerProductForm from "./SellerProductForm";
@@ -24,18 +24,18 @@ export default async function SellerProductsPage() {
         Produk Saya ({products?.length ?? 0})
       </h2>
 
-      <details className="bg-white rounded-2xl border border-cotton-warm mb-6 overflow-hidden">
-        <summary className="px-4 py-3 text-sm font-semibold text-cherry cursor-pointer hover:bg-cotton-warm/50 transition-colors">
+      <details className="bg-white rounded-2xl border border-cream-warm mb-6 overflow-hidden">
+        <summary className="px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
           + Tambah Produk Baru
         </summary>
-        <div className="p-4 md:p-5 border-t border-cotton-warm">
+        <div className="p-4 md:p-5 border-t border-cream-warm">
           <SellerProductForm categories={categories ?? []} />
         </div>
       </details>
 
       <div className="space-y-3">
         {products?.length === 0 && (
-          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cotton-warm p-6 text-center">
+          <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
             Belum ada produk. Tambahkan produk pertama Anda!
           </p>
         )}
@@ -43,9 +43,9 @@ export default async function SellerProductsPage() {
         {products?.map((p) => (
           <div
             key={p.id}
-            className="bg-white rounded-2xl p-4 border border-cotton-warm flex flex-wrap items-center gap-3"
+            className="bg-white rounded-2xl p-4 border border-cream-warm flex flex-wrap items-center gap-3"
           >
-            <div className="w-12 h-12 rounded-xl overflow-hidden bg-cotton-warm shrink-0">
+            <div className="w-12 h-12 rounded-xl overflow-hidden bg-cream-warm shrink-0">
               {p.images?.[0] && (
                 <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
               )}
@@ -55,7 +55,7 @@ export default async function SellerProductsPage() {
                 {p.name}
               </div>
               <div className="text-[11px] md:text-xs text-warm-gray">
-                {catName(p.category_id)} •{" "}
+                {catName(p.category_id)} â€¢{" "}
                 {p.price != null ? `Rp${Number(p.price).toLocaleString("id-ID")}` : p.price_unit || "Hubungi penjual"}
               </div>
             </div>
@@ -69,13 +69,13 @@ export default async function SellerProductsPage() {
               </form>
               <Link
                 href={`/seller/products/${p.id}`}
-                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cotton-warm text-noir-soft hover:bg-cotton transition-all"
+                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cream-warm text-noir-soft hover:bg-cream transition-all"
               >
                 Edit
               </Link>
               <form action={deleteSellerProduct}>
                 <input type="hidden" name="id" value={p.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cherry/10 text-cherry hover:bg-cherry/20 transition-all">
+                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
                   Hapus
                 </button>
               </form>

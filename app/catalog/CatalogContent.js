@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -77,7 +77,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-12">
       <div className="mb-5 md:mb-8">
         <h1 className="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight">
-          Katalog <span className="text-cherry">Produk</span>
+          Katalog <span className="text-forest">Produk</span>
         </h1>
       </div>
 
@@ -91,7 +91,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
 
       {/* [MOBILE FILTER] Scroll horizontal untuk kategori + tombol filter */}
       <div className="md:hidden flex items-center gap-2 mb-4">
-        <button onClick={() => scrollCat(-1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cotton-warm shadow-sm shrink-0 text-noir-soft hover:text-cherry transition-all">
+        <button onClick={() => scrollCat(-1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cream-warm shadow-sm shrink-0 text-noir-soft hover:text-forest transition-all">
           <Icon name="chevronLeft" size={16} />
         </button>
         <div ref={catScrollRef} className="flex-1 flex gap-2 overflow-x-auto scrollbar-thin py-1 scroll-smooth">
@@ -107,8 +107,8 @@ export default function CatalogContent({ categories, productsData, sellersData }
             onClick={() => setFilterOpen(true)}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium border transition-all shrink-0 ${
               hasActiveFilter
-                ? "bg-cherry text-white border-cherry shadow-sm"
-                : "bg-cotton-pure text-noir-soft border-cotton-warm"
+                ? "bg-forest text-white border-forest shadow-sm"
+                : "bg-cream-pure text-noir-soft border-cream-warm"
             }`}
           >
             <Icon name="filter" size={14} />
@@ -118,7 +118,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
             )}
           </button>
         </div>
-        <button onClick={() => scrollCat(1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cotton-warm shadow-sm shrink-0 text-noir-soft hover:text-cherry transition-all">
+        <button onClick={() => scrollCat(1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cream-warm shadow-sm shrink-0 text-noir-soft hover:text-forest transition-all">
           <Icon name="chevronRight" size={16} />
         </button>
       </div>
@@ -136,18 +136,18 @@ export default function CatalogContent({ categories, productsData, sellersData }
         </div>
       </div>
 
-      <div className="hidden md:block bg-white rounded-3xl p-8 mb-8 shadow-sm border border-cotton-warm">
+      <div className="hidden md:block bg-white rounded-3xl p-8 mb-8 shadow-sm border border-cream-warm">
         <div className="flex flex-wrap gap-12 items-start">
           <div className="flex flex-col gap-3">
             <label className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-noir-soft">
-              <span className="w-0.5 h-3.5 bg-cherry rounded-sm" /> Toko
+              <span className="w-0.5 h-3.5 bg-forest rounded-sm" /> Toko
             </label>
             <div className="flex flex-wrap gap-2">
               <button
                 className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
                   sellerId === "all"
-                    ? "bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md"
-                    : "bg-cotton-pure border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry hover:bg-cherry/5 hover:-translate-y-0.5"
+                    ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
+                    : "bg-cream-pure border-cream-warm text-noir-soft hover:border-forest hover:text-forest hover:bg-forest/5 hover:-translate-y-0.5"
                 }`}
                 onClick={() => setSellerId("all")}
               >
@@ -158,8 +158,8 @@ export default function CatalogContent({ categories, productsData, sellersData }
                   key={s.id}
                   className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
                     sellerId === s.id
-                      ? "bg-gradient-to-br from-cherry to-cherry-deep border-cherry-deep text-white shadow-md"
-                      : "bg-cotton-pure border-cotton-warm text-noir-soft hover:border-cherry hover:text-cherry hover:bg-cherry/5 hover:-translate-y-0.5"
+                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
+                      : "bg-cream-pure border-cream-warm text-noir-soft hover:border-forest hover:text-forest hover:bg-forest/5 hover:-translate-y-0.5"
                   }`}
                   onClick={() => setSellerId(sellerId === s.id ? "all" : s.id)}
                 >
@@ -189,8 +189,8 @@ export default function CatalogContent({ categories, productsData, sellersData }
       {/* Scrollbar style untuk mobile filter */}
       <style>{`
         .scrollbar-thin::-webkit-scrollbar { height: 4px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: #F5F0E8; border-radius: 2px; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background: #B91C1C; border-radius: 2px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: #F3EDDF; border-radius: 2px; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #1E7A3D; border-radius: 2px; }
       `}</style>
 
       <FilterDrawer

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSellerAccount } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
@@ -19,14 +19,14 @@ export default async function SellerEditProductPage({ params }) {
     <div>
       <Link
         href="/seller/products"
-        className="text-xs md:text-sm text-warm-gray hover:text-cherry mb-4 inline-block"
+        className="text-xs md:text-sm text-warm-gray hover:text-forest mb-4 inline-block"
       >
-        ← Kembali ke produk saya
+        â† Kembali ke produk saya
       </Link>
       <h2 className="text-sm md:text-base font-bold text-noir mb-4">
         Edit Produk: {product.name}
       </h2>
-      <div className="bg-white rounded-2xl border border-cotton-warm p-4 md:p-5">
+      <div className="bg-white rounded-2xl border border-cream-warm p-4 md:p-5">
         <SellerProductForm categories={categories ?? []} initial={product} />
       </div>
     </div>

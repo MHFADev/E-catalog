@@ -1,35 +1,45 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ProductGrid from "@/components/product/ProductGrid";
 import Icon from "@/components/common/Icon";
 import HeroCarousel from "@/components/common/HeroCarousel";
 import MultiPinMap from "@/components/common/MultiPinMap";
 import { getProducts, getSellers, getCategories } from "@/lib/catalog";
 
-const galleryItems = [
+const catColors = [
+  "bg-clay/15 text-clay-deep",
+  "bg-forest/15 text-forest",
+  "bg-langit/15 text-laut",
+  "bg-amber-400/25 text-amber-600",
+  "bg-sky-500/15 text-sky-600",
+  "bg-rose-500/15 text-rose-500",
+  "bg-violet-500/15 text-violet-600",
+  "bg-emerald-500/15 text-emerald-600",
+];
+
+const events = [
   {
-    src: "/images/koleksi/kuliner-khas.webp",
-    title: "Kuliner Khas",
-    desc: "Aneka camilan tradisional UMKM Kemayoran",
+    day: "12",
+    month: "AGU",
+    title: "Bazar UMKM Kemayoran",
+    desc: "Pameran dan penjualan produk unggulan UMKM lokal.",
+    place: "Lapangan Kemayoran",
+    time: "09.00 - 16.00 WIB",
   },
   {
-    src: "/images/koleksi/kerajinan-tangan.webp",
-    title: "Kerajinan Tangan",
-    desc: "Produk handmade kreatif IKM Cileungsi",
+    day: "25",
+    month: "AGU",
+    title: "Workshop Digital Marketing",
+    desc: "Pelatihan gratis cara memasarkan produk secara online.",
+    place: "Balai Warga RW 05",
+    time: "13.00 - 16.00 WIB",
   },
   {
-    src: "/images/koleksi/fasion-lokal.webp",
-    title: "Fashion Lokal",
-    desc: "Busana khas Kemayoran",
-  },
-  {
-    src: "/images/koleksi/minuman-segar.webp",
-    title: "Minuman Segar",
-    desc: "Minuman tradisional & modern",
-  },
-  {
-    src: "/images/koleksi/sembako.webp",
-    title: "Sembako",
-    desc: "Kebutuhan pokok sehari-hari",
+    day: "08",
+    month: "SEP",
+    title: "Kelas Produksi & Kemasan",
+    desc: "Belajar kemasan produk yang menarik dan food grade.",
+    place: "Aula Kelurahan",
+    time: "09.00 - 12.00 WIB",
   },
 ];
 
@@ -46,127 +56,248 @@ export default async function HomePage() {
   }));
   const featured = enriched.filter((p) => p.isFeatured);
 
+  const stats = [
+    { value: `${sellersData.length}+`, label: "Total UMKM Terverifikasi" },
+    { value: `${productsData.length}+`, label: "Produk Tersedia" },
+    { value: "28.700+", label: "Pengunjung Bulan Ini" },
+    { value: "85+", label: "Mitra & Kolaborasi Aktif" },
+  ];
+
   return (
     <>
-      <section className="py-10 md:py-20 bg-cotton">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="grid md:grid-cols-2 gap-6 md:gap-16 items-center">
-            <div className="flex flex-col gap-3 md:gap-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 w-fit bg-cherry/10 text-cherry font-mono text-[10px] md:text-xs uppercase tracking-wider rounded-full font-semibold">
-                UMKM Kemayoran
+      {/* ===== HERO ===== */}
+      <section className="relative py-12 md:py-24 bg-gradient-to-b from-cream-pure to-cream overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/5 blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 w-64 h-64 rounded-full bg-clay/5 blur-3xl" />
+        <div className="relative max-w-7xl mx-auto px-4 md:px-6">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="flex flex-col gap-4 md:gap-5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 w-fit bg-forest/10 text-forest font-mono text-[10px] md:text-xs uppercase tracking-wider rounded-full font-semibold">
+                <Icon name="store" size={12} /> Dari Kemayoran, Untuk Indonesia
               </span>
-              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tighter text-noir">
-                Temukan <span className="text-cherry">Produk Lokal</span>
-                <br />
-                Kemayoran
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-noir">
+                Bangga Produk{" "}
+                <span className="text-forest">Lokal Kemayoran</span>
               </h1>
-              <p className="text-sm md:text-lg text-warm-gray leading-relaxed max-w-md">
-                Jelajahi produk UMKM lokal dari Kemayoran dan sekitarnya
+              <p className="text-sm md:text-lg text-warm-gray leading-relaxed max-w-lg">
+                Jelajahi aneka produk UMKM unggulan dari Kemayoran dan
+                sekitarnya. Dukung ekonomi lokal dengan belanja langsung dari
+                para pengrajin dan pelaku usaha terbaik.
               </p>
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-1 md:mt-2">
+              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mt-1 md:mt-2">
                 <Link
                   href="/catalog"
-                  className="btn-primary text-sm md:text-base py-2.5 md:py-3"
+                  className="btn-primary text-sm md:text-base py-3"
                 >
-                  Jelajahi Katalog <Icon name="arrowRight" size={14} />
+                  Jelajahi Produk <Icon name="arrowRight" size={15} />
                 </Link>
                 <Link
-                  href="/about"
-                  className="btn-secondary text-sm md:text-base py-2.5 md:py-3 text-center"
+                  href="/gabung"
+                  className="btn-secondary text-sm md:text-base py-3 text-center"
                 >
-                  Tentang Inisiatif
+                  Daftar Sebagai UMKM
                 </Link>
               </div>
             </div>
-            {/* ===== CAROUSEL: 4 slide geser + swipe + infinite kanan ===== */}
-            <HeroCarousel />
+            <div className="relative">
+              <div className="absolute -inset-3 md:-inset-4 rounded-[2rem] bg-gradient-to-br from-forest/10 via-transparent to-clay/10" />
+              <div className="relative rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10">
+                <HeroCarousel />
+              </div>
+            </div>
+          </div>
+
+          {/* ===== SEARCH BAR ===== */}
+          <form
+            action="/catalog"
+            method="get"
+            className="relative mt-10 md:mt-14 bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xl border border-cream-warm grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
+          >
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-gray pointer-events-none">
+                <Icon name="search" size={18} />
+              </span>
+              <input
+                name="search"
+                type="text"
+                placeholder="Cari produk atau UMKM..."
+                className="w-full pl-11 pr-4 py-3 bg-cream-pure border-2 border-transparent rounded-xl text-sm md:text-base text-noir-soft placeholder:text-warm-gray outline-none transition-all focus:bg-white focus:border-forest/30 focus:shadow-[0_0_0_4px_var(--color-glass-forest)]"
+              />
+            </div>
+            <div className="relative">
+              <Icon
+                name="chevronDown"
+                size={16}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-warm-gray pointer-events-none"
+              />
+              <select
+                name="category"
+                defaultValue=""
+                className="w-full appearance-none pl-4 pr-10 py-3 bg-cream-pure border-2 border-transparent rounded-xl text-sm md:text-base text-noir-soft outline-none transition-all focus:bg-white focus:border-forest/30 focus:shadow-[0_0_0_4px_var(--color-glass-forest)]"
+              >
+                <option value="">Semua Kategori</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button
+              type="submit"
+              className="flex items-center justify-center gap-2 px-6 md:px-8 py-3 rounded-xl bg-forest text-white text-sm md:text-base font-bold hover:bg-forest-deep transition-all"
+            >
+              <Icon name="search" size={16} /> Cari
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* ===== KATEGORI POPULER ===== */}
+      <section className="py-10 md:py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="flex items-end justify-between mb-6 md:mb-10">
+            <div>
+              <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight">
+                Kategori <span className="text-forest">Populer</span>
+              </h2>
+              <p className="text-xs md:text-sm text-warm-gray mt-1">
+                Temukan produk favoritmu berdasarkan kategori
+              </p>
+            </div>
+            <Link
+              href="/catalog"
+              className="hidden md:flex items-center gap-1 text-xs md:text-sm font-medium text-warm-gray hover:text-forest transition-all"
+            >
+              Lihat Semua <Icon name="arrowRight" size={12} />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4">
+            {categories.map((cat, i) => {
+              const count = productsData.filter(
+                (p) => p.categoryId === cat.id,
+              ).length;
+              return (
+                <Link
+                  key={cat.id}
+                  href={`/catalog?category=${cat.id}`}
+                  className="group flex flex-col items-center gap-2.5 md:gap-3 text-center"
+                >
+                  <span
+                    className={`flex items-center justify-center w-14 h-14 md:w-20 md:h-20 rounded-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg ${catColors[i % catColors.length]}`}
+                  >
+                    <Icon name={cat.icon} size={24} className="md:w-8 md:h-8" />
+                  </span>
+                  <span className="text-xs md:text-sm font-semibold text-noir-soft group-hover:text-forest transition-colors leading-tight">
+                    {cat.name}
+                  </span>
+                  <span className="text-[10px] md:text-xs text-warm-gray -mt-1">
+                    {count}+ Produk
+                  </span>
+                </Link>
+              );
+            })}
+            <Link
+              href="/catalog"
+              className="group flex flex-col items-center justify-center gap-2 md:gap-3 text-center"
+            >
+              <span className="flex items-center justify-center w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-dashed border-cream-warm text-warm-gray transition-all duration-300 group-hover:border-forest group-hover:text-forest">
+                <Icon name="arrowRight" size={22} />
+              </span>
+              <span className="text-xs md:text-sm font-semibold text-warm-gray group-hover:text-forest">
+                Semua
+              </span>
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-3 md:py-4 bg-white border-y border-cotton-warm">
+      {/* ===== PRODUK UNGGULAN ===== */}
+      <section className="py-10 md:py-16 bg-cream">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
-            {[
-              { icon: "star", label: "Produk Terbaru" },
-              { icon: "gem", label: "Best Seller" },
-              { icon: "gift", label: "Koleksi Baru" },
-              { icon: "truck", label: "Pengiriman Cepat" },
-            ].map((item, i) => (
+          <div className="flex items-end justify-between mb-6 md:mb-10">
+            <div>
+              <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight">
+                UMKM <span className="text-forest">Unggulan</span>
+              </h2>
+              <p className="text-xs md:text-sm text-warm-gray mt-1">
+                Produk pilihan dari para pelaku UMKM terbaik Kemayoran
+              </p>
+            </div>
+            <Link
+              href="/catalog"
+              className="flex items-center gap-1 text-xs md:text-sm font-medium text-warm-gray hover:text-forest transition-all"
+            >
+              Lihat Semua <Icon name="arrowRight" size={12} />
+            </Link>
+          </div>
+          <ProductGrid products={featured} categories={categories} />
+        </div>
+      </section>
+
+      {/* ===== STATISTIK ===== */}
+      <section className="py-12 md:py-20 bg-hutan relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.04]" />
+        <div className="relative max-w-7xl mx-auto px-4 md:px-6">
+          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center text-white mb-8 md:mb-14">
+            UMKM Kemayoran{" "}
+            <span className="text-langit-light">Dalam Angka</span>
+          </h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8">
+            {stats.map((s, i) => (
               <div
                 key={i}
-                className="flex items-center gap-2 md:gap-3 text-noir-soft text-[11px] md:text-sm font-medium"
+                className="flex flex-col items-center justify-center text-center bg-white/5 border border-white/10 rounded-full aspect-square p-4 md:p-6"
               >
-                <Icon
-                  name={item.icon}
-                  size={16}
-                  className="text-cherry shrink-0"
-                />
-                <span>{item.label}</span>
+                <div className="text-3xl md:text-5xl font-bold text-white leading-none">
+                  {s.value}
+                </div>
+                <div className="mt-2 md:mt-3 text-[10px] md:text-sm text-white/70 leading-tight">
+                  {s.label}
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-10 md:py-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="flex items-center justify-between mb-5 md:mb-8">
-            <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight">
-              Produk <span className="text-cherry">Unggulan</span>
-            </h2>
-            <Link
-              href="/catalog"
-              className="flex items-center gap-1 text-xs md:text-sm font-medium text-warm-gray hover:text-cherry transition-all"
-            >
-              Lihat Semua <Icon name="arrowRight" size={12} />
-            </Link>
-          </div>
-          <ProductGrid products={featured} categories={categories} />
-          <div className="text-center mt-6 md:mt-8">
-            <Link href="/catalog" className="btn-primary text-sm md:text-base">
-              Lihat Semua Produk <Icon name="arrowRight" size={14} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-10 md:py-16 bg-cotton">
+      {/* ===== MENGAPA MEMILIH ===== */}
+      <section className="py-10 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
-            Mengapa Pilih <span className="text-cherry">Kami</span>
+            Mengapa Memilih <span className="text-forest">Kami</span>
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {[
               {
+                icon: "star",
+                title: "Produk Berkualitas",
+                desc: "Setiap produk dipilih dan diverifikasi dari UMKM nyata",
+              },
+              {
                 icon: "store",
-                title: "Produk Lokal Asli",
-                desc: "Setiap produk berasal dari UMKM nyata di sekitar Kemayoran",
+                title: "UMKM Terverifikasi",
+                desc: "Semua pelaku usaha sudah melalui proses pendataan",
               },
               {
                 icon: "whatsapp",
                 title: "Pesan Langsung",
-                desc: "Hubungi penjual via WhatsApp tanpa perantara",
+                desc: "Transaksi langsung via WhatsApp tanpa perantara",
               },
               {
                 icon: "heart",
-                title: "Dukung UMKM",
-                desc: "Setiap pembelian membantu ekonomi warga lokal",
-              },
-              {
-                icon: "refresh",
-                title: "Terus Bertambah",
-                desc: "Katalog produk selalu diperbarui secara berkala",
+                title: "Mendukung Ekonomi Lokal",
+                desc: "Setiap pembelian membantu perekonomian warga",
               },
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-7 text-center border border-cotton-warm hover:border-cherry/20 hover:shadow-lg transition-all"
+                className="bg-cream-pure rounded-2xl md:rounded-3xl p-5 md:p-7 text-center border border-cream-warm hover:border-forest/30 hover:shadow-xl hover:-translate-y-1 transition-all"
               >
-                <span className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-cherry/10 text-cherry mb-3 md:mb-4">
-                  <Icon name={item.icon} size={20} />
+                <span className="inline-flex items-center justify-center w-11 h-11 md:w-14 md:h-14 rounded-2xl bg-forest/10 text-forest mb-3 md:mb-4">
+                  <Icon name={item.icon} size={22} />
                 </span>
-                <h3 className="text-sm md:text-base font-bold text-noir mb-1">
+                <h3 className="text-sm md:text-base font-bold text-noir mb-1.5">
                   {item.title}
                 </h3>
                 <p className="text-xs md:text-sm text-warm-gray leading-relaxed">
@@ -178,10 +309,65 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="py-10 md:py-16">
+      {/* ===== EVENT & KEGIATAN ===== */}
+      <section className="py-10 md:py-16 bg-cream">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="flex items-end justify-between mb-6 md:mb-10">
+            <div>
+              <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight">
+                Event &amp; <span className="text-forest">Kegiatan Terbaru</span>
+              </h2>
+              <p className="text-xs md:text-sm text-warm-gray mt-1">
+                Ikuti acara dan program pendampingan UMKM Kemayoran
+              </p>
+            </div>
+            <Link
+              href="/artikel"
+              className="flex items-center gap-1 text-xs md:text-sm font-medium text-warm-gray hover:text-forest transition-all"
+            >
+              Lihat Semua <Icon name="arrowRight" size={12} />
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {events.map((e, i) => (
+              <div
+                key={i}
+                className="group bg-white rounded-2xl md:rounded-3xl overflow-hidden border border-cream-warm hover:border-forest/30 hover:shadow-xl hover:-translate-y-1 transition-all"
+              >
+                <div className="flex">
+                  <div className="flex flex-col items-center justify-center w-20 md:w-24 shrink-0 bg-forest text-white p-4 text-center">
+                    <span className="text-2xl md:text-3xl font-bold leading-none">
+                      {e.day}
+                    </span>
+                    <span className="text-[10px] md:text-xs font-semibold tracking-widest mt-1">
+                      {e.month}
+                    </span>
+                  </div>
+                  <div className="p-4 md:p-5 flex flex-col gap-1.5">
+                    <h3 className="text-sm md:text-base font-bold text-noir leading-snug group-hover:text-forest transition-colors">
+                      {e.title}
+                    </h3>
+                    <p className="text-xs md:text-sm text-warm-gray leading-relaxed">
+                      {e.desc}
+                    </p>
+                    <div className="flex items-center gap-1.5 text-[10px] md:text-xs text-cool-gray mt-auto pt-1">
+                      <Icon name="mapPin" size={12} /> {e.place}
+                      <span className="mx-1">·</span>
+                      <Icon name="calendar" size={12} /> {e.time}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== TESTIMONI ===== */}
+      <section className="py-10 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
-            Kata <span className="text-cherry">Mereka</span>
+            Apa Kata <span className="text-forest">Mereka</span>
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {[
@@ -209,10 +395,10 @@ export default async function HomePage() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-7 border border-cotton-warm"
+                className="bg-cream-pure rounded-2xl md:rounded-3xl p-5 md:p-7 border border-cream-warm"
               >
                 <div className="flex items-center gap-3 mb-3 md:mb-4">
-                  <span className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-cherry/10 text-cherry flex items-center justify-center font-bold text-sm md:text-base">
+                  <span className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-sm md:text-base">
                     {item.avatar}
                   </span>
                   <div>
@@ -226,10 +412,7 @@ export default async function HomePage() {
                 </div>
                 <div className="flex gap-0.5 mb-2">
                   {[1, 2, 3, 4, 5].map((s) => (
-                    <span
-                      key={s}
-                      className="text-yellow-500 text-xs md:text-sm"
-                    >
+                    <span key={s} className="text-yellow-500 text-xs md:text-sm">
                       ★
                     </span>
                   ))}
@@ -243,164 +426,56 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="pb-10 md:pb-16">
+      {/* ===== PETA LOKASI ===== */}
+      <section id="peta" className="py-10 md:py-16 bg-gradient-to-b from-cream-pure to-langit/5">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="grid md:grid-cols-2 gap-3 md:gap-4">
-            <div
-              className="rounded-2xl md:rounded-3xl overflow-hidden flex items-center min-h-[180px] md:min-h-[220px]"
-              style={{
-                background: "linear-gradient(135deg, #751515, #991B1B)",
-              }}
-            >
-              <div className="p-6 md:p-8">
-                <span className="inline-block px-2 py-0.5 md:py-1 mb-3 md:mb-4 bg-white/15 text-cotton font-mono text-[10px] md:text-xs uppercase tracking-wider rounded-full">
-                  Penawaran
-                </span>
-                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight text-white mb-1 md:mb-2">
-                  Produk Lokal
-                  <br />
-                  Kemayoran
-                </h3>
-                <p className="text-xs md:text-sm text-white/70 mb-3 md:mb-4">
-                  Dukung UMKM tetangga kita sendiri
-                </p>
-                <Link
-                  href="/catalog"
-                  className="inline-flex items-center gap-1 text-xs md:text-sm font-semibold text-cotton hover:gap-2 transition-all"
-                >
-                  Jelajahi <Icon name="arrowRight" size={12} />
-                </Link>
-              </div>
-            </div>
-            <div className="rounded-2xl md:rounded-3xl overflow-hidden flex items-center min-h-[180px] md:min-h-[220px] bg-cotton-warm">
-              <div className="p-6 md:p-8">
-                <span className="inline-block px-2 py-0.5 md:py-1 mb-3 md:mb-4 bg-cherry/10 text-cherry font-mono text-[10px] md:text-xs uppercase tracking-wider rounded-full">
-                  Kemudahan
-                </span>
-                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight text-noir mb-1 md:mb-2">
-                  Pesan Langsung
-                  <br />
-                  via WhatsApp
-                </h3>
-                <p className="text-xs md:text-sm text-warm-gray mb-3 md:mb-4">
-                  Hubungi penjual tanpa perantara
-                </p>
-                <Link
-                  href="/catalog"
-                  className="inline-flex items-center gap-1 text-xs md:text-sm font-semibold text-cherry hover:gap-2 transition-all"
-                >
-                  Mulai <Icon name="arrowRight" size={12} />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="pb-10 md:pb-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="flex items-center justify-between mb-5 md:mb-8">
-            <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight">
-              Jelajahi <span className="text-cherry">Koleksi</span>
-            </h2>
-            <Link
-              href="/catalog"
-              className="flex items-center gap-1 text-xs md:text-sm font-medium text-warm-gray hover:text-cherry transition-all"
-            >
-              Lihat Semua <Icon name="arrowRight" size={12} />
-            </Link>
-          </div>
-          {/* [SCROLL] Jelajahi Koleksi - horizontal scroll tanpa overlap */}
-          <div className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory scrollbar-thin">
-            {galleryItems.map((item, i) => (
-              <div
-                key={i}
-                className="snap-start shrink-0"
-                style={{
-                  flex: "0 0 260px",
-                }}
-              >
-                <div className="group rounded-xl md:rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02]">
-                  <div className="aspect-[16/9] overflow-hidden bg-cotton-warm rounded-xl md:rounded-2xl shadow-lg">
-                    <img
-                      src={item.src}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-100"
-                    />
-                  </div>
-                  {/* [FIX] px-2 menambah padding kiri-kanan agar teks tidak terpotong tepi kartu saat hover */}
-                  <div className="px-2 pt-2">
-                    <h3 className="text-sm md:text-base font-semibold tracking-tight">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs md:text-sm text-warm-gray">
-                      {item.desc}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="pb-10 md:pb-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
-            Lokasi <span className="text-cherry">UMKM</span>
+          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-2 md:mb-3">
+            Peta <span className="text-laut">Lokasi UMKM</span>
           </h2>
-          <div className="rounded-2xl md:rounded-3xl overflow-hidden border border-cotton-warm h-[300px] md:h-[450px]">
+          <p className="text-xs md:text-sm text-warm-gray text-center mb-8 md:mb-12 max-w-md mx-auto">
+            Semua toko UMKM Kemayoran terpasang di peta. Klik pin untuk melihat
+            nama toko, lalu kunjungi detailnya.
+          </p>
+          <div className="rounded-2xl md:rounded-3xl overflow-hidden border border-cream-warm shadow-lg h-[300px] md:h-[450px]">
             <MultiPinMap
-              center={[-6.40, 106.93]}
+              center={[-6.4, 106.93]}
               zoom={12}
-              markers={sellersData.filter(s => s.location).map(s => ({
-                lat: s.location.lat,
-                lng: s.location.lng,
-                name: s.name,
-              }))}
+              markers={sellersData
+                .filter((s) => s.location)
+                .map((s) => ({
+                  lat: s.location.lat,
+                  lng: s.location.lng,
+                  name: s.name,
+                }))}
             />
           </div>
-          <div className="flex flex-wrap justify-center gap-2 mt-4">
-            {sellersData.filter(s => s.location).map(s => (
-              <span key={s.id} className="text-[10px] md:text-xs px-3 py-1.5 bg-white border border-cotton-warm rounded-full text-warm-gray">
-                {s.name}
-              </span>
-            ))}
-          </div>
         </div>
       </section>
 
-      <section className="py-4 md:py-6 bg-white border-t border-cotton-warm">
+      {/* ===== CTA ===== */}
+      <section className="py-10 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 md:items-center">
-            {[
-              { icon: "lock", label: "Transaksi Aman" },
-              { icon: "headset", label: "Dukungan 24/7" },
-              { icon: "star", label: "Kualitas Lokal" },
-              { icon: "refresh", label: "Mudah & Cepat" },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 md:gap-3 text-noir-soft text-[11px] md:text-sm font-medium md:justify-center"
-              >
-                <Icon
-                  name={item.icon}
-                  size={16}
-                  className="text-cherry shrink-0"
-                />
-                <span>{item.label}</span>
-              </div>
-            ))}
+          <div className="rounded-2xl md:rounded-3xl overflow-hidden bg-hutan relative px-6 md:px-14 py-10 md:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="relative z-10">
+              <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-white leading-tight">
+                Punya Usaha di Kemayoran?
+                <br />
+                <span className="text-forest-bright">Bergabung Sekarang!</span>
+              </h2>
+              <p className="text-xs md:text-sm text-white/70 mt-2 max-w-lg">
+                Gratis, mudah, dan bantu usahamu lebih dikenal warga serta
+                wisatawan. Daftar sebagai UMKM di katalog digital Kemayoran.
+              </p>
+            </div>
+            <Link
+              href="/gabung"
+              className="relative z-10 inline-flex items-center gap-2 px-6 md:px-8 py-3.5 rounded-xl bg-clay text-white text-sm md:text-base font-bold hover:bg-clay-deep transition-all shrink-0"
+            >
+              Daftar Sekarang <Icon name="arrowRight" size={16} />
+            </Link>
           </div>
         </div>
       </section>
-
-      {/* [SCROLL] Scrollbar tipis untuk Jelajahi Koleksi */}
-      <style>{`
-        .scrollbar-thin::-webkit-scrollbar { height: 5px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: #F5F0E8; border-radius: 2px; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background: #B91C1C; border-radius: 2px; }
-      `}</style>
     </>
   );
 }

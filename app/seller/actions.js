@@ -28,13 +28,59 @@ export async function registerSellerAccount(formData) {
   const whatsapp = (formData.get("whatsapp") || "").toString().trim();
   if (!businessName) throw new Error("Nama usaha wajib diisi");
 
-  const { error } = await supabase.from("seller_accounts").insert({
-    user_id: user.id,
+  const { data: existing } = await supabase
+    .from("seller_accounts")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  const payload = {
     business_name: businessName,
     whatsapp: whatsapp || null,
-  });
+    status: "pending",
+  };
+  const { error } = existing
+    ? await supabase
+        .from("seller_accounts")
+        .update(payload)
+        .eq("user_id", user.id)
+    : await supabase
+        .from("seller_accounts")
+        .insert({ user_id: user.id, ...payload });
   if (error) throw new Error(error.message);
   revalidatePath("/seller");
+  revalidatePath("/gabung");
+}
+
+export async function saveSellerLocation(formData) {
+  const account = await requireApprovedSeller();
+  const lat = formData.get("lat");
+  const lng = formData.get("lng");
+  const address = (formData.get("address") || "").toString().trim();
+
+  if (lat === "" || lng === "" || lat == null || lng == null) {
+    throw new Error("Latitude dan longitude wajib diisi");
+  }
+  const latNum = Number(lat);
+  const lngNum = Number(lng);
+  if (!Number.isFinite(latNum) || !Number.isFinite(lngNum)) {
+    throw new Error("Koordinat tidak valid");
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("sellers")
+    .update({
+      location_lat: latNum,
+      location_lng: lngNum,
+      address: address || null,
+    })
+    .eq("id", account.seller_id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/seller");
+  revalidatePath("/");
+  revalidatePath("/catalog");
 }
 
 export async function saveSellerProduct(formData) {

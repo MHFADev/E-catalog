@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { notFound } from "next/navigation";
 import Icon from "@/components/common/Icon";
 import { createClient } from "@/lib/supabase/server";
@@ -21,11 +21,11 @@ export default async function ArticleDetailPage({ params }) {
     .filter(Boolean);
 
   return (
-    <article className="bg-cotton">
+    <article className="bg-cream">
       <div className="max-w-3xl mx-auto px-4 md:px-6 py-8 md:py-14">
         <Link
           href="/artikel"
-          className="text-xs md:text-sm text-warm-gray hover:text-cherry inline-flex items-center gap-1 mb-4"
+          className="text-xs md:text-sm text-warm-gray hover:text-forest inline-flex items-center gap-1 mb-4"
         >
           <Icon name="chevronLeft" size={12} /> Semua Artikel
         </Link>
@@ -57,7 +57,7 @@ export default async function ArticleDetailPage({ params }) {
           </div>
         )}
 
-        <div className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-10 shadow-sm border border-cotton-warm">
+        <div className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-10 shadow-sm border border-cream-warm">
           <div className="space-y-4 text-sm md:text-base text-cool-gray leading-relaxed">
             {paragraphs.map((p, i) => (
               <p key={i}>{p}</p>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import Icon from "@/components/common/Icon";
 
@@ -12,7 +12,7 @@ export default function ProductGallery({ images, name }) {
 
   return (
     <div>
-      <div className="relative aspect-square bg-cotton-warm rounded-2xl md:rounded-3xl overflow-hidden">
+      <div className="relative aspect-square lg:aspect-auto lg:h-[55vh] lg:min-h-[420px] bg-cream-warm rounded-2xl md:rounded-3xl overflow-hidden">
         <img
           src={src}
           alt={name}
@@ -58,14 +58,14 @@ export default function ProductGallery({ images, name }) {
               onClick={() => setIdx(i)}
               className={`shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-xl overflow-hidden border-2 transition-all ${
                 i === idx
-                  ? "border-cherry shadow-sm"
-                  : "border-transparent hover:border-cherry/30"
+                  ? "border-forest shadow-sm"
+                  : "border-transparent hover:border-forest/30"
               }`}
             >
               <img
                 src={img}
                 alt=""
-                className="w-full h-full object-cover bg-cotton-warm"
+                className="w-full h-full object-cover bg-cream-warm"
                 onError={(e) => {
                   e.currentTarget.src = "/images/camilan-ciangsana.jpeg";
                 }}
