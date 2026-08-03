@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
-async function count(query, filter) {
-  const { count } = await query.count({ count: "exact", head: true });
+async function count(client, table, filters = {}) {
+  const { count } = await client
+    .from(table)
+    .select("*", { count: "exact", head: true })
+    .match(filters);
   return count ?? 0;
 }
 
@@ -11,12 +14,12 @@ export default async function AdminDashboard() {
 
   const [products, sellers, categories, pendingReviews, unreadMessages, pendingJoins] =
     await Promise.all([
-      count(supabase.from("products").select()),
-      count(supabase.from("sellers").select()),
-      count(supabase.from("categories").select()),
-      count(supabase.from("reviews").select().eq("status", "pending")),
-      count(supabase.from("messages").select().eq("is_read", false)),
-      count(supabase.from("join_requests").select().eq("status", "pending")),
+      count(supabase, "products"),
+      count(supabase, "sellers"),
+      count(supabase, "categories"),
+      count(supabase, "reviews", { status: "pending" }),
+      count(supabase, "messages", { is_read: false }),
+      count(supabase, "join_requests", { status: "pending" }),
     ]);
 
   const stats = [
