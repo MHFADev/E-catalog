@@ -36,7 +36,7 @@ export default function ContactForm() {
         onChange={(e) => setName(e.target.value)}
         placeholder="Nama kamu"
         required
-        className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-xs text-cream-pure placeholder:text-warm-gray focus:outline-none focus:border-forest/60"
+        className="w-full bg-white border border-cream-warm rounded-lg px-3 py-2 text-xs text-noir placeholder:text-warm-gray focus:outline-none focus:border-forest/60"
       />
       <input
         type="email"
@@ -44,7 +44,7 @@ export default function ContactForm() {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email kamu"
         required
-        className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-xs text-cream-pure placeholder:text-warm-gray focus:outline-none focus:border-forest/60"
+        className="w-full bg-white border border-cream-warm rounded-lg px-3 py-2 text-xs text-noir placeholder:text-warm-gray focus:outline-none focus:border-forest/60"
       />
       <textarea
         value={message}
@@ -52,7 +52,7 @@ export default function ContactForm() {
         placeholder="Pesan kamu..."
         rows={3}
         required
-        className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-xs text-cream-pure placeholder:text-warm-gray focus:outline-none focus:border-forest/60 resize-none"
+        className="w-full bg-white border border-cream-warm rounded-lg px-3 py-2 text-xs text-noir placeholder:text-warm-gray focus:outline-none focus:border-forest/60 resize-none"
       />
       <button
         type="submit"
@@ -62,12 +62,12 @@ export default function ContactForm() {
         {status === "sending" ? "Mengirim..." : "Kirim Pesan"}
       </button>
       {status === "sent" && (
-        <p className="text-[11px] text-emerald-400">
+        <p className="text-[11px] text-forest">
           Pesan terkirim. Terima kasih!
         </p>
       )}
       {status === "error" && (
-        <p className="text-[11px] text-amber-400">
+        <p className="text-[11px] text-red-500">
           Gagal mengirim. Coba lagi nanti.
         </p>
       )}

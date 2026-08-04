@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
       <body>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" />
         <Navbar />
-        <main className="min-h-screen pt-20">{children}</main>
+        <main className="min-h-screen pt-3 md:pt-4">{children}</main>
         <Footer />
       </body>
     </html>
