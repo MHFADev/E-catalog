@@ -24,13 +24,33 @@ export default function CatalogContent({ categories, productsData, sellersData }
   const [loading, setLoading] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
   // [LIHAT LEBIH BANYAK] Jumlah produk awal yang ditampilkan (sampai produk ke-18).
-  const [visibleCount, setVisibleCount] = useState(18);
-  const catScrollRef = useRef(null);
+  const INITIAL_VISIBLE = 18;
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
 
-  // [LIHAT LEBIH SEDIKIT] Setiap reload/reset halaman, kembalikan tampilan ke
-  // jumlah awal (18) sehingga tombol "Lihat Lebih Banyak" muncul lagi.
+  // [LIHAT LEBIH BANYAK] Jumlah kolom grid mengikuti breakpoint layar:
+  // 2 kolom di mobile, 3 di tablet (md), 4 di desktop (lg) — lihat ProductGrid.
+  const [columns, setColumns] = useState(2);
+  const catScrollRef = useRef(null);
+  // [LIHAT LEBIH SEDIKIT] Ref area daftar produk, untuk menggulung ke atas.
+  const productsRef = useRef(null);
+
+  // [LIHAT LEBIH BANYAK] Deteksi jumlah kolom grid secara real-time (termasuk di
+  // mobile) agar setiap klik "Lihat Lebih Banyak" menambah tepat 2 baris produk.
   useEffect(() => {
-    setVisibleCount(18);
+    const mqTablet = window.matchMedia("(min-width: 768px)");
+    const mqDesktop = window.matchMedia("(min-width: 1024px)");
+    const updateColumns = () => {
+      if (mqDesktop.matches) setColumns(4);
+      else if (mqTablet.matches) setColumns(3);
+      else setColumns(2);
+    };
+    updateColumns();
+    mqTablet.addEventListener("change", updateColumns);
+    mqDesktop.addEventListener("change", updateColumns);
+    return () => {
+      mqTablet.removeEventListener("change", updateColumns);
+      mqDesktop.removeEventListener("change", updateColumns);
+    };
   }, []);
 
   const scrollCat = (dir) => {
@@ -40,6 +60,12 @@ export default function CatalogContent({ categories, productsData, sellersData }
   }
 
   const debouncedSearch = useDebounce(searchInput, 200);
+
+  // [LIHAT LEBIH BANYAK] Saat filter/pencarian berubah, kembalikan ke jumlah awal
+  // agar tombol "Lihat Lebih Banyak" muncul lagi dari posisi awal.
+  useEffect(() => {
+    setVisibleCount(INITIAL_VISIBLE);
+  }, [debouncedSearch, selectedCategory, sellerId]);
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 600);
@@ -83,6 +109,23 @@ export default function CatalogContent({ categories, productsData, sellersData }
 
   // [LIHAT LEBIH BANYAK] Potong daftar sesuai jumlah yang tampil saat ini.
   const visibleProducts = filtered.slice(0, visibleCount);
+
+  // [LIHAT LEBIH BANYAK] Setiap klik menambah 2 baris produk (2 × jumlah kolom),
+  // sampai semua produk tampil. Terapkan juga di mobile (kolom otomatis = 2).
+  const ROWS_PER_CLICK = 2;
+  const stepPerClick = columns * ROWS_PER_CLICK;
+
+  // [LIHAT LEBIH BANYAK] Tampilkan 2 baris berikutnya (tanpa menampilkan semua).
+  const showMore = () => {
+    setVisibleCount((prev) => Math.min(prev + stepPerClick, filtered.length));
+  };
+
+  // [LIHAT LEBIH SEDIKIT] Gulung kembali ke awal daftar produk dan tampilkan
+  // hanya jumlah awal lagi (tombol kembali menjadi "Lihat Lebih Banyak").
+  const showLess = () => {
+    setVisibleCount(INITIAL_VISIBLE);
+    productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-12">
@@ -182,41 +225,48 @@ export default function CatalogContent({ categories, productsData, sellersData }
         </div>
       </div>
 
-      <p className="font-mono text-[10px] md:text-xs text-warm-gray tracking-wider mb-4 md:mb-6">
-        {loading ? "Memuat..." : `${filtered.length} produk ditemukan`}
-      </p>
+      {/* [LIHAT LEBIH SEDIKIT] Area daftar produk; ref dipakai untuk menggulung
+          kembali ke awal saat tombol "Lihat Lebih Sedikit" diklik. */}
+      <div ref={productsRef} className="scroll-mt-24">
+        <p className="font-mono text-[10px] md:text-xs text-warm-gray tracking-wider mb-4 md:mb-6">
+          {loading ? "Memuat..." : `${filtered.length} produk ditemukan`}
+        </p>
 
-      {loading ? (
-        <SkeletonGrid count={8} />
-      ) : filtered.length === 0 ? (
-        <EmptyState
-          title="Produk tidak ditemukan"
-          description="Coba ubah kata kunci pencarian, pilih kategori lain, atau atur ulang filter."
-        />
-      ) : (
-        <ProductGrid products={visibleProducts} categories={categories} />
-      )}
+        {loading ? (
+          <SkeletonGrid count={8} />
+        ) : filtered.length === 0 ? (
+          <EmptyState
+            title="Produk tidak ditemukan"
+            description="Coba ubah kata kunci pencarian, pilih kategori lain, atau atur ulang filter."
+          />
+        ) : (
+          <ProductGrid products={visibleProducts} categories={categories} />
+        )}
+      </div>
 
-      {/* [LIHAT LEBIH BANYAK] Tombol muncul bila masih ada produk tersembunyi */}
+      {/* [LIHAT LEBIH BANYAK] Tombol muncul selama masih ada produk tersembunyi.
+          Setiap klik menampilkan 2 baris produk tambahan (bukan semua sekaligus). */}
       {!loading && filtered.length > visibleCount && (
         <div className="flex justify-center mt-8 md:mt-12">
           <button
-            onClick={() => setVisibleCount(filtered.length)}
+            onClick={showMore}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-cotton-warm text-sm font-semibold text-noir-soft hover:border-cherry hover:text-cherry hover:-translate-y-0.5 transition-all"
           >
-            Lihat Lebih Banyak ({filtered.length - visibleCount} produk lagi)
+            Lihat Lebih Banyak
+            <Icon name="chevronDown" size={16} />
           </button>
         </div>
       )}
 
-      {/* [LIHAT LEBIH SEDIKIT] Tombol muncul saat semua produk sudah tampil,
-          untuk menutup kembali ke jumlah awal (18). */}
-      {!loading && filtered.length > 18 && visibleCount >= filtered.length && (
+      {/* [LIHAT LEBIH SEDIKIT] Tombol muncul saat semua produk sudah tampil.
+          Klik = menggulung kembali ke awal daftar produk + kembali ke jumlah awal. */}
+      {!loading && filtered.length > INITIAL_VISIBLE && visibleCount >= filtered.length && (
         <div className="flex justify-center mt-8 md:mt-12">
           <button
-            onClick={() => setVisibleCount(18)}
+            onClick={showLess}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-cotton-warm text-sm font-semibold text-noir-soft hover:border-cherry hover:text-cherry hover:-translate-y-0.5 transition-all"
           >
+            <Icon name="chevronUp" size={16} />
             Lihat Lebih Sedikit
           </button>
         </div>

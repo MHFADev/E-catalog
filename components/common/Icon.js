@@ -150,6 +150,17 @@ const icons = {
       <path d="m6 9 6 6 6-6" />
     </svg>
   ),
+  // [LIHAT LEBIH SEDIKIT] Ikon panah ke atas untuk tombol "Lihat Lebih Sedikit".
+  chevronUp: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <path d="m6 15 6-6 6 6" />
+    </svg>
+  ),
   close: (
     <svg
       viewBox="0 0 24 24"
