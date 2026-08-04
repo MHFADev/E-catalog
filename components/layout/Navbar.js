@@ -37,7 +37,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-cream-warm shadow-sm">
+    <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-cream-warm shadow-navbar">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="h-14 md:h-16 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 shrink-0">
@@ -54,7 +54,7 @@ export default function Navbar() {
           {/* Search bar (desktop) */}
           <form
             onSubmit={submitSearch}
-            className="hidden lg:flex flex-1 max-w-xl items-center gap-2 px-3.5 h-10 bg-cream border border-cream-warm rounded-lg focus-within:border-forest focus-within:bg-white transition-colors"
+            className="hidden lg:flex flex-1 max-w-xl items-center gap-2 pl-4 pr-1.5 h-11 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
           >
             <Icon name="search" size={16} className="text-muted" />
             <input
@@ -67,9 +67,9 @@ export default function Navbar() {
             />
             <button
               type="submit"
-              className="shrink-0 text-forest hover:text-forest-deep font-semibold text-sm"
+              className="shrink-0 flex items-center gap-1 px-4 h-8 text-sm font-bold text-white bg-forest hover:bg-forest-deep rounded-full transition-colors"
             >
-              Cari
+              <Icon name="search" size={13} /> Cari
             </button>
           </form>
 
@@ -78,7 +78,7 @@ export default function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`px-3 py-2 text-sm font-medium rounded-full transition-colors ${
                   pathname === l.href
                     ? "text-forest bg-forest/10"
                     : "text-cool-gray hover:text-noir hover:bg-cream"
@@ -93,21 +93,21 @@ export default function Navbar() {
             {user ? (
               <Link
                 href="/seller"
-                className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-noir-soft hover:bg-cream rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-noir-soft hover:bg-cream rounded-full transition-colors"
               >
                 <Icon name="store" size={15} /> Toko Saya
               </Link>
             ) : (
               <Link
                 href="/login"
-                className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-noir-soft hover:bg-cream rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-noir-soft hover:bg-cream rounded-full transition-colors"
               >
                 <Icon name="user" size={15} /> Masuk
               </Link>
             )}
             <button
               onClick={() => setJoinOpen(true)}
-              className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-forest rounded-lg hover:bg-forest-deep transition-colors"
+              className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-bold text-white bg-forest rounded-full hover:bg-forest-deep shadow-card transition-all hover:shadow-card-hover"
             >
               <Icon name="whatsapp" size={16} /> Daftar UMKM
             </button>
@@ -115,7 +115,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-cream transition-colors"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-cream transition-colors"
             aria-label="Menu"
           >
             {menuOpen ? (
@@ -129,7 +129,7 @@ export default function Navbar() {
         {/* Search bar (mobile) */}
         <form
           onSubmit={submitSearch}
-          className="lg:hidden flex items-center gap-2 px-3.5 h-10 mb-3 bg-cream border border-cream-warm rounded-lg focus-within:border-forest focus-within:bg-white transition-colors"
+          className="lg:hidden flex items-center gap-2 pl-4 pr-1.5 h-11 mb-3 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
         >
           <Icon name="search" size={16} className="text-muted" />
           <input
@@ -141,9 +141,9 @@ export default function Navbar() {
           />
           <button
             type="submit"
-            className="shrink-0 text-forest hover:text-forest-deep font-semibold text-sm"
+            className="shrink-0 flex items-center gap-1 px-4 h-8 text-sm font-bold text-white bg-forest hover:bg-forest-deep rounded-full transition-colors"
           >
-            Cari
+            <Icon name="search" size={13} /> Cari
           </button>
         </form>
       </div>
@@ -157,7 +157,7 @@ export default function Navbar() {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-colors ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-colors ${
                     isActive
                       ? "bg-forest/10 text-forest"
                       : "text-noir-soft hover:bg-cream"
@@ -175,7 +175,7 @@ export default function Navbar() {
                 <Link
                   href="/seller"
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-semibold text-forest bg-forest/5"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-forest bg-forest/5"
                 >
                   <Icon name="store" size={20} /> Toko Saya
                 </Link>
@@ -183,7 +183,7 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-semibold text-noir-soft hover:bg-cream"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-noir-soft hover:bg-cream"
                 >
                   <Icon name="user" size={20} /> Masuk
                 </Link>
@@ -193,7 +193,7 @@ export default function Navbar() {
                   setMenuOpen(false);
                   setJoinOpen(true);
                 }}
-                className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-bold text-white bg-forest w-full text-left"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-bold text-white bg-forest w-full text-left"
               >
                 <Icon name="whatsapp" size={20} /> Daftar UMKM
               </button>

@@ -111,7 +111,7 @@ export default async function HomePage() {
           <form
             action="/catalog"
             method="get"
-            className="relative mt-10 md:mt-14 bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xl border border-cream-warm grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
+            className="relative mt-10 md:mt-14 glass rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xl grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
           >
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-gray pointer-events-none">
@@ -121,7 +121,7 @@ export default async function HomePage() {
                 name="search"
                 type="text"
                 placeholder="Cari produk atau UMKM..."
-                className="w-full pl-11 pr-4 py-3 bg-cream-pure border-2 border-transparent rounded-xl text-sm md:text-base text-noir-soft placeholder:text-warm-gray outline-none transition-all focus:bg-white focus:border-forest/30 focus:shadow-[0_0_0_4px_var(--color-glass-forest)]"
+                className="w-full pl-11 pr-4 py-3 bg-white/70 border border-cream-warm rounded-full text-sm md:text-base text-noir-soft placeholder:text-warm-gray outline-none transition-all focus:bg-white focus:border-forest/40 focus:shadow-[0_0_0_4px_var(--color-glass-forest)]"
               />
             </div>
             <div className="relative">
@@ -133,7 +133,7 @@ export default async function HomePage() {
               <select
                 name="category"
                 defaultValue=""
-                className="w-full appearance-none pl-4 pr-10 py-3 bg-cream-pure border-2 border-transparent rounded-xl text-sm md:text-base text-noir-soft outline-none transition-all focus:bg-white focus:border-forest/30 focus:shadow-[0_0_0_4px_var(--color-glass-forest)]"
+                className="w-full appearance-none pl-4 pr-10 py-3 bg-white/70 border border-cream-warm rounded-full text-sm md:text-base text-noir-soft outline-none transition-all focus:bg-white focus:border-forest/40 focus:shadow-[0_0_0_4px_var(--color-glass-forest)]"
               >
                 <option value="">Semua Kategori</option>
                 {categories.map((c) => (
@@ -145,7 +145,7 @@ export default async function HomePage() {
             </div>
             <button
               type="submit"
-              className="flex items-center justify-center gap-2 px-6 md:px-8 py-3 rounded-xl bg-forest text-white text-sm md:text-base font-bold hover:bg-forest-deep transition-all"
+              className="flex items-center justify-center gap-2 px-6 md:px-8 py-3 rounded-full bg-forest text-white text-sm md:text-base font-bold hover:bg-forest-deep shadow-card transition-all hover:shadow-card-hover"
             >
               <Icon name="search" size={16} /> Cari
             </button>
@@ -469,7 +469,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/gabung"
-              className="relative z-10 inline-flex items-center gap-2 px-6 md:px-8 py-3.5 rounded-xl bg-clay text-white text-sm md:text-base font-bold hover:bg-clay-deep transition-all shrink-0"
+              className="relative z-10 inline-flex items-center gap-2 px-6 md:px-8 py-3.5 rounded-full bg-clay text-white text-sm md:text-base font-bold hover:bg-clay-deep shadow-card transition-all hover:shadow-card-hover shrink-0"
             >
               Daftar Sekarang <Icon name="arrowRight" size={16} />
             </Link>

@@ -44,20 +44,23 @@ export default function ProductCard({ product, category }) {
   const productImg = imgError ? fallbackImg : (product.images?.[0] || fallbackImg)
   const price = priceParts(product)
   return (
-    <Link href={`/product/${product.id}`} className="group flex flex-col bg-white border border-cream-warm rounded-xl md:rounded-2xl overflow-hidden transition-all duration-300 hover:border-forest/30 hover:shadow-xl hover:-translate-y-1">
+    <Link href={`/product/${product.id}`} className="group relative flex flex-col bg-white rounded-2xl overflow-hidden shadow-card ring-1 ring-black/5 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 hover:ring-forest/30">
       <div className="relative aspect-square bg-cream-warm overflow-hidden">
         <img src={productImg} alt={product.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onError={() => setImgError(true)} />
         {category?.name && (
-          <span className="absolute top-2 left-2 md:top-3 md:left-3 px-2 md:px-2.5 py-0.5 md:py-1 text-[9px] md:text-[11px] font-semibold text-white bg-forest/90 uppercase tracking-wide rounded-full backdrop-blur-sm">
+          <span className="absolute top-2 left-2 md:top-3 md:left-3 px-2 md:px-2.5 py-0.5 md:py-1 text-[9px] md:text-[11px] font-semibold text-forest-dark glass rounded-full uppercase tracking-wide">
             {category.name}
           </span>
         )}
         {product.isFeatured && (
-          <span className="absolute top-2 right-2 md:top-3 md:right-3 flex items-center gap-1 px-1.5 md:px-2 py-0.5 md:py-1 text-[9px] md:text-xs font-bold text-white uppercase tracking-wider rounded-full"
+          <span className="absolute top-2 right-2 md:top-3 md:right-3 flex items-center gap-1 px-1.5 md:px-2 py-0.5 md:py-1 text-[9px] md:text-xs font-bold text-white uppercase tracking-wider rounded-full shadow-sm"
             style={{ background: 'linear-gradient(135deg, #D4A017, #C9A227)' }}>
             <Icon name="star" size={10} /> Unggulan
           </span>
         )}
+        <span className="absolute inset-x-2 bottom-2 md:inset-x-3 md:bottom-3 flex items-center justify-center gap-1.5 py-2 text-xs md:text-sm font-bold text-white bg-forest/90 rounded-full opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 backdrop-blur-sm">
+          <Icon name="shoppingBasket" size={14} /> Lihat Produk
+        </span>
       </div>
       <div className="p-2.5 md:p-4 flex flex-col gap-1 md:gap-1.5">
         <h3 className="text-xs md:text-base font-semibold text-noir leading-tight line-clamp-2">{product.name}</h3>
@@ -70,7 +73,10 @@ export default function ProductCard({ product, category }) {
           <span className="text-[11px] md:text-sm font-semibold text-warm-gray">Hubungi via WhatsApp</span>
         )}
         {product.sellerName && (
-          <span className="text-[10px] md:text-sm text-warm-gray truncate">{product.sellerName}</span>
+          <span className="flex items-center gap-1 text-[10px] md:text-sm text-warm-gray truncate">
+            <Icon name="store" size={12} className="shrink-0 text-forest" />
+            {product.sellerName}
+          </span>
         )}
       </div>
     </Link>

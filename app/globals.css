@@ -37,7 +37,7 @@ button {
   gap: 0.5rem;
   padding: 0.7rem 1.4rem;
   font-weight: 600;
-  border-radius: 10px;
+  border-radius: 999px;
   border: none;
   background: #00a94f;
   color: white;
@@ -47,6 +47,7 @@ button {
 }
 .btn-primary:hover {
   background: #007f3d;
+  box-shadow: 0 4px 14px rgba(0, 169, 79, 0.3);
 }
 .btn-secondary {
   display: inline-flex;
@@ -55,7 +56,7 @@ button {
   gap: 0.5rem;
   padding: 0.7rem 1.4rem;
   font-weight: 600;
-  border-radius: 10px;
+  border-radius: 999px;
   background: white;
   color: #00a94f;
   border: 1px solid #dfe3e8;
@@ -73,7 +74,7 @@ button {
   gap: 0.5rem;
   padding: 0.7rem 1.4rem;
   font-weight: 600;
-  border-radius: 10px;
+  border-radius: 999px;
   border: none;
   background: #25d366;
   color: #063b1c;
@@ -82,6 +83,18 @@ button {
 }
 .btn-wa:hover {
   background: #1fb85a;
+}
+/* ===== Glassmorphism (40% modern) ===== */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+}
+.glass-forest {
+  background: var(--color-glass-forest);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 @keyframes cardEntrance {
   from {
