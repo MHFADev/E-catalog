@@ -132,8 +132,9 @@ function LoginForm() {
             </button>
           </form>
 
+          {/* [LOGIN] Notif error (mis. "Invalid login credentials") kini berwarna merah */}
           {error && (
-            <p className="mt-3 text-xs text-forest bg-forest/5 border border-forest/20 rounded-lg px-3 py-2">
+            <p className="mt-3 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
               {error}
             </p>
           )}
