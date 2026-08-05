@@ -60,8 +60,8 @@ begin
   while not v_inserted loop
     v_username := 'user' || lpad((floor(random() * 1000))::int::text, 3, '0');
     begin
-      insert into public.profiles (id, username, username_updated_at)
-      values (new.id, v_username, now());
+      insert into public.profiles (id, username)
+      values (new.id, v_username);
       v_inserted := true;
     exception
       when unique_violation then
@@ -96,8 +96,8 @@ begin
     while not v_inserted loop
       v_username := 'user' || lpad((floor(random() * 1000))::int::text, 3, '0');
       begin
-        insert into public.profiles (id, username, username_updated_at)
-        values (r.id, v_username, now());
+        insert into public.profiles (id, username)
+        values (r.id, v_username);
         v_inserted := true;
       exception
         when unique_violation then

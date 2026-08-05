@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getSellerAccount } from "@/lib/auth";
+import { isAutoUsername } from "@/lib/username";
 import ProfileForm from "./ProfileForm";
 
 const TWO_YEARS_MS = 2 * 365 * 24 * 60 * 60 * 1000;
@@ -27,7 +28,9 @@ export default async function ProfilePage() {
   const lastChange = profile?.username_updated_at
     ? new Date(profile.username_updated_at).getTime()
     : null;
-  const canRename = !lastChange || Date.now() - lastChange >= TWO_YEARS_MS;
+  const notRenamedYet = isAutoUsername(profile?.username);
+  const canRename =
+    notRenamedYet || !lastChange || Date.now() - lastChange >= TWO_YEARS_MS;
 
   const fullName =
     user.user_metadata?.full_name ||

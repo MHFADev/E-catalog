@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { isAutoUsername } from "@/lib/username";
 
 const TWO_YEARS_MS = 2 * 365 * 24 * 60 * 60 * 1000;
 const USERNAME_RE = /^[a-z0-9_]{3,20}$/;
@@ -35,7 +36,12 @@ export async function updateUsername(formData) {
   const lastChange = profile.username_updated_at
     ? new Date(profile.username_updated_at).getTime()
     : null;
-  if (lastChange && Date.now() - lastChange < TWO_YEARS_MS) {
+  const notRenamedYet = isAutoUsername(profile.username);
+  if (
+    !notRenamedYet &&
+    lastChange &&
+    Date.now() - lastChange < TWO_YEARS_MS
+  ) {
     throw new Error("Username sudah pernah diubah. Anda bisa mengubahnya lagi setelah 2 tahun.");
   }
 
