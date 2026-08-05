@@ -22,7 +22,7 @@ const WA_TEMPLATE = (d) =>
 const inputClass =
   "w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all";
 
-export default function JoinForm() {
+export default function JoinForm({ onClose }) {
   const { user, loading } = useUser();
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -50,7 +50,13 @@ export default function JoinForm() {
           langsung masuk ke panel admin untuk disetujui — lalu akunmu jadi
           penjual dan kamu bisa kelola produk sendiri.
         </p>
-        <Link href="/login?next=/gabung" className="btn-primary text-sm md:text-base">
+        {/* [POP UP DAFTAR UMKM] onClick={onClose} menutup modal dulu sebelum pindah ke /login,
+            supaya pop up tidak ikut tampil di halaman tujuan */}
+        <Link
+          href="/login?next=/gabung"
+          onClick={onClose}
+          className="btn-primary text-sm md:text-base"
+        >
           Masuk / Daftar Akun <Icon name="arrowRight" size={14} />
         </Link>
       </div>

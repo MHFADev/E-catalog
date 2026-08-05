@@ -240,8 +240,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 opacity-[0.04]" />
         <div className="relative max-w-7xl mx-auto px-4 md:px-6">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center text-white mb-8 md:mb-14">
-            UMKM Kemayoran{" "}
-            <span className="text-langit-light">Dalam Angka</span>
+            UMKM Kemayoran <span className="text-emerald">Dalam Angka</span>
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8">
             {stats.map((s, i) => (
@@ -315,7 +314,8 @@ export default async function HomePage() {
           <div className="flex items-end justify-between mb-6 md:mb-10">
             <div>
               <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight">
-                Event &amp; <span className="text-forest">Kegiatan Terbaru</span>
+                Event &amp;{" "}
+                <span className="text-forest">Kegiatan Terbaru</span>
               </h2>
               <p className="text-xs md:text-sm text-warm-gray mt-1">
                 Ikuti acara dan program pendampingan UMKM Kemayoran
@@ -430,10 +430,13 @@ export default async function HomePage() {
       </section>
 
       {/* ===== PETA LOKASI ===== */}
-      <section id="peta" className="py-10 md:py-16 bg-gradient-to-b from-cream-pure to-langit/5">
+      <section
+        id="peta"
+        className="py-10 md:py-16 bg-gradient-to-b from-cream-pure to-langit/5"
+      >
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-2 md:mb-3">
-            Peta <span className="text-laut">Lokasi UMKM</span>
+            Peta <span className="text-forest">Lokasi UMKM</span>
           </h2>
           <p className="text-xs md:text-sm text-warm-gray text-center mb-8 md:mb-12 max-w-md mx-auto">
             Semua toko UMKM Kemayoran terpasang di peta. Klik pin untuk melihat

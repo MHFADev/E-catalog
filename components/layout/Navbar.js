@@ -17,6 +17,9 @@ export default function Navbar() {
 
   useEffect(() => {
     setMenuOpen(false);
+    // [POP UP DAFTAR UMKM] Tutup modal gabung saat pindah halaman,
+    // agar pop up tidak ikut tampil di halaman yang dituju
+    setJoinOpen(false);
   }, [pathname]);
 
   const submitSearch = (e) => {
@@ -87,6 +90,17 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
+            {/* [NAVBAR GUEST/LOGIN] Tombol Daftar UMKM (bergambar whatsapp) hanya
+                muncul untuk pengguna yang SUDAH LOGIN, ditempatkan setelah "Tentang".
+                Guest (belum login) tidak melihat tombol ini sama sekali. */}
+            {user && (
+              <button
+                onClick={() => setJoinOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-2 ml-1 text-sm font-bold text-white bg-forest rounded-full hover:bg-forest-deep shadow-card transition-all hover:shadow-card-hover"
+              >
+                <Icon name="whatsapp" size={15} /> Daftar UMKM
+              </button>
+            )}
           </nav>
 
           <div className="hidden md:flex items-center gap-2 shrink-0">
@@ -105,12 +119,6 @@ export default function Navbar() {
                 <Icon name="user" size={15} /> Masuk
               </Link>
             )}
-            <button
-              onClick={() => setJoinOpen(true)}
-              className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-bold text-white bg-forest rounded-full hover:bg-forest-deep shadow-card transition-all hover:shadow-card-hover"
-            >
-              <Icon name="whatsapp" size={16} /> Daftar UMKM
-            </button>
           </div>
 
           <button
@@ -188,15 +196,19 @@ export default function Navbar() {
                   <Icon name="user" size={20} /> Masuk
                 </Link>
               )}
-              <button
-                onClick={() => {
-                  setMenuOpen(false);
-                  setJoinOpen(true);
-                }}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-bold text-white bg-forest w-full text-left"
-              >
-                <Icon name="whatsapp" size={20} /> Daftar UMKM
-              </button>
+              {/* [NAVBAR GUEST/LOGIN] Di menu mobile pun, tombol Daftar UMKM
+                  hanya tampil untuk pengguna yang sudah login */}
+              {user && (
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setJoinOpen(true);
+                  }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-bold text-white bg-forest w-full text-left"
+                >
+                  <Icon name="whatsapp" size={20} /> Daftar UMKM
+                </button>
+              )}
             </div>
           </div>
         </div>

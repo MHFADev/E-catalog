@@ -7,11 +7,13 @@ export default function JoinModal({ open, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50"
+      // [POP UP DAFTAR UMKM] modal-fade-in = backdrop memudar masuk
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 modal-fade-in"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl md:rounded-3xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl"
+        // [POP UP DAFTAR UMKM] modal-slide-down = kartu turun dari atas (tidak kaku)
+        className="bg-white rounded-2xl md:rounded-3xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl modal-slide-down"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-5 md:px-6 pt-5 md:pt-6">
@@ -27,7 +29,8 @@ export default function JoinModal({ open, onClose }) {
           </button>
         </div>
         <div className="px-5 md:px-6 pt-1 pb-6">
-          <JoinForm />
+          {/* [POP UP DAFTAR UMKM] onClose diteruskan agar modal bisa ditutup saat pindah halaman */}
+          <JoinForm onClose={onClose} />
         </div>
       </div>
     </div>

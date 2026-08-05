@@ -25,12 +25,17 @@ export default async function SellerLayout({ children }) {
               Area <span className="text-forest">Penjual</span>
             </h1>
             <p className="text-xs md:text-sm text-warm-gray">
-              {approved ? account.sellers?.name ?? account.business_name : "Akun Anda"}
+              {approved
+                ? (account.sellers?.name ?? account.business_name)
+                : "Akun Anda"}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Link href="/" className="text-xs md:text-sm text-warm-gray hover:text-forest px-3 py-2">
-              Lihat Situs â†’
+            <Link
+              href="/"
+              className="text-xs md:text-sm text-warm-gray hover:text-forest px-3 py-2"
+            >
+              Lihat Situs
             </Link>
             <SellerLogoutButton />
           </div>
@@ -39,7 +44,7 @@ export default async function SellerLayout({ children }) {
         {!approved ? (
           account?.status === "pending" || account?.status === "rejected" ? (
             <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-10 border border-cream-warm text-center max-w-lg mx-auto">
-              <div className="text-2xl mb-2">â³</div>
+              <div className="text-2xl mb-2">✅</div>
               <h2 className="text-base md:text-lg font-bold text-noir mb-1">
                 Menunggu Persetujuan Admin
               </h2>
@@ -55,10 +60,16 @@ export default async function SellerLayout({ children }) {
         ) : (
           <>
             <nav className="flex gap-2 overflow-x-auto pb-2 mb-6">
-              <Link href="/seller" className="shrink-0 px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-white border border-cream-warm text-noir-soft hover:border-forest hover:text-forest transition-all">
+              <Link
+                href="/seller"
+                className="shrink-0 px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-white border border-cream-warm text-noir-soft hover:border-forest hover:text-forest transition-all"
+              >
                 Dashboard
               </Link>
-              <Link href="/seller/products" className="shrink-0 px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-white border border-cream-warm text-noir-soft hover:border-forest hover:text-forest transition-all">
+              <Link
+                href="/seller/products"
+                className="shrink-0 px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-white border border-cream-warm text-noir-soft hover:border-forest hover:text-forest transition-all"
+              >
                 Produk Saya
               </Link>
             </nav>
