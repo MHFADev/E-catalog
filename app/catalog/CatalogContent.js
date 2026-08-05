@@ -53,6 +53,12 @@ export default function CatalogContent({ categories, productsData, sellersData }
     };
   }, []);
 
+  // Sinkronkan pencarian dari URL (mis. navbar search) ke state lokal.
+  useEffect(() => {
+    setSearchInput(searchParams.get("search") || "");
+    setSelectedCategory(searchParams.get("category") || null);
+  }, [searchParams]);
+
   const scrollCat = (dir) => {
     if (catScrollRef.current) {
       catScrollRef.current.scrollBy({ left: dir * 200, behavior: 'smooth' })
