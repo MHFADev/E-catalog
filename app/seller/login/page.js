@@ -18,6 +18,7 @@ export default function SellerLoginPage() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -116,15 +117,25 @@ export default function SellerLoginPage() {
               required
               className={inputClass}
             />
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Kata sandi (min. 8 karakter)"
-              required
-              minLength={8}
-              className={inputClass}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Kata sandi (min. 8 karakter)"
+                required
+                minLength={8}
+                className={`${inputClass} pr-10`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-forest transition-colors"
+              >
+                <Icon name={showPassword ? "eyeOff" : "eye"} size={18} />
+              </button>
+            </div>
             {mode === "signup" && (
               <>
                 <input

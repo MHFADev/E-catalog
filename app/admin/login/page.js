@@ -1,5 +1,6 @@
 ﻿"use client";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import Icon from "@/components/common/Icon";
 import { login } from "./actions";
 
 const inputClass =
@@ -7,6 +8,7 @@ const inputClass =
 
 export default function AdminLoginPage() {
   const [state, formAction, pending] = useActionState(login, {});
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center px-4">
@@ -28,14 +30,24 @@ export default function AdminLoginPage() {
               autoComplete="username"
               className={inputClass}
             />
-            <input
-              type="password"
-              name="password"
-              placeholder="Kata sandi"
-              required
-              autoComplete="current-password"
-              className={inputClass}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Kata sandi"
+                required
+                autoComplete="current-password"
+                className={`${inputClass} pr-10`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-forest transition-colors"
+              >
+                <Icon name={showPassword ? "eyeOff" : "eye"} size={18} />
+              </button>
+            </div>
             <button
               type="submit"
               disabled={pending}

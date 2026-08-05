@@ -15,10 +15,13 @@ function LoginForm() {
   const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // [SIGN UP] State untuk field "Ulangi Kata Sandi" agar bisa dicocokkan dengan password
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -28,7 +31,10 @@ function LoginForm() {
     const supabase = createClient();
 
     if (mode === "login") {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
       if (error) {
         setError(error.message);
         setBusy(false);
@@ -36,6 +42,13 @@ function LoginForm() {
       }
       router.push(next);
       router.refresh();
+      return;
+    }
+
+    // [SIGN UP] Validasi: cek apakah "Ulangi Kata Sandi" cocok dengan kata sandi
+    if (password !== confirmPassword) {
+      setError("Kata sandi tidak cocok. Silakan ketik ulang.");
+      setBusy(false);
       return;
     }
 
@@ -114,21 +127,67 @@ function LoginForm() {
               required
               className={inputClass}
             />
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Kata sandi (min. 8 karakter)"
-              required
-              minLength={8}
-              className={inputClass}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Kata sandi (min. 8 karakter)"
+                required
+                minLength={8}
+                className={`${inputClass} pr-10`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={
+                  showPassword
+                    ? "Sembunyikan kata sandi"
+                    : "Tampilkan kata sandi"
+                }
+                className="absolute right-4 top-1/2 -translate-y-2 text-muted hover:text-forest transition-colors"
+              >
+                <Icon name={showPassword ? "eyeOff" : "eye"} size={20} />
+              </button>
+            </div>
+            {/* barun ini */}
+            {/* [SIGN UP] Field "Ulangi Kata Sandi" hanya muncul saat mode signup,
+                dan ikon mata mengikuti toggle yang sama dengan field kata sandi */}
+            {mode === "signup" && (
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Ulangi Kata sandi"
+                  required
+                  minLength={8}
+                  className={`${inputClass} pr-10`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={
+                    showPassword
+                      ? "Sembunyikan kata sandi"
+                      : "Tampilkan kata sandi"
+                  }
+                  className="absolute right-4 top-1/2 -translate-y-2 text-muted hover:text-forest transition-colors"
+                >
+                  <Icon name={showPassword ? "eyeOff" : "eye"} size={20} />
+                </button>
+              </div>
+            )}
             <button
               type="submit"
               disabled={busy}
               className="btn-primary w-full text-sm py-2.5 disabled:opacity-60"
             >
-              {busy ? "Memproses..." : mode === "login" ? "Masuk" : "Daftar Akun"}
+              {busy
+                ? "Memproses..."
+                : mode === "login"
+                  ? "Masuk"
+                  : "Daftar Akun"}
             </button>
           </form>
 
@@ -163,7 +222,7 @@ function LoginForm() {
             href="/"
             className="text-xs text-warm-gray hover:text-forest transition-colors"
           >
-            â† Kembali ke Beranda
+            Kembali ke Beranda
           </Link>
         </p>
       </div>
