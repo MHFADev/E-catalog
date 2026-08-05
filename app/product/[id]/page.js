@@ -172,11 +172,11 @@ export default async function ProductDetailPage({ params }) {
               {productReviews.length > 0 && (
                 <div className="flex items-center gap-3 text-xs md:text-sm text-warm-gray mb-3 md:mb-4">
                   <span className="flex items-center gap-1 text-amber-500 font-semibold">
-                    â˜… {rating.toFixed(1)}
+                    <Icon name="starFilled" size={12} /> {rating.toFixed(1)}
                   </span>
-                  <span className="text-muted">â€¢</span>
+                  <span className="w-1 h-1 rounded-full bg-muted shrink-0" />
                   <span>{productReviews.length} komentar</span>
-                  <span className="text-muted">â€¢</span>
+                  <span className="w-1 h-1 rounded-full bg-muted shrink-0" />
                   <span className="flex items-center gap-1 truncate">
                     <Icon name="mapPin" size={14} className="shrink-0" />
                     <span className="truncate">{seller.address}</span>
@@ -184,7 +184,7 @@ export default async function ProductDetailPage({ params }) {
                 </div>
               )}
 
-              {/* Trust chips â€” penguat jaminan pembeli */}
+              {/* Trust chips - penguat jaminan pembeli */}
               <div className="flex flex-wrap gap-1.5 md:gap-2">
                 {[
                   { icon: "lock", label: "Transaksi Aman" },
@@ -269,8 +269,8 @@ export default async function ProductDetailPage({ params }) {
                   <span>{sellerProducts.length} produk</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs md:text-sm text-cool-gray">
-                  <Icon name="star" size={14} className="text-forest" />
-                  <span>{sellerRating ? `â˜… ${sellerRating.toFixed(1)} rating toko` : "UMKM Lokal"}</span>
+                  <Icon name="starFilled" size={14} className="text-forest" />
+                  <span>{sellerRating ? `${sellerRating.toFixed(1)} rating toko` : "UMKM Lokal"}</span>
                 </div>
               </div>
 
