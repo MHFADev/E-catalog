@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
+import Icon from "@/components/common/Icon";
 
 const slideImages = [
   "/image-header/1.webp",
@@ -129,20 +130,7 @@ export default function HeroCarousel() {
           }`}
           aria-label="Slide sebelumnya"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
+          <Icon name="chevronLeft" size={20} />
         </button>
         <button
           onClick={() => {
@@ -154,20 +142,7 @@ export default function HeroCarousel() {
           }`}
           aria-label="Slide berikutnya"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
+          <Icon name="chevronRight" size={20} />
         </button>
 
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">

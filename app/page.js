@@ -412,9 +412,12 @@ export default async function HomePage() {
                 </div>
                 <div className="flex gap-0.5 mb-2">
                   {[1, 2, 3, 4, 5].map((s) => (
-                    <span key={s} className="text-yellow-500 text-xs md:text-sm">
-                      ★
-                    </span>
+                    <Icon
+                      key={s}
+                      name="starFilled"
+                      size={12}
+                      className="text-yellow-500"
+                    />
                   ))}
                 </div>
                 <p className="text-xs md:text-sm text-cool-gray leading-relaxed italic">
