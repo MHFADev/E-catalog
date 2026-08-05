@@ -34,7 +34,8 @@ module.exports = {
         card: "0 1px 2px rgba(6, 77, 44, 0.05), 0 2px 8px rgba(6, 77, 44, 0.06)",
         "card-hover":
           "0 2px 4px rgba(6, 77, 44, 0.08), 0 10px 28px rgba(6, 77, 44, 0.14)",
-        navbar: "0 1px 2px rgba(24, 33, 27, 0.04), 0 4px 12px rgba(24, 33, 27, 0.05)",
+        navbar:
+          "0 1px 2px rgba(24, 33, 27, 0.04), 0 4px 12px rgba(24, 33, 27, 0.05)",
       },
     },
   },
