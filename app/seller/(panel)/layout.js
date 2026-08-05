@@ -44,7 +44,7 @@ export default async function SellerLayout({ children }) {
         {!approved ? (
           account?.status === "pending" || account?.status === "rejected" ? (
             <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-10 border border-cream-warm text-center max-w-lg mx-auto">
-              <div className="text-2xl mb-2">â³</div>
+              <div className="text-2xl mb-2">✅</div>
               <h2 className="text-base md:text-lg font-bold text-noir mb-1">
                 Menunggu Persetujuan Admin
               </h2>
