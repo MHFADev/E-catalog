@@ -1,5 +1,5 @@
 "use server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getSellerAccount } from "@/lib/auth";
 
@@ -81,6 +81,7 @@ export async function saveSellerLocation(formData) {
   revalidatePath("/seller");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 export async function saveSellerProduct(formData) {
@@ -126,6 +127,7 @@ export async function saveSellerProduct(formData) {
   revalidatePath("/seller/products");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 export async function toggleSellerProduct(formData) {
@@ -144,6 +146,7 @@ export async function toggleSellerProduct(formData) {
   revalidatePath("/seller/products");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 export async function deleteSellerProduct(formData) {
@@ -161,4 +164,5 @@ export async function deleteSellerProduct(formData) {
   revalidatePath("/seller/products");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }

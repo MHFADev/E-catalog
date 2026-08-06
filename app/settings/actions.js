@@ -1,5 +1,5 @@
 "use server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getSellerAccount } from "@/lib/auth";
 
@@ -27,5 +27,6 @@ export async function updateSellerStore(formData) {
   revalidatePath("/seller");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
   return { ok: true };
 }

@@ -1,5 +1,5 @@
 "use server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth";
 
@@ -30,6 +30,7 @@ export async function setReviewStatus(formData) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/reviews");
   revalidatePath("/");
+  revalidateTag("catalog");
 }
 
 export async function deleteReview(formData) {
@@ -89,6 +90,7 @@ export async function saveProduct(formData) {
   revalidatePath("/admin/products");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 export async function toggleProduct(formData) {
@@ -107,6 +109,7 @@ export async function toggleProduct(formData) {
   revalidatePath("/admin/products");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 export async function deleteProduct(formData) {
@@ -120,6 +123,7 @@ export async function deleteProduct(formData) {
   revalidatePath("/admin/products");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 // ===== Sellers =====
@@ -157,6 +161,7 @@ export async function saveSeller(formData) {
   revalidatePath("/admin/sellers");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 export async function deleteSeller(formData) {
@@ -170,6 +175,7 @@ export async function deleteSeller(formData) {
   revalidatePath("/admin/sellers");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 // ===== Messages =====
@@ -228,6 +234,7 @@ export async function saveCategory(formData) {
   revalidatePath("/admin/categories");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 export async function deleteCategory(formData) {
@@ -241,6 +248,7 @@ export async function deleteCategory(formData) {
   revalidatePath("/admin/categories");
   revalidatePath("/");
   revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 // ===== Articles =====
@@ -431,6 +439,7 @@ export async function approveJoin(formData) {
   revalidatePath("/");
   revalidatePath("/catalog");
   revalidatePath("/seller");
+  revalidateTag("catalog");
 }
 
 export async function rejectJoin(formData) {
