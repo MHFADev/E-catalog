@@ -44,6 +44,12 @@ export default function Footer() {
                 Katalog
               </Link>
               <Link
+                href="/artikel"
+                className="text-sm text-cool-gray hover:text-forest transition-colors"
+              >
+                Artikel
+              </Link>
+              <Link
                 href="/about"
                 className="text-sm text-cool-gray hover:text-forest transition-colors"
               >
