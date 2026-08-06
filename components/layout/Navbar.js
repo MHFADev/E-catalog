@@ -6,10 +6,13 @@ import Icon from "@/components/common/Icon";
 import JoinModal from "@/components/common/JoinModal";
 import { useUser } from "@/lib/useUser";
 import { useSellerAccount } from "@/lib/useSellerAccount";
+import { createClient } from "@/lib/supabase/client";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [joinOpen, setJoinOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
   const [term, setTerm] = useState("");
   const router = useRouter();
   const pathname = usePathname();
@@ -17,13 +20,26 @@ export default function Navbar() {
   const { account: sellerAccount, loading: sellerLoading } = useSellerAccount();
   const isSeller = sellerAccount?.status === "approved" && Boolean(sellerAccount?.seller_id);
   const inputRef = useRef(null);
+  const profileRef = useRef(null);
 
   useEffect(() => {
     setMenuOpen(false);
+    setProfileOpen(false);
+    setMobileProfileOpen(false);
     // [POP UP DAFTAR UMKM] Tutup modal gabung saat pindah halaman,
     // agar pop up tidak ikut tampil di halaman yang dituju
     setJoinOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const onClickOutside = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, []);
 
   const submitSearch = (e) => {
     e.preventDefault();
@@ -33,6 +49,15 @@ export default function Navbar() {
       return;
     }
     router.push(`/catalog?search=${encodeURIComponent(q)}`);
+  };
+
+  const logout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setProfileOpen(false);
+    setMenuOpen(false);
+    router.push("/login");
+    router.refresh();
   };
 
   const links = [
@@ -108,22 +133,69 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-2 shrink-0">
             {user ? (
-              <>
-                <Link
-                  href="/profile"
-                  className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-noir-soft hover:bg-cream rounded-full transition-colors"
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={() => setProfileOpen((v) => !v)}
+                  className="flex items-center gap-1.5 pl-3 pr-2.5 py-2 text-sm font-semibold text-noir-soft hover:bg-cream rounded-full transition-colors"
+                  aria-expanded={profileOpen}
+                  aria-haspopup="menu"
                 >
                   <Icon name="user" size={15} /> Profil
-                </Link>
-                {isSeller && (
-                  <Link
-                    href="/seller"
-                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-noir-soft hover:bg-cream rounded-full transition-colors"
+                  <Icon
+                    name={profileOpen ? "chevronUp" : "chevronDown"}
+                    size={12}
+                    className="text-muted"
+                  />
+                </button>
+
+                {profileOpen && (
+                  <div
+                    role="menu"
+                    className="absolute right-0 top-full mt-2 w-60 bg-white border border-cream-warm rounded-2xl shadow-xl overflow-hidden z-50"
                   >
-                    <Icon name="store" size={15} /> Toko Saya
-                  </Link>
+                    <div className="px-4 py-3 border-b border-cream-warm">
+                      <div className="text-sm font-bold text-noir truncate">
+                        {sellerAccount?.sellers?.name || "Profil Saya"}
+                      </div>
+                    </div>
+                    <div className="p-1.5">
+                      <Link
+                        href="/profile"
+                        onClick={() => setProfileOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-noir-soft hover:bg-cream transition-colors"
+                      >
+                        <Icon name="idCard" size={16} className="text-forest" />
+                        Detail Profil
+                      </Link>
+                      <Link
+                        href="/seller"
+                        onClick={() => setProfileOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-noir-soft hover:bg-cream transition-colors"
+                      >
+                        <Icon name="store" size={16} className="text-forest" />
+                        Toko Saya
+                      </Link>
+                      <Link
+                        href="/settings"
+                        onClick={() => setProfileOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-noir-soft hover:bg-cream transition-colors"
+                      >
+                        <Icon name="settings" size={16} className="text-forest" />
+                        Pengaturan
+                      </Link>
+                    </div>
+                    <div className="p-1.5 border-t border-cream-warm">
+                      <button
+                        onClick={logout}
+                        className="flex w-full items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <Icon name="logout" size={16} />
+                        Keluar
+                      </button>
+                    </div>
+                  </div>
                 )}
-              </>
+              </div>
             ) : (
               <Link
                 href="/login"
@@ -178,6 +250,7 @@ export default function Navbar() {
                 <Link
                   key={l.href}
                   href={l.href}
+                  onClick={() => setMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-colors ${
                     isActive
                       ? "bg-forest/10 text-forest"
@@ -194,21 +267,54 @@ export default function Navbar() {
             <div className="pt-1 space-y-2">
               {user ? (
                 <>
-                  <Link
-                    href="/profile"
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-noir-soft hover:bg-cream"
+                  <button
+                    onClick={() => setMobileProfileOpen((v) => !v)}
+                    className="flex w-full items-center justify-between px-4 py-3 rounded-xl text-base font-semibold text-noir-soft hover:bg-cream transition-colors"
+                    aria-expanded={mobileProfileOpen}
                   >
-                    <Icon name="user" size={20} /> Profil
-                  </Link>
-                  {isSeller && (
-                    <Link
-                      href="/seller"
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-forest bg-forest/5"
-                    >
-                      <Icon name="store" size={20} /> Toko Saya
-                    </Link>
+                    <span className="flex items-center gap-3">
+                      <Icon name="user" size={20} /> Profil
+                    </span>
+                    <Icon
+                      name={mobileProfileOpen ? "chevronUp" : "chevronDown"}
+                      size={16}
+                      className="text-muted"
+                    />
+                  </button>
+                  {mobileProfileOpen && (
+                    <div className="pl-4 space-y-1">
+                      <Link
+                        href="/profile"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium text-noir-soft hover:bg-cream transition-colors"
+                      >
+                        <Icon name="idCard" size={18} className="text-forest" />
+                        Detail Profil
+                      </Link>
+                      <Link
+                        href="/seller"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium text-noir-soft hover:bg-cream transition-colors"
+                      >
+                        <Icon name="store" size={18} className="text-forest" />
+                        Toko Saya
+                      </Link>
+                      <Link
+                        href="/settings"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium text-noir-soft hover:bg-cream transition-colors"
+                      >
+                        <Icon name="settings" size={18} className="text-forest" />
+                        Pengaturan
+                      </Link>
+                      <button
+                        onClick={logout}
+                        className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <Icon name="logout" size={18} />
+                        Keluar
+                      </button>
+                    </div>
                   )}
                 </>
               ) : (
