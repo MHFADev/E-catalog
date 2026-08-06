@@ -236,7 +236,7 @@ export default async function HomePage() {
       </section>
 
       {/* ===== STATISTIK ===== */}
-      <section className="py-12 md:py-20 bg-hutan relative overflow-hidden">
+      <section className="py-12 md:py-20 bg-emerald-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04]" />
         <div className="relative max-w-7xl mx-auto px-4 md:px-6">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center text-white mb-8 md:mb-14">

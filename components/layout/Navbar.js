@@ -18,7 +18,8 @@ export default function Navbar() {
   const pathname = usePathname();
   const { user } = useUser();
   const { account: sellerAccount, loading: sellerLoading } = useSellerAccount();
-  const isSeller = sellerAccount?.status === "approved" && Boolean(sellerAccount?.seller_id);
+  const isSeller =
+    sellerAccount?.status === "approved" && Boolean(sellerAccount?.seller_id);
   const inputRef = useRef(null);
   const profileRef = useRef(null);
 
@@ -124,7 +125,7 @@ export default function Navbar() {
             {user && (
               <button
                 onClick={() => setJoinOpen(true)}
-                className="flex items-center gap-1.5 px-3 py-2 ml-1 text-sm font-bold text-white bg-forest rounded-full hover:bg-forest-deep shadow-card transition-all hover:shadow-card-hover"
+                className="flex items-center gap-1.5 px-3 py-2 ml-1 text-sm font-bold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 shadow-card transition-all hover:shadow-card-hover"
               >
                 <Icon name="whatsapp" size={15} /> Daftar UMKM
               </button>
@@ -180,7 +181,11 @@ export default function Navbar() {
                         onClick={() => setProfileOpen(false)}
                         className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-noir-soft hover:bg-cream transition-colors"
                       >
-                        <Icon name="settings" size={16} className="text-forest" />
+                        <Icon
+                          name="settings"
+                          size={16}
+                          className="text-forest"
+                        />
                         Pengaturan
                       </Link>
                     </div>
@@ -304,7 +309,11 @@ export default function Navbar() {
                         onClick={() => setMenuOpen(false)}
                         className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium text-noir-soft hover:bg-cream transition-colors"
                       >
-                        <Icon name="settings" size={18} className="text-forest" />
+                        <Icon
+                          name="settings"
+                          size={18}
+                          className="text-forest"
+                        />
                         Pengaturan
                       </Link>
                       <button

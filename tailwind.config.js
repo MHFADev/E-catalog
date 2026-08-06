@@ -14,6 +14,7 @@ module.exports = {
           bright: "#A8D8F0",
           dark: "#0A2540",
         },
+        emerald: { DEFAULT: "#059669", dark: "#047857", light: "#10B981" },
         hutan: { DEFAULT: "#12284B", dark: "#0A1628", light: "#1A4A6E" },
         laut: { DEFAULT: "#438BC4", deep: "#0D2240", light: "#5BA3D9" },
         langit: { DEFAULT: "#8CC1E9", light: "#B8D9F0", deep: "#438BC4" },
