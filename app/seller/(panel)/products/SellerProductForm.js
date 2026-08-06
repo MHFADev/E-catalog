@@ -83,6 +83,14 @@ export default function SellerProductForm({ categories, initial = null }) {
         Tersedia / stok ada
       </label>
 
+      <label className="flex items-center gap-2 text-sm text-noir-soft">
+        <input type="checkbox" name="showPrice" defaultChecked={initial?.showPrice !== false} />
+        Tampilkan harga di katalog
+        <span className="text-[11px] text-warm-gray">
+          (matikan agar web menampilkan "Hubungi penjual untuk harga")
+        </span>
+      </label>
+
       <button type="submit" className="btn-primary text-sm py-2.5 px-5">
         {initial ? "Simpan Perubahan" : "Tambah Produk"}
       </button>

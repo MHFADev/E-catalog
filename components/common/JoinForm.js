@@ -2,22 +2,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
-import { registerSellerAccount } from "@/app/seller/actions";
+import ImageUploader from "@/components/common/ImageUploader";
+import { submitJoinRequest } from "@/app/join/actions";
 import { useUser } from "@/lib/useUser";
-import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
-import { ADMIN_WHATSAPP } from "@/lib/constants";
-
-const WA_TEMPLATE = (d) =>
-  [
-    "Halo Admin E-Catalog UMKM Kemayoran",
-    "",
-    "Ada permintaan gabung sebagai mitra UMKM:",
-    `- Nama usaha: ${d.businessName}`,
-    `- WhatsApp: ${d.whatsapp}`,
-    `- Akun login: ${d.email}`,
-    "",
-    "Mohon diverifikasi dan dihubungkan ke toko di panel admin ya. Terima kasih!",
-  ].join("\n");
 
 const inputClass =
   "w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all";
@@ -50,8 +37,6 @@ export default function JoinForm({ onClose }) {
           langsung masuk ke panel admin untuk disetujui — lalu akunmu jadi
           penjual dan kamu bisa kelola produk sendiri.
         </p>
-        {/* [POP UP DAFTAR UMKM] onClick={onClose} menutup modal dulu sebelum pindah ke /login,
-            supaya pop up tidak ikut tampil di halaman tujuan */}
         <Link
           href="/login?next=/gabung"
           onClick={onClose}
@@ -69,19 +54,8 @@ export default function JoinForm({ onClose }) {
     setStatus("sending");
     const fd = new FormData(e.target);
     try {
-      await registerSellerAccount(fd);
-      window.open(
-        generateWhatsAppLink(
-          ADMIN_WHATSAPP,
-          WA_TEMPLATE({
-            businessName: (fd.get("businessName") || "").toString().trim(),
-            whatsapp: (fd.get("whatsapp") || "").toString().trim(),
-            email: user.email,
-          }),
-        ),
-        "_blank",
-      );
-      setStatus("sent");
+      const res = await submitJoinRequest(fd);
+      if (res?.ok) setStatus("sent");
     } catch (err) {
       setError(err.message || "Gagal menyimpan");
       setStatus("");
@@ -98,8 +72,9 @@ export default function JoinForm({ onClose }) {
           Permintaan Terkirim!
         </h3>
         <p className="text-xs md:text-sm text-warm-gray leading-relaxed max-w-sm mx-auto mb-5">
-          Akunmu terdaftar sebagai calon mitra dan sedang menunggu persetujuan
-          admin. Setelah disetujui, kamu bisa kelola produk di{" "}
+          Data usaha kamu sudah masuk ke panel admin beserta foto produknya.
+          Setelah disetujui, semua data langsung terisi di akun penjualmu — kamu
+          bisa kelola produk di{" "}
           <Link href="/seller" className="text-forest font-semibold hover:underline">
             Area Penjual
           </Link>
@@ -111,20 +86,65 @@ export default function JoinForm({ onClose }) {
 
   return (
     <form onSubmit={submit} className="space-y-3">
+      <div className="grid sm:grid-cols-2 gap-3">
+        <input
+          name="businessName"
+          type="text"
+          placeholder="Nama usaha / toko *"
+          required
+          className={inputClass}
+        />
+        <input
+          name="ownerName"
+          type="text"
+          placeholder="Nama pemilik"
+          className={inputClass}
+        />
+        <input
+          name="whatsapp"
+          type="tel"
+          placeholder="No. WhatsApp usaha * (cth. 628...)"
+          required
+          className={inputClass}
+        />
+        <input
+          name="categoryProduct"
+          type="text"
+          placeholder="Jenis produk (cth. makanan, kerajinan)"
+          className={inputClass}
+        />
+        <div className="sm:col-span-2">
+          <input
+            name="address"
+            type="text"
+            placeholder="Alamat usaha"
+            className={inputClass}
+          />
+        </div>
+      </div>
+
+      <div className="sm:col-span-2">
+        <textarea
+          name="description"
+          placeholder="Deskripsi singkat usaha & produk andalan"
+          rows={2}
+          className={`${inputClass} resize-none`}
+        />
+      </div>
+
+      <ImageUploader
+        name="productImage"
+        label="Foto Produk Andalan (otomatis dikompres)"
+        placeholder="URL foto produk"
+      />
+
       <input
-        name="businessName"
+        name="notes"
         type="text"
-        placeholder="Nama usaha *"
-        required
+        placeholder="Catatan tambahan (opsional)"
         className={inputClass}
       />
-      <input
-        name="whatsapp"
-        type="tel"
-        placeholder="No. WhatsApp *"
-        required
-        className={inputClass}
-      />
+
       <button
         type="submit"
         disabled={status === "sending"}
@@ -142,7 +162,8 @@ export default function JoinForm({ onClose }) {
 
       <p className="text-[10px] md:text-xs text-warm-gray text-center leading-relaxed">
         Terdaftar sebagai <span className="text-noir-soft">{user.email}</span>.
-        Admin akan menyetujui permintaanmu di panel admin.
+        Admin akan menyetujui permintaanmu di panel admin — data usaha langsung
+        terisi di akun penjualmu.
       </p>
     </form>
   );

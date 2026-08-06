@@ -58,6 +58,7 @@ export async function saveProduct(formData) {
   const tags = parseList(formData.get("tags"));
   const isFeatured = formData.get("isFeatured") === "on";
   const isAvailable = formData.get("isAvailable") === "on";
+  const showPrice = formData.get("showPrice") === "on";
 
   if (!name || !categoryId || !sellerId) throw new Error("Nama, kategori, dan toko wajib diisi");
   if (!images.length) throw new Error("Minimal 1 gambar (pisahkan dengan koma)");
@@ -73,6 +74,7 @@ export async function saveProduct(formData) {
     tags,
     is_featured: isFeatured,
     is_available: isAvailable,
+    show_price: showPrice,
   };
 
   const supabase = await createClient();
@@ -353,6 +355,98 @@ export async function rejectSellerAccount(formData) {
 }
 
 // ===== Join requests =====
+export async function approveJoin(formData) {
+  await requireAdmin();
+  const id = formData.get("id");
+  if (!id) throw new Error("Parameter salah");
+
+  const supabase = await createClient();
+  const { data: join } = await supabase
+    .from("join_requests")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  if (!join) throw new Error("Permintaan tidak ditemukan");
+  if (join.status === "approved") {
+    revalidatePath("/admin/join");
+    return;
+  }
+
+  // 1) Buat toko UMKM dari data permintaan.
+  const baseName = (join.business_name || "UMKM")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-") || `umkm-${Date.now()}`;
+  const slug = `${baseName}-${Date.now().toString(36)}`;
+  const { error: sellerErr } = await supabase.from("sellers").insert({
+    id: slug,
+    name: join.business_name,
+    owner: join.owner_name || null,
+    whatsapp: join.whatsapp || null,
+    address: join.address || null,
+    description: join.description || null,
+    logo: join.product_image || null,
+  });
+  if (sellerErr) throw new Error(sellerErr.message);
+  const sellerId = slug;
+
+  // 2) Tautkan ke akun penjual (jika pemohon login punya user_id).
+  if (join.user_id) {
+    const { data: existing } = await supabase
+      .from("seller_accounts")
+      .select("user_id")
+      .eq("user_id", join.user_id)
+      .maybeSingle();
+    const payload = {
+      business_name: join.business_name,
+      whatsapp: join.whatsapp || null,
+      seller_id: sellerId,
+      status: "approved",
+    };
+    const acctErr = existing
+      ? (
+          await supabase
+            .from("seller_accounts")
+            .update(payload)
+            .eq("user_id", join.user_id)
+        ).error
+      : (
+          await supabase
+            .from("seller_accounts")
+            .insert({ user_id: join.user_id, ...payload })
+        ).error;
+    if (acctErr) throw new Error(acctErr.message);
+  }
+
+  // 3) Tandai permintaan disetujui.
+  const { error } = await supabase
+    .from("join_requests")
+    .update({ status: "approved", approved_at: new Date().toISOString() })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/join");
+  revalidatePath("/admin/accounts");
+  revalidatePath("/");
+  revalidatePath("/catalog");
+  revalidatePath("/seller");
+}
+
+export async function rejectJoin(formData) {
+  await requireAdmin();
+  const id = formData.get("id");
+  if (!id) throw new Error("Parameter salah");
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("join_requests")
+    .update({ status: "rejected", approved_at: new Date().toISOString() })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/join");
+}
+
 export async function setJoinStatus(formData) {
   await requireAdmin();
   const id = formData.get("id");

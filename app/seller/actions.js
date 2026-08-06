@@ -94,6 +94,7 @@ export async function saveSellerProduct(formData) {
   const images = parseList(formData.get("images"));
   const tags = parseList(formData.get("tags"));
   const isAvailable = formData.get("isAvailable") === "on";
+  const showPrice = formData.get("showPrice") === "on";
 
   if (!name || !categoryId) throw new Error("Nama dan kategori wajib diisi");
   if (!images.length) throw new Error("Minimal 1 gambar");
@@ -108,6 +109,7 @@ export async function saveSellerProduct(formData) {
     images,
     tags,
     is_available: isAvailable,
+    show_price: showPrice,
   };
 
   const supabase = await createClient();

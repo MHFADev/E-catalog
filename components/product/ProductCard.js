@@ -64,13 +64,13 @@ export default function ProductCard({ product, category }) {
       </div>
       <div className="p-2.5 md:p-4 flex flex-col gap-1 md:gap-1.5">
         <h3 className="text-xs md:text-base font-semibold text-noir leading-tight line-clamp-2">{product.name}</h3>
-        {price ? (
+        {product.showPrice !== false && price ? (
           <span className="text-sm md:text-lg font-bold text-forest leading-tight">
             {price.main}
             {price.suffix && <span className="text-[10px] md:text-xs font-medium text-warm-gray ml-1">{price.suffix}</span>}
           </span>
         ) : (
-          <span className="text-[11px] md:text-sm font-semibold text-warm-gray">Hubungi via WhatsApp</span>
+          <span className="text-[11px] md:text-sm font-semibold text-warm-gray">Hubungi penjual untuk harga</span>
         )}
         {/* [RATING PRODUK] Rata-rata rating tampil di bawah harga (bintang + angka,
             mis. "4.7"), hanya muncul jika produk punya rating > 0 */}

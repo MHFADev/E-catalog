@@ -95,6 +95,10 @@ export default function ProductForm({ categories, sellers, initial = null }) {
           <input type="checkbox" name="isAvailable" defaultChecked={initial?.isAvailable ?? true} />
           Tersedia
         </label>
+        <label className="flex items-center gap-2">
+          <input type="checkbox" name="showPrice" defaultChecked={initial?.showPrice !== false} />
+          Tampilkan harga
+        </label>
       </div>
 
       <button type="submit" className="btn-primary text-sm py-2.5 px-5">

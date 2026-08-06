@@ -66,7 +66,8 @@ export default async function ProductDetailPage({ params }) {
       )
     : null;
 
-  const price = priceLabel(product);
+  const showPrice = product.showPrice !== false && product.price != null;
+  const price = showPrice ? priceLabel(product) : "Hubungi penjual untuk harga";
 
   // ===== Komentar produk ini =====
   const productReviews = reviews.filter((r) => r.productId === product.id);
@@ -156,7 +157,7 @@ export default async function ProductDetailPage({ params }) {
               </h1>
 
               {/* Harga besar ala marketplace */}
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-forest mb-1.5">
+              <div className={`font-bold mb-1.5 ${showPrice ? "text-2xl md:text-3xl lg:text-4xl text-forest" : "text-base md:text-lg text-warm-gray"}`}>
                 {price}
               </div>
               <div className="flex items-center gap-1.5 text-xs md:text-sm text-warm-gray mb-3 md:mb-4">
