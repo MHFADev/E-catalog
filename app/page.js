@@ -110,6 +110,7 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
+          </div>
 
             {/* ===== SEARCH BAR ===== */}
           <form
