@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import Icon from "@/components/common/Icon";
 import { getSellerAccount } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import SellerLocationForm from "@/components/seller/SellerLocationForm";
@@ -55,19 +56,22 @@ export default async function SellerDashboardPage() {
       <div className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-7 border border-cream-warm">
         <div className="flex items-center justify-between mb-3">
           <h3 className="flex items-center gap-2 text-sm md:text-base font-bold text-noir">
-            <IconMark /> Lokasi Toko
+            <Icon name="mapPin" size={16} className="text-laut" /> Lokasi Toko
           </h3>
           <Link
             href="/#peta"
             className="inline-flex items-center gap-1 text-[11px] md:text-xs font-semibold text-laut hover:underline"
           >
-            <IconMark2 /> Lihat Peta Katalog
+            <Icon name="navigation" size={14} /> Lihat Peta Katalog
           </Link>
         </div>
         {hasLoc ? (
           <p className="text-xs md:text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2 mb-3">
-            ✓ Lokasi terdaftar — pin toko Anda tampil di peta untuk semua
-            pengunjung. Ubah bila perlu.
+            <span className="inline-flex items-center gap-1.5">
+              <Icon name="badgeCheck" size={14} className="shrink-0" />
+              Lokasi terdaftar — pin toko Anda tampil di peta untuk semua
+              pengunjung. Ubah bila perlu.
+            </span>
           </p>
         ) : (
           <p className="text-xs md:text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-3">
@@ -90,31 +94,3 @@ export default async function SellerDashboardPage() {
   );
 }
 
-function IconMark() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      className="w-4 h-4 text-laut"
-    >
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
-  );
-}
-function IconMark2() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      className="w-3.5 h-3.5"
-    >
-      <circle cx="12" cy="12" r="3" />
-      <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-    </svg>
-  );
-}

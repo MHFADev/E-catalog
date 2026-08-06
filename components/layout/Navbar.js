@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Icon from "@/components/common/Icon";
 import JoinModal from "@/components/common/JoinModal";
 import { useUser } from "@/lib/useUser";
+import { useSellerAccount } from "@/lib/useSellerAccount";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -13,6 +14,8 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useUser();
+  const { account: sellerAccount, loading: sellerLoading } = useSellerAccount();
+  const isSeller = sellerAccount?.status === "approved" && Boolean(sellerAccount?.seller_id);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -105,12 +108,22 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-2 shrink-0">
             {user ? (
-              <Link
-                href="/seller"
-                className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-noir-soft hover:bg-cream rounded-full transition-colors"
-              >
-                <Icon name="store" size={15} /> Toko Saya
-              </Link>
+              <>
+                <Link
+                  href="/profile"
+                  className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-noir-soft hover:bg-cream rounded-full transition-colors"
+                >
+                  <Icon name="user" size={15} /> Profil
+                </Link>
+                {isSeller && (
+                  <Link
+                    href="/seller"
+                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-noir-soft hover:bg-cream rounded-full transition-colors"
+                  >
+                    <Icon name="store" size={15} /> Toko Saya
+                  </Link>
+                )}
+              </>
             ) : (
               <Link
                 href="/login"
@@ -180,13 +193,24 @@ export default function Navbar() {
             })}
             <div className="pt-1 space-y-2">
               {user ? (
-                <Link
-                  href="/seller"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-forest bg-forest/5"
-                >
-                  <Icon name="store" size={20} /> Toko Saya
-                </Link>
+                <>
+                  <Link
+                    href="/profile"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-noir-soft hover:bg-cream"
+                  >
+                    <Icon name="user" size={20} /> Profil
+                  </Link>
+                  {isSeller && (
+                    <Link
+                      href="/seller"
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-forest bg-forest/5"
+                    >
+                      <Icon name="store" size={20} /> Toko Saya
+                    </Link>
+                  )}
+                </>
               ) : (
                 <Link
                   href="/login"

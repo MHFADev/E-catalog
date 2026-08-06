@@ -9,13 +9,12 @@ function Stars({ value, size = 12, className = "" }) {
   return (
     <div className={`flex gap-0.5 text-amber-500 ${className}`}>
       {[1, 2, 3, 4, 5].map((i) => (
-        <span
+        <Icon
           key={i}
-          style={{ fontSize: size }}
+          name="starFilled"
+          size={size}
           className={i <= value ? "" : "opacity-25"}
-        >
-          â˜…
-        </span>
+        />
       ))}
     </div>
   );
@@ -146,7 +145,11 @@ function CommentForm({ productId, onAdd }) {
               }`}
               aria-label={`${i} bintang`}
             >
-              â˜…
+              <Icon
+                name="starFilled"
+                size={18}
+                className={i <= (hover || rating) ? "text-amber-500" : "text-muted/40"}
+              />
             </button>
           ))}
         </div>
@@ -220,8 +223,9 @@ export default function ReviewSection({ initial = [], productId }) {
         <div className="flex flex-col justify-center gap-1.5">
           {dist.map((d) => (
             <div key={d.star} className="flex items-center gap-2 text-xs md:text-sm">
-              <span className="w-6 text-right text-warm-gray shrink-0">
-                {d.star}â˜…
+              <span className="w-6 text-right text-warm-gray shrink-0 flex items-center justify-end gap-0.5">
+                {d.star}
+                <Icon name="starFilled" size={11} />
               </span>
               <div className="flex-1 h-2 rounded-full bg-cream-warm overflow-hidden">
                 <div
@@ -250,7 +254,7 @@ export default function ReviewSection({ initial = [], productId }) {
         </div>
       )}
 
-      {/* Form komentar â€” wajib login */}
+      {/* Form komentar - wajib login */}
       {loading ? null : user ? (
         <CommentForm
           productId={productId}

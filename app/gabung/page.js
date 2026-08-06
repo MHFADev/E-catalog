@@ -80,7 +80,7 @@ export default function GabungPage() {
           href="/"
           className="text-xs md:text-sm text-warm-gray hover:text-forest"
         >
-          ← Kembali ke Beranda
+          <Icon name="chevronLeft" size={12} /> Kembali ke Beranda
         </Link>
         <a
           href={generateWhatsAppLink(ADMIN_WHATSAPP, WHATSAPP_JOIN_MESSAGE)}
