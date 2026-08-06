@@ -26,8 +26,6 @@ Katalog digital UMKM lokal Kemayoran (Gunung Putri, Bogor). Next.js 16 App Route
    GITHUB_REPO=<nama repo gambar>
    GITHUB_TOKEN=<PAT>
    GITHUB_IMAGE_PATH=images
-   ADMIN_EMAIL=admin@contoh.com
-   ADMIN_PASSWORD=<password kuat>
    ADMIN_SESSION_SECRET=<string acak panjang>
    ```
 3. Jalankan:
@@ -37,7 +35,17 @@ Katalog digital UMKM lokal Kemayoran (Gunung Putri, Bogor). Next.js 16 App Route
 
 ## Login Admin
 
-Tidak ada register. Akun admin ditentukan lewat env (`ADMIN_EMAIL` + `ADMIN_PASSWORD`). Buka `/admin/login`, isi sesuai env, langsung masuk.
+Tidak ada register. Kredensial admin disimpan **di database** (tabel `admin_users`), bukan di env.
+
+1. Jalankan SQL `supabase/migrations/0004_admin_auth_database.sql` di **Supabase Dashboard → SQL Editor** (membuat tabel + fungsi verifikasi, idempotent).
+2. Buat akun admin lewat SQL Editor (contoh di dalam file migrasi):
+   ```sql
+   insert into public.admin_users (email, password_hash)
+   values ('admin@contoh.com', public.crypt('<password kuat>', public.gen_salt('bf')));
+   ```
+3. Buka `/admin/login`, isi email & password tadi, langsung masuk.
+
+Sesi memakai cookie yang ditandatangani `ADMIN_SESSION_SECRET`; admin dinonaktifkan (`active = false`) otomatis tidak bisa login/masuk lagi. Untuk mengubah password, lihat contoh `update` di akhiran file migrasi.
 
 ## Alur Penjual UMKM
 
@@ -60,7 +68,7 @@ Tidak ada register. Akun admin ditentukan lewat env (`ADMIN_EMAIL` + `ADMIN_PASS
 1. Push repo ke GitHub.
 2. Import di Vercel (framework terdeteksi otomatis: Next.js).
 3. Tambah Environment Variables (sama seperti `.env.local`):
-   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `GITHUB_REPO_OWNER`, `GITHUB_REPO`, `GITHUB_TOKEN`, `GITHUB_IMAGE_PATH`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`.
+   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `GITHUB_REPO_OWNER`, `GITHUB_REPO`, `GITHUB_TOKEN`, `GITHUB_IMAGE_PATH`, `ADMIN_SESSION_SECRET`.
 4. Di Supabase dashboard → Authentication → URL Configuration: set **Site URL** ke URL Vercel Anda, tambahkan URL Vercel ke Redirect URLs.
 5. Deploy.
 
