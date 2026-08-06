@@ -1,23 +1,24 @@
-﻿"use client";
+"use client";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-export default function SellerLogoutButton() {
+// Tombol logout untuk halaman /profile. Tombol berwarna merah.
+export default function LogoutButton() {
   const router = useRouter();
 
   const logout = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
-    router.push("/seller/login");
+    router.push("/");
     router.refresh();
   };
 
   return (
     <button
       onClick={logout}
-      className="px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-noir text-cream-pure hover:bg-forest transition-all"
+      className="inline-flex items-center justify-center gap-2 px-5 h-11 text-sm font-bold text-white bg-red-600 hover:bg-red-700 rounded-2xl transition-colors"
     >
-      Keluar
+      Logout
     </button>
   );
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
+import LogoutButton from "./LogoutButton";
 import { updateUsername } from "./actions";
 
 const TWO_YEARS_MS = 2 * 365 * 24 * 60 * 60 * 1000;
@@ -227,6 +228,13 @@ export default function ProfileForm({
                   </Link>
                 </div>
               )}
+            </section>
+
+            <hr className="border-cream-warm" />
+
+            {/* [LOGOUT] Tombol keluar dari akun, ditempatkan di bagian bawah halaman profil */}
+            <section className="flex justify-end">
+              <LogoutButton />
             </section>
           </div>
         </div>

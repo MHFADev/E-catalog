@@ -220,7 +220,7 @@ export default async function HomePage() {
               <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight">
                 UMKM <span className="text-forest">Unggulan</span>
               </h2>
-              <p className="text-xs md:text-sm text-warm-gray mt-1">
+              <p className="hidden md:block text-xs md:text-sm text-warm-gray mt-1">
                 Produk pilihan dari para pelaku UMKM terbaik Kemayoran
               </p>
             </div>
@@ -317,7 +317,7 @@ export default async function HomePage() {
                 Event &amp;{" "}
                 <span className="text-forest">Kegiatan Terbaru</span>
               </h2>
-              <p className="text-xs md:text-sm text-warm-gray mt-1">
+              <p className="hidden md:block text-xs md:text-sm text-warm-gray mt-1">
                 Ikuti acara dan program pendampingan UMKM Kemayoran
               </p>
             </div>

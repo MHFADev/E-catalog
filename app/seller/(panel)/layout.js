@@ -3,7 +3,6 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getSellerAccount } from "@/lib/auth";
 import PendingProfile from "../PendingProfile";
-import SellerLogoutButton from "../SellerLogoutButton";
 
 export default async function SellerLayout({ children }) {
   const supabase = await createClient();
@@ -37,7 +36,6 @@ export default async function SellerLayout({ children }) {
             >
               Lihat Situs
             </Link>
-            <SellerLogoutButton />
           </div>
         </div>
 

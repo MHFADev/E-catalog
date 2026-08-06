@@ -72,6 +72,17 @@ export default function ProductCard({ product, category }) {
         ) : (
           <span className="text-[11px] md:text-sm font-semibold text-warm-gray">Hubungi via WhatsApp</span>
         )}
+        {/* [RATING PRODUK] Rata-rata rating tampil di bawah harga (bintang + angka,
+            mis. "4.7"), hanya muncul jika produk punya rating > 0 */}
+        {product.rating > 0 && (
+          <span className="flex items-center gap-1 text-[10px] md:text-sm text-warm-gray">
+            <Icon name="starFilled" size={12} className="text-amber-500" />
+            <span className="font-semibold text-noir">
+              {product.rating.toFixed(1)}
+            </span>
+            <span className="text-muted/60">rating</span>
+          </span>
+        )}
         {product.sellerName && (
           <span className="flex items-center gap-1 text-[10px] md:text-sm text-warm-gray truncate">
             <Icon name="store" size={12} className="shrink-0 text-forest" />
