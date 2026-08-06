@@ -41,7 +41,7 @@ Tidak ada register. Kredensial admin disimpan **di database** (tabel `admin_user
 2. Buat akun admin lewat SQL Editor (contoh di dalam file migrasi):
    ```sql
    insert into public.admin_users (email, password_hash)
-   values ('admin@contoh.com', public.crypt('<password kuat>', public.gen_salt('bf')));
+   values ('admin@contoh.com', crypt('<password kuat>', gen_salt('bf')));
    ```
 3. Buka `/admin/login`, isi email & password tadi, langsung masuk.
 
