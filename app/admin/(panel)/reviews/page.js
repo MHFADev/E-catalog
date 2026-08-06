@@ -1,4 +1,5 @@
 ﻿import { createClient } from "@/lib/supabase/server";
+import Icon from "@/components/common/Icon";
 import { setReviewStatus, deleteReview } from "../actions";
 
 const statusBadge = {
@@ -9,9 +10,15 @@ const statusBadge = {
 
 function Stars({ value }) {
   return (
-    <span className="text-amber-500 text-xs">
-      {"â˜…".repeat(value)}
-      <span className="text-muted/30">{"â˜…".repeat(5 - value)}</span>
+    <span className="text-xs">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <Icon
+          key={i}
+          name="starFilled"
+          size={12}
+          className={i <= value ? "text-amber-500" : "text-muted/30"}
+        />
+      ))}
     </span>
   );
 }

@@ -57,7 +57,7 @@ export default function ProductForm({ categories, sellers, initial = null }) {
         <input
           name="priceUnit"
           defaultValue={initial?.priceUnit ?? ""}
-          placeholder="Satuan harga (cth. per porsi, Rp12.000 â€“ Rp42.000)"
+          placeholder="Satuan harga (cth. per porsi, Rp12.000 – Rp42.000)"
           className={inputClass}
         />
         <div className="sm:col-span-2">

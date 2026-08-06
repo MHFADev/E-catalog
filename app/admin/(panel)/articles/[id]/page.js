@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import Icon from "@/components/common/Icon";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ArticleForm from "../ArticleForm";
@@ -18,9 +19,9 @@ export default async function AdminEditArticlePage({ params }) {
     <div>
       <Link
         href="/admin/articles"
-        className="text-xs md:text-sm text-warm-gray hover:text-forest mb-4 inline-block"
+        className="flex items-center gap-1.5 text-xs md:text-sm text-warm-gray hover:text-forest mb-4 inline-block"
       >
-        â† Kembali ke daftar artikel
+        <Icon name="chevronLeft" size={14} /> Kembali ke daftar artikel
       </Link>
       <h2 className="text-sm md:text-base font-bold text-noir mb-4">
         Edit Artikel

@@ -62,8 +62,8 @@ export default async function AdminAccountsPage() {
             </div>
 
             <div className="text-[11px] md:text-xs text-warm-gray mb-2">
-              User: {a.user_id} â€¢ Terhubung ke:{" "}
-              <span className="text-noir-soft">{a.sellers?.name ?? "â€”"}</span>
+              User: {a.user_id} • Terhubung ke:{" "}
+              <span className="text-noir-soft">{a.sellers?.name ?? "—"}</span>
             </div>
 
             {a.status !== "approved" && (
@@ -75,7 +75,7 @@ export default async function AdminAccountsPage() {
                     name="sellerId"
                     className="bg-cream-pure border border-cream-warm rounded-lg px-2 py-1.5 text-xs text-noir"
                   >
-                    <option value="">â€” pilih toko â€”</option>
+                    <option value="">— pilih toko —</option>
                     {sellers?.map((s) => (
                       <option key={s.id} value={s.id}>{s.name}</option>
                     ))}
@@ -105,7 +105,7 @@ export default async function AdminAccountsPage() {
 
             {a.status === "approved" && (
               <div className="text-xs text-emerald-700">
-                Akun aktif â€” pemilik dapat mengelola produk toko ini.
+                Akun aktif — pemilik dapat mengelola produk toko ini.
               </div>
             )}
 

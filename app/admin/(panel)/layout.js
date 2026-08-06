@@ -1,18 +1,19 @@
 ﻿import { redirect } from "next/navigation";
 import Link from "next/link";
+import Icon from "@/components/common/Icon";
 import { isAdmin } from "@/lib/auth";
 import LogoutButton from "./LogoutButton";
 
 const links = [
-  { href: "/admin", label: "Dashboard" },
-  { href: "/admin/products", label: "Produk" },
-  { href: "/admin/sellers", label: "Toko / UMKM" },
-  { href: "/admin/categories", label: "Kategori" },
-  { href: "/admin/articles", label: "Artikel" },
-  { href: "/admin/accounts", label: "Akun Penjual" },
-  { href: "/admin/reviews", label: "Komentar" },
-  { href: "/admin/messages", label: "Pesan" },
-  { href: "/admin/join", label: "Permintaan Gabung" },
+  { href: "/admin", label: "Dashboard", icon: "grid" },
+  { href: "/admin/products", label: "Produk", icon: "package" },
+  { href: "/admin/sellers", label: "Toko / UMKM", icon: "store" },
+  { href: "/admin/categories", label: "Kategori", icon: "tag" },
+  { href: "/admin/articles", label: "Artikel", icon: "file" },
+  { href: "/admin/accounts", label: "Akun Penjual", icon: "users" },
+  { href: "/admin/reviews", label: "Komentar", icon: "star" },
+  { href: "/admin/messages", label: "Pesan", icon: "send" },
+  { href: "/admin/join", label: "Permintaan Gabung", icon: "whatsapp" },
 ];
 
 export default async function AdminLayout({ children }) {
@@ -33,9 +34,9 @@ export default async function AdminLayout({ children }) {
           <div className="flex items-center gap-2">
             <Link
               href="/"
-              className="text-xs md:text-sm text-warm-gray hover:text-forest px-3 py-2"
+              className="flex items-center gap-1.5 text-xs md:text-sm text-warm-gray hover:text-forest px-3 py-2"
             >
-              Lihat Situs â†’
+              <Icon name="externalLink" size={14} /> Lihat Situs
             </Link>
             <LogoutButton />
           </div>
@@ -46,8 +47,9 @@ export default async function AdminLayout({ children }) {
             <Link
               key={l.href}
               href={l.href}
-              className="shrink-0 px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-white border border-cream-warm text-noir-soft hover:border-forest hover:text-forest transition-all"
+              className="shrink-0 flex items-center gap-1.5 px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-white border border-cream-warm text-noir-soft hover:border-forest hover:text-forest transition-all"
             >
+              <Icon name={l.icon} size={14} className="text-forest" />
               {l.label}
             </Link>
           ))}

@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import Icon from "@/components/common/Icon";
 import { createClient } from "@/lib/supabase/server";
 import ProductForm from "./ProductForm";
 import { toggleProduct, deleteProduct } from "../actions";
@@ -21,8 +22,8 @@ export default async function AdminProductsPage() {
       </h2>
 
       <details className="bg-white rounded-2xl border border-cream-warm mb-6 overflow-hidden">
-        <summary className="px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
-          + Tambah Produk Baru
+        <summary className="flex items-center gap-1.5 px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
+          <Icon name="plus" size={14} /> Tambah Produk Baru
         </summary>
         <div className="p-4 md:p-5 border-t border-cream-warm">
           <ProductForm categories={categories ?? []} sellers={sellers ?? []} />
@@ -55,7 +56,7 @@ export default async function AdminProductsPage() {
                 {p.name}
               </div>
               <div className="text-[11px] md:text-xs text-warm-gray truncate">
-                {p.sellers?.name} â€¢ {catName(p.category_id)}
+                {p.sellers?.name} • {catName(p.category_id)}
               </div>
               <div className="text-[11px] md:text-xs text-warm-gray">
                 {p.price != null ? `Rp${Number(p.price).toLocaleString("id-ID")}` : p.price_unit || "Hubungi penjual"}
@@ -67,8 +68,9 @@ export default async function AdminProductsPage() {
                 <input type="hidden" name="id" value={p.id} />
                 <input type="hidden" name="field" value="is_featured" />
                 <input type="hidden" name="value" value={String(!p.is_featured)} />
-                <button className={`px-3 py-1.5 text-xs font-semibold rounded-full transition-all ${p.is_featured ? "bg-amber-100 text-amber-700" : "bg-cream-warm text-noir-soft hover:bg-cream"}`}>
-                  {p.is_featured ? "â˜… Unggulan" : "Jadikan Unggulan"}
+                <button className={`flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-full transition-all ${p.is_featured ? "bg-amber-100 text-amber-700" : "bg-cream-warm text-noir-soft hover:bg-cream"}`}>
+                  <Icon name="starFilled" size={12} />
+                  {p.is_featured ? "Unggulan" : "Jadikan Unggulan"}
                 </button>
               </form>
               <form action={toggleProduct}>

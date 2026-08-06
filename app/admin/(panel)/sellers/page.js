@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import Icon from "@/components/common/Icon";
 import { createClient } from "@/lib/supabase/server";
 import SellerForm from "./SellerForm";
 import { deleteSeller } from "../actions";
@@ -17,8 +18,8 @@ export default async function AdminSellersPage() {
       </h2>
 
       <details className="bg-white rounded-2xl border border-cream-warm mb-6 overflow-hidden">
-        <summary className="px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
-          + Tambah Toko Baru
+        <summary className="flex items-center gap-1.5 px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
+          <Icon name="plus" size={14} /> Tambah Toko Baru
         </summary>
         <div className="p-4 md:p-5 border-t border-cream-warm">
           <SellerForm />
@@ -51,11 +52,11 @@ export default async function AdminSellersPage() {
                 {s.name}
               </div>
               <div className="text-[11px] md:text-xs text-warm-gray truncate">
-                {s.owner ? `Pemilik: ${s.owner} â€¢ ` : ""}
+                {s.owner ? `Pemilik: ${s.owner} • ` : ""}
                 {s.address || ""}
               </div>
               <div className="text-[11px] md:text-xs text-warm-gray">
-                {s.whatsapp} â€¢ {s.products?.length ?? 0} produk
+                {s.whatsapp} • {s.products?.length ?? 0} produk
               </div>
             </div>
 

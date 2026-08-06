@@ -58,6 +58,10 @@ import {
   FaGear,
   FaRightFromBracket,
   FaIdCard,
+  FaPlus,
+  FaArrowLeft,
+  FaPenToSquare,
+  FaTag,
 } from "react-icons/fa6";
 
 const icons = {
@@ -124,6 +128,10 @@ const icons = {
   settings: FaGear,
   logout: FaRightFromBracket,
   idCard: FaIdCard,
+  plus: FaPlus,
+  arrowLeft: FaArrowLeft,
+  edit: FaPenToSquare,
+  tag: FaTag,
   google: (
     <svg viewBox="0 0 24 24">
       <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47a5.57 5.57 0 0 1-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z" />

@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import Icon from "@/components/common/Icon";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import CategoryForm from "../CategoryForm";
@@ -18,9 +19,9 @@ export default async function AdminEditCategoryPage({ params }) {
     <div>
       <Link
         href="/admin/categories"
-        className="text-xs md:text-sm text-warm-gray hover:text-forest mb-4 inline-block"
+        className="flex items-center gap-1.5 text-xs md:text-sm text-warm-gray hover:text-forest mb-4 inline-block"
       >
-        â† Kembali ke daftar kategori
+        <Icon name="chevronLeft" size={14} /> Kembali ke daftar kategori
       </Link>
       <h2 className="text-sm md:text-base font-bold text-noir mb-4">
         Edit Kategori: {category.name}

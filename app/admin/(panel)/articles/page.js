@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import Icon from "@/components/common/Icon";
 import { createClient } from "@/lib/supabase/server";
 import ArticleForm from "./ArticleForm";
 import { deleteArticle } from "../actions";
@@ -17,8 +18,8 @@ export default async function AdminArticlesPage() {
       </h2>
 
       <details className="bg-white rounded-2xl border border-cream-warm mb-6 overflow-hidden">
-        <summary className="px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
-          + Tulis Artikel Baru
+        <summary className="flex items-center gap-1.5 px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
+          <Icon name="plus" size={14} /> Tulis Artikel Baru
         </summary>
         <div className="p-4 md:p-5 border-t border-cream-warm">
           <ArticleForm />
@@ -47,7 +48,7 @@ export default async function AdminArticlesPage() {
                 {a.title}
               </div>
               <div className="text-[11px] md:text-xs text-warm-gray">
-                {a.author} â€¢ {a.published_at} â€¢{" "}
+                {a.author} • {a.published_at} •{" "}
                 <span className={a.published ? "text-emerald-600 font-semibold" : "text-amber-600 font-semibold"}>
                   {a.published ? "Published" : "Draft"}
                 </span>

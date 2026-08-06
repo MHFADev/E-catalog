@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import Icon from "@/components/common/Icon";
 import { createClient } from "@/lib/supabase/server";
 
 async function count(client, table, filters = {}) {
@@ -23,12 +24,12 @@ export default async function AdminDashboard() {
     ]);
 
   const stats = [
-    { label: "Produk", value: products, href: "/admin/products", highlight: false },
-    { label: "Toko / UMKM", value: sellers, href: "/admin/sellers", highlight: false },
-    { label: "Kategori", value: categories, href: "/admin/products", highlight: false },
-    { label: "Komentar menunggu", value: pendingReviews, href: "/admin/reviews", highlight: true },
-    { label: "Pesan belum dibaca", value: unreadMessages, href: "/admin/messages", highlight: true },
-    { label: "Permintaan gabung", value: pendingJoins, href: "/admin/join", highlight: true },
+    { label: "Produk", value: products, href: "/admin/products", icon: "package", highlight: false },
+    { label: "Toko / UMKM", value: sellers, href: "/admin/sellers", icon: "store", highlight: false },
+    { label: "Kategori", value: categories, href: "/admin/products", icon: "tag", highlight: false },
+    { label: "Komentar menunggu", value: pendingReviews, href: "/admin/reviews", icon: "star", highlight: true },
+    { label: "Pesan belum dibaca", value: unreadMessages, href: "/admin/messages", icon: "send", highlight: true },
+    { label: "Permintaan gabung", value: pendingJoins, href: "/admin/join", icon: "whatsapp", highlight: true },
   ];
 
   return (
@@ -45,8 +46,13 @@ export default async function AdminDashboard() {
               s.highlight && s.value > 0 ? "border-forest/40" : "border-cream-warm"
             }`}
           >
-            <div className={`text-2xl md:text-3xl font-bold ${s.highlight && s.value > 0 ? "text-forest" : "text-noir"}`}>
-              {s.value}
+            <div className="flex items-center justify-between gap-2">
+              <div className={`text-2xl md:text-3xl font-bold ${s.highlight && s.value > 0 ? "text-forest" : "text-noir"}`}>
+                {s.value}
+              </div>
+              <span className={`flex items-center justify-center w-9 h-9 rounded-full ${s.highlight && s.value > 0 ? "bg-forest/10 text-forest" : "bg-cream text-warm-gray"}`}>
+                <Icon name={s.icon} size={16} />
+              </span>
             </div>
             <div className="text-[11px] md:text-xs text-warm-gray mt-1">
               {s.label}
