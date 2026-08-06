@@ -71,7 +71,7 @@ export default function ProfileForm({
       {/* dekorasi background */}
       <div className="absolute -top-24 -left-24 w-72 h-72 bg-forest/10 rounded-full blur-3xl" />
       <div className="absolute top-1/2 -right-24 w-80 h-80 bg-[#F59E0B]/20 rounded-full blur-3xl" />
-      <div className="absolute -bottom-24 left-1/3 w-72 h-72 bg-[#3B82F6]/10 rounded-full blur-3xl" />
+      <div className="absolute -bottom-24 left-1/3 w-72 h-72 bg-[#438BC4]/10 rounded-full blur-3xl" />
 
       <div className="relative max-w-3xl mx-auto px-4 py-10 md:py-16">
         <div className="text-center mb-8">
