@@ -78,8 +78,9 @@ export default function GabungPage() {
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
         <Link
           href="/"
-          className="text-xs md:text-sm text-warm-gray hover:text-forest"
+          className="inline-flex items-center gap-1.5 text-xs md:text-sm text-warm-gray hover:text-forest"
         >
+          {/* [PANAH KEMBALI] inline-flex agar ikon panah dan teks sejajar secara vertikal */}
           <Icon name="chevronLeft" size={12} /> Kembali ke Beranda
         </Link>
         <a
