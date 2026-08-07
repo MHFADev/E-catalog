@@ -313,39 +313,44 @@ export async function deleteArticle(formData) {
 export async function approveSellerAccount(formData) {
   await requireAdmin();
   const userId = formData.get("userId");
-  const sellerId = (formData.get("sellerId") || "").toString().trim();
-  const newSellerName = (formData.get("newSellerName") || "").toString().trim();
-  const sellerWa = (formData.get("newSellerWa") || "").toString().trim();
   if (!userId) throw new Error("Parameter salah");
 
   const supabase = await createClient();
-  let targetSellerId = sellerId;
+  const { data: account } = await supabase
+    .from("seller_accounts")
+    .select("seller_id, business_name, whatsapp")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (!account) throw new Error("Akun tidak ditemukan");
 
-  if (!targetSellerId && newSellerName) {
-    const slug =
-      newSellerName
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, "")
-        .trim()
-        .replace(/\s+/g, "-") || `umkm-${Date.now()}`;
-    const { error: cErr } = await supabase
-      .from("sellers")
-      .insert({
-        id: slug,
-        name: newSellerName,
-        whatsapp: sellerWa || null,
-      });
+  // Setiap UMKM punya tokonya sendiri — tidak pakai dropdown toko bersama.
+  let targetSellerId = account.seller_id;
+  if (!targetSellerId) {
+    const baseName = (account.business_name || "UMKM")
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-") || "umkm";
+    const slug = `${baseName}-${Date.now().toString(36)}`;
+    const { error: cErr } = await supabase.from("sellers").insert({
+      id: slug,
+      name: account.business_name,
+      whatsapp: account.whatsapp || null,
+    });
     if (cErr) throw new Error(cErr.message);
     targetSellerId = slug;
   }
 
-  if (!targetSellerId) throw new Error("Pilih toko UMKM atau ketik nama baru");
   const { error } = await supabase
     .from("seller_accounts")
     .update({ seller_id: targetSellerId, status: "approved" })
     .eq("user_id", userId);
   if (error) throw new Error(error.message);
+
   revalidatePath("/admin/accounts");
+  revalidatePath("/");
+  revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
 export async function rejectSellerAccount(formData) {
