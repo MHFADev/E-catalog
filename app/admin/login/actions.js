@@ -32,7 +32,16 @@ export async function login(_prevState, formData) {
     path: "/",
     maxAge: SESSION_TTL_SEC,
   });
-  redirect("/admin");
+  // [FIX SESI HILANG] JANGAN redirect() di dalam server action.
+  // Ada bug Next.js (vercel/next.js#61611): cookie yang di-set dari respons POST
+  // server action bisa tertimpa/terganti oleh respons GET hasil redirect, sehingga
+  // cookie sesi admin `admin_auth` tidak tersimpan permanen di browser — akibatnya
+  // setelah pindah ke halaman lain (mis. Beranda) lalu kembali ke /admin, admin
+  // harus login ulang.
+  // Solusi: action hanya mengembalikan { ok: true } (cookie sudah ter-set di
+  // respons), lalu client pindah ke /admin dengan FULL PAGE LOAD supaya cookie
+  // benar-benar terkirim saat validasi di layout admin.
+  return { ok: true };
 }
 
 export async function logout() {
