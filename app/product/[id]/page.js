@@ -4,6 +4,7 @@ import Icon from "@/components/common/Icon";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductGrid from "@/components/product/ProductGrid";
 import ReviewSection from "@/components/product/ReviewSection";
+import PaymentMethods from "@/components/product/PaymentMethods";
 import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
 import { WHATSAPP_PREFILL } from "@/lib/constants";
 import {
@@ -302,6 +303,9 @@ export default async function ProductDetailPage({ params }) {
                   </div>
                 </div>
               )}
+
+              {/* ===== Metode Pembayaran ===== */}
+              <PaymentMethods seller={seller} />
             </div>
 
             {/* ===== CTA WhatsApp (desktop) ===== */}

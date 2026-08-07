@@ -139,6 +139,15 @@ export async function saveSeller(formData) {
   const logo = (formData.get("logo") || "").toString().trim();
   const videoUrl = (formData.get("videoUrl") || "").toString().trim();
 
+  // Payment methods
+  const enabledPaymentMethods = formData.getAll("enabledPaymentMethods").filter(Boolean);
+  const bankName = (formData.get("bankName") || "").toString().trim();
+  const bankAccountNumber = (formData.get("bankAccountNumber") || "").toString().trim();
+  const bankAccountName = (formData.get("bankAccountName") || "").toString().trim();
+  const ewalletType = (formData.get("ewalletType") || "").toString().trim();
+  const ewalletNumber = (formData.get("ewalletNumber") || "").toString().trim();
+  const qrisImageUrl = (formData.get("qrisImage") || "").toString().trim();
+
   if (!name || !whatsapp) throw new Error("Nama dan WhatsApp wajib diisi");
 
   const payload = {
@@ -150,6 +159,14 @@ export async function saveSeller(formData) {
     description: description || null,
     logo: logo || null,
     video_url: videoUrl || null,
+    // Payment methods
+    bank_name: bankName || null,
+    bank_account_number: bankAccountNumber || null,
+    bank_account_name: bankAccountName || null,
+    ewallet_type: ewalletType || null,
+    ewallet_number: ewalletNumber || null,
+    qris_image_url: qrisImageUrl || null,
+    enabled_payment_methods: enabledPaymentMethods.length ? enabledPaymentMethods : [],
   };
 
   const supabase = await createAdminClient();

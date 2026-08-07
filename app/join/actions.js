@@ -5,6 +5,9 @@ import { createClient } from "@/lib/supabase/server";
 // Kirim permintaan gabung UMKM yang detail. Semua data masuk ke tabel
 // join_requests (user_id + email dicatat agar admin bisa menautkan akun saat
 // disetujui, sehingga data usaha langsung terimplementasi ke akun penjual).
+//
+// RLS pada join_requests sudah diberi policy INSERT permissif (anon/
+// authenticated) sehingga permintaan SELALU tercatat dan muncul di panel admin.
 export async function submitJoinRequest(formData) {
   const supabase = await createClient();
   const {
@@ -37,5 +40,6 @@ export async function submitJoinRequest(formData) {
   if (error) throw new Error(error.message);
 
   revalidatePath("/gabung");
+  revalidatePath("/admin/join");
   return { ok: true };
 }
