@@ -1,8 +1,8 @@
-﻿import { createClient } from "@/lib/supabase/server";
+﻿import { createAdminClient } from "@/lib/supabase/admin";
 import { toggleMessageRead, deleteMessage } from "../actions";
 
 export default async function AdminMessagesPage() {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data: messages } = await supabase
     .from("messages")
     .select("*")

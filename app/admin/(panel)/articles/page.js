@@ -1,11 +1,11 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import ArticleForm from "./ArticleForm";
 import { deleteArticle } from "../actions";
 
 export default async function AdminArticlesPage() {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data: articles } = await supabase
     .from("articles")
     .select("*")

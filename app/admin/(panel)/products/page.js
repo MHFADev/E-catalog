@@ -1,11 +1,11 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import ProductForm from "./ProductForm";
 import { toggleProduct, deleteProduct } from "../actions";
 
 export default async function AdminProductsPage() {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const [{ data: products }, { data: categories }, { data: sellers }] =
     await Promise.all([
       supabase.from("products").select("*, sellers(name)").order("name"),
