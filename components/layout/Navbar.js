@@ -20,6 +20,10 @@ export default function Navbar() {
   const { account: sellerAccount, loading: sellerLoading } = useSellerAccount();
   const isSeller =
     sellerAccount?.status === "approved" && Boolean(sellerAccount?.seller_id);
+  // [ADMIN PANEL] Deteksi halaman panel admin (kecuali halaman login admin).
+  // Dipakai untuk menampilkan label "Admin" non-klikabel menggantikan tombol "Masuk".
+  const isAdminPanel =
+    pathname.startsWith("/admin") && pathname !== "/admin/login";
   const inputRef = useRef(null);
   const profileRef = useRef(null);
 
@@ -201,6 +205,11 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
+            ) : isAdminPanel ? (
+              // [ADMIN PANEL] Label "Admin" non-klikabel sebagai penanda sedang berada di panel admin.
+              <span className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-forest bg-forest/10 rounded-full">
+                <Icon name="user" size={15} /> Admin
+              </span>
             ) : (
               <Link
                 href="/login"
@@ -326,6 +335,11 @@ export default function Navbar() {
                     </div>
                   )}
                 </>
+              ) : isAdminPanel ? (
+                // [ADMIN PANEL] Label "Admin" non-klikabel di menu mobile (mobile menu).
+                <span className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-forest bg-forest/10">
+                  <Icon name="user" size={20} /> Admin
+                </span>
               ) : (
                 <Link
                   href="/login"
