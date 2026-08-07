@@ -26,15 +26,26 @@ export default async function SellerDashboardPage() {
   return (
     <div className="space-y-4">
       <div className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-7 border border-cream-warm">
-        <div className="text-sm font-semibold text-noir mb-1">{full?.name}</div>
-        {full?.description && (
-          <p className="text-xs md:text-sm text-cool-gray leading-relaxed mb-2">
-            {full.description}
-          </p>
-        )}
-        <div className="text-xs md:text-sm text-warm-gray">
-          {full?.whatsapp && <>WhatsApp: {full.whatsapp}</>}
-          {full?.address && <> • {full.address}</>}
+        <div className="flex items-start gap-3">
+          {full?.logo && (
+            <img
+              src={full.logo}
+              alt={full?.name || "Logo toko"}
+              className="w-16 h-16 md:w-20 md:h-20 rounded-2xl object-cover border border-cream-warm shrink-0"
+            />
+          )}
+          <div className="min-w-0">
+            <div className="text-sm font-semibold text-noir mb-1">{full?.name}</div>
+            {full?.description && (
+              <p className="text-xs md:text-sm text-cool-gray leading-relaxed mb-2">
+                {full.description}
+              </p>
+            )}
+            <div className="text-xs md:text-sm text-warm-gray">
+              {full?.whatsapp && <>WhatsApp: {full.whatsapp}</>}
+              {full?.address && <> • {full.address}</>}
+            </div>
+          </div>
         </div>
       </div>
 

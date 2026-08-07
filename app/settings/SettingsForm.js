@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Icon from "@/components/common/Icon";
-import { updateSellerStore } from "./actions";
+import PhotoUploader from "@/components/common/PhotoUploader";
+import { updateSellerStore, updateAccountAvatar, updateStorePhoto } from "./actions";
 
 const inputClass =
   "w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all";
@@ -33,7 +34,14 @@ export default function SettingsForm({ user, seller }) {
     setBusy(false);
   };
 
-  const initial = (user.fullName || "?").slice(0, 1).toUpperCase();
+  const saveAvatar = async (url) => {
+    await updateAccountAvatar(url);
+    router.refresh();
+  };
+  const saveStorePhoto = async (url) => {
+    await updateStorePhoto(url);
+    router.refresh();
+  };
 
   return (
     <div className="min-h-screen bg-cream">
@@ -55,12 +63,17 @@ export default function SettingsForm({ user, seller }) {
         <div className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-7 border border-cream-warm shadow-sm mb-4">
           <div className="text-sm font-bold text-noir mb-1">Profil Akun</div>
           <p className="text-xs text-muted mb-4">
-            Ini adalah akun login Anda di situs ini.
+            Ini adalah akun login Anda di situs ini. Foto profil yang Anda
+            panggang otomatis dikompres lalu disimpan ke GitHub.
           </p>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-forest/95 to-forest text-white text-lg font-extrabold">
-              {initial}
-            </div>
+          <div className="flex items-center gap-4 flex-wrap">
+            <PhotoUploader
+              value={user.avatarUrl}
+              round
+              label="Foto Profil Akun"
+              buttonLabel="Ubah Foto Profil"
+              onUploaded={saveAvatar}
+            />
             <div className="min-w-0">
               <div className="text-sm font-semibold text-noir truncate">
                 {user.fullName ?? user.email}
@@ -78,6 +91,14 @@ export default function SettingsForm({ user, seller }) {
 
           {seller ? (
             <form onSubmit={onSubmit} className="p-5 md:p-7 space-y-3">
+              <PhotoUploader
+                value={seller.logo}
+                label="Foto Toko / Logo UMKM"
+                buttonLabel="Ubah Foto Toko"
+                hint="Tampil sebagai logo toko Anda di katalog publik."
+                onUploaded={saveStorePhoto}
+              />
+
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-noir-soft">
                   Nama Toko / Usaha UMKM

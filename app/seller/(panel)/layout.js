@@ -40,7 +40,19 @@ export default async function SellerLayout({ children }) {
         </div>
 
         {!approved ? (
-          account?.status === "pending" || account?.status === "rejected" ? (
+          account?.status === "blocked" ? (
+            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-10 border border-cream-warm text-center max-w-lg mx-auto">
+              <div className="text-2xl mb-2">🚫</div>
+              <h2 className="text-base md:text-lg font-bold text-noir mb-1">
+                Akun Diblokir
+              </h2>
+              <p className="text-xs md:text-sm text-warm-gray leading-relaxed">
+                Akun penjual Anda sedang diblokir oleh admin. Anda tidak dapat
+                mengelola toko untuk sementara. Hubungi admin untuk informasi
+                lebih lanjut.
+              </p>
+            </div>
+          ) : account?.status === "pending" || account?.status === "rejected" ? (
             <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-10 border border-cream-warm text-center max-w-lg mx-auto">
               <div className="text-2xl mb-2">✅</div>
               <h2 className="text-base md:text-lg font-bold text-noir mb-1">

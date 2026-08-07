@@ -362,6 +362,63 @@ export async function rejectSellerAccount(formData) {
   revalidatePath("/admin/accounts");
 }
 
+// ===== Block / unblock seller account =====
+export async function setSellerAccountBlocked(formData) {
+  await requireAdmin();
+  const userId = formData.get("userId");
+  const blocked = formData.get("blocked") === "true";
+  if (!userId) throw new Error("Parameter salah");
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("seller_accounts")
+    .update({ status: blocked ? "blocked" : "approved" })
+    .eq("user_id", userId);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/accounts");
+  revalidatePath("/seller");
+  revalidatePath("/settings");
+}
+
+// ===== Hapus seluruh data UMKM (akun penjual + toko + produknya) =====
+export async function deleteSellerAccount(formData) {
+  await requireAdmin();
+  const userId = formData.get("userId");
+  if (!userId) throw new Error("Parameter salah");
+
+  const supabase = await createClient();
+  const { data: account } = await supabase
+    .from("seller_accounts")
+    .select("seller_id")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (account?.seller_id) {
+    const { error: prodErr } = await supabase
+      .from("products")
+      .delete()
+      .eq("seller_id", account.seller_id);
+    if (prodErr) throw new Error(prodErr.message);
+
+    const { error: sellerErr } = await supabase
+      .from("sellers")
+      .delete()
+      .eq("id", account.seller_id);
+    if (sellerErr) throw new Error(sellerErr.message);
+  }
+
+  const { error } = await supabase
+    .from("seller_accounts")
+    .delete()
+    .eq("user_id", userId);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/accounts");
+  revalidatePath("/admin/sellers");
+  revalidatePath("/");
+  revalidatePath("/catalog");
+  revalidateTag("catalog");
+}
+
 // ===== Join requests =====
 export async function approveJoin(formData) {
   await requireAdmin();

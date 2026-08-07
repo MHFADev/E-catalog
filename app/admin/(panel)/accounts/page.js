@@ -1,10 +1,16 @@
 ﻿import { createClient } from "@/lib/supabase/server";
-import { approveSellerAccount, rejectSellerAccount } from "../actions";
+import {
+  approveSellerAccount,
+  rejectSellerAccount,
+  setSellerAccountBlocked,
+  deleteSellerAccount,
+} from "../actions";
 
 const statusBadge = {
   pending: "bg-amber-100 text-amber-700",
   approved: "bg-emerald-100 text-emerald-700",
   rejected: "bg-gray-100 text-gray-500",
+  blocked: "bg-red-100 text-red-700",
 };
 
 export default async function AdminAccountsPage() {
@@ -20,9 +26,8 @@ export default async function AdminAccountsPage() {
         Akun Penjual / Pemilik UMKM ({accounts?.length ?? 0})
       </h2>
       <p className="text-xs text-warm-gray mb-4 leading-relaxed">
-        Pemilik UMKM mendaftar di <span className="font-mono">/seller</span> lalu
-        mengisi profil. Setujui untuk menghubungkan akunnya ke toko UMKM agar ia
-        bisa mengelola produk sendiri.
+        Semua akun yang terdaftar sebagai penjual UMKM. Kelola status akun
+        (setujui, tolak, blokir) atau hapus seluruh data UMKM-nya.
       </p>
 
       <div className="space-y-3">
@@ -61,12 +66,20 @@ export default async function AdminAccountsPage() {
               </span>
             </div>
 
-            <div className="text-[11px] md:text-xs text-warm-gray mb-2">
-              User: {a.user_id} • Terhubung ke:{" "}
-              <span className="text-noir-soft">{a.sellers?.name ?? "—"}</span>
+            <div className="text-[11px] md:text-xs text-warm-gray mb-2 space-y-0.5">
+              <div>
+                ID Akun:{" "}
+                <span className="font-mono font-semibold text-noir-soft">
+                  {a.user_id}
+                </span>
+              </div>
+              <div>
+                Terhubung ke:{" "}
+                <span className="text-noir-soft">{a.sellers?.name ?? "—"}</span>
+              </div>
             </div>
 
-            {a.status !== "approved" && (
+            {a.status !== "approved" && a.status !== "blocked" && (
               <form action={approveSellerAccount} className="flex flex-wrap gap-2 items-end">
                 <input type="hidden" name="userId" value={a.user_id} />
                 <div>
@@ -108,15 +121,47 @@ export default async function AdminAccountsPage() {
                 Akun aktif — pemilik dapat mengelola produk toko ini.
               </div>
             )}
+            {a.status === "blocked" && (
+              <div className="text-xs text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                Akun diblokir — pemilik tidak dapat mengakses area penjual.
+              </div>
+            )}
 
-            {a.status !== "rejected" && (
-              <form action={rejectSellerAccount} className="mt-2">
+            <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-cream-warm">
+              {a.status === "approved" && (
+                <form action={rejectSellerAccount}>
+                  <input type="hidden" name="userId" value={a.user_id} />
+                  <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-all">
+                    Tolak
+                  </button>
+                </form>
+              )}
+              <form action={setSellerAccountBlocked}>
                 <input type="hidden" name="userId" value={a.user_id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-all">
-                  Tolak
+                {(a.status === "blocked" && (
+                  <>
+                    <input type="hidden" name="blocked" value="false" />
+                  </>
+                )) || (
+                  <input type="hidden" name="blocked" value="true" />
+                )}
+                <button
+                  className={
+                    a.status === "blocked"
+                      ? "px-3 py-1.5 text-xs font-semibold rounded-full bg-amber-100 text-amber-700 hover:bg-amber-200 transition-all"
+                      : "px-3 py-1.5 text-xs font-semibold rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-all"
+                  }
+                >
+                  {a.status === "blocked" ? "Buka Blokir" : "Blokir"}
                 </button>
               </form>
-            )}
+              <form action={deleteSellerAccount}>
+                <input type="hidden" name="userId" value={a.user_id} />
+                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-noir-soft/10 text-noir-soft hover:bg-noir-soft/20 transition-all">
+                  Hapus Akun
+                </button>
+              </form>
+            </div>
           </div>
         ))}
       </div>
