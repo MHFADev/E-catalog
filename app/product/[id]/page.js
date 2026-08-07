@@ -228,6 +228,14 @@ export default async function ProductDetailPage({ params }) {
 
             {/* ===== Kartu toko + statistik penjual ===== */}
             <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm">
+              {seller.isBlocked && (
+                <div className="flex items-center gap-2 bg-amber-100 text-amber-800 border border-amber-300 rounded-xl px-3 py-2.5 mb-4">
+                  <Icon name="ban" size={16} className="shrink-0" />
+                  <span className="text-xs md:text-sm font-semibold">
+                    Akun {seller.name} telah diblokir
+                  </span>
+                </div>
+              )}
               <div className="flex items-center gap-3">
                 <span className="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden bg-cream-warm flex items-center justify-center shrink-0">
                   {seller.logo ? (

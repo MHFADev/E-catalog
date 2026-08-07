@@ -1,8 +1,8 @@
-﻿import { createClient } from "@/lib/supabase/server";
+﻿import { createAdminClient } from "@/lib/supabase/admin";
 import AccountsManager from "@/components/admin/AccountsManager";
 
 export default async function AdminAccountsPage() {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data: accounts } = await supabase
     .from("seller_accounts")
     .select("*, sellers(name, whatsapp, address, logo)")

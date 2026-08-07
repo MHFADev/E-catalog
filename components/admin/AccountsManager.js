@@ -64,23 +64,23 @@ function buildActions(a) {
     list.push({
       key: "block",
       label: "Blokir",
-      tone: "red",
+      tone: "yellow",
       icon: "ban",
       form: { userId: a.user_id, blocked: "true" },
       fn: setSellerAccountBlocked,
       title: "Blokir akun ini?",
-      desc: `Akun "${a.business_name}" tidak akan bisa mengakses area penjual. Blokir bisa dibuka kembali.`,
+      desc: `Akun "${a.business_name}" akan diblokir dan situs menampilkan banner kuning pada tokonya. Blokir bisa dibuka kembali.`,
     });
   }
   list.push({
     key: "delete",
     label: "Hapus Akun",
-    tone: "dark",
+    tone: "red",
     icon: "trashFilled",
     form: { userId: a.user_id },
     fn: deleteSellerAccount,
     title: "Hapus seluruh data UMKM?",
-    desc: `Seluruh data akun "${a.business_name}" akan dihapus: akun penjual, toko, dan semua produknya. Tindakan ini tidak bisa dibatalkan.`,
+    desc: `Seluruh data akun "${a.business_name}" akan dihapus permanen dari database: akun penjual, toko, dan semua produknya. Tindakan ini tidak bisa dibatalkan.`,
     danger: true,
   });
   return list;
@@ -99,8 +99,8 @@ function ConfirmDialog({ action, account, busy, onConfirm, onCancel }) {
             className={`flex items-center justify-center w-11 h-11 rounded-2xl shrink-0 ${
               action.tone === "red"
                 ? "bg-red-100 text-red-600"
-                : action.tone === "dark"
-                  ? "bg-noir/10 text-noir-soft"
+                : action.tone === "yellow"
+                  ? "bg-amber-100 text-amber-600"
                   : "bg-emerald-100 text-emerald-600"
             }`}
           >
@@ -281,9 +281,9 @@ export default function AccountsManager({ accounts }) {
                   className={`inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold rounded-full transition-all ${
                     action.tone === "green"
                       ? "bg-emerald-600 text-white hover:bg-emerald-700"
-                      : action.tone === "red"
-                        ? "bg-red-50 text-red-600 hover:bg-red-100"
-                        : "bg-noir-soft/10 text-noir-soft hover:bg-noir-soft/20"
+                      : action.tone === "yellow"
+                        ? "bg-amber-100 text-amber-700 hover:bg-amber-200"
+                        : "bg-red-600 text-white hover:bg-red-700"
                   }`}
                 >
                   <Icon name={action.icon} size={13} /> {action.label}

@@ -1,6 +1,6 @@
 "use server";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { isAdmin } from "@/lib/auth";
 
 async function requireAdmin() {
@@ -22,7 +22,7 @@ export async function setReviewStatus(formData) {
   const status = formData.get("status");
   if (!id || !["approved", "rejected"].includes(status)) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase
     .from("reviews")
     .update({ status })
@@ -38,7 +38,7 @@ export async function deleteReview(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase.from("reviews").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/reviews");
@@ -78,7 +78,7 @@ export async function saveProduct(formData) {
     show_price: showPrice,
   };
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = id
     ? await supabase
         .from("products")
@@ -100,7 +100,7 @@ export async function toggleProduct(formData) {
   const value = formData.get("value") === "true";
   if (!id || !["is_featured", "is_available"].includes(field)) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase
     .from("products")
     .update({ [field]: value, updated_at: new Date().toISOString() })
@@ -117,7 +117,7 @@ export async function deleteProduct(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase.from("products").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/products");
@@ -152,7 +152,7 @@ export async function saveSeller(formData) {
     video_url: videoUrl || null,
   };
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = id
     ? await supabase.from("sellers").update(payload).eq("id", id)
     : await supabase.from("sellers").insert(payload);
@@ -169,7 +169,7 @@ export async function deleteSeller(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase.from("sellers").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/sellers");
@@ -185,7 +185,7 @@ export async function toggleMessageRead(formData) {
   const value = formData.get("value") === "true";
   if (!id) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase
     .from("messages")
     .update({ is_read: value })
@@ -199,7 +199,7 @@ export async function deleteMessage(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase.from("messages").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/messages");
@@ -226,7 +226,7 @@ export async function saveCategory(formData) {
 
   const payload = { name, icon: icon || null, image: image || null, description: description || null };
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = id
     ? await supabase.from("categories").update(payload).eq("id", id)
     : await supabase.from("categories").insert({ id: slug, ...payload });
@@ -242,7 +242,7 @@ export async function deleteCategory(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase.from("categories").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/categories");
@@ -285,7 +285,7 @@ export async function saveArticle(formData) {
     published_at: publishedAt || new Date().toISOString().slice(0, 10),
   };
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = id
     ? await supabase
         .from("articles")
@@ -302,7 +302,7 @@ export async function deleteArticle(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase.from("articles").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/articles");
@@ -310,41 +310,26 @@ export async function deleteArticle(formData) {
 }
 
 // ===== Seller accounts =====
+// Operasi tulis/hapus lewat fungsi SECURITY DEFINER agar tidak di-block RLS
+// (admin panel login pakai cookie, bukan Supabase auth -> is_admin() = false).
+async function rpcSetStatus(userId, status) {
+  const supabase = await createAdminClient();
+  const { error } = await supabase.rpc("admin_set_seller_account_status", {
+    p_user_id: userId,
+    p_status: status,
+  });
+  if (error) throw new Error(error.message);
+}
+
 export async function approveSellerAccount(formData) {
   await requireAdmin();
   const userId = formData.get("userId");
   if (!userId) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
-  const { data: account } = await supabase
-    .from("seller_accounts")
-    .select("seller_id, business_name, whatsapp")
-    .eq("user_id", userId)
-    .maybeSingle();
-  if (!account) throw new Error("Akun tidak ditemukan");
-
-  // Setiap UMKM punya tokonya sendiri — tidak pakai dropdown toko bersama.
-  let targetSellerId = account.seller_id;
-  if (!targetSellerId) {
-    const baseName = (account.business_name || "UMKM")
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .trim()
-      .replace(/\s+/g, "-") || "umkm";
-    const slug = `${baseName}-${Date.now().toString(36)}`;
-    const { error: cErr } = await supabase.from("sellers").insert({
-      id: slug,
-      name: account.business_name,
-      whatsapp: account.whatsapp || null,
-    });
-    if (cErr) throw new Error(cErr.message);
-    targetSellerId = slug;
-  }
-
-  const { error } = await supabase
-    .from("seller_accounts")
-    .update({ seller_id: targetSellerId, status: "approved" })
-    .eq("user_id", userId);
+  const supabase = await createAdminClient();
+  const { error } = await supabase.rpc("admin_approve_seller_account", {
+    p_user_id: userId,
+  });
   if (error) throw new Error(error.message);
 
   revalidatePath("/admin/accounts");
@@ -357,13 +342,7 @@ export async function rejectSellerAccount(formData) {
   await requireAdmin();
   const userId = formData.get("userId");
   if (!userId) throw new Error("Parameter salah");
-
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("seller_accounts")
-    .update({ status: "rejected" })
-    .eq("user_id", userId);
-  if (error) throw new Error(error.message);
+  await rpcSetStatus(userId, "rejected");
   revalidatePath("/admin/accounts");
 }
 
@@ -373,49 +352,25 @@ export async function setSellerAccountBlocked(formData) {
   const userId = formData.get("userId");
   const blocked = formData.get("blocked") === "true";
   if (!userId) throw new Error("Parameter salah");
-
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("seller_accounts")
-    .update({ status: blocked ? "blocked" : "approved" })
-    .eq("user_id", userId);
-  if (error) throw new Error(error.message);
+  await rpcSetStatus(userId, blocked ? "blocked" : "approved");
   revalidatePath("/admin/accounts");
   revalidatePath("/seller");
   revalidatePath("/settings");
+  revalidatePath("/");
+  revalidatePath("/catalog");
+  revalidateTag("catalog");
 }
 
-// ===== Hapus seluruh data UMKM (akun penjual + toko + produknya) =====
+// ===== True delete: hapus sampai ke user auth (produk + toko + akun) =====
 export async function deleteSellerAccount(formData) {
   await requireAdmin();
   const userId = formData.get("userId");
   if (!userId) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
-  const { data: account } = await supabase
-    .from("seller_accounts")
-    .select("seller_id")
-    .eq("user_id", userId)
-    .maybeSingle();
-
-  if (account?.seller_id) {
-    const { error: prodErr } = await supabase
-      .from("products")
-      .delete()
-      .eq("seller_id", account.seller_id);
-    if (prodErr) throw new Error(prodErr.message);
-
-    const { error: sellerErr } = await supabase
-      .from("sellers")
-      .delete()
-      .eq("id", account.seller_id);
-    if (sellerErr) throw new Error(sellerErr.message);
-  }
-
-  const { error } = await supabase
-    .from("seller_accounts")
-    .delete()
-    .eq("user_id", userId);
+  const supabase = await createAdminClient();
+  const { error } = await supabase.rpc("admin_delete_seller_account", {
+    p_user_id: userId,
+  });
   if (error) throw new Error(error.message);
   revalidatePath("/admin/accounts");
   revalidatePath("/admin/sellers");
@@ -430,7 +385,7 @@ export async function approveJoin(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data: join } = await supabase
     .from("join_requests")
     .select("*")
@@ -509,7 +464,7 @@ export async function rejectJoin(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase
     .from("join_requests")
     .update({ status: "rejected", approved_at: new Date().toISOString() })
@@ -526,7 +481,7 @@ export async function setJoinStatus(formData) {
     throw new Error("Parameter salah");
   }
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase
     .from("join_requests")
     .update({ status })
@@ -540,7 +495,7 @@ export async function deleteJoin(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
 
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase.from("join_requests").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/join");

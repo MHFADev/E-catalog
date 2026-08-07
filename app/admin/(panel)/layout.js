@@ -4,6 +4,10 @@ import Icon from "@/components/common/Icon";
 import { isAdmin } from "@/lib/auth";
 import LogoutButton from "./LogoutButton";
 
+// Panel admin butuh session cookie + akses DB via service role (runtime),
+// jadi jangan pernah di-prerender saat build (force dynamic + non-stale).
+export const dynamic = "force-dynamic";
+
 const links = [
   { href: "/admin", label: "Dashboard", icon: "grid" },
   { href: "/admin/products", label: "Produk", icon: "package" },

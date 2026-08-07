@@ -1,11 +1,11 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import CategoryForm from "./CategoryForm";
 import { deleteCategory } from "../actions";
 
 export default async function AdminCategoriesPage() {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data: categories } = await supabase
     .from("categories")
     .select("*")

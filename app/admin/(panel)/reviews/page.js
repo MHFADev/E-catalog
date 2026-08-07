@@ -1,4 +1,4 @@
-﻿import { createClient } from "@/lib/supabase/server";
+﻿import { createAdminClient } from "@/lib/supabase/admin";
 import Icon from "@/components/common/Icon";
 import { setReviewStatus, deleteReview } from "../actions";
 
@@ -24,7 +24,7 @@ function Stars({ value }) {
 }
 
 export default async function AdminReviewsPage() {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data: reviews } = await supabase
     .from("reviews")
     .select("*, products(name)")

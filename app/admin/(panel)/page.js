@@ -1,6 +1,6 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 async function count(client, table, filters = {}) {
   const { count } = await client
@@ -11,7 +11,7 @@ async function count(client, table, filters = {}) {
 }
 
 export default async function AdminDashboard() {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
 
   const [products, sellers, categories, pendingReviews, unreadMessages, pendingJoins] =
     await Promise.all([

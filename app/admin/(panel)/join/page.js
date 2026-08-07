@@ -1,5 +1,5 @@
 ﻿import Icon from "@/components/common/Icon";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { approveJoin, rejectJoin, deleteJoin } from "../actions";
 
 const statusBadge = {
@@ -17,7 +17,7 @@ const statusLabel = {
 };
 
 export default async function AdminJoinPage() {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data: joins } = await supabase
     .from("join_requests")
     .select("*")
