@@ -14,10 +14,20 @@ export default async function SettingsPage() {
 
   const account = await getSellerAccount();
   let seller = null;
+  let avatarUrl = null;
+  const [profileRes] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("avatar_url")
+      .eq("id", user.id)
+      .maybeSingle(),
+  ]);
+  avatarUrl = profileRes?.data?.avatar_url || null;
+
   if (account?.status === "approved" && account.seller_id) {
     const { data } = await supabase
       .from("sellers")
-      .select("id, name, whatsapp, description")
+      .select("id, name, whatsapp, description, logo")
       .eq("id", account.seller_id)
       .maybeSingle();
     seller = data;
@@ -31,7 +41,7 @@ export default async function SettingsPage() {
 
   return (
     <SettingsForm
-      user={{ id: user.id, email: user.email, fullName }}
+      user={{ id: user.id, email: user.email, fullName, avatarUrl }}
       seller={seller}
     />
   );
