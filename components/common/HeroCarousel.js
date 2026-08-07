@@ -80,7 +80,7 @@ export default function HeroCarousel() {
 
   return (
     <div
-      className="relative order-first md:order-last select-none"
+      className="relative w-full overflow-hidden"
       onMouseEnter={() => {
         if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
         setShowControls(true);
@@ -89,17 +89,9 @@ export default function HeroCarousel() {
         if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
         hideTimerRef.current = setTimeout(() => setShowControls(false), 2000);
       }}
-      onFocus={() => {
-        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-        setShowControls(true);
-      }}
-      onBlur={() => {
-        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-        hideTimerRef.current = setTimeout(() => setShowControls(false), 2000);
-      }}
     >
       <div
-        className="rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl relative"
+        className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl"
         onTouchStart={touchStartX}
         onTouchEnd={touchEndX}
       >
@@ -112,8 +104,8 @@ export default function HeroCarousel() {
             <div key={i} className="w-full flex-shrink-0">
               <img
                 src={src}
-                alt={`Slide ${i + 1}`}
-                className="w-full aspect-[4/3] object-cover"
+                alt={`Produk UMKM ${i + 1}`}
+                className="w-full aspect-[21/9] object-cover"
                 draggable={false}
               />
             </div>

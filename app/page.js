@@ -66,15 +66,26 @@ export default async function HomePage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="relative py-12 md:py-24 bg-gradient-to-b from-cream-pure to-cream overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/5 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 w-64 h-64 rounded-full bg-clay/5 blur-3xl" />
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6">
+      <section className="relative py-12 md:py-24 overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+            poster="/image-header/1.webp"
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
+          {/* Liquid Glass / Blur Overlay - 5% blur */}
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-[2px] backdrop-saturate-150" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 md:px-6 z-10">
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="flex flex-col gap-4 md:gap-5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 w-fit bg-forest/10 text-forest font-mono text-[10px] md:text-xs uppercase tracking-wider rounded-full font-semibold">
-                <Icon name="store" size={12} /> Dari Kemayoran, Untuk Indonesia
-              </span>
               <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-noir">
                 Bangga Produk{" "}
                 <span className="text-forest">Lokal Kemayoran</span>
@@ -99,15 +110,9 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
-            <div className="relative">
-              <div className="absolute -inset-3 md:-inset-4 rounded-[2rem] bg-gradient-to-br from-forest/10 via-transparent to-clay/10" />
-              <div className="relative rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10">
-                <HeroCarousel />
-              </div>
-            </div>
           </div>
 
-          {/* ===== SEARCH BAR ===== */}
+            {/* ===== SEARCH BAR ===== */}
           <form
             action="/catalog"
             method="get"
@@ -150,6 +155,15 @@ export default async function HomePage() {
               <Icon name="search" size={16} /> Cari
             </button>
           </form>
+        </div>
+      </section>
+
+      {/* ===== HERO BANNER / SLIDESHOW ===== */}
+      <section className="py-6 md:py-8 bg-white border-y border-cream-warm">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="relative rounded-[2rem] overflow-hidden shadow-xl md:shadow-2xl ring-1 ring-forest/10">
+            <HeroCarousel />
+          </div>
         </div>
       </section>
 
