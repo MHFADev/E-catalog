@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { saveSeller } from "../actions";
 import ImageUploader from "@/components/common/ImageUploader";
+import PhoneInput from "@/components/common/PhoneInput";
 import Icon from "@/components/common/Icon";
 
 const inputClass =
@@ -62,12 +63,11 @@ export default function SellerForm({ initial = null }) {
           placeholder="Nama pemilik"
           className={inputClass}
         />
-        <input
+        <PhoneInput
           name="whatsapp"
-          defaultValue={initial?.whatsapp}
-          placeholder="No. WhatsApp * (cth. 628xxxxxxxxxx)"
+          defaultValue={initial?.whatsapp ?? ""}
+          placeholder="cth. 813xxxxxxxx"
           required
-          className={inputClass}
         />
         <input
           name="whatsappAlt"

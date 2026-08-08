@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Icon from "@/components/common/Icon";
+import PhoneInput from "@/components/common/PhoneInput";
 import { createClient } from "@/lib/supabase/client";
 import { registerSellerAccount } from "../actions";
 
@@ -145,12 +146,10 @@ export default function SellerLoginPage() {
                   placeholder="Nama usaha UMKM Anda"
                   className={inputClass}
                 />
-                <input
-                  type="tel"
+                <PhoneInput
                   value={whatsapp}
-                  onChange={(e) => setWhatsapp(e.target.value)}
-                  placeholder="No. WhatsApp usaha (cth. 628...)"
-                  className={inputClass}
+                  onChange={setWhatsapp}
+                  placeholder="cth. 813xxxxxxx"
                 />
                 <p className="text-[11px] text-warm-gray leading-relaxed">
                   Setelah mendaftar, profil Anda diajukan ke admin. Setelah

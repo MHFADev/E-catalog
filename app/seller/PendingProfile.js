@@ -1,6 +1,7 @@
 ﻿"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import PhoneInput from "@/components/common/PhoneInput";
 import { registerSellerAccount } from "./actions";
 
 const inputClass =
@@ -52,12 +53,10 @@ export default function PendingProfile() {
             required
             className={inputClass}
           />
-          <input
-            type="tel"
+          <PhoneInput
             value={whatsapp}
-            onChange={(e) => setWhatsapp(e.target.value)}
-            placeholder="No. WhatsApp usaha (cth. 628...)"
-            className={inputClass}
+            onChange={setWhatsapp}
+            placeholder="cth. 813xxxxxxx"
           />
           <button
             type="submit"

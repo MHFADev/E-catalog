@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import ImageUploader from "@/components/common/ImageUploader";
+import PhoneInput from "@/components/common/PhoneInput";
 import { submitJoinRequest } from "@/app/join/actions";
 import { useUser } from "@/lib/useUser";
 
@@ -100,12 +101,11 @@ export default function JoinForm({ onClose }) {
           placeholder="Nama pemilik"
           className={inputClass}
         />
-        <input
+        <PhoneInput
           name="whatsapp"
-          type="tel"
-          placeholder="No. WhatsApp usaha * (cth. 628...)"
+          placeholder="cth. 813xxxxxxx"
           required
-          className={inputClass}
+          className="h-11"
         />
         <input
           name="categoryProduct"
