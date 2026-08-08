@@ -1,8 +1,6 @@
 ﻿import Link from "next/link";
 import ProductGrid from "@/components/product/ProductGrid";
 import Icon from "@/components/common/Icon";
-import HeroCarousel from "@/components/common/HeroCarousel";
-import BannerCarousel from "@/components/common/BannerCarousel";
 import MultiPinMap from "@/components/common/MultiPinMap";
 import { getProducts, getSellers, getCategories } from "@/lib/catalog";
 import { getBanners } from "@/lib/banners";
@@ -68,58 +66,103 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ===== HERO ===== */}
-      <section className="relative py-12 md:py-24 overflow-hidden">
-        {/* Video Background */}
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-            poster="/image-header/1.webp"
-          >
-            <source src="/hero-video.mp4" type="video/mp4" />
-          </video>
-          {/* Liquid Glass / Blur Overlay - 15% agar teks tetap terlihat */}
-          <div className="absolute inset-0 bg-white/15 backdrop-blur-[6px] backdrop-saturate-150" />
-        </div>
+      {/* ===== HERO + BANNER (video kiri, 2 banner statis kanan) ===== */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-cream-pure to-cream">
+        <div className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/5 blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 w-64 h-64 rounded-full bg-clay/5 blur-3xl" />
 
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6 z-10">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div className="flex flex-col gap-4 md:gap-5">
-              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-noir">
-                Bangga Produk{" "}
-                <span className="text-forest">Lokal Kemayoran</span>
-              </h1>
-              <p className="text-sm md:text-lg text-warm-gray leading-relaxed max-w-lg">
-                Jelajahi aneka produk UMKM unggulan dari Kemayoran dan
-                sekitarnya. Dukung ekonomi lokal dengan belanja langsung dari
-                para pengrajin dan pelaku usaha terbaik.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mt-1 md:mt-2">
-                <Link
-                  href="/catalog"
-                  className="btn-primary text-sm md:text-base py-3"
-                >
-                  Jelajahi Produk <Icon name="arrowRight" size={15} />
-                </Link>
-                <Link
-                  href="/gabung"
-                  className="btn-secondary text-sm md:text-base py-3 text-center"
-                >
-                  Daftar Sebagai UMKM
-                </Link>
+        <div className="relative max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-16">
+          <div
+            className={`grid gap-4 md:gap-6 items-stretch ${
+              banners?.length ? "grid-cols-1 lg:grid-cols-[1fr_400px]" : "grid-cols-1"
+            }`}
+          >
+            {/* Card video besar (kiri) */}
+            <div className="relative min-h-[360px] md:min-h-[420px] lg:min-h-[480px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10">
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
+                poster="/image-header/1.webp"
+              >
+                <source src="/hero-video.mp4" type="video/mp4" />
+              </video>
+              {/* Liquid glass 15% + gradasi bawah agar teks terbaca */}
+              <div className="absolute inset-0 bg-white/15 backdrop-blur-[6px] backdrop-saturate-150" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+
+              <div className="absolute inset-x-0 bottom-0 p-5 md:p-8 lg:p-10 text-white">
+                <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+                  Bangga Produk{" "}
+                  <span className="text-white underline decoration-emerald-400 decoration-4 underline-offset-4">
+                    Lokal Kemayoran
+                  </span>
+                </h1>
+                <p className="mt-2 md:mt-3 text-sm md:text-lg text-white/90 leading-relaxed max-w-xl">
+                  Jelajahi aneka produk UMKM unggulan dari Kemayoran dan
+                  sekitarnya. Dukung ekonomi lokal dengan belanja langsung dari
+                  para pengrajin dan pelaku usaha terbaik.
+                </p>
+                <div className="mt-4 md:mt-6 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+                  <Link
+                    href="/catalog"
+                    className="inline-flex items-center justify-center gap-2 px-6 md:px-7 py-3 rounded-full bg-emerald-600 text-white text-sm md:text-base font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-900/30 transition-all"
+                  >
+                    Jelajahi Produk <Icon name="arrowRight" size={15} />
+                  </Link>
+                  <Link
+                    href="/gabung"
+                    className="inline-flex items-center justify-center gap-2 px-6 md:px-7 py-3 rounded-full bg-white/15 backdrop-blur-md border border-white/40 text-white text-sm md:text-base font-semibold hover:bg-white/25 transition-all"
+                  >
+                    Daftar Sebagai UMKM
+                  </Link>
+                </div>
               </div>
             </div>
+
+            {/* 2 banner statis (kanan, atas-bawah) dari admin panel */}
+            {banners?.length > 0 && (
+              <div className="grid grid-rows-2 gap-4 md:gap-6">
+                {banners.slice(0, 2).map((b) => {
+                  const inner = (
+                    <img
+                      src={b.imageUrl}
+                      alt={b.title || "Banner promosi"}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  );
+                  return (
+                    <div
+                      key={b.id}
+                      className="relative min-h-[150px] md:min-h-0 overflow-hidden rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group"
+                    >
+                      {b.link ? (
+                        <Link href={b.link} className="block w-full h-full">
+                          {inner}
+                        </Link>
+                      ) : (
+                        inner
+                      )}
+                      {b.title && (
+                        <span className="absolute left-3 bottom-3 md:left-4 md:bottom-4 px-3 py-1.5 text-[11px] md:text-xs font-bold text-white glass rounded-full shadow-sm inline-flex items-center gap-1.5">
+                          <Icon name="info" size={12} /> {b.title}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
-            {/* ===== SEARCH BAR ===== */}
+          {/* ===== SEARCH BAR ===== */}
           <form
             action="/catalog"
             method="get"
-            className="relative mt-10 md:mt-14 glass rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xl grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
+            className="relative mt-8 md:mt-12 glass rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xl grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
           >
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-gray pointer-events-none">
@@ -158,19 +201,6 @@ export default async function HomePage() {
               <Icon name="search" size={16} /> Cari
             </button>
           </form>
-        </div>
-      </section>
-
-      {/* ===== HERO BANNER / EVENT SLIDESHOW (dikelola admin) ===== */}
-      <section className="py-6 md:py-8 bg-white border-y border-cream-warm">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          {banners?.length > 0 ? (
-            <BannerCarousel banners={banners} />
-          ) : (
-            <div className="relative rounded-[2rem] overflow-hidden shadow-xl md:shadow-2xl ring-1 ring-forest/10">
-              <HeroCarousel />
-            </div>
-          )}
         </div>
       </section>
 

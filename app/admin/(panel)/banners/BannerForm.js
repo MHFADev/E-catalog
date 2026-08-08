@@ -46,7 +46,7 @@ export default function BannerForm() {
         name="sortOrder"
         type="number"
         defaultValue={0}
-        placeholder="Urutan tampil (0 = pertama)"
+        placeholder="Urutan: 0 = kanan atas, 1 = kanan bawah"
         className={inputClass}
       />
       <button type="submit" className="btn-primary text-sm py-2.5 px-5">

@@ -25,8 +25,10 @@ export default async function AdminBannersPage() {
         Banner Event / Promo ({banners?.length ?? 0})
       </h2>
       <p className="text-xs text-warm-gray mb-4 leading-relaxed">
-        Banner tampil di beranda (dashboard) menggantikan slide gambar. Cukup
-        upload gambar — judul &amp; tautan opsional.
+        Banner tampil di beranda sebagai 2 gambar statis di sisi kanan video
+        (atas-bawah). Banner <strong>urutan 0</strong> = kanan atas,{" "}
+        <strong>urutan 1</strong> = kanan bawah. Cukup upload gambar — judul
+        &amp; tautan opsional.
       </p>
 
       {loadError && (
