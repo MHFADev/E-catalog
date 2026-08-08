@@ -10,7 +10,40 @@ import ProductGrid from "@/components/product/ProductGrid";
 import FilterDrawer from "@/components/common/FilterDrawer";
 import Icon from "@/components/common/Icon";
 import { useDebounce } from "@/lib/useDebounce";
-import { useProductFilter } from "@/lib/useProductFilter";
+import { filterProducts } from "@/lib/useProductFilter";
+
+function SidebarSection({ title, children }) {
+  return (
+    <div className="pb-5 mb-5 border-b border-cream-warm last:border-0 last:mb-0 last:pb-0">
+      <label className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider font-bold text-noir-soft mb-3">
+        <span className="w-0.5 h-3.5 bg-forest rounded-sm" /> {title}
+      </label>
+      <div className="flex flex-col gap-1.5">{children}</div>
+    </div>
+  );
+}
+
+function SidebarOption({ label, count, active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full flex items-center justify-between gap-2 px-3.5 py-2 rounded-xl text-sm transition-all ${
+        active
+          ? "bg-forest text-white font-semibold shadow-sm"
+          : "bg-cream-pure text-noir-soft hover:bg-forest/5 hover:text-forest"
+      }`}
+    >
+      <span className="truncate">{label}</span>
+      <span
+        className={`shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-full ${
+          active ? "bg-white/20 text-white" : "bg-white text-warm-gray border border-cream-warm"
+        }`}
+      >
+        {count}
+      </span>
+    </button>
+  );
+}
 
 export default function CatalogContent({ categories, productsData, sellersData }) {
   const searchParams = useSearchParams();
@@ -33,11 +66,8 @@ export default function CatalogContent({ categories, productsData, sellersData }
   // 2 kolom di mobile, 3 di tablet (md), 4 di desktop (lg) — lihat ProductGrid.
   const [columns, setColumns] = useState(2);
   const catScrollRef = useRef(null);
-  // [LIHAT LEBIH SEDIKIT] Ref area daftar produk, untuk menggulung ke atas.
   const productsRef = useRef(null);
 
-  // [LIHAT LEBIH BANYAK] Deteksi jumlah kolom grid secara real-time (termasuk di
-  // mobile) agar setiap klik "Lihat Lebih Banyak" menambah tepat 2 baris produk.
   useEffect(() => {
     const mqTablet = window.matchMedia("(min-width: 768px)");
     const mqDesktop = window.matchMedia("(min-width: 1024px)");
@@ -63,14 +93,13 @@ export default function CatalogContent({ categories, productsData, sellersData }
 
   const scrollCat = (dir) => {
     if (catScrollRef.current) {
-      catScrollRef.current.scrollBy({ left: dir * 200, behavior: 'smooth' })
+      catScrollRef.current.scrollBy({ left: dir * 200, behavior: "smooth" });
     }
-  }
+  };
 
   const debouncedSearch = useDebounce(searchInput, 200);
 
-  // [LIHAT LEBIH BANYAK] Saat filter/pencarian berubah, kembalikan ke jumlah awal
-  // agar tombol "Lihat Lebih Banyak" muncul lagi dari posisi awal.
+  // [LIHAT LEBIH BANYAK] Saat filter/pencarian berubah, kembalikan ke jumlah awal.
   useEffect(() => {
     setVisibleCount(INITIAL_VISIBLE);
   }, [debouncedSearch, selectedCategory, sellerId, preOrder, halal]);
@@ -91,7 +120,6 @@ export default function CatalogContent({ categories, productsData, sellersData }
     [categories, productsData],
   );
 
-  const visibleCategories = sortedCategories.slice(0, 3);
   const hasActiveFilter =
     selectedCategory || sellerId !== "all" || preOrder !== "all" || halal !== "all";
 
@@ -110,32 +138,73 @@ export default function CatalogContent({ categories, productsData, sellersData }
     [productsData, sellersData],
   );
 
-  const filtered = useProductFilter(enriched, sellersData, {
-    search: debouncedSearch,
-    categoryIds: selectedCategory ? [selectedCategory] : [],
-    sellerId,
-    preOrder,
-    halal,
-  });
+  const baseOpts = useMemo(
+    () => ({
+      search: debouncedSearch,
+      categoryIds: selectedCategory ? [selectedCategory] : [],
+      sellerId,
+      preOrder,
+      halal,
+    }),
+    [debouncedSearch, selectedCategory, sellerId, preOrder, halal],
+  );
 
-  // [LIHAT LEBIH BANYAK] Potong daftar sesuai jumlah yang tampil saat ini.
+  const filtered = useMemo(
+    () => filterProducts(enriched, sellersData, baseOpts),
+    [enriched, sellersData, baseOpts],
+  );
+
+  // ==== Hitungan produk per opsi filter (untuk sidebar) ====
+  const counts = useMemo(() => {
+    const when = (patch) => filterProducts(enriched, sellersData, { ...baseOpts, ...patch }).length;
+    const categories = {};
+    for (const c of sortedCategories) categories[c.id] = when({ categoryIds: [c.id] });
+
+    const sellers = {};
+    for (const s of sellersData) sellers[s.id] = when({ sellerId: s.id });
+
+    return {
+      categories,
+      sellers,
+      po: when({ preOrder: "po" }),
+      ready: when({ preOrder: "ready" }),
+      halal: when({ halal: "halal" }),
+      nonHalal: when({ halal: "non_halal" }),
+    };
+  }, [enriched, sellersData, baseOpts, sortedCategories]);
+
   const visibleProducts = filtered.slice(0, visibleCount);
 
-  // [LIHAT LEBIH BANYAK] Setiap klik menambah 2 baris produk (2 × jumlah kolom),
-  // sampai semua produk tampil. Terapkan juga di mobile (kolom otomatis = 2).
   const ROWS_PER_CLICK = 2;
   const stepPerClick = columns * ROWS_PER_CLICK;
 
-  // [LIHAT LEBIH BANYAK] Tampilkan 2 baris berikutnya (tanpa menampilkan semua).
   const showMore = () => {
     setVisibleCount((prev) => Math.min(prev + stepPerClick, filtered.length));
   };
 
-  // [LIHAT LEBIH SEDIKIT] Gulung kembali ke awal daftar produk dan tampilkan
-  // hanya jumlah awal lagi (tombol kembali menjadi "Lihat Lebih Banyak").
   const showLess = () => {
     setVisibleCount(INITIAL_VISIBLE);
     productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const resetFilters = () => {
+    setSelectedCategory(null);
+    setSellerId("all");
+    setPreOrder("all");
+    setHalal("all");
+  };
+
+  const filterOptions = {
+    po: [
+      { value: "all", label: "Semua" },
+      { value: "po", label: "Pre-Order (PO)", count: counts.po },
+      { value: "ready", label: "Ready Stock", count: counts.ready },
+    ],
+    halal: [
+      { value: "all", label: "Semua" },
+      { value: "halal", label: "Halal", count: counts.halal },
+      { value: "non_halal", label: "Non-Halal", count: counts.nonHalal },
+    ],
   };
 
   return (
@@ -154,7 +223,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
         />
       </div>
 
-      {/* [MOBILE FILTER] Scroll horizontal untuk kategori + tombol filter */}
+      {/* [MOBILE FILTER] Scroll horizontal kategori + tombol filter */}
       <div className="md:hidden flex items-center gap-2 mb-4">
         <button onClick={() => scrollCat(-1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cream-warm shadow-sm shrink-0 text-noir-soft hover:text-forest transition-all">
           <Icon name="chevronLeft" size={16} />
@@ -178,9 +247,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
           >
             <Icon name="filter" size={14} />
             Filter
-            {hasActiveFilter && (
-              <span className="w-1.5 h-1.5 rounded-full bg-white" />
-            )}
+            {hasActiveFilter && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
           </button>
         </div>
         <button onClick={() => scrollCat(1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cream-warm shadow-sm shrink-0 text-noir-soft hover:text-forest transition-all">
@@ -188,150 +255,135 @@ export default function CatalogContent({ categories, productsData, sellersData }
         </button>
       </div>
 
-      <div className="hidden md:block">
-        <div className="flex flex-wrap gap-3 mb-8">
-          {sortedCategories.map((cat) => (
-            <CategoryChip
-              key={cat.id}
-              category={cat}
-              active={selectedCategory === cat.id}
-              onClick={setSelectedCategory}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="hidden md:block bg-white rounded-3xl p-8 mb-8 shadow-sm border border-cream-warm">
-        <div className="flex flex-wrap gap-12 items-start">
-          <div className="flex flex-col gap-3">
-            <label className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-noir-soft">
-              <span className="w-0.5 h-3.5 bg-forest rounded-sm" /> Status Produk
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { value: "all", label: "Semua" },
-                { value: "po", label: "Pre-Order (PO)" },
-                { value: "ready", label: "Ready Stock" },
-              ].map((opt) => (
+      {/* ===== Layout: sidebar filter kiri (desktop) + daftar produk ===== */}
+      <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-8 lg:items-start">
+        {/* Sidebar (hidden on mobile; pakai FilterDrawer di mobile) */}
+        <aside className="hidden lg:block lg:sticky lg:top-24">
+          <div className="bg-white rounded-3xl p-6 shadow-sm border border-cream-warm">
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-sm md:text-base font-bold tracking-tight">
+                Filter Produk
+              </h2>
+              {hasActiveFilter && (
                 <button
+                  onClick={resetFilters}
+                  className="text-[11px] md:text-xs font-semibold text-forest hover:underline"
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+
+            <SidebarSection title="Kategori">
+              <SidebarOption
+                label="Semua Kategori"
+                count={enriched.length}
+                active={!selectedCategory}
+                onClick={() => setSelectedCategory(null)}
+              />
+              {sortedCategories.map((cat) => (
+                <SidebarOption
+                  key={cat.id}
+                  label={cat.name}
+                  count={counts.categories[cat.id] ?? 0}
+                  active={selectedCategory === cat.id}
+                  onClick={() =>
+                    setSelectedCategory(selectedCategory === cat.id ? null : cat.id)
+                  }
+                />
+              ))}
+            </SidebarSection>
+
+            <SidebarSection title="Status Produk">
+              {filterOptions.po.map((opt) => (
+                <SidebarOption
                   key={opt.value}
-                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                    preOrder === opt.value
-                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
-                      : "bg-cream-pure border-cream-warm text-noir-soft hover:border-forest hover:text-forest hover:bg-forest/5 hover:-translate-y-0.5"
-                  }`}
+                  label={opt.label}
+                  count={opt.count}
+                  active={preOrder === opt.value}
                   onClick={() => setPreOrder(opt.value)}
-                >
-                  {opt.label}
-                </button>
+                />
               ))}
-            </div>
-          </div>
+            </SidebarSection>
 
-          <div className="flex flex-col gap-3">
-            <label className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-noir-soft">
-              <span className="w-0.5 h-3.5 bg-forest rounded-sm" /> Halal
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { value: "all", label: "Semua" },
-                { value: "halal", label: "Halal" },
-                { value: "non_halal", label: "Non-Halal" },
-              ].map((opt) => (
-                <button
+            <SidebarSection title="Kehalalan">
+              {filterOptions.halal.map((opt) => (
+                <SidebarOption
                   key={opt.value}
-                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                    halal === opt.value
-                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
-                      : "bg-cream-pure border-cream-warm text-noir-soft hover:border-forest hover:text-forest hover:bg-forest/5 hover:-translate-y-0.5"
-                  }`}
+                  label={opt.label}
+                  count={opt.count}
+                  active={halal === opt.value}
                   onClick={() => setHalal(opt.value)}
-                >
-                  {opt.label}
-                </button>
+                />
               ))}
-            </div>
+            </SidebarSection>
+
+            {sellersData.length > 0 && (
+              <SidebarSection title="Toko">
+                <SidebarOption
+                  label="Semua Toko"
+                  count={enriched.length}
+                  active={sellerId === "all"}
+                  onClick={() => setSellerId("all")}
+                />
+                {sellersData.map((s) => (
+                  <SidebarOption
+                    key={s.id}
+                    label={s.name}
+                    count={counts.sellers[s.id] ?? 0}
+                    active={sellerId === s.id}
+                    onClick={() => setSellerId(sellerId === s.id ? "all" : s.id)}
+                  />
+                ))}
+              </SidebarSection>
+            )}
+          </div>
+        </aside>
+
+        {/* Daftar produk */}
+        <div className="min-w-0">
+          <div ref={productsRef} className="scroll-mt-24">
+            <p className="font-mono text-[10px] md:text-xs text-warm-gray tracking-wider mb-4 md:mb-6">
+              {loading ? "Memuat..." : `${filtered.length} produk ditemukan`}
+            </p>
+
+            {loading ? (
+              <SkeletonGrid count={8} />
+            ) : filtered.length === 0 ? (
+              <EmptyState
+                title="Produk tidak ditemukan"
+                description="Coba ubah kata kunci pencarian, pilih kategori lain, atau atur ulang filter."
+              />
+            ) : (
+              <ProductGrid products={visibleProducts} categories={categories} />
+            )}
           </div>
 
-          <div className="flex flex-col gap-3">
-            <label className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-noir-soft">
-              <span className="w-0.5 h-3.5 bg-forest rounded-sm" /> Toko
-            </label>
-            <div className="flex flex-wrap gap-2">
+          {!loading && filtered.length > visibleCount && (
+            <div className="flex justify-center mt-8 md:mt-12">
               <button
-                className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                  sellerId === "all"
-                    ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
-                    : "bg-cream-pure border-cream-warm text-noir-soft hover:border-forest hover:text-forest hover:bg-forest/5 hover:-translate-y-0.5"
-                }`}
-                onClick={() => setSellerId("all")}
+                onClick={showMore}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-cream-warm text-sm font-semibold text-noir-soft hover:border-forest hover:text-forest hover:-translate-y-0.5 transition-all"
               >
-                Semua Toko
+                Lihat Lebih Banyak ({filtered.length - visibleCount})
+                <Icon name="chevronDown" size={16} />
               </button>
-              {sellersData.map((s) => (
-                <button
-                  key={s.id}
-                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                    sellerId === s.id
-                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
-                      : "bg-cream-pure border-cream-warm text-noir-soft hover:border-forest hover:text-forest hover:bg-forest/5 hover:-translate-y-0.5"
-                  }`}
-                  onClick={() => setSellerId(sellerId === s.id ? "all" : s.id)}
-                >
-                  {s.name}
-                </button>
-              ))}
             </div>
-          </div>
+          )}
+
+          {!loading && filtered.length > INITIAL_VISIBLE && visibleCount >= filtered.length && (
+            <div className="flex justify-center mt-8 md:mt-12">
+              <button
+                onClick={showLess}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-cream-warm text-sm font-semibold text-noir-soft hover:border-forest hover:text-forest hover:-translate-y-0.5 transition-all"
+              >
+                <Icon name="chevronUp" size={16} />
+                Lihat Lebih Sedikit
+              </button>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* [LIHAT LEBIH SEDIKIT] Area daftar produk; ref dipakai untuk menggulung
-          kembali ke awal saat tombol "Lihat Lebih Sedikit" diklik. */}
-      <div ref={productsRef} className="scroll-mt-24">
-        <p className="font-mono text-[10px] md:text-xs text-warm-gray tracking-wider mb-4 md:mb-6">
-          {loading ? "Memuat..." : `${filtered.length} produk ditemukan`}
-        </p>
-
-        {loading ? (
-          <SkeletonGrid count={8} />
-        ) : filtered.length === 0 ? (
-          <EmptyState
-            title="Produk tidak ditemukan"
-            description="Coba ubah kata kunci pencarian, pilih kategori lain, atau atur ulang filter."
-          />
-        ) : (
-          <ProductGrid products={visibleProducts} categories={categories} />
-        )}
-      </div>
-
-      {/* [LIHAT LEBIH BANYAK] Tombol muncul selama masih ada produk tersembunyi.
-          Setiap klik menampilkan 2 baris produk tambahan (bukan semua sekaligus). */}
-      {!loading && filtered.length > visibleCount && (
-        <div className="flex justify-center mt-8 md:mt-12">
-          <button
-            onClick={showMore}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-cotton-warm text-sm font-semibold text-noir-soft hover:border-cherry hover:text-cherry hover:-translate-y-0.5 transition-all"
-          >
-            Lihat Lebih Banyak
-            <Icon name="chevronDown" size={16} />
-          </button>
-        </div>
-      )}
-
-      {/* [LIHAT LEBIH SEDIKIT] Tombol muncul saat semua produk sudah tampil.
-          Klik = menggulung kembali ke awal daftar produk + kembali ke jumlah awal. */}
-      {!loading && filtered.length > INITIAL_VISIBLE && visibleCount >= filtered.length && (
-        <div className="flex justify-center mt-8 md:mt-12">
-          <button
-            onClick={showLess}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-cotton-warm text-sm font-semibold text-noir-soft hover:border-cherry hover:text-cherry hover:-translate-y-0.5 transition-all"
-          >
-            <Icon name="chevronUp" size={16} />
-            Lihat Lebih Sedikit
-          </button>
-        </div>
-      )}
 
       {/* Scrollbar style untuk mobile filter */}
       <style>{`
@@ -353,6 +405,8 @@ export default function CatalogContent({ categories, productsData, sellersData }
         onPreOrder={setPreOrder}
         halal={halal}
         onHalal={setHalal}
+        counts={counts}
+        totalProducts={enriched.length}
       />
     </div>
   );

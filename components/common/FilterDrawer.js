@@ -3,6 +3,39 @@ import { useEffect } from "react";
 import Icon from "@/components/common/Icon";
 import CategoryChip from "@/components/category/CategoryChip";
 
+function DrawerOption({ label, count, active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl text-sm transition-all ${
+        active
+          ? "bg-forest text-white font-semibold shadow-sm"
+          : "bg-white text-noir-soft hover:bg-forest/5 hover:text-forest"
+      }`}
+    >
+      <span className="truncate">{label}</span>
+      <span
+        className={`shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-full ${
+          active ? "bg-white/20 text-white" : "bg-cream-pure text-warm-gray"
+        }`}
+      >
+        {count}
+      </span>
+    </button>
+  );
+}
+
+function DrawerSection({ title, children }) {
+  return (
+    <div>
+      <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-noir-soft mb-3">
+        <span className="w-0.5 h-3 bg-forest rounded-sm" /> {title}
+      </label>
+      <div className="flex flex-col gap-1.5">{children}</div>
+    </div>
+  );
+}
+
 export default function FilterDrawer({
   open,
   onClose,
@@ -16,6 +49,8 @@ export default function FilterDrawer({
   onPreOrder,
   halal = "all",
   onHalal,
+  counts = {},
+  totalProducts = 0,
 }) {
   useEffect(() => {
     if (open) {
@@ -45,102 +80,83 @@ export default function FilterDrawer({
         </div>
 
         <div className="p-5 space-y-6">
-          <div>
-            <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-noir-soft mb-3">
-              <span className="w-0.5 h-3 bg-forest rounded-sm" /> Kategori
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {categories.map((cat) => (
-                <CategoryChip
-                  key={cat.id}
-                  category={cat}
-                  active={selectedCategory === cat.id}
-                  onClick={onSelectCategory}
-                />
-              ))}
-            </div>
-          </div>
+          <DrawerSection title="Kategori">
+            <DrawerOption
+              label="Semua Kategori"
+              count={totalProducts}
+              active={!selectedCategory}
+              onClick={() => onSelectCategory(null)}
+            />
+            {categories.map((cat) => (
+              <DrawerOption
+                key={cat.id}
+                label={cat.name}
+                count={counts.categories?.[cat.id] ?? 0}
+                active={selectedCategory === cat.id}
+                onClick={() => onSelectCategory(selectedCategory === cat.id ? null : cat.id)}
+              />
+            ))}
+          </DrawerSection>
 
-          <div>
-            <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-noir-soft mb-3">
-              <span className="w-0.5 h-3 bg-forest rounded-sm" /> Status Produk
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { value: "all", label: "Semua" },
-                { value: "po", label: "Pre-Order (PO)" },
-                { value: "ready", label: "Ready Stock" },
-              ].map((opt) => (
-                <button
-                  key={opt.value}
-                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                    preOrder === opt.value
-                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
-                      : "bg-white border-cream-warm text-noir-soft hover:border-forest hover:text-forest"
-                  }`}
-                  onClick={() => onPreOrder(opt.value)}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </div>
+          <DrawerSection title="Status Produk">
+            <DrawerOption
+              label="Semua"
+              count={totalProducts}
+              active={preOrder === "all"}
+              onClick={() => onPreOrder("all")}
+            />
+            <DrawerOption
+              label="Pre-Order (PO)"
+              count={counts.po ?? 0}
+              active={preOrder === "po"}
+              onClick={() => onPreOrder("po")}
+            />
+            <DrawerOption
+              label="Ready Stock"
+              count={counts.ready ?? 0}
+              active={preOrder === "ready"}
+              onClick={() => onPreOrder("ready")}
+            />
+          </DrawerSection>
 
-          <div>
-            <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-noir-soft mb-3">
-              <span className="w-0.5 h-3 bg-forest rounded-sm" /> Halal
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { value: "all", label: "Semua" },
-                { value: "halal", label: "Halal" },
-                { value: "non_halal", label: "Non-Halal" },
-              ].map((opt) => (
-                <button
-                  key={opt.value}
-                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                    halal === opt.value
-                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
-                      : "bg-white border-cream-warm text-noir-soft hover:border-forest hover:text-forest"
-                  }`}
-                  onClick={() => onHalal(opt.value)}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </div>
+          <DrawerSection title="Kehalalan">
+            <DrawerOption
+              label="Semua"
+              count={totalProducts}
+              active={halal === "all"}
+              onClick={() => onHalal("all")}
+            />
+            <DrawerOption
+              label="Halal"
+              count={counts.halal ?? 0}
+              active={halal === "halal"}
+              onClick={() => onHalal("halal")}
+            />
+            <DrawerOption
+              label="Non-Halal"
+              count={counts.nonHalal ?? 0}
+              active={halal === "non_halal"}
+              onClick={() => onHalal("non_halal")}
+            />
+          </DrawerSection>
 
-          <div>
-            <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-noir-soft mb-3">
-              <span className="w-0.5 h-3 bg-forest rounded-sm" /> Toko
-            </label>
-            <div className="flex flex-wrap gap-2">
-              <button
-                className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                  sellerId === "all"
-                    ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
-                    : "bg-white border-cream-warm text-noir-soft hover:border-forest hover:text-forest"
-                }`}
-                onClick={() => onSellerId("all")}
-              >
-                Semua Toko
-              </button>
-              {sellers.map((s) => (
-                <button
-                  key={s.id}
-                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-                    sellerId === s.id
-                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
-                      : "bg-white border-cream-warm text-noir-soft hover:border-forest hover:text-forest"
-                  }`}
-                  onClick={() => onSellerId(sellerId === s.id ? "all" : s.id)}
-                >
-                  {s.name}
-                </button>
-              ))}
-            </div>
-          </div>
+          <DrawerSection title="Toko">
+            <DrawerOption
+              label="Semua Toko"
+              count={totalProducts}
+              active={sellerId === "all"}
+              onClick={() => onSellerId("all")}
+            />
+            {sellers.map((s) => (
+              <DrawerOption
+                key={s.id}
+                label={s.name}
+                count={counts.sellers?.[s.id] ?? 0}
+                active={sellerId === s.id}
+                onClick={() => onSellerId(sellerId === s.id ? "all" : s.id)}
+              />
+            ))}
+          </DrawerSection>
         </div>
 
         <div className="sticky bottom-0 bg-cream border-t border-cream-warm p-5">
