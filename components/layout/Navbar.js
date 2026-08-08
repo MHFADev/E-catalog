@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Icon from "@/components/common/Icon";
 import JoinModal from "@/components/common/JoinModal";
-import PartnerLogos from "@/components/common/PartnerLogos";
 import { useUser } from "@/lib/useUser";
 import { useSellerAccount } from "@/lib/useSellerAccount";
 import { createClient } from "@/lib/supabase/client";
@@ -87,12 +86,6 @@ export default function Navbar() {
               UMKM Kemayoran
             </span>
           </Link>
-
-          {/* [OPSI 1] Logo mitra di samping logo utama — hanya desktop, tersembunyi di mobile */}
-          <div className="hidden md:flex items-center gap-3">
-            <span className="w-px h-6 bg-cream-warm" />
-            <PartnerLogos variant="navbar" />
-          </div>
 
           {/* Search bar (desktop) */}
           <form

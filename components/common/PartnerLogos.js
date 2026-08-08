@@ -30,25 +30,25 @@ export default function PartnerLogos({
   const styles = {
     navbar: {
       wrap: "hidden md:flex items-center gap-3",
-      tile: "h-7 w-auto shrink-0",
-      img: "h-full max-h-[28px]",
+      tile: "h-8 w-auto shrink-0",
+      img: "h-full max-h-[34px]",
     },
     hero: {
       wrap: "flex flex-wrap items-center gap-3 md:gap-4",
-      tile: "h-9 md:h-10 px-2.5 py-1 inline-flex items-center rounded-xl bg-white/10 backdrop-blur-md ring-1 ring-white/20 opacity-90 hover:opacity-100 transition-opacity",
-      img: "h-7 md:h-8 max-h-[32px]",
+      tile: "h-11 md:h-12 px-2.5 py-1 inline-flex items-center rounded-xl bg-white/10 backdrop-blur-md ring-1 ring-white/20 opacity-90 hover:opacity-100 transition-opacity",
+      img: "h-8 md:h-9 max-h-[36px]",
     },
     section: {
       wrap: "flex flex-wrap items-center justify-center gap-6 md:gap-10",
-      tile: "h-10 md:h-12 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0",
-      img: "h-full max-h-[48px]",
+      tile: "h-12 md:h-14 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0",
+      img: "h-full max-h-[58px]",
     },
     footer: {
       wrap: "flex items-center gap-4",
-      tile: "h-7 w-auto opacity-90 hover:opacity-100 transition-opacity",
-      img: "h-full max-h-[26px]",
+      tile: "h-8 w-auto opacity-90 hover:opacity-100 transition-opacity",
+      img: "h-full max-h-[32px]",
     },
-  }[variant] || { wrap: "flex items-center gap-4", tile: "h-8 w-auto", img: "h-full" };
+  }[variant] || { wrap: "flex items-center gap-4", tile: "h-9 w-auto", img: "h-full" };
 
   return (
     <div className={`${styles.wrap} ${className}`}>
