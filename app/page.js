@@ -2,6 +2,7 @@
 import ProductGrid from "@/components/product/ProductGrid";
 import Icon from "@/components/common/Icon";
 import MultiPinMap from "@/components/common/MultiPinMap";
+import PartnerLogos from "@/components/common/PartnerLogos";
 import { getProducts, getSellers, getCategories } from "@/lib/catalog";
 import { getBanners } from "@/lib/banners";
 
@@ -118,6 +119,14 @@ export default async function HomePage() {
                   >
                     Daftar Sebagai UMKM
                   </Link>
+                </div>
+
+                {/* [OPSI 2] Logo mitra di bawah CTA (disarankan) */}
+                <div className="mt-5 md:mt-7">
+                  <div className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-white/70 font-medium mb-2.5">
+                    Bekerja Sama Dengan
+                  </div>
+                  <PartnerLogos variant="hero" />
                 </div>
               </div>
             </div>
@@ -287,6 +296,16 @@ export default async function HomePage() {
             </Link>
           </div>
           <ProductGrid products={featured} categories={categories} />
+        </div>
+      </section>
+
+      {/* ===== [OPSI 3a] MITRA AKADEMIS & PENGEMBANG EKOSISTEM ===== */}
+      <section className="py-8 md:py-10 bg-cream-pure border-y border-cream-warm">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <h2 className="text-center text-xs md:text-sm uppercase tracking-[0.2em] text-warm-gray font-semibold mb-6">
+            Mitra Akademis &amp; Pengembang Ekosistem
+          </h2>
+          <PartnerLogos variant="section" />
         </div>
       </section>
 

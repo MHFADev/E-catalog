@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
+import PartnerLogos from "@/components/common/PartnerLogos";
 import {
   ADMIN_WHATSAPP,
   ADMIN_WHATSAPP_DISPLAY,
@@ -88,6 +89,14 @@ export default function Footer() {
                 </span>
                 Jl. Kemayoran, Jakarta Pusat
               </div>
+            </div>
+
+            {/* [OPSI 3b] Mitra Pendukung di samping info kontak */}
+            <div className="mt-7 pt-5 border-t border-cream-warm">
+              <div className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-warm-gray font-semibold mb-3">
+                Mitra Pendukung
+              </div>
+              <PartnerLogos variant="footer" />
             </div>
           </div>
 
