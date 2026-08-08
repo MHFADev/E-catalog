@@ -82,6 +82,10 @@ export async function saveProduct(formData) {
     halal_status: halalStatus || null,
   };
 
+  // Kolom products.id ber-tipe text dan NOT NULL tanpa default, jadi
+  // saat insert produk baru wajib menyertakan id (contoh: "prod-<timestamp>").
+  if (!id) payload.id = `prod-${Date.now()}`;
+
   const supabase = await createAdminClient();
   const { error } = id
     ? await supabase

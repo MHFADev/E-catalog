@@ -29,6 +29,9 @@ const ewalletOptions = [
 
 export default function SellerForm({ initial = null }) {
   const [message, setMessage] = useState("");
+  // Naikkan resetKey usai sukses menyimpan supaya ImageUploader dibersihkan
+  // (URL gambar yang sudah terpakai tidak tertinggal untuk input berikutnya).
+  const [resetKey, setResetKey] = useState(0);
 
   return (
     <form
@@ -36,6 +39,7 @@ export default function SellerForm({ initial = null }) {
         try {
           await saveSeller(formData);
           setMessage("Toko disimpan.");
+          setResetKey((k) => k + 1);
         } catch (e) {
           setMessage(e.message || "Gagal menyimpan.");
         }
@@ -84,6 +88,7 @@ export default function SellerForm({ initial = null }) {
             name="logo"
             label="Logo Toko"
             defaultValue={initial?.logo ?? ""}
+            resetSignal={resetKey}
           />
         </div>
         <div className="sm:col-span-2">
@@ -149,10 +154,12 @@ export default function SellerForm({ initial = null }) {
         {/* Bank Transfer Fields */}
         <div className="grid sm:grid-cols-2 gap-3 mb-4" id="bankFields">
           <div className="sm:col-span-2">
-            <select name="bankName" className={inputClass}>
+            {/* defaultValue pada <select> menentukan opsi yang terpilih saat form
+                pertama dirender, bukan defaultSelected pada tiap <option>. */}
+            <select name="bankName" className={inputClass} defaultValue={initial?.bank_name ?? ""}>
               <option value="">Pilih Bank</option>
               {bankOptions.map((b) => (
-                <option key={b.value} value={b.value} defaultSelected={initial?.bank_name === b.value}>
+                <option key={b.value} value={b.value}>
                   {b.label}
                 </option>
               ))}
@@ -176,10 +183,10 @@ export default function SellerForm({ initial = null }) {
 
         {/* E-Wallet Fields */}
         <div className="grid sm:grid-cols-2 gap-3 mb-4" id="ewalletFields">
-          <select name="ewalletType" className={inputClass}>
+          <select name="ewalletType" className={inputClass} defaultValue={initial?.ewallet_type ?? ""}>
             <option value="">Pilih E-Wallet</option>
             {ewalletOptions.map((e) => (
-              <option key={e.value} value={e.value} defaultSelected={initial?.ewallet_type === e.value}>
+              <option key={e.value} value={e.value}>
                 {e.label}
               </option>
             ))}
@@ -199,6 +206,7 @@ export default function SellerForm({ initial = null }) {
             name="qrisImage"
             label="Gambar QRIS"
             defaultValue={initial?.qris_image_url ?? ""}
+            resetSignal={resetKey}
           />
         </div>
       </div>

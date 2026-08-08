@@ -10,6 +10,9 @@ const inputClass =
 export default function BannerForm() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  // Naikkan resetKey usai sukses menyimpan supaya ImageUploader dibersihkan
+  // (URL gambar yang sudah terpakai tidak tertinggal untuk input berikutnya).
+  const [resetKey, setResetKey] = useState(0);
 
   return (
     <form
@@ -19,6 +22,7 @@ export default function BannerForm() {
         try {
           await saveBanner(formData);
           setMessage("Banner berhasil disimpan.");
+          setResetKey((k) => k + 1);
         } catch (e) {
           setError(e.message || "Gagal menyimpan banner.");
         }
@@ -29,6 +33,7 @@ export default function BannerForm() {
         name="imageUrl"
         label="Gambar Banner (wajib, otomatis dikompres)"
         placeholder="Upload atau tempel URL gambar"
+        resetSignal={resetKey}
       />
       <input
         name="title"
