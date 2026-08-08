@@ -8,6 +8,9 @@ const inputClass =
 
 export default function ProductForm({ categories, sellers, initial = null }) {
   const [message, setMessage] = useState("");
+  // Naikkan resetKey usai sukses menyimpan supaya ImageUploader dibersihkan
+  // (URL gambar yang sudah terpakai tidak tertinggal untuk input berikutnya).
+  const [resetKey, setResetKey] = useState(0);
 
   return (
     <form
@@ -15,6 +18,7 @@ export default function ProductForm({ categories, sellers, initial = null }) {
         try {
           await saveProduct(formData);
           setMessage("Produk disimpan.");
+          setResetKey((k) => k + 1);
         } catch (e) {
           setMessage(e.message || "Gagal menyimpan.");
         }
@@ -65,6 +69,7 @@ export default function ProductForm({ categories, sellers, initial = null }) {
             name="images"
             label="Gambar Produk"
             defaultValue={initial?.images?.join(", ") ?? ""}
+            resetSignal={resetKey}
           />
         </div>
         <div className="sm:col-span-2">

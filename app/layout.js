@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" />
         <Navbar />
         <PageTransition>
