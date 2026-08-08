@@ -60,6 +60,8 @@ export async function saveProduct(formData) {
   const isFeatured = formData.get("isFeatured") === "on";
   const isAvailable = formData.get("isAvailable") === "on";
   const showPrice = formData.get("showPrice") === "on";
+  const isPreOrder = formData.get("isPreOrder") === "on";
+  const halalStatus = (formData.get("halalStatus") || "").toString().trim();
 
   if (!name || !categoryId || !sellerId) throw new Error("Nama, kategori, dan toko wajib diisi");
   if (!images.length) throw new Error("Minimal 1 gambar (pisahkan dengan koma)");
@@ -76,6 +78,8 @@ export async function saveProduct(formData) {
     is_featured: isFeatured,
     is_available: isAvailable,
     show_price: showPrice,
+    is_pre_order: isPreOrder,
+    halal_status: halalStatus || null,
   };
 
   const supabase = await createAdminClient();
@@ -139,6 +143,15 @@ export async function saveSeller(formData) {
   const logo = (formData.get("logo") || "").toString().trim();
   const videoUrl = (formData.get("videoUrl") || "").toString().trim();
 
+  // Payment methods
+  const enabledPaymentMethods = formData.getAll("enabledPaymentMethods").filter(Boolean);
+  const bankName = (formData.get("bankName") || "").toString().trim();
+  const bankAccountNumber = (formData.get("bankAccountNumber") || "").toString().trim();
+  const bankAccountName = (formData.get("bankAccountName") || "").toString().trim();
+  const ewalletType = (formData.get("ewalletType") || "").toString().trim();
+  const ewalletNumber = (formData.get("ewalletNumber") || "").toString().trim();
+  const qrisImageUrl = (formData.get("qrisImage") || "").toString().trim();
+
   if (!name || !whatsapp) throw new Error("Nama dan WhatsApp wajib diisi");
 
   const payload = {
@@ -150,6 +163,14 @@ export async function saveSeller(formData) {
     description: description || null,
     logo: logo || null,
     video_url: videoUrl || null,
+    // Payment methods
+    bank_name: bankName || null,
+    bank_account_number: bankAccountNumber || null,
+    bank_account_name: bankAccountName || null,
+    ewallet_type: ewalletType || null,
+    ewallet_number: ewalletNumber || null,
+    qris_image_url: qrisImageUrl || null,
+    enabled_payment_methods: enabledPaymentMethods.length ? enabledPaymentMethods : [],
   };
 
   const supabase = await createAdminClient();
@@ -499,4 +520,64 @@ export async function deleteJoin(formData) {
   const { error } = await supabase.from("join_requests").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/join");
+}
+
+// ===== Banners =====
+export async function saveBanner(formData) {
+  await requireAdmin();
+  const id = (formData.get("id") || "").toString().trim();
+  const imageUrl = (formData.get("imageUrl") || "").toString().trim();
+  const title = (formData.get("title") || "").toString().trim();
+  const link = (formData.get("link") || "").toString().trim();
+  const sortOrder = parseInt(formData.get("sortOrder") || "0", 10) || 0;
+
+  if (!imageUrl) throw new Error("Gambar banner wajib di-upload");
+
+  const payload = {
+    image_url: imageUrl,
+    title: title || null,
+    link: link || null,
+    sort_order: sortOrder,
+    active: true,
+  };
+
+  const supabase = await createAdminClient();
+  const { error } = id
+    ? await supabase.from("banners").update(payload).eq("id", id)
+    : await supabase.from("banners").insert(payload);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+  revalidateTag("banners");
+  revalidateTag("catalog");
+}
+
+export async function toggleBanner(formData) {
+  await requireAdmin();
+  const id = formData.get("id");
+  const active = formData.get("active") === "true";
+  if (!id) throw new Error("Parameter salah");
+
+  const supabase = await createAdminClient();
+  const { error } = await supabase.from("banners").update({ active }).eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+  revalidateTag("banners");
+  revalidateTag("catalog");
+}
+
+export async function deleteBanner(formData) {
+  await requireAdmin();
+  const id = formData.get("id");
+  if (!id) throw new Error("Parameter salah");
+
+  const supabase = await createAdminClient();
+  const { error } = await supabase.from("banners").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+  revalidateTag("banners");
+  revalidateTag("catalog");
 }

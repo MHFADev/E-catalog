@@ -63,6 +63,26 @@ export default function ProductCard({ product, category }) {
         </span>
       </div>
       <div className="p-2.5 md:p-4 flex flex-col gap-1 md:gap-1.5">
+        {/* [PO & HALAL] Badge status produk & kehalalan */}
+        {(product.isPreOrder || (product.halalStatus === "halal" || product.halalStatus === "non_halal")) && (
+          <div className="flex flex-wrap items-center gap-1.5">
+            {product.isPreOrder && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] md:text-[10px] font-bold uppercase tracking-wide rounded-md bg-amber-100 text-amber-700">
+                <Icon name="package" size={10} /> Pre-Order
+              </span>
+            )}
+            {product.halalStatus === "halal" && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] md:text-[10px] font-bold uppercase tracking-wide rounded-md bg-emerald-100 text-emerald-700">
+                <Icon name="badgeCheck" size={10} /> Halal
+              </span>
+            )}
+            {product.halalStatus === "non_halal" && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] md:text-[10px] font-bold uppercase tracking-wide rounded-md bg-gray-100 text-gray-600">
+                <Icon name="info" size={10} /> Non-Halal
+              </span>
+            )}
+          </div>
+        )}
         <h3 className="text-xs md:text-base font-semibold text-noir leading-tight line-clamp-2">{product.name}</h3>
         {product.showPrice !== false && price ? (
           <span className="text-sm md:text-lg font-bold text-forest leading-tight">

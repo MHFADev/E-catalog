@@ -64,6 +64,10 @@ import {
   FaTag,
   FaBan,
   FaCamera,
+  FaLandmark,
+  FaQrcode,
+  FaMobile,
+  FaMoneyBillWave,
 } from "react-icons/fa6";
 
 const icons = {
@@ -136,6 +140,97 @@ const icons = {
   tag: FaTag,
   ban: FaBan,
   camera: FaCamera,
+  // Indonesian Banks
+  bankBca: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#0073BC"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">BCA</text>
+    </svg>
+  ),
+  bankMandiri: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#F58220"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="Arial">MANDIRI</text>
+    </svg>
+  ),
+  bankBri: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#0056A0"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">BRI</text>
+    </svg>
+  ),
+  bankBni: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#0033A0"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">BNI</text>
+    </svg>
+  ),
+  bankCimb: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#D4001E"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="Arial">CIMB</text>
+    </svg>
+  ),
+  bankPermata: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#007A33"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" fontFamily="Arial">PERMATA</text>
+    </svg>
+  ),
+  bankBtn: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#0066CC"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">BTN</text>
+    </svg>
+  ),
+  bankDanamon: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#E60012"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" fontFamily="Arial">DANAMON</text>
+    </svg>
+  ),
+  bankOther: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#6B7280"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">BANK</text>
+    </svg>
+  ),
+  // E-Wallets
+  ewalletDana: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#007BFF"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">DANA</text>
+    </svg>
+  ),
+  ewalletOvo: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#7B1FA2"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">OVO</text>
+    </svg>
+  ),
+  ewalletGopay: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#00AA13"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" fontFamily="Arial">GOPAY</text>
+    </svg>
+  ),
+  ewalletShopeepay: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#EE4D2D"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" fontFamily="Arial">SHOPEEPAY</text>
+    </svg>
+  ),
+  ewalletLinkaja: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#FF6B00"/>
+      <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="Arial">LINKAJA</text>
+    </svg>
+  ),
+  // Generic icons using available FA6 icons
+  bank: FaLandmark,
+  qrcode: FaQrcode,
+  mobile: FaMobile,
+  money: FaMoneyBillWave,
   google: (
     <svg viewBox="0 0 24 24">
       <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47a5.57 5.57 0 0 1-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z" />

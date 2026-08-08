@@ -13,7 +13,7 @@ async function count(client, table, filters = {}) {
 export default async function AdminDashboard() {
   const supabase = await createAdminClient();
 
-  const [products, sellers, categories, pendingReviews, unreadMessages, pendingJoins] =
+  const [products, sellers, categories, pendingReviews, unreadMessages, pendingJoins, banners] =
     await Promise.all([
       count(supabase, "products"),
       count(supabase, "sellers"),
@@ -21,11 +21,13 @@ export default async function AdminDashboard() {
       count(supabase, "reviews", { status: "pending" }),
       count(supabase, "messages", { is_read: false }),
       count(supabase, "join_requests", { status: "pending" }),
+      count(supabase, "banners"),
     ]);
 
   const stats = [
     { label: "Produk", value: products, href: "/admin/products", icon: "package", highlight: false },
     { label: "Toko / UMKM", value: sellers, href: "/admin/sellers", icon: "store", highlight: false },
+    { label: "Banner", value: banners, href: "/admin/banners", icon: "image", highlight: false },
     { label: "Kategori", value: categories, href: "/admin/products", icon: "tag", highlight: false },
     { label: "Komentar menunggu", value: pendingReviews, href: "/admin/reviews", icon: "star", highlight: true },
     { label: "Pesan belum dibaca", value: unreadMessages, href: "/admin/messages", icon: "send", highlight: true },
