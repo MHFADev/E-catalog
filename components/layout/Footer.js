@@ -1,81 +1,157 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
-import ContactForm from "@/components/common/ContactForm";
+import {
+  ADMIN_WHATSAPP,
+  ADMIN_WHATSAPP_DISPLAY,
+  WHATSAPP_JOIN_MESSAGE,
+} from "@/lib/constants";
+import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
 
-// [FOOTER] Terang/netral mengikuti palet marketplace, copyright rata tengah
-export default function Footer() {
+function FooterHeading({ children }) {
   return (
-    <footer className="bg-white border-t border-cream-warm mt-16">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-8 border-b border-cream-warm">
-          <div>
-            <Link href="/" className="flex items-center gap-2">
+    <h4 className="text-xs md:text-sm font-bold tracking-[0.14em] uppercase text-noir mb-5 flex items-center gap-2">
+      <span className="w-1 h-4 bg-forest rounded-sm" />
+      {children}
+    </h4>
+  );
+}
+
+function FooterLink({ href, children }) {
+  return (
+    <Link
+      href={href}
+      className="text-sm text-warm-gray hover:text-forest transition-colors flex items-center gap-1.5 w-fit"
+    >
+      <span className="text-forest/50">›</span>
+      {children}
+    </Link>
+  );
+}
+
+export default function Footer() {
+  const waLink = generateWhatsAppLink(ADMIN_WHATSAPP, WHATSAPP_JOIN_MESSAGE);
+
+  return (
+    <footer className="bg-white border-t border-cream-warm mt-16 overflow-hidden">
+      {/* Aksen hias atas */}
+      <div className="h-1.5 bg-gradient-to-r from-forest via-forest/60 to-clay w-full" />
+
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-8 pb-10 md:pb-12 border-b border-cream-warm">
+          {/* Brand */}
+          <div className="lg:col-span-4">
+            <Link href="/" className="flex items-center gap-2.5">
               <img
                 src="/icon.png"
                 alt="UMKM Kemayoran"
-                className="h-8 md:h-9 w-auto"
+                className="h-9 md:h-10 w-auto"
               />
-              <span className="font-bold text-base text-noir">
-                UMKM Kemayoran
-              </span>
+              <div>
+                <div className="font-extrabold text-base md:text-lg text-noir leading-tight">
+                  UMKM Kemayoran
+                </div>
+                <div className="text-[10px] md:text-[11px] text-warm-gray uppercase tracking-wider">
+                  E-Catalog Lokal
+                </div>
+              </div>
             </Link>
-            <p className="mt-3 text-sm text-cool-gray max-w-xs leading-relaxed">
-              Mendukung pertumbuhan UMKM lokal Kemayoran melalui digitalisasi.
+            <p className="mt-4 text-sm text-cool-gray leading-relaxed max-w-sm">
+              Katalog digital untuk mendukung pertumbuhan UMKM Kemayoran —
+              belanja langsung, transparan, dan dekat dengan warga sekitar.
             </p>
-            <div className="mt-4 text-xs text-warm-gray">
-              Jl. Kemayoran, Jakarta Pusat
+
+            {/* Contact ringkas (tanpa form) */}
+            <div className="mt-6 space-y-2.5 text-sm">
+              <a
+                href={waLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-forest font-semibold hover:underline no-underline"
+              >
+                <span className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                  <Icon name="whatsapp" size={15} />
+                </span>
+                {ADMIN_WHATSAPP_DISPLAY}
+              </a>
+              <a
+                href="mailto:hallo@umkm-kemayoran.id"
+                className="flex items-center gap-2 text-warm-gray hover:text-forest transition-colors no-underline"
+              >
+                <span className="w-8 h-8 rounded-full bg-forest/10 text-forest flex items-center justify-center shrink-0">
+                  <Icon name="send" size={14} />
+                </span>
+                hallo@umkm-kemayoran.id
+              </a>
+              <div className="flex items-center gap-2 text-warm-gray">
+                <span className="w-8 h-8 rounded-full bg-clay/10 text-clay-deep flex items-center justify-center shrink-0">
+                  <Icon name="mapPin" size={14} />
+                </span>
+                Jl. Kemayoran, Jakarta Pusat
+              </div>
             </div>
           </div>
-          <div>
-            <h4 className="text-sm font-semibold text-noir uppercase tracking-wider mb-4">
-              Navigasi
-            </h4>
+
+          {/* Navigasi */}
+          <div className="lg:col-span-2">
+            <FooterHeading>Navigasi</FooterHeading>
             <div className="flex flex-col gap-2.5">
-              <Link
-                href="/"
-                className="text-sm text-cool-gray hover:text-forest transition-colors"
-              >
-                Beranda
-              </Link>
-              <Link
-                href="/catalog"
-                className="text-sm text-cool-gray hover:text-forest transition-colors"
-              >
-                Katalog
-              </Link>
-              <Link
-                href="/artikel"
-                className="text-sm text-cool-gray hover:text-forest transition-colors"
-              >
-                Artikel
-              </Link>
-              <Link
-                href="/about"
-                className="text-sm text-cool-gray hover:text-forest transition-colors"
-              >
-                Tentang
-              </Link>
+              <FooterLink href="/">Beranda</FooterLink>
+              <FooterLink href="/catalog">Katalog Produk</FooterLink>
+              <FooterLink href="/artikel">Artikel &amp; Event</FooterLink>
+              <FooterLink href="/about">Tentang Kami</FooterLink>
+              <FooterLink href="/#peta">Peta Lokasi</FooterLink>
             </div>
           </div>
-          <div>
-            <h4 className="text-sm font-semibold text-noir uppercase tracking-wider mb-4">
-              Kontak
-            </h4>
-            <a
-              href="mailto:admin@Kemayoran-umkm.id"
-              className="text-sm text-cool-gray hover:text-forest transition-colors flex items-center gap-1 mb-4"
-            >
-              <Icon name="externalLink" size={14} /> admin@Kemayoran-umkm.id
-            </a>
-            <ContactForm />
+
+          {/* Untuk UMKM */}
+          <div className="lg:col-span-3">
+            <FooterHeading>Untuk UMKM</FooterHeading>
+            <div className="flex flex-col gap-2.5">
+              <FooterLink href="/gabung">Gabung Katalog</FooterLink>
+              <FooterLink href="/seller">Area Penjual</FooterLink>
+              <FooterLink href="/seller/products">Kelola Produk</FooterLink>
+              <FooterLink href="/admin/login">Panel Admin</FooterLink>
+            </div>
+
+            <div className="mt-6 bg-cream-pure border border-cream-warm rounded-2xl px-4 py-3.5">
+              <div className="text-[11px] md:text-xs font-bold text-noir mb-1">
+                Punya usaha di Kemayoran?
+              </div>
+              <div className="text-[11px] md:text-xs text-warm-gray leading-relaxed">
+                Daftar gratis dan tampilkan produk Anda di katalog digital ini.{" "}
+                <Link
+                  href="/gabung"
+                  className="text-forest font-semibold hover:underline"
+                >
+                  Mulai di sini.
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Layanan / Kontak */}
+          <div className="lg:col-span-3">
+            <FooterHeading>Bantuan</FooterHeading>
+            <div className="flex flex-col gap-2.5">
+              <FooterLink href="/about">FAQ &amp; Bantuan</FooterLink>
+              <FooterLink href="/gabung">Cara Menjadi Mitra</FooterLink>
+              <FooterLink href="/catalog">Cara Belanja</FooterLink>
+              <FooterLink href="/artikel">Panduan &amp; Berita</FooterLink>
+            </div>
           </div>
         </div>
-        {/* [FOOTER] Copyright di tengah */}
-        <div className="flex flex-wrap justify-center gap-2 pt-6 text-xs text-warm-gray">
-          <p>
-            &copy; {new Date().getFullYear()} E-Catalog UMKM Kemayoran. Semua
-            hak dilindungi.
+
+        {/* Bar bawah */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6">
+          <p className="text-xs text-warm-gray text-center sm:text-left">
+            &copy; {new Date().getFullYear()} E-Catalog UMKM Kemayoran. Semua hak
+            dilindungi.
           </p>
+          <div className="flex items-center gap-3 text-[11px] text-warm-gray">
+            <span>Dibuat untuk pelaku UMKM lokal</span>
+            <span className="w-1 h-1 rounded-full bg-clay/40" />
+            <span>Dari Kemayoran, untuk Indonesia</span>
+          </div>
         </div>
       </div>
     </footer>
