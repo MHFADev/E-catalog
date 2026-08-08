@@ -77,8 +77,8 @@ export default async function HomePage() {
               banners?.length ? "grid-cols-1 lg:grid-cols-[1fr_400px]" : "grid-cols-1"
             }`}
           >
-            {/* Card video besar (kiri) */}
-            <div className="relative min-h-[360px] md:min-h-[420px] lg:min-h-[480px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10">
+            {/* Card video besar (kiri): landscape 16/10 seperti hero referensi */}
+            <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[16/10] min-h-0 max-h-full rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10">
               <video
                 autoPlay
                 muted
@@ -122,40 +122,44 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* 2 banner statis (kanan, atas-bawah) dari admin panel */}
-            {banners?.length > 0 && (
-              <div className="grid grid-rows-2 gap-4 md:gap-6">
-                {banners.slice(0, 2).map((b) => {
-                  const inner = (
-                    <img
-                      src={b.imageUrl}
-                      alt={b.title || "Banner promosi"}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  );
-                  return (
-                    <div
-                      key={b.id}
-                      className="relative min-h-[150px] md:min-h-0 overflow-hidden rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group"
-                    >
-                      {b.link ? (
-                        <Link href={b.link} className="block w-full h-full">
-                          {inner}
-                        </Link>
-                      ) : (
-                        inner
-                      )}
-                      {b.title && (
-                        <span className="absolute left-3 bottom-3 md:left-4 md:bottom-4 px-3 py-1.5 text-[11px] md:text-xs font-bold text-white glass rounded-full shadow-sm inline-flex items-center gap-1.5">
-                          <Icon name="info" size={12} /> {b.title}
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+            {/* 2 banner statis (kanan, atas-bawah) mengikuti tinggi video di kiri */}
+              {banners?.length > 0 && (
+                <div
+                  className={`grid gap-4 md:gap-6 h-full min-h-0 ${
+                    banners.length >= 2 ? "grid-rows-2" : "grid-rows-1"
+                  }`}
+                >
+                  {banners.slice(0, 2).map((b) => {
+                    const imgEl = (
+                      <img
+                        src={b.imageUrl}
+                        alt={b.title || "Banner promosi"}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    );
+                    return (
+                      <div
+                        key={b.id}
+                        className="relative w-full h-full min-h-0 overflow-hidden rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group aspect-video lg:aspect-auto"
+                      >
+                        {b.link ? (
+                          <Link href={b.link} className="block absolute inset-0">
+                            {imgEl}
+                          </Link>
+                        ) : (
+                          imgEl
+                        )}
+                        {b.title && (
+                          <span className="absolute left-3 bottom-3 md:left-4 md:bottom-4 px-3 py-1.5 text-[11px] md:text-xs font-bold text-white glass rounded-full shadow-sm inline-flex items-center gap-1.5">
+                            <Icon name="info" size={12} /> {b.title}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
           </div>
 
           {/* ===== SEARCH BAR ===== */}
