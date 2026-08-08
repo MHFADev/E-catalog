@@ -60,6 +60,8 @@ export async function saveProduct(formData) {
   const isFeatured = formData.get("isFeatured") === "on";
   const isAvailable = formData.get("isAvailable") === "on";
   const showPrice = formData.get("showPrice") === "on";
+  const isPreOrder = formData.get("isPreOrder") === "on";
+  const halalStatus = (formData.get("halalStatus") || "").toString().trim();
 
   if (!name || !categoryId || !sellerId) throw new Error("Nama, kategori, dan toko wajib diisi");
   if (!images.length) throw new Error("Minimal 1 gambar (pisahkan dengan koma)");
@@ -76,6 +78,8 @@ export async function saveProduct(formData) {
     is_featured: isFeatured,
     is_available: isAvailable,
     show_price: showPrice,
+    is_pre_order: isPreOrder,
+    halal_status: halalStatus || null,
   };
 
   const supabase = await createAdminClient();

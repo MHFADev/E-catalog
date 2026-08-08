@@ -99,6 +99,24 @@ export default function ProductForm({ categories, sellers, initial = null }) {
           <input type="checkbox" name="showPrice" defaultChecked={initial?.showPrice !== false} />
           Tampilkan harga
         </label>
+        <label className="flex items-center gap-2">
+          <input type="checkbox" name="isPreOrder" defaultChecked={initial?.isPreOrder ?? false} />
+          Pre-Order (PO)
+          <span className="text-[11px] text-warm-gray">(produk dibuat setelah pesanan)</span>
+        </label>
+      </div>
+
+      <div className="space-y-1.5">
+        <label className="text-xs font-semibold text-noir-soft">Status Halal</label>
+        <select
+          name="halalStatus"
+          defaultValue={initial?.halalStatus ?? ""}
+          className={inputClass}
+        >
+          <option value="">Umum / belum dikategorikan</option>
+          <option value="halal">Halal</option>
+          <option value="non_halal">Non-Halal</option>
+        </select>
       </div>
 
       <button type="submit" className="btn-primary text-sm py-2.5 px-5">

@@ -21,6 +21,8 @@ export default function CatalogContent({ categories, productsData, sellersData }
     searchParams.get("category") || null,
   );
   const [sellerId, setSellerId] = useState("all");
+  const [preOrder, setPreOrder] = useState("all");
+  const [halal, setHalal] = useState("all");
   const [loading, setLoading] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
   // [LIHAT LEBIH BANYAK] Jumlah produk awal yang ditampilkan (sampai produk ke-18).
@@ -71,7 +73,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
   // agar tombol "Lihat Lebih Banyak" muncul lagi dari posisi awal.
   useEffect(() => {
     setVisibleCount(INITIAL_VISIBLE);
-  }, [debouncedSearch, selectedCategory, sellerId]);
+  }, [debouncedSearch, selectedCategory, sellerId, preOrder, halal]);
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 600);
@@ -90,7 +92,8 @@ export default function CatalogContent({ categories, productsData, sellersData }
   );
 
   const visibleCategories = sortedCategories.slice(0, 3);
-  const hasActiveFilter = selectedCategory || sellerId !== "all";
+  const hasActiveFilter =
+    selectedCategory || sellerId !== "all" || preOrder !== "all" || halal !== "all";
 
   const enriched = useMemo(
     () =>
@@ -111,6 +114,8 @@ export default function CatalogContent({ categories, productsData, sellersData }
     search: debouncedSearch,
     categoryIds: selectedCategory ? [selectedCategory] : [],
     sellerId,
+    preOrder,
+    halal,
   });
 
   // [LIHAT LEBIH BANYAK] Potong daftar sesuai jumlah yang tampil saat ini.
@@ -198,6 +203,56 @@ export default function CatalogContent({ categories, productsData, sellersData }
 
       <div className="hidden md:block bg-white rounded-3xl p-8 mb-8 shadow-sm border border-cream-warm">
         <div className="flex flex-wrap gap-12 items-start">
+          <div className="flex flex-col gap-3">
+            <label className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-noir-soft">
+              <span className="w-0.5 h-3.5 bg-forest rounded-sm" /> Status Produk
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { value: "all", label: "Semua" },
+                { value: "po", label: "Pre-Order (PO)" },
+                { value: "ready", label: "Ready Stock" },
+              ].map((opt) => (
+                <button
+                  key={opt.value}
+                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
+                    preOrder === opt.value
+                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
+                      : "bg-cream-pure border-cream-warm text-noir-soft hover:border-forest hover:text-forest hover:bg-forest/5 hover:-translate-y-0.5"
+                  }`}
+                  onClick={() => setPreOrder(opt.value)}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <label className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-noir-soft">
+              <span className="w-0.5 h-3.5 bg-forest rounded-sm" /> Halal
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { value: "all", label: "Semua" },
+                { value: "halal", label: "Halal" },
+                { value: "non_halal", label: "Non-Halal" },
+              ].map((opt) => (
+                <button
+                  key={opt.value}
+                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
+                    halal === opt.value
+                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
+                      : "bg-cream-pure border-cream-warm text-noir-soft hover:border-forest hover:text-forest hover:bg-forest/5 hover:-translate-y-0.5"
+                  }`}
+                  onClick={() => setHalal(opt.value)}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="flex flex-col gap-3">
             <label className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-noir-soft">
               <span className="w-0.5 h-3.5 bg-forest rounded-sm" /> Toko
@@ -294,6 +349,10 @@ export default function CatalogContent({ categories, productsData, sellersData }
         sellerId={sellerId}
         onSellerId={setSellerId}
         sellers={sellersData}
+        preOrder={preOrder}
+        onPreOrder={setPreOrder}
+        halal={halal}
+        onHalal={setHalal}
       />
     </div>
   );

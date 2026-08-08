@@ -12,6 +12,10 @@ export default function FilterDrawer({
   sellerId,
   onSellerId,
   sellers,
+  preOrder = "all",
+  onPreOrder,
+  halal = "all",
+  onHalal,
 }) {
   useEffect(() => {
     if (open) {
@@ -53,6 +57,56 @@ export default function FilterDrawer({
                   active={selectedCategory === cat.id}
                   onClick={onSelectCategory}
                 />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-noir-soft mb-3">
+              <span className="w-0.5 h-3 bg-forest rounded-sm" /> Status Produk
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { value: "all", label: "Semua" },
+                { value: "po", label: "Pre-Order (PO)" },
+                { value: "ready", label: "Ready Stock" },
+              ].map((opt) => (
+                <button
+                  key={opt.value}
+                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
+                    preOrder === opt.value
+                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
+                      : "bg-white border-cream-warm text-noir-soft hover:border-forest hover:text-forest"
+                  }`}
+                  onClick={() => onPreOrder(opt.value)}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-noir-soft mb-3">
+              <span className="w-0.5 h-3 bg-forest rounded-sm" /> Halal
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { value: "all", label: "Semua" },
+                { value: "halal", label: "Halal" },
+                { value: "non_halal", label: "Non-Halal" },
+              ].map((opt) => (
+                <button
+                  key={opt.value}
+                  className={`px-4 py-2 text-sm font-medium rounded-full border transition-all ${
+                    halal === opt.value
+                      ? "bg-gradient-to-br from-forest to-forest-deep border-forest-deep text-white shadow-md"
+                      : "bg-white border-cream-warm text-noir-soft hover:border-forest hover:text-forest"
+                  }`}
+                  onClick={() => onHalal(opt.value)}
+                >
+                  {opt.label}
+                </button>
               ))}
             </div>
           </div>

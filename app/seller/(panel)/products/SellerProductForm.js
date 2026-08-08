@@ -91,6 +91,27 @@ export default function SellerProductForm({ categories, initial = null }) {
         </span>
       </label>
 
+      <label className="flex items-center gap-2 text-sm text-noir-soft">
+        <input type="checkbox" name="isPreOrder" defaultChecked={initial?.isPreOrder ?? false} />
+        Produk ini Pre-Order (PO)
+        <span className="text-[11px] text-warm-gray">
+          (dibuat setelah ada pesanan — tampil badge PO &amp; filter)
+        </span>
+      </label>
+
+      <div className="space-y-1.5">
+        <label className="text-xs font-semibold text-noir-soft">Status Halal</label>
+        <select
+          name="halalStatus"
+          defaultValue={initial?.halalStatus ?? ""}
+          className={inputClass}
+        >
+          <option value="">Umum / belum dikategorikan</option>
+          <option value="halal">Halal</option>
+          <option value="non_halal">Non-Halal</option>
+        </select>
+      </div>
+
       <button type="submit" className="btn-primary text-sm py-2.5 px-5">
         {initial ? "Simpan Perubahan" : "Tambah Produk"}
       </button>

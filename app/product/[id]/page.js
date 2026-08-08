@@ -157,6 +157,27 @@ export default async function ProductDetailPage({ params }) {
                 {product.name}
               </h1>
 
+              {/* [PO & HALAL] Badge status di detail produk */}
+              {(product.isPreOrder || product.halalStatus) && (
+                <div className="flex flex-wrap gap-1.5 mb-2 md:mb-3">
+                  {product.isPreOrder && (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wide rounded-full bg-amber-100 text-amber-700 border border-amber-200">
+                      <Icon name="package" size={12} /> Pre-Order (PO) — dibuat setelah pesanan
+                    </span>
+                  )}
+                  {product.halalStatus === "halal" && (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wide rounded-full bg-emerald-100 text-emerald-700 border border-emerald-200">
+                      <Icon name="badgeCheck" size={12} /> Halal
+                    </span>
+                  )}
+                  {product.halalStatus === "non_halal" && (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wide rounded-full bg-gray-100 text-gray-600 border border-gray-200">
+                      <Icon name="info" size={12} /> Non-Halal
+                    </span>
+                  )}
+                </div>
+              )}
+
               {/* Harga besar ala marketplace */}
               <div className={`font-bold mb-1.5 ${showPrice ? "text-2xl md:text-3xl lg:text-4xl text-forest" : "text-base md:text-lg text-warm-gray"}`}>
                 {price}
