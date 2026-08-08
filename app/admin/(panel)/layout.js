@@ -12,6 +12,7 @@ const links = [
   { href: "/admin", label: "Dashboard", icon: "grid" },
   { href: "/admin/products", label: "Produk", icon: "package" },
   { href: "/admin/sellers", label: "Toko / UMKM", icon: "store" },
+  { href: "/admin/banners", label: "Banner", icon: "image" },
   { href: "/admin/categories", label: "Kategori", icon: "tag" },
   { href: "/admin/articles", label: "Artikel", icon: "file" },
   { href: "/admin/accounts", label: "Akun Penjual", icon: "users" },

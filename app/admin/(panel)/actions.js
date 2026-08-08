@@ -517,3 +517,63 @@ export async function deleteJoin(formData) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/join");
 }
+
+// ===== Banners =====
+export async function saveBanner(formData) {
+  await requireAdmin();
+  const id = (formData.get("id") || "").toString().trim();
+  const imageUrl = (formData.get("imageUrl") || "").toString().trim();
+  const title = (formData.get("title") || "").toString().trim();
+  const link = (formData.get("link") || "").toString().trim();
+  const sortOrder = parseInt(formData.get("sortOrder") || "0", 10) || 0;
+
+  if (!imageUrl) throw new Error("Gambar banner wajib di-upload");
+
+  const payload = {
+    image_url: imageUrl,
+    title: title || null,
+    link: link || null,
+    sort_order: sortOrder,
+    active: true,
+  };
+
+  const supabase = await createAdminClient();
+  const { error } = id
+    ? await supabase.from("banners").update(payload).eq("id", id)
+    : await supabase.from("banners").insert(payload);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+  revalidateTag("banners");
+  revalidateTag("catalog");
+}
+
+export async function toggleBanner(formData) {
+  await requireAdmin();
+  const id = formData.get("id");
+  const active = formData.get("active") === "true";
+  if (!id) throw new Error("Parameter salah");
+
+  const supabase = await createAdminClient();
+  const { error } = await supabase.from("banners").update({ active }).eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+  revalidateTag("banners");
+  revalidateTag("catalog");
+}
+
+export async function deleteBanner(formData) {
+  await requireAdmin();
+  const id = formData.get("id");
+  if (!id) throw new Error("Parameter salah");
+
+  const supabase = await createAdminClient();
+  const { error } = await supabase.from("banners").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+  revalidateTag("banners");
+  revalidateTag("catalog");
+}

@@ -2,8 +2,10 @@
 import ProductGrid from "@/components/product/ProductGrid";
 import Icon from "@/components/common/Icon";
 import HeroCarousel from "@/components/common/HeroCarousel";
+import BannerCarousel from "@/components/common/BannerCarousel";
 import MultiPinMap from "@/components/common/MultiPinMap";
 import { getProducts, getSellers, getCategories } from "@/lib/catalog";
+import { getBanners } from "@/lib/banners";
 
 const catColors = [
   "bg-clay/15 text-clay-deep",
@@ -44,10 +46,11 @@ const events = [
 ];
 
 export default async function HomePage() {
-  const [productsData, sellersData, categories] = await Promise.all([
+  const [productsData, sellersData, categories, banners] = await Promise.all([
     getProducts(),
     getSellers(),
     getCategories(),
+    getBanners(),
   ]);
 
   const enriched = productsData.map((p) => ({
@@ -79,8 +82,8 @@ export default async function HomePage() {
           >
             <source src="/hero-video.mp4" type="video/mp4" />
           </video>
-          {/* Liquid Glass / Blur Overlay - 5% blur */}
-          <div className="absolute inset-0 bg-white/5 backdrop-blur-[2px] backdrop-saturate-150" />
+          {/* Liquid Glass / Blur Overlay - 15% agar teks tetap terlihat */}
+          <div className="absolute inset-0 bg-white/15 backdrop-blur-[6px] backdrop-saturate-150" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 md:px-6 z-10">
@@ -158,12 +161,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===== HERO BANNER / SLIDESHOW ===== */}
+      {/* ===== HERO BANNER / EVENT SLIDESHOW (dikelola admin) ===== */}
       <section className="py-6 md:py-8 bg-white border-y border-cream-warm">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="relative rounded-[2rem] overflow-hidden shadow-xl md:shadow-2xl ring-1 ring-forest/10">
-            <HeroCarousel />
-          </div>
+          {banners?.length > 0 ? (
+            <BannerCarousel banners={banners} />
+          ) : (
+            <div className="relative rounded-[2rem] overflow-hidden shadow-xl md:shadow-2xl ring-1 ring-forest/10">
+              <HeroCarousel />
+            </div>
+          )}
         </div>
       </section>
 
