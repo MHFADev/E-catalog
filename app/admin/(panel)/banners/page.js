@@ -5,12 +5,19 @@ import BannerForm from "./BannerForm";
 import { toggleBanner, deleteBanner } from "../actions";
 
 export default async function AdminBannersPage() {
+  let banners = [];
+  let loadError = null;
   const supabase = await createAdminClient();
-  const { data: banners } = await supabase
-    .from("banners")
-    .select("id, image_url, title, link, sort_order, active, created_at")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true });
+  try {
+    const { data } = await supabase
+      .from("banners")
+      .select("id, image_url, title, link, sort_order, active, created_at")
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: true });
+    banners = data || [];
+  } catch (err) {
+    loadError = err?.message || "Gagal membaca banner.";
+  }
 
   return (
     <div>
@@ -21,6 +28,14 @@ export default async function AdminBannersPage() {
         Banner tampil di beranda (dashboard) menggantikan slide gambar. Cukup
         upload gambar — judul &amp; tautan opsional.
       </p>
+
+      {loadError && (
+        <div className="mb-4 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 leading-relaxed">
+          <strong>Menu belum siap.</strong> {loadError} Pastikan migration{" "}
+          <span className="font-mono">0011_banners.sql</span> dijalankan di
+          Supabase SQL Editor.
+        </div>
+      )}
 
       <details className="bg-white rounded-2xl border border-cream-warm mb-6 overflow-hidden">
         <summary className="flex items-center gap-1.5 px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">

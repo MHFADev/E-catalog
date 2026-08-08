@@ -208,7 +208,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-12">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-12 pb-28 md:pb-0">
       <div className="mb-5 md:mb-8">
         <h1 className="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight">
           Katalog <span className="text-forest">Produk</span>
@@ -223,7 +223,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
         />
       </div>
 
-      {/* [MOBILE FILTER] Scroll horizontal kategori + tombol filter */}
+      {/* [MOBILE FILTER] Scroll horizontal kategori saja — tombol filter di bottom bar */}
       <div className="md:hidden flex items-center gap-2 mb-4">
         <button onClick={() => scrollCat(-1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cream-warm shadow-sm shrink-0 text-noir-soft hover:text-forest transition-all">
           <Icon name="chevronLeft" size={16} />
@@ -237,18 +237,6 @@ export default function CatalogContent({ categories, productsData, sellersData }
               onClick={setSelectedCategory}
             />
           ))}
-          <button
-            onClick={() => setFilterOpen(true)}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium border transition-all shrink-0 ${
-              hasActiveFilter
-                ? "bg-forest text-white border-forest shadow-sm"
-                : "bg-cream-pure text-noir-soft border-cream-warm"
-            }`}
-          >
-            <Icon name="filter" size={14} />
-            Filter
-            {hasActiveFilter && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
-          </button>
         </div>
         <button onClick={() => scrollCat(1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cream-warm shadow-sm shrink-0 text-noir-soft hover:text-forest transition-all">
           <Icon name="chevronRight" size={16} />
@@ -391,6 +379,33 @@ export default function CatalogContent({ categories, productsData, sellersData }
         .scrollbar-thin::-webkit-scrollbar-track { background: #F3EDDF; border-radius: 2px; }
         .scrollbar-thin::-webkit-scrollbar-thumb { background: #1E7A3D; border-radius: 2px; }
       `}</style>
+
+      {/* [MOBILE] Bottom bar filter — tetap terlihat tanpa scroll */}
+      <div className="fixed bottom-0 inset-x-0 z-40 md:hidden bg-white/95 backdrop-blur-xl border-t border-cream-warm px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+        <button
+          onClick={() => setFilterOpen(true)}
+          className={`w-full flex items-center justify-center gap-2 py-3 rounded-full text-sm font-bold transition-all shadow-lg ${
+            hasActiveFilter
+              ? "bg-forest text-white shadow-forest/25"
+              : "bg-forest text-white shadow-forest/25"
+          }`}
+        >
+          <Icon name="filter" size={16} />
+          Filter
+          {hasActiveFilter && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-bold bg-white/25 rounded-full">
+              {(() => {
+                let n = 0;
+                if (selectedCategory) n++;
+                if (sellerId !== "all") n++;
+                if (preOrder !== "all") n++;
+                if (halal !== "all") n++;
+                return n;
+              })()}
+            </span>
+          )}
+        </button>
+      </div>
 
       <FilterDrawer
         open={filterOpen}
