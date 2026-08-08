@@ -60,6 +60,17 @@ export default async function AdminLayout({ children }) {
           ))}
         </nav>
 
+        {/* [PENTING] Peringatan global bila akses DB admin belum siap */}
+        {!process.env.SUPABASE_SERVICE_ROLE_KEY && (
+          <div className="mb-5 text-xs bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 leading-relaxed text-amber-800">
+            <strong>Panel admin belum dapat mengakses database.</strong> Semua
+            menu admin (termasuk Permintaan Gabung) butuh kunci server: setel{" "}
+            <span className="font-mono">SUPABASE_SERVICE_ROLE_KEY</span> di
+            Vercel (Project → Settings → Environment Variables) dan di{" "}
+            <span className="font-mono">.env.local</span>, lalu redeploy.
+          </div>
+        )}
+
         {children}
       </div>
     </div>
