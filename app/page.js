@@ -125,7 +125,7 @@ export default async function HomePage() {
   return (
     <>
       {/* ===== HERO + BANNER (video kiri, 2 banner statis kanan) ===== */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-cream-pure to-cream">
+      <section className="relative overflow-clip bg-gradient-to-b from-cream-pure to-cream">
         <div className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/5 blur-3xl" />
         <div className="absolute bottom-0 left-1/3 w-64 h-64 rounded-full bg-clay/5 blur-3xl" />
 
@@ -184,7 +184,7 @@ export default async function HomePage() {
             {/* Banner foto: carousel geser horizontal di mobile, rail atas-bawah di tablet/desktop */}
             {banners?.length > 0 && (
               <div
-                className={`flex gap-3 sm:gap-4 md:gap-6 md:h-full md:min-h-0 md:min-w-0 ${
+                className={`flex gap-3 sm:gap-4 md:gap-6 md:h-full min-h-0 min-w-0 overscroll-x-contain touch-pan-x [-webkit-overflow-scrolling:touch] ${
                   banners.length >= 2
                     ? "overflow-x-auto snap-x snap-mandatory scrollbar-none md:grid md:grid-cols-1 md:grid-rows-2"
                     : ""
