@@ -121,57 +121,49 @@ export default async function HomePage() {
                     Daftar Sebagai UMKM
                   </Link>
                 </div>
-
-                {/* [OPSI 2] Logo mitra di bawah CTA (disarankan) */}
-                <div className="hidden sm:block mt-4 md:mt-6">
-                  <div className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-white/70 font-medium mb-2.5">
-                    Bekerja Sama Dengan
-                  </div>
-                  <PartnerLogos variant="hero" />
-                </div>
               </div>
             </div>
 
             {/* Banner foto: carousel geser horizontal di mobile, rail atas-bawah di tablet/desktop */}
-              {banners?.length > 0 && (
-                <div
-                  className={`flex gap-3 sm:gap-4 md:gap-6 md:h-full md:min-h-0 md:min-w-0 ${
-                    banners.length >= 2
-                      ? "overflow-x-auto snap-x snap-mandatory scrollbar-none md:grid md:grid-cols-1 md:grid-rows-2"
-                      : ""
-                  }`}
-                >
-                  {banners.slice(0, 2).map((b) => {
-                    const imgEl = (
-                      <img
-                        src={b.imageUrl}
-                        alt={b.title || "Banner promosi"}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    );
-                    return (
-                      <div
-                        key={b.id}
-                        className="relative w-[82%] shrink-0 snap-center aspect-[2/1] overflow-hidden rounded-xl sm:rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group md:w-full md:h-full md:aspect-auto"
-                      >
-                        {b.link ? (
-                          <Link href={b.link} className="block absolute inset-0">
-                            {imgEl}
-                          </Link>
-                        ) : (
-                          imgEl
-                        )}
-                        {b.title && (
-                          <span className="hidden sm:inline-flex absolute left-3 bottom-3 md:left-4 md:bottom-4 px-3 py-1.5 text-[11px] md:text-xs font-bold text-white glass rounded-full shadow-sm items-center gap-1.5">
-                            <Icon name="info" size={12} /> {b.title}
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+            {banners?.length > 0 && (
+              <div
+                className={`flex gap-3 sm:gap-4 md:gap-6 md:h-full md:min-h-0 md:min-w-0 ${
+                  banners.length >= 2
+                    ? "overflow-x-auto snap-x snap-mandatory scrollbar-none md:grid md:grid-cols-1 md:grid-rows-2"
+                    : ""
+                }`}
+              >
+                {banners.slice(0, 2).map((b) => {
+                  const imgEl = (
+                    <img
+                      src={b.imageUrl}
+                      alt={b.title || "Banner promosi"}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  );
+                  return (
+                    <div
+                      key={b.id}
+                      className="relative w-[82%] shrink-0 snap-center aspect-[2/1] overflow-hidden rounded-xl sm:rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group md:w-full md:h-full md:aspect-auto"
+                    >
+                      {b.link ? (
+                        <Link href={b.link} className="block absolute inset-0">
+                          {imgEl}
+                        </Link>
+                      ) : (
+                        imgEl
+                      )}
+                      {b.title && (
+                        <span className="hidden sm:inline-flex absolute left-3 bottom-3 md:left-4 md:bottom-4 px-3 py-1.5 text-[11px] md:text-xs font-bold text-white glass rounded-full shadow-sm items-center gap-1.5">
+                          <Icon name="info" size={12} /> {b.title}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* ===== SEARCH BAR ===== */}
