@@ -76,12 +76,12 @@ export default async function HomePage() {
           <div
             className={`grid gap-3 sm:gap-4 md:gap-6 items-stretch ${
               banners?.length
-                ? "grid-cols-[1fr_110px] sm:grid-cols-[1fr_150px] md:grid-cols-[1fr_220px] lg:grid-cols-[1fr_400px]"
+                ? "grid-cols-1 md:grid-cols-[1fr_220px] lg:grid-cols-[1fr_400px]"
                 : "grid-cols-1"
             }`}
           >
             {/* Card video besar (kiri): landscape 16/10 seperti hero referensi */}
-            <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[16/10] min-w-0 min-h-0 max-h-full rounded-2xl sm:rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10">
+            <div className="relative aspect-[16/10] min-w-0 min-h-0 max-h-full rounded-2xl sm:rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10">
               <video
                 autoPlay
                 muted
@@ -137,7 +137,9 @@ export default async function HomePage() {
               {banners?.length > 0 && (
                 <div
                   className={`grid gap-3 sm:gap-4 md:gap-6 h-full min-h-0 min-w-0 ${
-                    banners.length >= 2 ? "grid-rows-2" : "grid-rows-1"
+                    banners.length >= 2
+                      ? "grid-cols-2 md:grid-cols-1 md:grid-rows-2"
+                      : "grid-cols-1"
                   }`}
                 >
                   {banners.slice(0, 2).map((b) => {
@@ -152,7 +154,7 @@ export default async function HomePage() {
                     return (
                       <div
                         key={b.id}
-                        className="relative w-full h-full min-h-0 overflow-hidden rounded-xl sm:rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group aspect-auto"
+                        className="relative w-full md:h-full min-h-0 overflow-hidden rounded-xl sm:rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group aspect-video md:aspect-auto"
                       >
                         {b.link ? (
                           <Link href={b.link} className="block absolute inset-0">
