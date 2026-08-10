@@ -96,28 +96,28 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-white/15 backdrop-blur-[6px] backdrop-saturate-150" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 md:p-8 lg:p-10 text-white">
-                <h1 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+              <div className="absolute inset-x-0 bottom-0 p-3 sm:p-6 md:p-8 lg:p-10 text-white">
+                <h1 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight drop-shadow-sm">
                   Bangga Produk{" "}
                   <span className="text-white underline decoration-emerald-400 decoration-4 underline-offset-4">
                     Lokal Kemayoran
                   </span>
                 </h1>
-                <p className="mt-1.5 sm:mt-2 md:mt-3 text-xs sm:text-sm md:text-lg text-white/90 leading-relaxed max-w-xl">
+                <p className="hidden sm:block mt-1.5 sm:mt-2 md:mt-3 text-xs sm:text-sm md:text-lg text-white/90 leading-relaxed max-w-xl">
                   Jelajahi aneka produk UMKM unggulan dari Kemayoran dan
                   sekitarnya. Dukung ekonomi lokal dengan belanja langsung dari
                   para pengrajin dan pelaku usaha terbaik.
                 </p>
-                <div className="mt-2.5 sm:mt-4 md:mt-6 flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <div className="mt-2 sm:mt-4 md:mt-6 flex flex-col sm:flex-row gap-2 sm:gap-3">
                   <Link
                     href="/catalog"
-                    className="inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 md:px-7 py-2 sm:py-3 rounded-full bg-emerald-600 text-white text-[11px] sm:text-sm md:text-base font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-900/30 transition-all"
+                    className="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-6 md:px-7 py-2 sm:py-3 rounded-full bg-emerald-600 text-white text-[11px] sm:text-sm md:text-base font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-900/30 transition-all"
                   >
                     Jelajahi Produk <Icon name="arrowRight" size={15} />
                   </Link>
                   <Link
                     href="/gabung"
-                    className="inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 md:px-7 py-2 sm:py-3 rounded-full bg-white/15 backdrop-blur-md border border-white/40 text-white text-[11px] sm:text-sm md:text-base font-semibold hover:bg-white/25 transition-all"
+                    className="hidden sm:inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 md:px-7 py-2 sm:py-3 rounded-full bg-white/15 backdrop-blur-md border border-white/40 text-white text-[11px] sm:text-sm md:text-base font-semibold hover:bg-white/25 transition-all"
                   >
                     Daftar Sebagai UMKM
                   </Link>
