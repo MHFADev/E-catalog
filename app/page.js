@@ -133,12 +133,12 @@ export default async function HomePage() {
           <div
             className={`grid gap-3 sm:gap-4 md:gap-6 items-stretch ${
               banners?.length
-                ? "grid-cols-[1fr_110px] sm:grid-cols-[1fr_150px] md:grid-cols-[1fr_220px] lg:grid-cols-[1fr_400px]"
+                ? "grid-cols-1 md:grid-cols-[1fr_220px] lg:grid-cols-[1fr_400px]"
                 : "grid-cols-1"
             }`}
           >
-            {/* Card video besar (kiri): landscape 16/10 seperti hero referensi */}
-            <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[16/10] min-w-0 min-h-0 max-h-full rounded-2xl sm:rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10">
+            {/* Card video (full-width 16/9 di mobile, kiri 16/10 di tablet/desktop) */}
+            <div className="relative aspect-video md:aspect-[16/10] min-w-0 min-h-0 max-h-full rounded-2xl sm:rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10 bg-slate-900">
               <video
                 autoPlay
                 muted
@@ -149,32 +149,31 @@ export default async function HomePage() {
               >
                 <source src="/hero-video.mp4" type="video/mp4" />
               </video>
-              {/* Liquid glass 15% + gradasi bawah agar teks terbaca */}
-              <div className="absolute inset-0 bg-white/15 backdrop-blur-[3px] backdrop-saturate-150" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              {/* Gradasi bawah agar teks terbaca (video tetap tajam, tanpa frosted glass) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
 
-              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 md:p-8 lg:p-10 text-white">
-                <h1 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+              <div className="absolute inset-0 flex flex-col items-center justify-end text-center p-4 sm:p-6 md:p-8 lg:p-10 text-white">
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight drop-shadow-md">
                   Bangga Produk{" "}
                   <span className="text-white underline decoration-emerald-400 decoration-4 underline-offset-4">
                     Lokal Kemayoran
                   </span>
                 </h1>
-                <p className="mt-1.5 sm:mt-2 md:mt-3 text-xs sm:text-sm md:text-lg text-white/90 leading-relaxed max-w-xl">
+                <p className="hidden sm:block mt-2 md:mt-3 text-sm md:text-base text-white/90 leading-relaxed max-w-xl">
                   Jelajahi aneka produk UMKM unggulan dari Kemayoran dan
                   sekitarnya. Dukung ekonomi lokal dengan belanja langsung dari
                   para pengrajin dan pelaku usaha terbaik.
                 </p>
-                <div className="mt-2.5 sm:mt-4 md:mt-6 flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <div className="mt-3 md:mt-5 flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3">
                   <Link
                     href="/catalog"
-                    className="inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 md:px-7 py-2 sm:py-3 rounded-full bg-emerald-600 text-white text-[11px] sm:text-sm md:text-base font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-900/30 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 text-white text-xs sm:text-sm font-bold hover:bg-emerald-700 shadow-lg shadow-black/20 transition-all"
                   >
-                    Jelajahi Produk <Icon name="arrowRight" size={15} />
+                    Jelajahi Produk <Icon name="arrowRight" size={14} />
                   </Link>
                   <Link
                     href="/gabung"
-                    className="inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 md:px-7 py-2 sm:py-3 rounded-full bg-white/15 backdrop-blur-md border border-white/40 text-white text-[11px] sm:text-sm md:text-base font-semibold hover:bg-white/25 transition-all"
+                    className="hidden sm:inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-md border border-white/40 text-white text-xs sm:text-sm font-semibold hover:bg-white/25 transition-all"
                   >
                     Daftar Sebagai UMKM
                   </Link>
@@ -182,11 +181,13 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* 2 banner statis (kanan, atas-bawah) mengikuti tinggi video di kiri */}
+            {/* Banner foto: carousel geser horizontal di mobile, rail atas-bawah di tablet/desktop */}
             {banners?.length > 0 && (
               <div
-                className={`grid gap-3 sm:gap-4 md:gap-6 h-full min-h-0 min-w-0 ${
-                  banners.length >= 2 ? "grid-rows-2" : "grid-rows-1"
+                className={`flex gap-3 sm:gap-4 md:gap-6 md:h-full md:min-h-0 md:min-w-0 ${
+                  banners.length >= 2
+                    ? "overflow-x-auto snap-x snap-mandatory scrollbar-none md:grid md:grid-cols-1 md:grid-rows-2"
+                    : ""
                 }`}
               >
                 {banners.slice(0, 2).map((b) => {
@@ -201,7 +202,7 @@ export default async function HomePage() {
                   return (
                     <div
                       key={b.id}
-                      className="relative w-full h-full min-h-0 overflow-hidden rounded-xl sm:rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group aspect-auto"
+                      className="relative w-[82%] shrink-0 snap-center aspect-[2/1] overflow-hidden rounded-xl sm:rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group md:w-full md:h-full md:aspect-auto"
                     >
                       {b.link ? (
                         <Link href={b.link} className="block absolute inset-0">
@@ -226,7 +227,7 @@ export default async function HomePage() {
           <form
             action="/catalog"
             method="get"
-            className="relative mt-8 md:mt-12 glass rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xl grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
+            className="relative mt-8 md:mt-12 glass rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xl hidden lg:grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
           >
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-gray pointer-events-none">
