@@ -1,5 +1,5 @@
 ﻿import Link from "next/link";
-import ProductGrid from "@/components/product/ProductGrid";
+import FeaturedProducts from "@/components/product/FeaturedProducts";
 import Icon from "@/components/common/Icon";
 import MultiPinMap from "@/components/common/MultiPinMap";
 import PartnerLogos from "@/components/common/PartnerLogos";
@@ -44,6 +44,62 @@ const events = [
   },
 ];
 
+const testimonials = [
+  {
+    name: "Siti Nurhaliza",
+    role: "Pemilik Aneka Cemilan 39",
+    avatar: "SN",
+    quote:
+      "Sejak bergabung, produk saya semakin dikenal. Banyak pelanggan baru yang datang lewat katalog ini.",
+  },
+  {
+    name: "Ahmad Rizki",
+    role: "Pembeli",
+    avatar: "AR",
+    quote:
+      "Gampang banget cari oleh-oleh khas Kemayoran. Tinggal klik langsung chat WA penjualnya.",
+  },
+  {
+    name: "Dewi Lestari",
+    role: "Pemilik Smart Shop RW 010",
+    avatar: "DL",
+    quote:
+      "Platform ini sangat membantu UMKM kecil seperti saya buat promosi tanpa biaya.",
+  },
+];
+
+/* Kartu testimoni tunggal, dipakai di marquee (mobile) & grid (desktop) */
+function TestimonialCard({ item }) {
+  return (
+    <div className="bg-cream-pure rounded-2xl md:rounded-3xl p-5 md:p-7 border border-cream-warm h-full">
+      <div className="flex items-center gap-3 mb-3 md:mb-4">
+        <span className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-sm md:text-base">
+          {item.avatar}
+        </span>
+        <div>
+          <div className="text-sm md:text-base font-bold text-noir">
+            {item.name}
+          </div>
+          <div className="text-xs md:text-sm text-warm-gray">{item.role}</div>
+        </div>
+      </div>
+      <div className="flex gap-0.5 mb-2">
+        {[1, 2, 3, 4, 5].map((s) => (
+          <Icon
+            key={s}
+            name="starFilled"
+            size={12}
+            className="text-yellow-500"
+          />
+        ))}
+      </div>
+      <p className="text-xs md:text-sm text-cool-gray leading-relaxed italic">
+        &ldquo;{item.quote}&rdquo;
+      </p>
+    </div>
+  );
+}
+
 export default async function HomePage() {
   const [productsData, sellersData, categories, banners] = await Promise.all([
     getProducts(),
@@ -56,7 +112,8 @@ export default async function HomePage() {
     ...p,
     sellerName: sellersData.find((s) => s.id === p.sellerId)?.name || "",
   }));
-  const featured = enriched.filter((p) => p.isFeatured);
+  // Maksimal 8 produk unggulan yang ditampilkan di beranda
+  const featured = enriched.filter((p) => p.isFeatured).slice(0, 8);
 
   const stats = [
     { value: `${sellersData.length}+`, label: "Total UMKM Terverifikasi" },
@@ -120,14 +177,6 @@ export default async function HomePage() {
                   >
                     Daftar Sebagai UMKM
                   </Link>
-                </div>
-
-                {/* [OPSI 2] Logo mitra di bawah CTA (disarankan) */}
-                <div className="hidden sm:block mt-4 md:mt-6">
-                  <div className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-white/70 font-medium mb-2.5">
-                    Bekerja Sama Dengan
-                  </div>
-                  <PartnerLogos variant="hero" />
                 </div>
               </div>
             </div>
@@ -291,14 +340,18 @@ export default async function HomePage() {
                 Produk pilihan dari para pelaku UMKM terbaik Kemayoran
               </p>
             </div>
+            {/* Tautan ke katalog hanya di sm+; di mobile digantikan tombol
+                "Lihat Semua" di bawah grid (lihat komponen FeaturedProducts) */}
             <Link
               href="/catalog"
-              className="flex items-center gap-1 text-xs md:text-sm font-medium text-warm-gray hover:text-forest transition-all"
+              className="hidden sm:flex items-center gap-1 text-xs md:text-sm font-medium text-warm-gray hover:text-forest transition-all"
             >
               Lihat Semua <Icon name="arrowRight" size={12} />
             </Link>
           </div>
-          <ProductGrid products={featured} categories={categories} />
+          {/* Di mobile: tampil 4 produk dulu, tombol "Lihat Semua" menampilkan
+              sisa 4 produk (maksimal 8) dengan animasi. Di desktop: 8 sekaligus. */}
+          <FeaturedProducts products={featured} categories={categories} />
         </div>
       </section>
 
@@ -312,23 +365,27 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===== STATISTIK ===== */}
-      <section className="py-12 md:py-20 bg-emerald-900 relative overflow-hidden">
+      {/* ===== STATISTIK =====
+          Section hijau dipersempit (tidak full-width): diberi margin
+          horizontal + sudut membulat agar tampak seperti kartu. */}
+      <section className="relative overflow-hidden bg-emerald-900 rounded-2xl md:rounded-3xl mx-2 md:mx-4 lg:mx-6 py-10 md:py-14">
         <div className="absolute inset-0 opacity-[0.04]" />
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6">
-          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center text-white mb-8 md:mb-14">
+        {/* Konten dipersempit (max-w-4xl) dan jarak antar lingkaran dikurangi
+            (gap-2 mobile, gap-6 md+) agar ke-4 lingkaran tampak lebih dekat */}
+        <div className="relative max-w-4xl mx-auto px-4 md:px-6">
+          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center text-white mb-8 md:mb-12">
             UMKM Kemayoran <span className="text-emerald">Dalam Angka</span>
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6">
             {stats.map((s, i) => (
               <div
                 key={i}
-                className="flex flex-col items-center justify-center text-center bg-white/5 border border-white/10 rounded-full aspect-square p-4 md:p-6"
+                className="flex flex-col items-center justify-center text-center bg-white/5 border border-white/10 rounded-full aspect-square w-full max-w-[132px] md:max-w-[190px] lg:max-w-none mx-auto p-2.5 md:p-5"
               >
-                <div className="text-3xl md:text-5xl font-bold text-white leading-none">
+                <div className="text-xl md:text-4xl font-bold text-white leading-none">
                   {s.value}
                 </div>
-                <div className="mt-2 md:mt-3 text-[10px] md:text-sm text-white/70 leading-tight">
+                <div className="mt-1.5 md:mt-3 text-[9px] md:text-sm text-white/70 leading-tight">
                   {s.label}
                 </div>
               </div>
@@ -446,61 +503,24 @@ export default async function HomePage() {
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
             Apa Kata <span className="text-forest">Mereka</span>
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {[
-              {
-                name: "Siti Nurhaliza",
-                role: "Pemilik Aneka Cemilan 39",
-                avatar: "SN",
-                quote:
-                  "Sejak bergabung, produk saya semakin dikenal. Banyak pelanggan baru yang datang lewat katalog ini.",
-              },
-              {
-                name: "Ahmad Rizki",
-                role: "Pembeli",
-                avatar: "AR",
-                quote:
-                  "Gampang banget cari oleh-oleh khas Kemayoran. Tinggal klik langsung chat WA penjualnya.",
-              },
-              {
-                name: "Dewi Lestari",
-                role: "Pemilik Smart Shop RW 010",
-                avatar: "DL",
-                quote:
-                  "Platform ini sangat membantu UMKM kecil seperti saya buat promosi tanpa biaya.",
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="bg-cream-pure rounded-2xl md:rounded-3xl p-5 md:p-7 border border-cream-warm"
-              >
-                <div className="flex items-center gap-3 mb-3 md:mb-4">
-                  <span className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-sm md:text-base">
-                    {item.avatar}
-                  </span>
-                  <div>
-                    <div className="text-sm md:text-base font-bold text-noir">
-                      {item.name}
-                    </div>
-                    <div className="text-xs md:text-sm text-warm-gray">
-                      {item.role}
-                    </div>
-                  </div>
+          {/* MARQUEE — hanya tampil di mobile (<640px).
+              Kartu digandakan 2x agar animasi loop mulus, bergerak dari
+              KIRI ke KANAN dengan kecepatan lambat (45s/putaran) supaya
+              mudah dibaca. Kecepatan diatur di .marquee-ltr (globals.css). */}
+          <div className="overflow-hidden -mx-4 sm:hidden">
+            <div className="flex w-max gap-4 px-4 py-1 marquee-ltr">
+              {[...testimonials, ...testimonials].map((item, i) => (
+                <div key={i} className="w-[78vw] shrink-0">
+                  <TestimonialCard item={item} />
                 </div>
-                <div className="flex gap-0.5 mb-2">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Icon
-                      key={s}
-                      name="starFilled"
-                      size={12}
-                      className="text-yellow-500"
-                    />
-                  ))}
-                </div>
-                <p className="text-xs md:text-sm text-cool-gray leading-relaxed italic">
-                  &ldquo;{item.quote}&rdquo;
-                </p>
-              </div>
+              ))}
+            </div>
+          </div>
+
+          {/* GRID — tampil di tablet ke atas (sm+) */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {testimonials.map((item, i) => (
+              <TestimonialCard key={i} item={item} />
             ))}
           </div>
         </div>

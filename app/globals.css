@@ -143,6 +143,53 @@ button {
   animation: modalFadeIn 0.3s ease;
 }
 
+/* ===== [MARQUEE TESTIMONI MOBILE] =====
+   Track berisi 2 salinan kartu testimoni yang identik (untuk loop tanpa
+   henti/seamless). Animasi dimulai dari translateX(-50%) — posisi awal
+   salinan kedua yang tampak identik dengan salinan pertama — lalu bergerak
+   ke translateX(0), sehingga kartu bergerak dari KIRI ke KANAN. */
+@keyframes marquee-ltr {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+/* Kecepatan sengaja lambat (45 detik sekali putaran) agar kartu mudah dibaca */
+.marquee-ltr {
+  animation: marquee-ltr 45s linear infinite;
+  will-change: transform;
+}
+/* Jeda animasi saat pointer di atas marquee agar lebih mudah dibaca */
+.marquee-ltr:hover {
+  animation-play-state: paused;
+}
+/* Hormati pengguna yang menonaktifkan animasi berlebih */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-ltr {
+    animation: none;
+  }
+}
+
+/* ===== [TOMBOL "LIHAT SEMUA" PRODUK UNGGULAN] =====
+   Kartu produk baru (ke-5 s/d ke-8) muncul halus dari bawah saat tombol
+   "Lihat Semua" ditekan. Delay antar kartu diatur inline via
+   animation-delay di komponen sehingga muncul bertahap (beruntun). */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in-up {
+  animation: fadeInUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* ===== Transisi pindah halaman (smooth) ===== */
 @keyframes pageEnter {
   from {
