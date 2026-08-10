@@ -1,5 +1,5 @@
 ﻿import Link from "next/link";
-import ProductGrid from "@/components/product/ProductGrid";
+import FeaturedProducts from "@/components/product/FeaturedProducts";
 import Icon from "@/components/common/Icon";
 import MultiPinMap from "@/components/common/MultiPinMap";
 import PartnerLogos from "@/components/common/PartnerLogos";
@@ -112,7 +112,8 @@ export default async function HomePage() {
     ...p,
     sellerName: sellersData.find((s) => s.id === p.sellerId)?.name || "",
   }));
-  const featured = enriched.filter((p) => p.isFeatured);
+  // Maksimal 8 produk unggulan yang ditampilkan di beranda
+  const featured = enriched.filter((p) => p.isFeatured).slice(0, 8);
 
   const stats = [
     { value: `${sellersData.length}+`, label: "Total UMKM Terverifikasi" },
@@ -149,7 +150,7 @@ export default async function HomePage() {
                 <source src="/hero-video.mp4" type="video/mp4" />
               </video>
               {/* Liquid glass 15% + gradasi bawah agar teks terbaca */}
-              <div className="absolute inset-0 bg-white/15 backdrop-blur-[6px] backdrop-saturate-150" />
+              <div className="absolute inset-0 bg-white/15 backdrop-blur-[3px] backdrop-saturate-150" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
               <div className="absolute inset-x-0 bottom-0 p-5 md:p-8 lg:p-10 text-white">
@@ -340,14 +341,18 @@ export default async function HomePage() {
                 Produk pilihan dari para pelaku UMKM terbaik Kemayoran
               </p>
             </div>
+            {/* Tautan ke katalog hanya di sm+; di mobile digantikan tombol
+                "Lihat Semua" di bawah grid (lihat komponen FeaturedProducts) */}
             <Link
               href="/catalog"
-              className="flex items-center gap-1 text-xs md:text-sm font-medium text-warm-gray hover:text-forest transition-all"
+              className="hidden sm:flex items-center gap-1 text-xs md:text-sm font-medium text-warm-gray hover:text-forest transition-all"
             >
               Lihat Semua <Icon name="arrowRight" size={12} />
             </Link>
           </div>
-          <ProductGrid products={featured} categories={categories} />
+          {/* Di mobile: tampil 4 produk dulu, tombol "Lihat Semua" menampilkan
+              sisa 4 produk (maksimal 8) dengan animasi. Di desktop: 8 sekaligus. */}
+          <FeaturedProducts products={featured} categories={categories} />
         </div>
       </section>
 

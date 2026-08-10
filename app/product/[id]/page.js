@@ -122,13 +122,17 @@ export default async function ProductDetailPage({ params }) {
         </nav>
 
         {/* ===== Layout utama: galeri kiri, info kanan ===== */}
+        {/* [FIX RESPONSIVE] min-w-0 pada kedua kolom penting: tanpa ini, kolom
+            galeri memaksa lebarnya mengikuti lebar asli foto (min-content),
+            sehingga halaman meluap ke kanan di mobile. min-w-0 mengizinkan
+            kolom mengecil mengikuti lebar layar. */}
         <div className="grid md:grid-cols-2 gap-4 md:gap-8 items-start">
           {/* Galeri foto — lengket saat scroll di desktop */}
-          <div className="md:sticky md:top-24 self-start">
+          <div className="md:sticky md:top-24 self-start min-w-0">
             <ProductGallery images={product.images} name={product.name} />
           </div>
 
-          <div className="flex flex-col gap-4 md:gap-5">
+          <div className="flex flex-col gap-4 md:gap-5 min-w-0">
             {/* ===== Kartu info produk ===== */}
             <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-7 shadow-sm">
               <div className="flex items-start justify-between gap-3 mb-2 md:mb-3">
