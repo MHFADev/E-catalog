@@ -97,6 +97,14 @@ button {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+/* ===== Sembunyikan scrollbar (pakai untuk carousel horizontal) ===== */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
 @keyframes cardEntrance {
   from {
     opacity: 0;
