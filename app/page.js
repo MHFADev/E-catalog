@@ -74,12 +74,14 @@ export default async function HomePage() {
 
         <div className="relative max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-16">
           <div
-            className={`grid gap-4 md:gap-6 items-stretch ${
-              banners?.length ? "grid-cols-1 lg:grid-cols-[1fr_400px]" : "grid-cols-1"
+            className={`grid gap-3 sm:gap-4 md:gap-6 items-stretch ${
+              banners?.length
+                ? "grid-cols-[1fr_110px] sm:grid-cols-[1fr_150px] md:grid-cols-[1fr_220px] lg:grid-cols-[1fr_400px]"
+                : "grid-cols-1"
             }`}
           >
             {/* Card video besar (kiri): landscape 16/10 seperti hero referensi */}
-            <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[16/10] min-h-0 max-h-full rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10">
+            <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[16/10] min-w-0 min-h-0 max-h-full rounded-2xl sm:rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10">
               <video
                 autoPlay
                 muted
@@ -94,35 +96,35 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-white/15 backdrop-blur-[6px] backdrop-saturate-150" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-              <div className="absolute inset-x-0 bottom-0 p-5 md:p-8 lg:p-10 text-white">
-                <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 md:p-8 lg:p-10 text-white">
+                <h1 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
                   Bangga Produk{" "}
                   <span className="text-white underline decoration-emerald-400 decoration-4 underline-offset-4">
                     Lokal Kemayoran
                   </span>
                 </h1>
-                <p className="mt-2 md:mt-3 text-sm md:text-lg text-white/90 leading-relaxed max-w-xl">
+                <p className="mt-1.5 sm:mt-2 md:mt-3 text-xs sm:text-sm md:text-lg text-white/90 leading-relaxed max-w-xl">
                   Jelajahi aneka produk UMKM unggulan dari Kemayoran dan
                   sekitarnya. Dukung ekonomi lokal dengan belanja langsung dari
                   para pengrajin dan pelaku usaha terbaik.
                 </p>
-                <div className="mt-4 md:mt-6 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+                <div className="mt-2.5 sm:mt-4 md:mt-6 flex flex-col sm:flex-row gap-2 sm:gap-3">
                   <Link
                     href="/catalog"
-                    className="inline-flex items-center justify-center gap-2 px-6 md:px-7 py-3 rounded-full bg-emerald-600 text-white text-sm md:text-base font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-900/30 transition-all"
+                    className="inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 md:px-7 py-2 sm:py-3 rounded-full bg-emerald-600 text-white text-[11px] sm:text-sm md:text-base font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-900/30 transition-all"
                   >
                     Jelajahi Produk <Icon name="arrowRight" size={15} />
                   </Link>
                   <Link
                     href="/gabung"
-                    className="inline-flex items-center justify-center gap-2 px-6 md:px-7 py-3 rounded-full bg-white/15 backdrop-blur-md border border-white/40 text-white text-sm md:text-base font-semibold hover:bg-white/25 transition-all"
+                    className="inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 md:px-7 py-2 sm:py-3 rounded-full bg-white/15 backdrop-blur-md border border-white/40 text-white text-[11px] sm:text-sm md:text-base font-semibold hover:bg-white/25 transition-all"
                   >
                     Daftar Sebagai UMKM
                   </Link>
                 </div>
 
                 {/* [OPSI 2] Logo mitra di bawah CTA (disarankan) */}
-                <div className="mt-5 md:mt-7">
+                <div className="hidden sm:block mt-4 sm:mt-7">
                   <div className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-white/70 font-medium mb-2.5">
                     Bekerja Sama Dengan
                   </div>
@@ -134,7 +136,7 @@ export default async function HomePage() {
             {/* 2 banner statis (kanan, atas-bawah) mengikuti tinggi video di kiri */}
               {banners?.length > 0 && (
                 <div
-                  className={`grid gap-4 md:gap-6 h-full min-h-0 ${
+                  className={`grid gap-3 sm:gap-4 md:gap-6 h-full min-h-0 min-w-0 ${
                     banners.length >= 2 ? "grid-rows-2" : "grid-rows-1"
                   }`}
                 >
@@ -150,7 +152,7 @@ export default async function HomePage() {
                     return (
                       <div
                         key={b.id}
-                        className="relative w-full h-full min-h-0 overflow-hidden rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group aspect-video lg:aspect-auto"
+                        className="relative w-full h-full min-h-0 overflow-hidden rounded-xl sm:rounded-[1.5rem] md:rounded-[2rem] shadow-lg ring-1 ring-forest/10 group aspect-auto"
                       >
                         {b.link ? (
                           <Link href={b.link} className="block absolute inset-0">
@@ -160,7 +162,7 @@ export default async function HomePage() {
                           imgEl
                         )}
                         {b.title && (
-                          <span className="absolute left-3 bottom-3 md:left-4 md:bottom-4 px-3 py-1.5 text-[11px] md:text-xs font-bold text-white glass rounded-full shadow-sm inline-flex items-center gap-1.5">
+                          <span className="hidden sm:inline-flex absolute left-3 bottom-3 md:left-4 md:bottom-4 px-3 py-1.5 text-[11px] md:text-xs font-bold text-white glass rounded-full shadow-sm items-center gap-1.5">
                             <Icon name="info" size={12} /> {b.title}
                           </span>
                         )}
