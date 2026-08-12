@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Icon from "@/components/common/Icon";
+import PaymentLogo from "@/components/common/PaymentLogo";
 import { compressImage } from "@/lib/compressImage";
 import { savePaymentMethod, togglePaymentMethod, deletePaymentMethod } from "@/app/seller/(panel)/payment/actions";
 import {
@@ -55,8 +56,13 @@ function MethodRow({ method }) {
   return (
     <div className="bg-cream-pure border border-cream-warm rounded-xl p-3 md:p-4">
       <div className="flex items-start gap-3">
-        <span className="w-9 h-9 shrink-0 rounded-lg bg-forest/10 text-forest flex items-center justify-center">
-          <Icon name={meta.icon} size={16} />
+        <span className="w-12 h-9 shrink-0 flex items-center justify-center bg-white rounded-lg border border-cream-warm px-1.5">
+          <PaymentLogo
+            methodName={method.label || method.provider}
+            methodType={method.method_type}
+            imgClassName="max-h-6 w-auto object-contain"
+            iconSize={18}
+          />
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
@@ -304,6 +310,25 @@ export default function PaymentSettingsManager({ sellerId, methods = [] }) {
               </span>
             </div>
           )}
+        </div>
+
+        {/* Pratinjau logo resmi provider yang sedang dipilih */}
+        <div className="mt-3 flex items-center gap-3 bg-cream-pure border border-cream-warm rounded-xl px-4 py-3">
+          <span className="flex items-center justify-center bg-white rounded-lg border border-cream-warm px-2 py-1.5 shrink-0">
+            <PaymentLogo
+              methodName={type === "qris" ? "qris" : provider}
+              methodType={type}
+              imgClassName="h-8 w-auto object-contain"
+              iconSize={20}
+            />
+          </span>
+          <div className="min-w-0">
+            <div className="text-xs font-semibold text-noir">Pratinjau Logo</div>
+            <div className="text-[10px] text-warm-gray">
+              Logo resmi {type === "bank" ? "bank" : type === "ewallet" ? "e-wallet" : "QRIS"} akan
+              tampil kepada pembeli saat checkout.
+            </div>
+          </div>
         </div>
 
         {message && (

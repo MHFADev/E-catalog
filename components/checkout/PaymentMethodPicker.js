@@ -1,11 +1,12 @@
 "use client";
-import Icon from "@/components/common/Icon";
+import PaymentLogo from "@/components/common/PaymentLogo";
 import { publicImageUrl } from "@/lib/storage";
 
 // ============================================================
 // Pemilih metode pembayaran UMKM saat checkout.
-// Menampilkan nomor rekening / e-wallet atau gambar QRIS milik toko,
-// lalu mengembalikan id metode terpilih via <input hidden name="paymentMethodId">.
+// Menampilkan LOGO RESMI provider + nomor rekening/e-wallet atau
+// gambar QRIS milik toko, lalu mengembalikan id metode terpilih
+// via <input hidden name="paymentMethodId">.
 // ============================================================
 
 const typeLabel = {
@@ -41,10 +42,12 @@ export default function PaymentMethodPicker({ methods = [], value, onChange }) {
                 : "border-cream-warm bg-white hover:border-forest/40"
             }`}
           >
-            <span className="w-8 h-8 shrink-0 rounded-lg bg-forest/10 text-forest flex items-center justify-center">
-              <Icon
-                name={m.methodType === "qris" ? "qrcode" : m.methodType === "ewallet" ? "mobile" : "bank"}
-                size={16}
+            <span className="w-10 h-8 shrink-0 flex items-center justify-center bg-white rounded-lg border border-cream-warm px-1">
+              <PaymentLogo
+                methodName={m.label || m.provider}
+                methodType={m.methodType}
+                imgClassName="max-h-6 w-auto object-contain"
+                iconSize={18}
               />
             </span>
             <span className="min-w-0">
@@ -59,9 +62,28 @@ export default function PaymentMethodPicker({ methods = [], value, onChange }) {
         ))}
       </div>
 
-      {/* Detail metode terpilih: nomor rekening / e-wallet atau QRIS */}
+      {/* Detail metode terpilih: logo besar + nomor rekening / e-wallet atau QRIS */}
       {selected && (
         <div className="bg-white border border-forest/20 rounded-2xl p-4">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="flex items-center justify-center bg-white rounded-xl border border-cream-warm px-2 py-1.5">
+              <PaymentLogo
+                methodName={selected.label || selected.provider}
+                methodType={selected.methodType}
+                imgClassName="h-9 w-auto object-contain"
+                iconSize={24}
+              />
+            </span>
+            <div>
+              <div className="text-sm font-bold text-noir">
+                {selected.label || typeLabel[selected.methodType]}
+              </div>
+              <div className="text-[10px] text-warm-gray">
+                Metode pembayaran {typeLabel[selected.methodType]?.toLowerCase()}
+              </div>
+            </div>
+          </div>
+
           {selected.methodType === "qris" ? (
             <div className="flex flex-col sm:flex-row items-center gap-4">
               {selected.qrisImageUrl && (
@@ -72,9 +94,6 @@ export default function PaymentMethodPicker({ methods = [], value, onChange }) {
                 />
               )}
               <div className="text-center sm:text-left">
-                <div className="text-sm font-bold text-noir">
-                  QRIS {selected.label || "UMKM"}
-                </div>
                 <p className="text-xs text-warm-gray mt-1 leading-relaxed">
                   Scan kode QR di samping menggunakan aplikasi e-wallet / m-banking.
                   Setelah bayar, <strong>upload bukti transfer</strong> di bawah.
@@ -84,14 +103,9 @@ export default function PaymentMethodPicker({ methods = [], value, onChange }) {
           ) : (
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div>
-                <div className="text-sm font-bold text-noir">
-                  {selected.label || typeLabel[selected.methodType]}
+                <div className="text-base font-bold font-mono text-forest mt-1">
+                  {selected.accountNumber}
                 </div>
-                {selected.accountNumber && (
-                  <div className="text-base font-bold font-mono text-forest mt-1">
-                    {selected.accountNumber}
-                  </div>
-                )}
                 {selected.accountName && (
                   <div className="text-[11px] text-warm-gray mt-0.5">
                     a.n. {selected.accountName}

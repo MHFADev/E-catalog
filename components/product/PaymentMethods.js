@@ -1,26 +1,8 @@
 "use client";
 import Icon from "@/components/common/Icon";
+import PaymentLogo from "@/components/common/PaymentLogo";
 
-// Mapping tipe bank -> icon
-const bankIcons = {
-  bca: "bankBca",
-  mandiri: "bankMandiri",
-  bri: "bankBri",
-  bni: "bankBni",
-  cimb: "bankCimb",
-  permata: "bankPermata",
-  btn: "bankBtn",
-  danamon: "bankDanamon",
-};
-
-const ewalletIcons = {
-  dana: "ewalletDana",
-  ovo: "ewalletOvo",
-  gopay: "ewalletGopay",
-  shopeepay: "ewalletShopeepay",
-  linkaja: "ewalletLinkaja",
-};
-
+// Mapping tipe bank -> label
 const bankLabels = {
   bca: "BCA",
   mandiri: "Mandiri",
@@ -54,12 +36,14 @@ export default function PaymentMethods({ seller }) {
       <div className="flex flex-wrap gap-2 md:gap-3">
         {methods.includes("bank") && seller.bankName && (
           <div className="group relative flex items-center gap-2 px-3 py-2 bg-white border border-cream-warm rounded-xl hover:border-forest/40 hover:shadow-md transition-all">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-forest/10 text-forest shrink-0">
-              <Icon
-                name={bankIcons[seller.bankName?.toLowerCase()] || "bank"}
-                size={20}
+            <span className="w-10 h-8 flex items-center justify-center bg-white rounded-lg border border-cream-warm px-1 shrink-0">
+              <PaymentLogo
+                methodName={seller.bankName}
+                methodType="bank"
+                imgClassName="max-h-6 w-auto object-contain"
+                iconSize={18}
               />
-            </div>
+            </span>
             <div className="min-w-0">
               <p className="text-xs font-semibold text-noir truncate">
                 Transfer Bank {bankLabels[seller.bankName?.toLowerCase()] || seller.bankName}
@@ -80,12 +64,14 @@ export default function PaymentMethods({ seller }) {
 
         {methods.includes("ewallet") && seller.ewalletType && (
           <div className="group relative flex items-center gap-2 px-3 py-2 bg-white border border-cream-warm rounded-xl hover:border-forest/40 hover:shadow-md transition-all">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-forest/10 text-forest shrink-0">
-              <Icon
-                name={ewalletIcons[seller.ewalletType] || "mobile"}
-                size={20}
+            <span className="w-10 h-8 flex items-center justify-center bg-white rounded-lg border border-cream-warm px-1 shrink-0">
+              <PaymentLogo
+                methodName={seller.ewalletType}
+                methodType="ewallet"
+                imgClassName="max-h-6 w-auto object-contain"
+                iconSize={18}
               />
-            </div>
+            </span>
             <div className="min-w-0">
               <p className="text-xs font-semibold text-noir truncate">
                 {ewalletLabels[seller.ewalletType] || seller.ewalletType}
@@ -101,9 +87,9 @@ export default function PaymentMethods({ seller }) {
 
         {methods.includes("qris") && seller.qrisImageUrl && (
           <div className="group relative flex items-center gap-2 px-3 py-2 bg-white border border-cream-warm rounded-xl hover:border-forest/40 hover:shadow-md transition-all cursor-pointer">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-forest/10 text-forest shrink-0">
-              <Icon name="qris" size={20} />
-            </div>
+            <span className="w-10 h-8 flex items-center justify-center bg-white rounded-lg border border-cream-warm px-1 shrink-0">
+              <PaymentLogo methodName="qris" methodType="qris" imgClassName="max-h-6 w-auto object-contain" iconSize={18} />
+            </span>
             <div className="min-w-0">
               <p className="text-xs font-semibold text-noir">QRIS</p>
               <p className="text-[10px] text-warm-gray">Scan untuk bayar</p>
