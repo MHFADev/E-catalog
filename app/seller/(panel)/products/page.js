@@ -29,7 +29,10 @@ export default async function SellerProductsPage() {
           + Tambah Produk Baru
         </summary>
         <div className="p-4 md:p-5 border-t border-cream-warm">
-          <SellerProductForm categories={categories ?? []} />
+          <SellerProductForm
+            categories={categories ?? []}
+            sellerId={account.seller_id}
+          />
         </div>
       </details>
 

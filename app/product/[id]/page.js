@@ -333,8 +333,16 @@ export default async function ProductDetailPage({ params }) {
               <PaymentMethods seller={seller} />
             </div>
 
-            {/* ===== CTA WhatsApp (desktop) ===== */}
+            {/* ===== CTA Checkout + WhatsApp (desktop) ===== */}
             <div className="hidden md:flex flex-col gap-2.5">
+              {showPrice && (
+                <Link href={`/product/${product.id}/checkout`} className="no-underline">
+                  <button className="btn-primary w-full text-sm md:text-base py-3 md:py-3.5">
+                    <Icon name="shoppingBagFilled" size={17} />
+                    Beli Sekarang — Bayar Manual
+                  </button>
+                </Link>
+              )}
               <a
                 href={waLink}
                 target="_blank"
@@ -391,9 +399,9 @@ export default async function ProductDetailPage({ params }) {
         )}
       </div>
 
-      {/* ===== Sticky bar bawah (mobile): harga + tombol WA ===== */}
+      {/* ===== Sticky bar bawah (mobile): harga + tombol Beli & WA ===== */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-cream-warm px-4 py-3 flex items-center gap-3">
-        <div className="min-w-0">
+        <div className="min-w-0 shrink-0">
           <div className="font-mono text-[10px] uppercase tracking-wider text-warm-gray mb-0.5">
             Harga
           </div>
@@ -401,17 +409,29 @@ export default async function ProductDetailPage({ params }) {
             {price}
           </div>
         </div>
-        <a
-          href={waLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="no-underline flex-1 shrink-0"
-        >
-          <button className="btn-wa w-full text-sm py-3">
-            <Icon name="whatsapp" size={16} />
-            Hubungi Penjual
-          </button>
-        </a>
+        <div className="flex-1 flex gap-2 shrink-0">
+          {showPrice && (
+            <Link
+              href={`/product/${product.id}/checkout`}
+              className="no-underline flex-1"
+            >
+              <button className="btn-primary w-full text-sm py-3">
+                <Icon name="shoppingBagFilled" size={16} /> Beli
+              </button>
+            </Link>
+          )}
+          <a
+            href={waLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="no-underline"
+            aria-label="Hubungi penjual via WhatsApp"
+          >
+            <button className="btn-wa w-full text-sm py-3 px-3">
+              <Icon name="whatsapp" size={16} />
+            </button>
+          </a>
+        </div>
       </div>
     </div>
   );

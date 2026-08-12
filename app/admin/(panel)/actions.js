@@ -87,6 +87,7 @@ export async function saveProduct(formData) {
   if (!id) payload.id = `prod-${Date.now()}`;
 
   const supabase = await createAdminClient();
+  const productId = id || payload.id;
   const { error } = id
     ? await supabase
         .from("products")
@@ -94,6 +95,20 @@ export async function saveProduct(formData) {
         .eq("id", id)
     : await supabase.from("products").insert(payload);
   if (error) throw new Error(error.message);
+
+  // Sinkronkan foto one-to-many (product_images) agar konsisten.
+  await supabase.from("product_images").delete().eq("product_id", productId);
+  if (images.length) {
+    const rows = images.map((url, i) => ({
+      product_id: productId,
+      image_url: url,
+      sort_order: i,
+    }));
+    const { error: imgErr } = await supabase
+      .from("product_images")
+      .insert(rows);
+    if (imgErr) throw new Error(imgErr.message);
+  }
 
   revalidatePath("/admin/products");
   revalidatePath("/");

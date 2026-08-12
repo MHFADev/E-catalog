@@ -27,7 +27,11 @@ export default async function SellerEditProductPage({ params }) {
         Edit Produk: {product.name}
       </h2>
       <div className="bg-white rounded-2xl border border-cream-warm p-4 md:p-5">
-        <SellerProductForm categories={categories ?? []} initial={product} />
+        <SellerProductForm
+          categories={categories ?? []}
+          initial={product}
+          sellerId={account.seller_id}
+        />
       </div>
     </div>
   );

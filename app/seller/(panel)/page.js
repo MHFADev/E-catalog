@@ -8,7 +8,11 @@ export default async function SellerDashboardPage() {
   const account = await getSellerAccount();
   const seller = account?.sellers;
   const supabase = await createClient();
-  const [{ count }, { data: sellerRow }] = await Promise.all([
+  const [
+    { count },
+    { data: sellerRow },
+    { count: pendingOrders },
+  ] = await Promise.all([
     seller
       ? supabase
           .from("products")
@@ -18,6 +22,13 @@ export default async function SellerDashboardPage() {
     seller
       ? supabase.from("sellers").select("*").eq("id", seller.id).maybeSingle()
       : Promise.resolve({ data: null }),
+    seller
+      ? supabase
+          .from("orders")
+          .select("id", { count: "exact", head: true })
+          .eq("seller_id", seller.id)
+          .eq("status", "menunggu_verifikasi")
+      : Promise.resolve({ count: 0 }),
   ]);
 
   const full = sellerRow || seller;
@@ -54,12 +65,35 @@ export default async function SellerDashboardPage() {
           <div className="text-3xl font-bold text-forest">{count ?? 0}</div>
           <div className="text-xs text-warm-gray mt-1">Produk Anda di katalog</div>
         </div>
-        <div className="bg-white rounded-2xl p-5 border border-cream-warm flex flex-col justify-center">
+        <div className="bg-white rounded-2xl p-5 border border-cream-warm">
+          <Link href="/seller/orders" className="flex items-center justify-between group">
+            <div>
+              <div
+                className={`text-3xl font-bold ${pendingOrders > 0 ? "text-red-600" : "text-noir"}`}
+              >
+                {pendingOrders ?? 0}
+              </div>
+              <div className="text-xs text-warm-gray mt-1">
+                Pesanan menunggu verifikasi
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-forest group-hover:underline">
+              Kelola <Icon name="arrowRight" size={12} />
+            </span>
+          </Link>
+        </div>
+        <div className="bg-white rounded-2xl p-5 border border-cream-warm sm:col-span-2 flex flex-col gap-2">
           <Link
             href="/seller/products"
             className="btn-primary text-sm py-2.5 text-center"
           >
             Kelola Produk Saya
+          </Link>
+          <Link
+            href="/seller/payment"
+            className="btn-secondary text-sm py-2.5 text-center"
+          >
+            Atur Metode Pembayaran
           </Link>
         </div>
       </div>

@@ -63,6 +63,31 @@ Sesi memakai cookie yang ditandatangani `ADMIN_SESSION_SECRET`; admin dinonaktif
 
 `categories`, `sellers`, `products`, `reviews`, `articles`, `messages`, `join_requests`, `user_roles` (admin), `seller_accounts` (link penjual→toko). Semua tabel memakai RLS (public baca untuk katalog; write hanya admin/penjual terverifikasi; komentar menunggu moderasi).
 
+## Fitur Transaksi Manual (E-Commerce, 100% Gratis)
+
+Tidak memakai payment gateway (Midtrans/Stripe). Alur:
+
+1. **Foto produk multiple** — penjual upload banyak foto (`product_images`, tabel one-to-many). Foto dikompres webp lalu disimpan di **Supabase Storage** (bucket publik `catalog-images`). Kolom lama `products.images` tetap disinkronkan agar tampilan lama tidak rusak.
+2. **Metode pembayaran dinamis** — penjual menambah Bank / E-Wallet / QRIS lewat `/seller/payment` (`payment_methods`). Bisa aktif/nonaktif, ada nomor rekening, nama pemilik, dan upload gambar QRIS.
+3. **Checkout** — pembeli (wajib login) memilih metode bayar milik UMKM, melihat nomor/QRIS, lalu **upload bukti transfer** (bucket privat `order-receipts`). Pesanan masuk tabel `orders` dengan status `menunggu_verifikasi`.
+4. **Order management + anti-fraud** — penjual melihat bukti transfer di `/seller/orders`. Muncul banner peringatan keamanan (cek mutasi rekening sebelum memproses) + tombol **"Verifikasi & Proses"** dan **"Tolak (Dana Tidak Masuk)"**.
+
+### Tabel baru (migrasi `0014_ecommerce_orders_product_images_payment_methods.sql`)
+
+- `umkm_profiles` — profil toko untuk transaksi (auto-buat saat toko baru; `accept_orders`, `receipt_note`).
+- `product_images` — `id, product_id, image_url, sort_order` (source of truth foto).
+- `payment_methods` — `seller_id, method_type (bank|ewallet|qris), provider, label, account_number, account_name, qris_image_url, is_active`.
+- `orders` — `order_number, product_id, seller_id, payment_method_id, buyer_user_id, buyer_name, buyer_phone, buyer_address, quantity, unit_price, total, notes, receipt_path, status (menunggu_verifikasi|diproses|selesai|ditolak|dibatalkan), rejection_reason`.
+
+### Storage buckets
+
+| Bucket | Visibility | Isi |
+|---|---|---|
+| `catalog-images` | Public | Foto produk, QRIS (upload oleh user login) |
+| `order-receipts` | Private | Bukti transfer; dibaca hanya oleh penjual terkait / pembelinya lewat `/api/orders/[id]/receipt` |
+
+> Catatan: admin panel butuh `SUPABASE_SERVICE_ROLE_KEY` (sudah ditandai otomatis di layout admin bila belum diset).
+
 ## Deploy ke Vercel
 
 1. Push repo ke GitHub.

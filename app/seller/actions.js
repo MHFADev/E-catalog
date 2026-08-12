@@ -92,7 +92,8 @@ export async function saveSellerProduct(formData) {
   const price = (formData.get("price") || "").toString().trim();
   const priceUnit = (formData.get("priceUnit") || "").toString().trim();
   const description = (formData.get("description") || "").toString().trim();
-  const images = parseList(formData.get("images"));
+  // MultiImageUploader menulis beberapa hidden input <input name="images">.
+  const images = formData.getAll("images").map((v) => v.toString().trim()).filter(Boolean);
   const tags = parseList(formData.get("tags"));
   const isAvailable = formData.get("isAvailable") === "on";
   const showPrice = formData.get("showPrice") === "on";
@@ -109,6 +110,7 @@ export async function saveSellerProduct(formData) {
     price: price === "" ? null : Number(price),
     price_unit: priceUnit || null,
     description: description || null,
+    // Simpan URL foto juga ke kolom lama supaya tampilan lama tetap jalan.
     images,
     tags,
     is_available: isAvailable,
@@ -118,20 +120,36 @@ export async function saveSellerProduct(formData) {
   };
 
   const supabase = await createClient();
+  const productId = id || `prod-${Date.now()}`;
   const { error } = id
     ? await supabase
         .from("products")
         .update({ ...payload, updated_at: new Date().toISOString() })
         .eq("id", id)
-    : await supabase
-        .from("products")
-        .insert({ id: `prod-${Date.now()}`, ...payload });
+    : await supabase.from("products").insert({ id: productId, ...payload });
   if (error) throw new Error(error.message);
+
+  // Sinkronkan foto one-to-many (product_images).
+  await syncProductImages(supabase, productId, images);
 
   revalidatePath("/seller/products");
   revalidatePath("/");
   revalidatePath("/catalog");
   revalidateTag("catalog");
+}
+
+// Ganti seluruh foto product_images dengan daftar URL terbaru.
+async function syncProductImages(supabase, productId, images) {
+  await supabase.from("product_images").delete().eq("product_id", productId);
+  if (images.length) {
+    const rows = images.map((url, i) => ({
+      product_id: productId,
+      image_url: url,
+      sort_order: i,
+    }));
+    const { error } = await supabase.from("product_images").insert(rows);
+    if (error) throw new Error(error.message);
+  }
 }
 
 export async function toggleSellerProduct(formData) {
