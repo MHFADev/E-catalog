@@ -9,7 +9,14 @@ import { createOrder } from "@/app/product/[id]/checkout/actions";
 const inputClass =
   "w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all";
 
-export default function CheckoutForm({ product, seller, paymentMethods, userId }) {
+export default function CheckoutForm({
+  product,
+  seller,
+  paymentMethods,
+  userId,
+  defaultBuyerName = "",
+  defaultBuyerPhone = "",
+}) {
   const [paymentMethodId, setPaymentMethodId] = useState("");
   const [receiptPath, setReceiptPath] = useState("");
   const [busy, setBusy] = useState(false);
@@ -109,13 +116,25 @@ export default function CheckoutForm({ product, seller, paymentMethods, userId }
       </div>
 
       <div className="grid sm:grid-cols-2 gap-3 mb-4">
-        <input name="buyerName" placeholder="Nama pemesan *" required className={inputClass} />
+        <input
+          name="buyerName"
+          placeholder="Nama pemesan *"
+          defaultValue={defaultBuyerName}
+          required
+          className={inputClass}
+        />
         <input
           name="buyerPhone"
           type="tel"
           placeholder="No. WhatsApp (cth. 813xxxxxxx)"
+          defaultValue={defaultBuyerPhone}
           className={inputClass}
         />
+        {defaultBuyerPhone && (
+          <p className="sm:col-span-2 -mt-1 text-[11px] text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-1.5">
+            Nomor HP otomatis terisi dari profil kamu — ubah bila perlu.
+          </p>
+        )}
         <div className="sm:col-span-2">
           <textarea
             name="buyerAddress"

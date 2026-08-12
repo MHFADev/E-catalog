@@ -12,7 +12,25 @@ export async function GET(request) {
     if (!error) {
       const forwarded = request.headers.get("x-forwarded-host");
       const base = forwarded ? `https://${forwarded}` : origin;
-      return NextResponse.redirect(`${base}${next}`);
+
+      // Intercept: user yang belum menyelesaikan onboarding diarahkan
+      // ke /onboarding (is_onboarded = false di tabel profiles).
+      let target = next;
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("is_onboarded")
+          .eq("id", user.id)
+          .maybeSingle();
+        if (profile && profile.is_onboarded === false && next !== "/onboarding") {
+          target = "/onboarding";
+        }
+      }
+
+      return NextResponse.redirect(`${base}${target}`);
     }
   }
 

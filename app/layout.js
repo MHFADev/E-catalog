@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageTransition from "@/components/layout/PageTransition";
+import OnboardingGate from "@/components/onboarding/OnboardingGate";
 
 export const metadata = {
   title: "UMKM Kemayoran — Katalog Digital Produk Lokal",
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
       </head>
       <body suppressHydrationWarning>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" />
+        <OnboardingGate />
         <Navbar />
         <PageTransition>
           <main className="min-h-screen pt-3 md:pt-4">{children}</main>

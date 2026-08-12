@@ -4,6 +4,7 @@ import Icon from "@/components/common/Icon";
 import CheckoutForm from "@/components/checkout/CheckoutForm";
 import { getProducts, getSellers } from "@/lib/catalog";
 import { getSellerPaymentMethods } from "@/lib/paymentMethods";
+import { getCurrentProfile } from "@/lib/profile";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -17,10 +18,19 @@ export default async function CheckoutPage({ params }) {
   const seller = sellers.find((s) => s.id === product.sellerId);
   const methods = await getSellerPaymentMethods(seller?.id);
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const [profile, { data: { user } }] = await Promise.all([
+    getCurrentProfile(),
+    (async () => {
+      const supabase = await createClient();
+      return supabase.auth.getUser();
+    })(),
+  ]);
+
+  const fullName =
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    (user?.email ? user.email.split("@")[0] : "") ||
+    "";
 
   return (
     <div className="bg-cream min-h-screen">
@@ -66,6 +76,8 @@ export default async function CheckoutPage({ params }) {
             seller={seller}
             paymentMethods={methods}
             userId={user.id}
+            defaultBuyerName={profile?.username || fullName}
+            defaultBuyerPhone={profile?.phone_number || ""}
           />
         )}
       </div>

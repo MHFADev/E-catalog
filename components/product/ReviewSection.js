@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import { useUser } from "@/lib/useUser";
+import { useProfile } from "@/lib/useProfile";
 
 // ===== Bintang rating (5 bintang, ada/tidak aktif) =====
 function Stars({ value, size = 12, className = "" }) {
@@ -39,17 +40,26 @@ function fmtDate(iso) {
   });
 }
 
-// ===== Kartu satu komentar =====
+// ===== Kartu satu komentar (username/avatar dari join tabel profiles) =====
 function ReviewCard({ review }) {
+  const displayName = review.username || review.name || "Pengguna";
   return (
     <div className="bg-white rounded-2xl p-4 md:p-5 border border-cream-warm">
       <div className="flex items-center gap-3 mb-2">
-        <span className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
-          {initials(review.name)}
-        </span>
+        {review.avatarUrl ? (
+          <img
+            src={review.avatarUrl}
+            alt={displayName}
+            className="w-9 h-9 md:w-10 md:h-10 rounded-full object-cover border border-cream-warm shrink-0"
+          />
+        ) : (
+          <span className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
+            {initials(displayName)}
+          </span>
+        )}
         <div className="min-w-0 flex-1">
           <div className="text-sm font-semibold text-noir truncate">
-            {review.name}
+            {displayName}
           </div>
           <div className="flex items-center gap-2">
             <Stars value={review.rating} />
@@ -66,24 +76,31 @@ function ReviewCard({ review }) {
   );
 }
 
-// ===== Form komentar baru (disimpan ke database via API, moderasi admin) =====
-function CommentForm({ productId, onAdd }) {
-  const [name, setName] = useState("");
+// ===== Form komentar baru — otomatis memakai identitas akun yang login =====
+function CommentForm({ productId, onAdd, profile }) {
   const [rating, setRating] = useState(5);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
   const [status, setStatus] = useState("");
 
+  const displayName = profile?.username || "Pengguna";
+
   const submit = async (e) => {
     e.preventDefault();
-    if (!name.trim() || !comment.trim()) return;
+    if (!comment.trim()) return;
 
     setStatus("sending");
     const payload = {
       productId,
-      name: name.trim(),
       rating,
       comment: comment.trim(),
+    };
+    const optimistic = {
+      ...payload,
+      name: displayName,
+      username: profile?.username || null,
+      avatarUrl: profile?.avatarUrl || null,
+      date: new Date().toISOString().slice(0, 10),
     };
 
     try {
@@ -93,23 +110,16 @@ function CommentForm({ productId, onAdd }) {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("gagal");
-      onAdd({
-        ...payload,
-        date: new Date().toISOString().slice(0, 10),
-      });
+      onAdd(optimistic);
       setStatus("sent");
     } catch {
       // Fallback: tanpa DB, simpan lokal di perangkat ini
-      onAdd({
-        ...payload,
-        date: new Date().toISOString().slice(0, 10),
-      });
+      onAdd({ ...optimistic, local: true });
       setStatus("error");
     }
 
-    setName("");
-    setRating(5);
     setComment("");
+    setRating(5);
     setTimeout(() => setStatus(""), 5000);
   };
 
@@ -123,36 +133,45 @@ function CommentForm({ productId, onAdd }) {
         Tulis Komentar
       </h3>
 
-      <div className="grid md:grid-cols-2 gap-3 mb-3">
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Nama kamu"
-          className="w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all"
-        />
-        {/* Pilih bintang saat hover */}
-        <div className="flex items-center gap-1 bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <button
-              type="button"
-              key={i}
-              onMouseEnter={() => setHover(i)}
-              onMouseLeave={() => setHover(0)}
-              onClick={() => setRating(i)}
-              className={`text-lg md:text-xl transition-transform hover:scale-110 ${
-                i <= (hover || rating) ? "text-amber-500" : "text-muted/40"
-              }`}
-              aria-label={`${i} bintang`}
-            >
-              <Icon
-                name="starFilled"
-                size={18}
-                className={i <= (hover || rating) ? "text-amber-500" : "text-muted/40"}
-              />
-            </button>
-          ))}
-        </div>
+      {/* Identitas otomatis dari akun — tanpa input nama manual */}
+      <div className="flex items-center gap-2.5 mb-3">
+        {profile?.avatarUrl ? (
+          <img
+            src={profile.avatarUrl}
+            alt={displayName}
+            className="w-9 h-9 rounded-full object-cover border border-cream-warm"
+          />
+        ) : (
+          <span className="w-9 h-9 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-xs shrink-0">
+            {initials(displayName)}
+          </span>
+        )}
+        <span className="text-xs md:text-sm text-noir-soft">
+          Mengomentari sebagai{" "}
+          <span className="font-bold text-forest">@{displayName}</span>
+        </span>
+      </div>
+
+      <div className="flex items-center gap-1 bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 mb-3">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <button
+            type="button"
+            key={i}
+            onMouseEnter={() => setHover(i)}
+            onMouseLeave={() => setHover(0)}
+            onClick={() => setRating(i)}
+            className={`text-lg md:text-xl transition-transform hover:scale-110 ${
+              i <= (hover || rating) ? "text-amber-500" : "text-muted/40"
+            }`}
+            aria-label={`${i} bintang`}
+          >
+            <Icon
+              name="starFilled"
+              size={18}
+              className={i <= (hover || rating) ? "text-amber-500" : "text-muted/40"}
+            />
+          </button>
+        ))}
       </div>
 
       <textarea
@@ -189,6 +208,7 @@ function CommentForm({ productId, onAdd }) {
 export default function ReviewSection({ initial = [], productId }) {
   const [reviews, setReviews] = useState(initial);
   const { user, loading } = useUser();
+  const { profile } = useProfile();
 
   const total = reviews.length;
   const avg = total
@@ -258,6 +278,7 @@ export default function ReviewSection({ initial = [], productId }) {
       {loading ? null : user ? (
         <CommentForm
           productId={productId}
+          profile={profile}
           onAdd={(rev) => setReviews((prev) => [rev, ...prev])}
         />
       ) : (

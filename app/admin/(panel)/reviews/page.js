@@ -27,7 +27,7 @@ export default async function AdminReviewsPage() {
   const supabase = await createAdminClient();
   const { data: reviews } = await supabase
     .from("reviews")
-    .select("*, products(name)")
+    .select("*, products(name), profiles(username)")
     .order("created_at", { ascending: false });
 
   return (
@@ -50,6 +50,11 @@ export default async function AdminReviewsPage() {
           >
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1.5">
               <span className="text-sm font-semibold text-noir">{r.name}</span>
+              {r.profiles?.username && (
+                <span className="text-[10px] font-mono font-semibold text-forest bg-forest/5 border border-forest/10 rounded-full px-2 py-0.5">
+                  @{r.profiles.username}
+                </span>
+              )}
               <Stars value={r.rating} />
               <span className="text-[10px] md:text-xs text-warm-gray">
                 {r.date}
