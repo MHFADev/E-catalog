@@ -36,16 +36,14 @@ export default function PaymentMethods({ seller }) {
       <div className="flex flex-wrap gap-2 md:gap-3">
         {methods.includes("bank") && seller.bankName && (
           <div className="group relative flex items-center gap-2 px-3 py-2 bg-white border border-cream-warm rounded-xl hover:border-forest/40 hover:shadow-md transition-all">
-            <span className="w-10 h-8 flex items-center justify-center bg-white rounded-lg border border-cream-warm px-1 shrink-0">
-              <PaymentLogo
-                methodName={seller.bankName}
-                methodType="bank"
-                imgClassName="max-h-6 w-auto object-contain"
-                iconSize={18}
-              />
-            </span>
-            <div className="min-w-0">
-              <p className="text-xs font-semibold text-noir truncate">
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-noir truncate flex items-center gap-1.5">
+                <PaymentLogo
+                  methodName={seller.bankName}
+                  methodType="bank"
+                  imgClassName="h-5 w-auto object-contain shrink-0"
+                  iconSize={16}
+                />
                 Transfer Bank {bankLabels[seller.bankName?.toLowerCase()] || seller.bankName}
               </p>
               {seller.bankAccountNumber && (
@@ -64,16 +62,14 @@ export default function PaymentMethods({ seller }) {
 
         {methods.includes("ewallet") && seller.ewalletType && (
           <div className="group relative flex items-center gap-2 px-3 py-2 bg-white border border-cream-warm rounded-xl hover:border-forest/40 hover:shadow-md transition-all">
-            <span className="w-10 h-8 flex items-center justify-center bg-white rounded-lg border border-cream-warm px-1 shrink-0">
-              <PaymentLogo
-                methodName={seller.ewalletType}
-                methodType="ewallet"
-                imgClassName="max-h-6 w-auto object-contain"
-                iconSize={18}
-              />
-            </span>
-            <div className="min-w-0">
-              <p className="text-xs font-semibold text-noir truncate">
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-noir truncate flex items-center gap-1.5">
+                <PaymentLogo
+                  methodName={seller.ewalletType}
+                  methodType="ewallet"
+                  imgClassName="h-5 w-auto object-contain shrink-0"
+                  iconSize={16}
+                />
                 {ewalletLabels[seller.ewalletType] || seller.ewalletType}
               </p>
               {seller.ewalletNumber && (
@@ -87,11 +83,11 @@ export default function PaymentMethods({ seller }) {
 
         {methods.includes("qris") && seller.qrisImageUrl && (
           <div className="group relative flex items-center gap-2 px-3 py-2 bg-white border border-cream-warm rounded-xl hover:border-forest/40 hover:shadow-md transition-all cursor-pointer">
-            <span className="w-10 h-8 flex items-center justify-center bg-white rounded-lg border border-cream-warm px-1 shrink-0">
-              <PaymentLogo methodName="qris" methodType="qris" imgClassName="max-h-6 w-auto object-contain" iconSize={18} />
-            </span>
-            <div className="min-w-0">
-              <p className="text-xs font-semibold text-noir">QRIS</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-noir truncate flex items-center gap-1.5">
+                <PaymentLogo methodName="qris" methodType="qris" imgClassName="h-5 w-auto object-contain shrink-0" iconSize={16} />
+                QRIS
+              </p>
               <p className="text-[10px] text-warm-gray">Scan untuk bayar</p>
             </div>
           </div>

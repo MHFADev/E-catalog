@@ -42,19 +42,19 @@ export default function PaymentMethodPicker({ methods = [], value, onChange }) {
                 : "border-cream-warm bg-white hover:border-forest/40"
             }`}
           >
-            <span className="w-10 h-8 shrink-0 flex items-center justify-center bg-white rounded-lg border border-cream-warm px-1">
-              <PaymentLogo
-                methodName={m.label || m.provider}
-                methodType={m.methodType}
-                imgClassName="max-h-6 w-auto object-contain"
-                iconSize={18}
-              />
-            </span>
-            <span className="min-w-0">
-              <span className="block text-xs font-semibold text-noir truncate">
-                {m.label || typeLabel[m.methodType] || m.methodType}
+            <span className="min-w-0 flex-1">
+              <span className="flex items-center gap-1.5">
+                <PaymentLogo
+                  methodName={m.label || m.provider}
+                  methodType={m.methodType}
+                  imgClassName="h-5 w-auto object-contain shrink-0"
+                  iconSize={16}
+                />
+                <span className="text-xs font-semibold text-noir truncate">
+                  {m.label || typeLabel[m.methodType] || m.methodType}
+                </span>
               </span>
-              <span className="block text-[10px] text-warm-gray truncate">
+              <span className="block text-[10px] text-warm-gray truncate mt-0.5">
                 {m.methodType === "qris" ? "Scan QRIS" : m.accountNumber}
               </span>
             </span>
@@ -65,15 +65,13 @@ export default function PaymentMethodPicker({ methods = [], value, onChange }) {
       {/* Detail metode terpilih: logo besar + nomor rekening / e-wallet atau QRIS */}
       {selected && (
         <div className="bg-white border border-forest/20 rounded-2xl p-4">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="flex items-center justify-center bg-white rounded-xl border border-cream-warm px-2 py-1.5">
-              <PaymentLogo
-                methodName={selected.label || selected.provider}
-                methodType={selected.methodType}
-                imgClassName="h-9 w-auto object-contain"
-                iconSize={24}
-              />
-            </span>
+          <div className="flex items-center gap-2.5 mb-3">
+            <PaymentLogo
+              methodName={selected.label || selected.provider}
+              methodType={selected.methodType}
+              imgClassName="h-9 w-auto object-contain shrink-0"
+              iconSize={24}
+            />
             <div>
               <div className="text-sm font-bold text-noir">
                 {selected.label || typeLabel[selected.methodType]}

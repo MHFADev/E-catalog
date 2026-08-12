@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Icon from "@/components/common/Icon";
 import PaymentLogo from "@/components/common/PaymentLogo";
 import { compressImage } from "@/lib/compressImage";
@@ -56,16 +57,14 @@ function MethodRow({ method }) {
   return (
     <div className="bg-cream-pure border border-cream-warm rounded-xl p-3 md:p-4">
       <div className="flex items-start gap-3">
-        <span className="w-12 h-9 shrink-0 flex items-center justify-center bg-white rounded-lg border border-cream-warm px-1.5">
-          <PaymentLogo
-            methodName={method.label || method.provider}
-            methodType={method.method_type}
-            imgClassName="max-h-6 w-auto object-contain"
-            iconSize={18}
-          />
-        </span>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
+            <PaymentLogo
+              methodName={method.label || method.provider}
+              methodType={method.method_type}
+              imgClassName="h-5 w-auto object-contain shrink-0"
+              iconSize={16}
+            />
             <span className="text-sm font-bold text-noir">
               {method.label || meta.title}
             </span>
@@ -157,6 +156,7 @@ function MethodRow({ method }) {
 }
 
 export default function PaymentSettingsManager({ sellerId, methods = [] }) {
+  const router = useRouter();
   const [type, setType] = useState("bank");
   const [provider, setProvider] = useState("");
   const [qrisUrl, setQrisUrl] = useState("");
@@ -200,6 +200,9 @@ export default function PaymentSettingsManager({ sellerId, methods = [] }) {
       e.currentTarget.reset();
       setProvider("");
       setQrisUrl("");
+      // Refresh data server supaya metode baru langsung muncul di daftar,
+      // dan penjual bebas menambah metode lain berikutnya.
+      router.refresh();
     } catch (ex) {
       setErr(ex.message || "Gagal menyimpan.");
     }
@@ -348,8 +351,10 @@ export default function PaymentSettingsManager({ sellerId, methods = [] }) {
       </form>
 
       <p className="text-[11px] text-warm-gray leading-relaxed">
-        Metode yang <strong>Aktif</strong> akan tampil kepada pembeli saat
-        checkout. Semua transaksi manual tanpa biaya platform.
+        Kamu bisa menambahkan <strong>banyak metode pembayaran</strong> (mis.
+        beberapa bank, e-wallet, dan QRIS sekaligus). Metode yang{" "}
+        <strong>Aktif</strong> akan tampil kepada pembeli saat checkout. Semua
+        transaksi manual tanpa biaya platform.
       </p>
     </div>
   );
