@@ -1,6 +1,10 @@
-﻿import Link from "next/link";
+﻿"use client";
+
+import { useState } from "react";
+import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import PartnerLogos from "@/components/common/PartnerLogos";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ADMIN_WHATSAPP,
   ADMIN_WHATSAPP_DISPLAY,
@@ -29,8 +33,51 @@ function FooterLink({ href, children }) {
   );
 }
 
+function MobileAccordionItem({ title, open, onToggle, children }) {
+  return (
+    <div className="border-b border-cream-warm">
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        aria-controls={`footer-${title.toLowerCase()}`}
+        className="flex w-full items-center justify-between py-4 text-left"
+      >
+        <span className="flex items-center gap-2">
+          <span className="w-1 h-4 bg-forest rounded-sm" />
+          <span className="text-xs font-bold tracking-[0.14em] uppercase text-noir">
+            {title}
+          </span>
+        </span>
+        <Icon
+          name={open ? "chevronUp" : "chevronDown"}
+          size={16}
+          className="text-warm-gray"
+        />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            id={`footer-${title.toLowerCase()}`}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="pb-4 flex flex-col gap-2.5">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function Footer() {
+  const [openSection, setOpenSection] = useState(null);
   const waLink = generateWhatsAppLink(ADMIN_WHATSAPP, WHATSAPP_JOIN_MESSAGE);
+
+  const toggle = (key) => setOpenSection((prev) => (prev === key ? null : key));
 
   return (
     <footer className="bg-white border-t border-cream-warm mt-16 overflow-hidden">
@@ -38,7 +85,7 @@ export default function Footer() {
       <div className="h-1.5 bg-gradient-to-r from-forest via-forest/60 to-clay w-full" />
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-8 pb-10 md:pb-12 border-b border-cream-warm">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pb-10 lg:pb-12 border-b border-cream-warm">
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link href="/" className="flex items-center gap-2.5">
@@ -100,8 +147,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Navigasi */}
-          <div className="lg:col-span-2">
+          {/* Navigasi (desktop) */}
+          <div className="hidden lg:block lg:col-span-2">
             <FooterHeading>Navigasi</FooterHeading>
             <div className="flex flex-col gap-2.5">
               <FooterLink href="/">Beranda</FooterLink>
@@ -112,8 +159,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Untuk UMKM */}
-          <div className="lg:col-span-3">
+          {/* Untuk UMKM (desktop) */}
+          <div className="hidden lg:block lg:col-span-3">
             <FooterHeading>Untuk UMKM</FooterHeading>
             <div className="flex flex-col gap-2.5">
               <FooterLink href="/gabung">Gabung Katalog</FooterLink>
@@ -138,8 +185,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Layanan / Kontak */}
-          <div className="lg:col-span-3">
+          {/* Layanan / Kontak (desktop) */}
+          <div className="hidden lg:block lg:col-span-3">
             <FooterHeading>Bantuan</FooterHeading>
             <div className="flex flex-col gap-2.5">
               <FooterLink href="/about">FAQ &amp; Bantuan</FooterLink>
@@ -148,6 +195,57 @@ export default function Footer() {
               <FooterLink href="/artikel">Panduan &amp; Berita</FooterLink>
             </div>
           </div>
+        </div>
+
+        {/* Akordeon mobile */}
+        <div className="lg:hidden border-b border-cream-warm">
+          <MobileAccordionItem
+            title="Navigasi"
+            open={openSection === "navigasi"}
+            onToggle={() => toggle("navigasi")}
+          >
+            <FooterLink href="/">Beranda</FooterLink>
+            <FooterLink href="/catalog">Katalog Produk</FooterLink>
+            <FooterLink href="/artikel">Artikel &amp; Event</FooterLink>
+            <FooterLink href="/about">Tentang Kami</FooterLink>
+            <FooterLink href="/#peta">Peta Lokasi</FooterLink>
+          </MobileAccordionItem>
+
+          <MobileAccordionItem
+            title="Untuk UMKM"
+            open={openSection === "umkm"}
+            onToggle={() => toggle("umkm")}
+          >
+            <FooterLink href="/gabung">Gabung Katalog</FooterLink>
+            <FooterLink href="/seller">Area Penjual</FooterLink>
+            <FooterLink href="/seller/products">Kelola Produk</FooterLink>
+            <FooterLink href="/admin/login">Panel Admin</FooterLink>
+            <div className="mt-2 bg-cream-pure border border-cream-warm rounded-2xl px-4 py-3.5">
+              <div className="text-[11px] font-bold text-noir mb-1">
+                Punya usaha di Kemayoran?
+              </div>
+              <div className="text-[11px] text-warm-gray leading-relaxed">
+                Daftar gratis dan tampilkan produk Anda di katalog digital ini.{" "}
+                <Link
+                  href="/gabung"
+                  className="text-forest font-semibold hover:underline"
+                >
+                  Mulai di sini.
+                </Link>
+              </div>
+            </div>
+          </MobileAccordionItem>
+
+          <MobileAccordionItem
+            title="Bantuan"
+            open={openSection === "bantuan"}
+            onToggle={() => toggle("bantuan")}
+          >
+            <FooterLink href="/about">FAQ &amp; Bantuan</FooterLink>
+            <FooterLink href="/gabung">Cara Menjadi Mitra</FooterLink>
+            <FooterLink href="/catalog">Cara Belanja</FooterLink>
+            <FooterLink href="/artikel">Panduan &amp; Berita</FooterLink>
+          </MobileAccordionItem>
         </div>
 
         {/* Bar bawah */}
