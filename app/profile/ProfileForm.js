@@ -4,9 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import LogoutButton from "./LogoutButton";
-import { updateUsername } from "./actions";
+import { updateUsername, updateAccountAvatar, updateStorePhoto } from "./actions";
 import PhotoUploader from "@/components/common/PhotoUploader";
-import { updateAccountAvatar, updateStorePhoto } from "@/app/settings/actions";
 import { useRouter } from "next/navigation";
 
 const TWO_YEARS_MS = 2 * 365 * 24 * 60 * 60 * 1000;

@@ -1,8 +1,9 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { isAutoUsername } from "@/lib/username";
+import { getSellerAccount } from "@/lib/auth";
 
 const TWO_YEARS_MS = 2 * 365 * 24 * 60 * 60 * 1000;
 const USERNAME_RE = /^[a-z0-9_]{3,20}$/;
@@ -60,5 +61,53 @@ export async function updateUsername(formData) {
   if (updateErr) throw new Error(updateErr.message);
 
   revalidatePath("/profile");
+  return { ok: true };
+}
+
+// ===== Foto profil akun (profiles.avatar_url) — semua user login =====
+export async function updateAccountAvatar(url) {
+  const value = (url || "").toString().trim();
+  if (!value) throw new Error("URL foto tidak boleh kosong");
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Harus login dulu");
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ avatar_url: value })
+    .eq("id", user.id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/profile");
+  revalidatePath("/settings");
+  revalidatePath("/");
+  return { ok: true };
+}
+
+// ===== Foto toko (sellers.logo) — penjual terverifikasi =====
+export async function updateStorePhoto(url) {
+  const account = await getSellerAccount();
+  if (!account || account.status !== "approved" || !account.seller_id) {
+    throw new Error("Akun penjual belum disetujui");
+  }
+  const value = (url || "").toString().trim();
+  if (!value) throw new Error("URL foto tidak boleh kosong");
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("sellers")
+    .update({ logo: value })
+    .eq("id", account.seller_id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/profile");
+  revalidatePath("/settings");
+  revalidatePath("/seller");
+  revalidatePath("/");
+  revalidatePath("/catalog");
+  revalidateTag("catalog");
   return { ok: true };
 }
