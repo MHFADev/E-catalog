@@ -5,6 +5,9 @@ import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import LogoutButton from "./LogoutButton";
 import { updateUsername } from "./actions";
+import PhotoUploader from "@/components/common/PhotoUploader";
+import { updateAccountAvatar, updateStorePhoto } from "@/app/settings/actions";
+import { useRouter } from "next/navigation";
 
 const TWO_YEARS_MS = 2 * 365 * 24 * 60 * 60 * 1000;
 
@@ -30,7 +33,9 @@ export default function ProfileForm({
   profile,
   canRename,
   approvedSeller,
+  sellerLogo,
 }) {
+  const router = useRouter();
   const [username, setUsername] = useState(profile?.username || "");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -66,6 +71,26 @@ export default function ProfileForm({
     }
   };
 
+  const saveAvatar = async (url) => {
+    try {
+      await updateAccountAvatar(url);
+      router.refresh();
+      setSuccess("Foto profil berhasil diperbarui.");
+    } catch (ex) {
+      setError(ex.message || "Gagal memperbarui foto profil.");
+    }
+  };
+
+  const saveStorePhoto = async (url) => {
+    try {
+      await updateStorePhoto(url);
+      router.refresh();
+      setSuccess("Foto toko berhasil diperbarui.");
+    } catch (ex) {
+      setError(ex.message || "Gagal memperbarui foto toko.");
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-cream overflow-hidden">
       {/* dekorasi background */}
@@ -86,8 +111,16 @@ export default function ProfileForm({
         <div className=" bg-white/70 backdrop-blur-xl border border-white/80 rounded-3xl shadow-card overflow-hidden">
           {/* kartu identitas */}
           <div className="flex flex-col sm:flex-row items-center gap-4 p-6 bg-gradient-to-br from-forest/95 to-forest text-white">
-            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white/20 backdrop-blur ring-2 ring-white/40 text-2xl font-extrabold">
-              {initial}
+            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white/20 backdrop-blur ring-2 ring-white/40 relative">
+              {profile?.avatar_url ? (
+                <img
+                  src={profile.avatar_url}
+                  alt={shortName}
+                  className="w-full h-full rounded-full object-cover"
+                />
+              ) : (
+                <span className="text-2xl font-extrabold">{initial}</span>
+              )}
             </div>
             <div className="text-center sm:text-left">
               <div className="text-lg font-bold">{shortName}</div>
@@ -99,6 +132,25 @@ export default function ProfileForm({
               )}
             </div>
           </div>
+
+          {/* foto profil akun - untuk semua user */}
+          <section className="p-6 space-y-3 border-b border-cream-warm">
+            <div className="flex items-center gap-2">
+              <Icon name="user" size={18} className="text-forest" />
+              <h2 className="text-base font-bold text-noir">Foto Profil Akun</h2>
+            </div>
+            <p className="text-sm text-muted leading-relaxed">
+              Foto ini akan tampil di komentar dan ulasan Anda.
+            </p>
+            <PhotoUploader
+              value={profile?.avatar_url}
+              round
+              label="Foto Profil"
+              buttonLabel="Ubah Foto Profil"
+              hint="Foto akan dikompres otomatis. Maksimal 1200px."
+              onUploaded={saveAvatar}
+            />
+          </section>
 
           {/* form rename username */}
           <div className="p-6 space-y-6">
@@ -189,27 +241,47 @@ export default function ProfileForm({
               </div>
 
               {approvedSeller ? (
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-forest/5 border border-forest/15 rounded-2xl">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 text-sm font-semibold text-noir">
-                      <Icon
-                        name="badgeCheck"
-                        size={16}
-                        className="text-forest"
-                      />
-                      Status: Penjual Terverifikasi
+                <>
+                  {/* Foto toko - untuk penjual terverifikasi */}
+                  <section className="p-4 bg-forest/5 border border-forest/15 rounded-2xl space-y-3">
+                    <div className="flex items-center gap-2">
+                      <Icon name="image" size={18} className="text-forest" />
+                      <h3 className="text-sm font-semibold text-noir">Foto Toko / Logo UMKM</h3>
                     </div>
-                    <p className="mt-0.5 text-sm text-muted">
-                      Kelola toko, produk, dan pesanan Anda.
+                    <p className="text-xs text-muted leading-relaxed">
+                      Tampil sebagai logo toko Anda di katalog publik dan halaman produk.
                     </p>
+                    <PhotoUploader
+                      value={sellerLogo}
+                      label="Foto Toko / Logo"
+                      buttonLabel="Ubah Foto Toko"
+                      hint="Foto akan dikompres otomatis. Maksimal 1200px."
+                      onUploaded={saveStorePhoto}
+                    />
+                  </section>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-forest/5 border border-forest/15 rounded-2xl">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-noir">
+                        <Icon
+                          name="badgeCheck"
+                          size={16}
+                          className="text-forest"
+                        />
+                        Status: Penjual Terverifikasi
+                      </div>
+                      <p className="mt-0.5 text-sm text-muted">
+                        Kelola toko, produk, dan pesanan Anda.
+                      </p>
+                    </div>
+                    <Link
+                      href="/seller"
+                      className="inline-flex items-center justify-center gap-2 px-5 h-11 text-sm font-bold text-white bg-forest hover:bg-forest-deep rounded-2xl transition-colors"
+                    >
+                      <Icon name="store" size={15} /> Buka Toko
+                    </Link>
                   </div>
-                  <Link
-                    href="/seller"
-                    className="inline-flex items-center justify-center gap-2 px-5 h-11 text-sm font-bold text-white bg-forest hover:bg-forest-deep rounded-2xl transition-colors"
-                  >
-                    <Icon name="store" size={15} /> Buka Toko
-                  </Link>
-                </div>
+                </>
               ) : (
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-cream/70 border border-cream-warm rounded-2xl">
                   <div className="flex-1">
