@@ -123,16 +123,15 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
-            {/* [NAVBAR GUEST/LOGIN] Tombol Daftar UMKM (bergambar whatsapp) hanya
-                muncul untuk pengguna yang SUDAH LOGIN, ditempatkan setelah "Tentang".
-                Guest (belum login) tidak melihat tombol ini sama sekali. */}
-            {user && (
-              <button
-                onClick={() => setJoinOpen(true)}
-                className="flex items-center gap-1.5 px-3 py-2 ml-1 text-sm font-bold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 shadow-card transition-all hover:shadow-card-hover"
+            {/* [NAVBAR GUEST/LOGIN] Tombol Daftar UMKM hanya muncul untuk
+                pengguna yang SUDAH LOGIN dan BELUM punya toko terverifikasi. */}
+            {user && !isSeller && (
+              <Link
+                href="/seller"
+                className="inline-flex items-center justify-center gap-2 px-5 h-11 text-sm font-semibold text-noir-soft hover:bg-white border border-create rounded-2xl transition-colors"
               >
-                <Icon name="whatsapp" size={15} /> Daftar UMKM
-              </button>
+                <Icon name="arrowRight" size={15} /> Daftar UMKM
+              </Link>
             )}
           </nav>
 
@@ -350,17 +349,15 @@ export default function Navbar() {
                 </Link>
               )}
               {/* [NAVBAR GUEST/LOGIN] Di menu mobile pun, tombol Daftar UMKM
-                  hanya tampil untuk pengguna yang sudah login */}
-              {user && (
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setJoinOpen(true);
-                  }}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-bold text-white bg-forest w-full text-left"
+                  hanya tampil untuk pengguna yang sudah login dan BELUM punya toko terverifikasi */}
+              {user && !isSeller && (
+                <Link
+                  href="/seller"
+                  onClick={() => setMenuOpen(false)}
+                  className="inline-flex items-center justify-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-noir-soft hover:bg-white border border-create w-full"
                 >
-                  <Icon name="whatsapp" size={20} /> Daftar UMKM
-                </button>
+                  <Icon name="arrowRight" size={18} /> Daftar UMKM
+                </Link>
               )}
             </div>
           </div>
