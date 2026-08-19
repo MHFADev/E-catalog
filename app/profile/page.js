@@ -25,14 +25,16 @@ export default async function ProfilePage() {
   const approvedSeller =
     sellerAccount?.status === "approved" && Boolean(sellerAccount?.seller_id);
 
+  let seller = null;
   let sellerLogo = null;
   if (approvedSeller && sellerAccount.seller_id) {
-    const { data: seller } = await supabase
+    const { data } = await supabase
       .from("sellers")
-      .select("logo")
+      .select("id, name, whatsapp, description, logo, bank_name, bank_account_number, bank_account_name, ewallet_type, ewallet_number, qris_image_url, enabled_payment_methods")
       .eq("id", sellerAccount.seller_id)
       .maybeSingle();
-    sellerLogo = seller?.logo || null;
+    seller = data;
+    sellerLogo = data?.logo || null;
   }
 
   const lastChange = profile?.username_updated_at
@@ -55,6 +57,7 @@ export default async function ProfilePage() {
       canRename={canRename}
       approvedSeller={approvedSeller}
       sellerLogo={sellerLogo}
+      seller={seller}
     />
   );
 }
