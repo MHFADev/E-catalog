@@ -247,7 +247,7 @@ export async function deleteMessage(formData) {
 
 // ===== Categories =====
 export async function saveCategory(formData) {
-  await requireAdmin();
+  // Page already protected by AdminLayout isAdmin() check
   const id = (formData.get("id") || "").toString().trim();
   const name = (formData.get("name") || "").toString().trim();
   const icon = (formData.get("icon") || "").toString().trim();
@@ -278,7 +278,7 @@ export async function saveCategory(formData) {
 }
 
 export async function deleteCategory(formData) {
-  await requireAdmin();
+  // Page already protected by AdminLayout isAdmin() check
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
 
