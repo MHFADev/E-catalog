@@ -294,12 +294,11 @@ export default async function HomePage() {
                   href={`/catalog?category=${cat.id}`}
                   className="group flex flex-col items-center gap-2.5 md:gap-3 text-center"
                 >
-                  <span className="relative flex items-center justify-center w-16 h-16 md:w-24 md:h-24 rounded-[22px] md:rounded-[28px] bg-[#FFF9EF] border border-cream-warm/80 shadow-[0_7px_18px_rgba(91,57,31,0.11)] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:rotate-2 group-hover:shadow-[0_14px_24px_rgba(91,57,31,0.18)]">
-                    <span className="absolute inset-1.5 rounded-[17px] md:rounded-[22px] bg-gradient-to-br from-white to-[#F7E8D0] opacity-80" />
+                  <span className="relative flex h-20 w-20 items-center justify-center transition-transform duration-300 group-hover:-translate-y-1 group-hover:rotate-2 md:h-28 md:w-28">
                     <CategoryVisualIcon
                       category={cat}
-                      className="relative z-10 w-12 h-12 md:w-[4.5rem] md:h-[4.5rem] drop-shadow-[0_4px_2px_rgba(80,44,18,0.18)] transition-transform duration-300 group-hover:scale-110"
-                      fallbackSize={30}
+                      className="h-20 w-20 object-contain drop-shadow-[0_4px_2px_rgba(10,37,64,0.16)] transition-transform duration-300 group-hover:scale-[1.07] md:h-28 md:w-28"
+                      fallbackSize={34}
                     />
                   </span>
                   <span className="text-xs md:text-sm font-semibold text-noir-soft group-hover:text-forest transition-colors leading-tight">

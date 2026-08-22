@@ -13,7 +13,7 @@ export default function CategoryVisualIcon({
   fallbackSize = 18,
 }) {
   const [failed, setFailed] = useState(false);
-  const imageSrc = `/images/category-icons/${category.id}.png`;
+  const imageSrc = `/images/category-icons/transparent/${category.id}.png`;
 
   if (failed) {
     return <Icon name={category.icon} size={fallbackSize} className={className} />;
