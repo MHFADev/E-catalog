@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Icon from "@/components/common/Icon";
+import RecentSearches, { rememberRecentSearch } from "@/components/common/RecentSearches";
 
 import { useUser } from "@/lib/useUser";
 import { useSellerAccount } from "@/lib/useSellerAccount";
@@ -10,10 +11,11 @@ import { createClient } from "@/lib/supabase/client";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  
+
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
   const [term, setTerm] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useUser();
@@ -26,12 +28,13 @@ export default function Navbar() {
     pathname.startsWith("/admin") && pathname !== "/admin/login";
   const inputRef = useRef(null);
   const profileRef = useRef(null);
+  const searchRef = useRef(null);
 
   useEffect(() => {
     setMenuOpen(false);
     setProfileOpen(false);
     setMobileProfileOpen(false);
-    
+    setSearchOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -39,19 +42,29 @@ export default function Navbar() {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setProfileOpen(false);
       }
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchOpen(false);
+      }
     };
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
-  const submitSearch = (e) => {
-    e.preventDefault();
-    const q = term.trim();
+  const goToSearch = (value) => {
+    const q = value.trim().replace(/\s+/g, " ");
+    setSearchOpen(false);
     if (!q) {
       router.push("/catalog");
       return;
     }
+    rememberRecentSearch(q);
+    setTerm(q);
     router.push(`/catalog?search=${encodeURIComponent(q)}`);
+  };
+
+  const submitSearch = (e) => {
+    e.preventDefault();
+    goToSearch(term);
   };
 
   const logout = async () => {
@@ -72,7 +85,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-cream-warm/80 bg-white/82 shadow-navbar backdrop-blur-xl supports-[backdrop-filter]:bg-white/72">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+      <div ref={searchRef} className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="h-14 md:h-16 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <img
@@ -88,13 +101,14 @@ export default function Navbar() {
           {/* Search bar (desktop) */}
           <form
             onSubmit={submitSearch}
-            className="hidden lg:flex flex-1 max-w-xl items-center gap-2 pl-4 pr-1.5 h-11 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
+            className="relative hidden lg:flex flex-1 max-w-xl items-center gap-2 pl-4 pr-1.5 h-11 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
           >
             <Icon name="search" size={16} className="text-muted" />
             <input
               ref={inputRef}
               value={term}
               onChange={(e) => setTerm(e.target.value)}
+              onFocus={() => setSearchOpen(true)}
               placeholder="Cari produk UMKM Kemayoran…"
               className="flex-1 bg-transparent text-sm text-noir outline-none placeholder:text-muted"
               aria-label="Cari produk"
@@ -105,6 +119,7 @@ export default function Navbar() {
             >
               <Icon name="search" size={13} /> Cari
             </button>
+            <RecentSearches query={term} open={searchOpen} onSelect={goToSearch} />
           </form>
 
           <nav className="hidden md:flex items-center gap-0.5">
@@ -234,12 +249,13 @@ export default function Navbar() {
         {/* Search bar (mobile) */}
         <form
           onSubmit={submitSearch}
-          className="lg:hidden flex items-center gap-2 pl-4 pr-1.5 h-11 mb-3 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
+          className="relative lg:hidden flex items-center gap-2 pl-4 pr-1.5 h-11 mb-3 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
         >
           <Icon name="search" size={16} className="text-muted" />
           <input
             value={term}
             onChange={(e) => setTerm(e.target.value)}
+            onFocus={() => setSearchOpen(true)}
             placeholder="Cari produk UMKM Kemayoran…"
             className="flex-1 bg-transparent text-sm text-noir outline-none placeholder:text-muted"
             aria-label="Cari produk"
@@ -250,6 +266,7 @@ export default function Navbar() {
           >
             <Icon name="search" size={13} /> Cari
           </button>
+          <RecentSearches query={term} open={searchOpen} onSelect={goToSearch} />
         </form>
       </div>
 
@@ -362,7 +379,7 @@ export default function Navbar() {
           </div>
         </div>
       )}
-
+
     </header>
   );
 }

@@ -260,50 +260,64 @@ const categorySlug = (name) => {
 };
 
 export async function saveCategory(formData) {
-  await requireAdmin();
+  try {
+    await requireAdmin();
 
-  const id = (formData.get("id") || "").toString().trim();
-  const name = (formData.get("name") || "").toString().trim();
-  const icon = (formData.get("icon") || "").toString().trim();
-  const image = (formData.get("image") || "").toString().trim();
-  const description = (formData.get("description") || "").toString().trim();
+    const id = (formData.get("id") || "").toString().trim();
+    const name = (formData.get("name") || "").toString().trim();
+    const icon = (formData.get("icon") || "").toString().trim();
+    const image = (formData.get("image") || "").toString().trim();
+    const description = (formData.get("description") || "").toString().trim();
 
-  if (!name) throw new Error("Nama kategori wajib diisi");
-  if (name.length > 80) throw new Error("Nama kategori maksimal 80 karakter");
+    if (!name) return { ok: false, error: "Nama kategori wajib diisi." };
+    if (name.length > 80) return { ok: false, error: "Nama kategori maksimal 80 karakter." };
+    if (description.length > 300) return { ok: false, error: "Deskripsi kategori maksimal 300 karakter." };
 
-  const payload = {
-    name,
-    icon: icon || null,
-    image: image || null,
-    description: description || null,
-  };
+    const payload = {
+      name,
+      icon: icon || null,
+      image: image || null,
+      description: description || null,
+    };
 
-  const supabase = await createAdminClient();
-  let error;
+    const supabase = await createAdminClient();
 
-  if (id) {
-    ({ error } = await supabase.from("categories").update(payload).eq("id", id));
-  } else {
-    const slug = categorySlug(name);
-    const { data: existing, error: duplicateCheckError } = await supabase
-      .from("categories")
-      .select("id")
-      .eq("id", slug)
-      .maybeSingle();
+    if (id) {
+      const { error } = await supabase.from("categories").update(payload).eq("id", id);
+      if (error) throw error;
+    } else {
+      const slug = categorySlug(name);
+      const { data: existing, error: duplicateCheckError } = await supabase
+        .from("categories")
+        .select("id")
+        .eq("id", slug)
+        .maybeSingle();
 
-    if (duplicateCheckError) throw new Error(duplicateCheckError.message);
-    if (existing) throw new Error("Kategori dengan nama tersebut sudah ada");
+      if (duplicateCheckError) throw duplicateCheckError;
+      if (existing) return { ok: false, error: "Kategori dengan nama tersebut sudah ada." };
 
-    ({ error } = await supabase.from("categories").insert({ id: slug, ...payload }));
+      const { error } = await supabase.from("categories").insert({ id: slug, ...payload });
+      if (error) throw error;
+    }
+
+    revalidatePath("/admin/categories");
+    if (id) revalidatePath(`/admin/categories/${id}`);
+    revalidatePath("/");
+    revalidatePath("/catalog");
+    revalidateTag("catalog");
+
+    return { ok: true };
+  } catch (error) {
+    console.error("Category save failed", error);
+    const message = error instanceof Error ? error.message : "";
+    if (/unauthorized/i.test(message)) {
+      return { ok: false, error: "Sesi admin tidak valid. Silakan masuk kembali." };
+    }
+    if (/service_role|belum diset/i.test(message)) {
+      return { ok: false, error: "Layanan admin belum siap. Hubungi administrator." };
+    }
+    return { ok: false, error: "Kategori gagal disimpan. Periksa data lalu coba lagi." };
   }
-
-  if (error) throw new Error(error.message);
-
-  revalidatePath("/admin/categories");
-  revalidatePath(`/admin/categories/${id}`);
-  revalidatePath("/");
-  revalidatePath("/catalog");
-  revalidateTag("catalog");
 }
 
 export async function deleteCategory(formData) {

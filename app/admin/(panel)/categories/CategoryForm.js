@@ -20,7 +20,15 @@ export default function CategoryForm({ initial = null }) {
     setFeedback(null);
 
     try {
-      await saveCategory(formData);
+      const result = await saveCategory(formData);
+      if (!result?.ok) {
+        setFeedback({
+          type: "error",
+          message: result?.error || "Kategori gagal disimpan. Coba lagi.",
+        });
+        return;
+      }
+
       setFeedback({
         type: "success",
         message: initial ? "Perubahan kategori berhasil disimpan." : "Kategori baru berhasil dibuat.",
