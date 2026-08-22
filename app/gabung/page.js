@@ -15,7 +15,7 @@ const steps = [
   {
     icon: "send",
     title: "2. Kirim Data Usaha",
-    desc: "Isi nama usaha & WhatsApp. Masuk antrian admin.",
+    desc: "Lengkapi profil usaha, kontak, lokasi, dan foto produk.",
     color: "bg-forest/10 text-forest",
   },
   {
@@ -43,8 +43,7 @@ export default function GabungPage() {
           Gabung <span className="text-forest">Katalog</span>
         </h1>
         <p className="text-sm md:text-base text-warm-gray leading-relaxed max-w-lg mx-auto">
-          Daftarkan usaha Anda secara gratis. Butuh login dulu agar admin bisa
-          menghubungkan akun Anda ke toko UMKM — lalu kelola produk sendiri.
+          Daftarkan usaha Anda secara gratis melalui profil yang ringkas namun lengkap. Setelah disetujui admin, akun ini dapat langsung digunakan untuk mengelola toko dan produk.
         </p>
       </div>
 
