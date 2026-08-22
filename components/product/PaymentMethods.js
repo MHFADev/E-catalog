@@ -1,136 +1,97 @@
 "use client";
+
 import Icon from "@/components/common/Icon";
 import PaymentLogo from "@/components/common/PaymentLogo";
 
-// Mapping tipe bank -> label
-const bankLabels = {
-  bca: "BCA",
-  mandiri: "Mandiri",
-  bri: "BRI",
-  bni: "BNI",
-  cimb: "CIMB Niaga",
-  permata: "Permata",
-  btn: "BTN",
-  danamon: "Danamon",
-};
+function formatReference(value, methodType) {
+  if (!value) return null;
+  const cleaned = String(value).replace(/\s/g, "");
+  if (methodType === "bank") {
+    return cleaned.replace(/(\d{4})(?=\d)/g, "$1 ");
+  }
+  if (cleaned.startsWith("62")) {
+    return `+${cleaned}`;
+  }
+  return cleaned;
+}
 
-const ewalletLabels = {
-  dana: "DANA",
-  ovo: "OVO",
-  gopay: "GoPay",
-  shopeepay: "ShopeePay",
-  linkaja: "LinkAja",
-};
+function methodTitle(method) {
+  if (method.label) return method.label;
+  if (method.methodType === "qris") return "QRIS";
+  return method.provider || (method.methodType === "bank" ? "Transfer Bank" : "E-Wallet");
+}
 
-export default function PaymentMethods({ seller }) {
-  const methods = seller?.enabledPaymentMethods || [];
+export default function PaymentMethods({ seller, methods = [] }) {
   if (!methods.length) return null;
 
   return (
-    <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-cream-warm">
-      <h3 className="flex items-center gap-2 text-sm md:text-base font-bold text-noir mb-3 md:mb-4">
-        <Icon name="money" size={18} className="text-forest" />
-        Metode Pembayaran
-      </h3>
-
-      <div className="flex flex-wrap gap-2 md:gap-3">
-        {methods.includes("bank") && seller.bankName && (
-          <div className="group relative flex items-center gap-2 px-3 py-2 bg-white border border-cream-warm rounded-xl hover:border-forest/40 hover:shadow-md transition-all">
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold text-noir truncate flex items-center gap-1.5">
-                <PaymentLogo
-                  methodName={seller.bankName}
-                  methodType="bank"
-                  imgClassName="h-5 w-auto object-contain shrink-0"
-                  iconSize={16}
-                />
-                Transfer Bank {bankLabels[seller.bankName?.toLowerCase()] || seller.bankName}
-              </p>
-              {seller.bankAccountNumber && (
-                <p className="text-[10px] text-warm-gray truncate font-mono">
-                  {formatAccountNumber(seller.bankAccountNumber)}
-                </p>
-              )}
-              {seller.bankAccountName && (
-                <p className="text-[10px] text-warm-gray truncate">
-                  a.n. {seller.bankAccountName}
-                </p>
-              )}
-            </div>
-          </div>
-        )}
-
-        {methods.includes("ewallet") && seller.ewalletType && (
-          <div className="group relative flex items-center gap-2 px-3 py-2 bg-white border border-cream-warm rounded-xl hover:border-forest/40 hover:shadow-md transition-all">
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold text-noir truncate flex items-center gap-1.5">
-                <PaymentLogo
-                  methodName={seller.ewalletType}
-                  methodType="ewallet"
-                  imgClassName="h-5 w-auto object-contain shrink-0"
-                  iconSize={16}
-                />
-                {ewalletLabels[seller.ewalletType] || seller.ewalletType}
-              </p>
-              {seller.ewalletNumber && (
-                <p className="text-[10px] text-warm-gray truncate font-mono">
-                  {formatPhoneNumber(seller.ewalletNumber)}
-                </p>
-              )}
-            </div>
-          </div>
-        )}
-
-        {methods.includes("qris") && seller.qrisImageUrl && (
-          <div className="group relative flex items-center gap-2 px-3 py-2 bg-white border border-cream-warm rounded-xl hover:border-forest/40 hover:shadow-md transition-all cursor-pointer">
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold text-noir truncate flex items-center gap-1.5">
-                <PaymentLogo methodName="qris" methodType="qris" imgClassName="h-5 w-auto object-contain shrink-0" iconSize={16} />
-                QRIS
-              </p>
-              <p className="text-[10px] text-warm-gray">Scan untuk bayar</p>
-            </div>
-          </div>
-        )}
+    <section className="mt-4 border-t border-cream-warm pt-4 md:mt-6 md:pt-6">
+      <div className="mb-3 flex items-center justify-between gap-3 md:mb-4">
+        <h3 className="flex items-center gap-2 text-sm font-bold text-noir md:text-base">
+          <Icon name="money" size={18} className="text-forest" />
+          Metode Pembayaran
+        </h3>
+        <span className="rounded-full bg-forest/10 px-2.5 py-1 text-[10px] font-bold text-forest">
+          {methods.length} tersedia
+        </span>
       </div>
 
-      {/* QRIS Modal Preview */}
-      {methods.includes("qris") && seller.qrisImageUrl && (
-        <QRISPreview qrisUrl={seller.qrisImageUrl} storeName={seller.name} />
-      )}
-    </div>
-  );
-}
+      <div className="grid gap-2 sm:grid-cols-2">
+        {methods.map((method) => {
+          const isQris = method.methodType === "qris";
+          const reference = formatReference(method.accountNumber, method.methodType);
 
-function formatAccountNumber(num) {
-  const cleaned = num.replace(/\D/g, "");
-  return cleaned.replace(/(\d{4})/g, "$1 ").trim();
-}
+          return (
+            <article
+              key={method.id}
+              className="group flex min-w-0 items-center gap-3 rounded-xl border border-cream-warm bg-white p-3 transition-all hover:border-forest/35 hover:shadow-sm"
+            >
+              <span className="flex h-10 w-14 shrink-0 items-center justify-center rounded-lg border border-cream-warm bg-cream-pure px-1.5">
+                <PaymentLogo
+                  methodName={method.provider || method.label}
+                  methodType={method.methodType}
+                  imgClassName="max-h-6 w-auto max-w-full object-contain"
+                  iconSize={18}
+                />
+              </span>
 
-function formatPhoneNumber(num) {
-  const cleaned = num.replace(/\D/g, "");
-  if (cleaned.startsWith("62")) {
-    return "+62 " + cleaned.slice(2).replace(/(\d{3})(\d{4})(\d{4})/, "$1 $2 $3");
-  }
-  return cleaned.replace(/(\d{3})(\d{4})(\d{4})/, "$1 $2 $3");
-}
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-xs font-bold text-noir">{methodTitle(method)}</p>
+                {isQris ? (
+                  <p className="mt-0.5 text-[10px] text-warm-gray">Scan QRIS untuk membayar</p>
+                ) : (
+                  <>
+                    {reference && (
+                      <p className="mt-0.5 truncate font-mono text-[10px] font-semibold text-noir-soft">
+                        {reference}
+                      </p>
+                    )}
+                    {method.accountName && (
+                      <p className="truncate text-[10px] text-warm-gray">a.n. {method.accountName}</p>
+                    )}
+                  </>
+                )}
+              </div>
 
-// QRIS Preview Modal (simple CSS-only approach)
-function QRISPreview({ qrisUrl, storeName }) {
-  return (
-    <div className="relative group">
-      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 md:w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-        <div className="bg-white rounded-xl shadow-lg border border-cream-warm p-3">
-          <p className="text-xs font-semibold text-noir text-center mb-2">QRIS {storeName}</p>
-          <img
-            src={qrisUrl}
-            alt={`QRIS ${storeName}`}
-            className="w-full aspect-square object-cover rounded-lg"
-          />
-          <p className="text-[10px] text-warm-gray text-center mt-2">Scan untuk pembayaran</p>
-        </div>
-        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-4 border-transparent border-t-white" />
+              {isQris && method.qrisImageUrl && (
+                <a
+                  href={method.qrisImageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 rounded-lg border border-cream-warm bg-cream-pure p-1 transition-transform group-hover:scale-105"
+                  aria-label={`Lihat QRIS ${seller?.name || "toko"}`}
+                >
+                  <img
+                    src={method.qrisImageUrl}
+                    alt={`QRIS ${seller?.name || "toko"}`}
+                    className="h-9 w-9 rounded object-cover"
+                  />
+                </a>
+              )}
+            </article>
+          );
+        })}
       </div>
-    </div>
+    </section>
   );
 }

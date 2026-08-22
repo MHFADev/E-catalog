@@ -30,7 +30,7 @@ export default async function ProfilePage() {
   if (approvedSeller && sellerAccount.seller_id) {
     const { data } = await supabase
       .from("sellers")
-      .select("id, name, whatsapp, description, logo, bank_name, bank_account_number, bank_account_name, ewallet_type, ewallet_number, qris_image_url, enabled_payment_methods")
+      .select("id, name, whatsapp, description, logo")
       .eq("id", sellerAccount.seller_id)
       .maybeSingle();
     seller = data;

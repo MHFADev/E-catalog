@@ -4,29 +4,29 @@ import Icon from "@/components/common/Icon";
 
 // ============================================================
 // PaymentLogo — menampilkan LOGO RESMI provider pembayaran
-// (SVG/PNG resmi dari Wikimedia), bukan ikon generik.
+// dari sumber brand yang dipetakan, bukan ikon generik.
 // Menerima methodName (kode provider ATAU label seperti
 // "Bank BCA" / "DANA") dan methodType untuk fallback.
 // Bila gambar gagal / provider tidak dikenali -> ikon brand
 // (atau ikon bank/e-wallet generik yang bersih).
 // ============================================================
 
-// URL logo resmi (sudah diverifikasi reachable).
-const LOGO_URLS = {
-  qris: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg",
-  bca: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg",
-  mandiri: "https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg",
-  bri: "https://upload.wikimedia.org/wikipedia/commons/9/97/Logo_BRI.png",
-  bni: "https://upload.wikimedia.org/wikipedia/commons/f/fa/BNI_logo_2014.svg",
-  cimb: "https://upload.wikimedia.org/wikipedia/commons/3/38/CIMB_Niaga_logo.svg",
-  permata: "https://upload.wikimedia.org/wikipedia/commons/f/ff/Permata_Bank_%282024%29.svg",
-  btn: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Bank_BTN_logo.svg",
-  danamon: "https://upload.wikimedia.org/wikipedia/commons/a/a1/Danamon_%282024%29.svg",
-  gopay: "https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg",
-  dana: "https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg",
-  ovo: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg",
-  shopeepay: "https://upload.wikimedia.org/wikipedia/commons/f/fe/ShopeePay_Logo.svg",
-  linkaja: "https://upload.wikimedia.org/wikipedia/commons/8/85/LinkAja.svg",
+// Aset logo bermerek disimpan lokal agar tetap stabil saat halaman dibuka.
+const LOGO_ASSETS = {
+  qris: "/images/payment-logos/qris.svg",
+  bca: "/images/payment-logos/bca.svg",
+  mandiri: "/images/payment-logos/mandiri.svg",
+  bri: "/images/payment-logos/bri.png",
+  bni: "/images/payment-logos/bni.svg",
+  cimb: "/images/payment-logos/cimb.svg",
+  permata: "/images/payment-logos/permata.svg",
+  btn: "/images/payment-logos/btn.svg",
+  danamon: "/images/payment-logos/danamon.svg",
+  gopay: "/images/payment-logos/gopay.svg",
+  dana: "/images/payment-logos/dana.svg",
+  ovo: "/images/payment-logos/ovo.svg",
+  shopeepay: "/images/payment-logos/shopeepay.png",
+  linkaja: "/images/payment-logos/linkaja.svg",
 };
 
 // Ikon brand warna (fallback bila gambar gagal dimuat).
@@ -56,7 +56,7 @@ const KNOWN = [
 function resolveKey(methodName, methodType) {
   const raw = String(methodName || "").toLowerCase();
   if (!raw) return methodType === "qris" ? "qris" : null;
-  if (LOGO_URLS[raw]) return raw;
+  if (LOGO_ASSETS[raw]) return raw;
   if (raw === "bank" || raw === "ewallet") return null;
   for (const k of KNOWN) {
     if (raw.includes(k)) return k;
@@ -73,7 +73,7 @@ export default function PaymentLogo({
 }) {
   const [failed, setFailed] = useState(false);
   const key = resolveKey(methodName, methodType);
-  const url = key ? LOGO_URLS[key] : null;
+  const url = key ? LOGO_ASSETS[key] : null;
 
   // Logo resmi
   if (url && !failed) {

@@ -7,6 +7,7 @@ import ReviewSection from "@/components/product/ReviewSection";
 import PaymentMethods from "@/components/product/PaymentMethods";
 import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
 import { WHATSAPP_PREFILL } from "@/lib/constants";
+import { getSellerPaymentMethods } from "@/lib/paymentMethods";
 import {
   getProducts,
   getSellers,
@@ -82,6 +83,8 @@ export default async function ProductDetailPage({ params }) {
     : null;
 
   if (!product) notFound();
+
+  const sellerPaymentMethods = await getSellerPaymentMethods(seller?.id);
 
   // Link WA utama + alternatif (kalau penjual punya nomor kedua)
   const waLink = generateWhatsAppLink(
@@ -358,7 +361,7 @@ export default async function ProductDetailPage({ params }) {
               )}
 
               {/* ===== Metode Pembayaran ===== */}
-              <PaymentMethods seller={seller} />
+              <PaymentMethods seller={seller} methods={sellerPaymentMethods} />
             </div>
 
             {/* ===== CTA Checkout + WhatsApp (desktop) ===== */}
