@@ -37,6 +37,34 @@ function embedUrl(url) {
   return m ? `https://www.youtube.com/embed/${m[1]}` : url;
 }
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const products = await getProducts();
+  const product = products.find((item) => item.id === id);
+
+  if (!product) {
+    return {
+      title: "Produk tidak ditemukan",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const description = product.description
+    ? product.description.slice(0, 155)
+    : `Temukan ${product.name} dari UMKM Kemayoran dan hubungi toko langsung untuk informasi pemesanan.`;
+
+  return {
+    title: product.name,
+    description,
+    openGraph: {
+      title: `${product.name} | UMKM Kemayoran`,
+      description,
+    },
+  };
+}
+
+
+
 export default async function ProductDetailPage({ params }) {
   const { id } = await params;
   const [products, sellers, categories, reviews] = await Promise.all([
@@ -99,8 +127,8 @@ export default async function ProductDetailPage({ params }) {
   }));
 
   return (
-    <div className="bg-cream min-h-screen pb-24 md:pb-0">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-4 md:py-8">
+    <div className="min-h-screen bg-gradient-to-b from-cream-pure via-cream to-cream pb-24 md:pb-0">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-10">
         {/* ===== Breadcrumb: Beranda / Katalog / Kategori ===== */}
         <nav className="flex items-center gap-1.5 text-xs md:text-sm text-warm-gray mb-4 md:mb-6 whitespace-nowrap overflow-x-auto">
           <Link href="/" className="hover:text-forest transition-colors shrink-0">
@@ -134,7 +162,7 @@ export default async function ProductDetailPage({ params }) {
 
           <div className="flex flex-col gap-4 md:gap-5 min-w-0">
             {/* ===== Kartu info produk ===== */}
-            <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-7 shadow-sm">
+            <div className="surface-raised rounded-[1.65rem] md:rounded-[2.25rem] p-5 md:p-7">
               <div className="flex items-start justify-between gap-3 mb-2 md:mb-3">
                 <span className="font-mono text-[10px] md:text-xs uppercase tracking-wider text-forest pt-1">
                   {category?.name}
@@ -230,7 +258,7 @@ export default async function ProductDetailPage({ params }) {
             </div>
 
             {/* ===== Kartu deskripsi + tags ===== */}
-            <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-7 shadow-sm">
+            <div className="surface-raised rounded-[1.65rem] md:rounded-[2.25rem] p-5 md:p-7">
               <h2 className="flex items-center gap-2 text-sm md:text-base font-bold text-noir mb-2 md:mb-3">
                 <span className="w-0.5 h-4 bg-forest rounded-sm" />
                 Deskripsi Produk
@@ -253,7 +281,7 @@ export default async function ProductDetailPage({ params }) {
             </div>
 
             {/* ===== Kartu toko + statistik penjual ===== */}
-            <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm">
+            <div className="surface-raised rounded-[1.65rem] md:rounded-[2.25rem] p-5 md:p-6">
               {seller.isBlocked && (
                 <div className="flex items-center gap-2 bg-amber-100 text-amber-800 border border-amber-300 rounded-xl px-3 py-2.5 mb-4">
                   <Icon name="ban" size={16} className="shrink-0" />
@@ -336,35 +364,19 @@ export default async function ProductDetailPage({ params }) {
             {/* ===== CTA Checkout + WhatsApp (desktop) ===== */}
             <div className="hidden md:flex flex-col gap-2.5">
               {showPrice && (
-                <Link href={`/product/${product.id}/checkout`} className="no-underline">
-                  <button className="btn-primary w-full text-sm md:text-base py-3 md:py-3.5">
-                    <Icon name="shoppingBagFilled" size={17} />
-                    Beli Sekarang — Bayar Manual
-                  </button>
+                <Link href={`/product/${product.id}/checkout`} className="btn-primary w-full py-3 text-sm md:py-3.5 md:text-base">
+                  <Icon name="shoppingBagFilled" size={17} />
+                  Beli Sekarang — Bayar Manual
                 </Link>
               )}
-              <a
-                href={waLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="no-underline"
-              >
-                <button className="btn-wa w-full text-sm md:text-base py-3 md:py-3.5">
-                  <Icon name="whatsapp" size={18} />
-                  Hubungi Penjual via WhatsApp
-                </button>
+              <a href={waLink} target="_blank" rel="noopener noreferrer" className="btn-wa w-full py-3 text-sm md:py-3.5 md:text-base">
+                <Icon name="whatsapp" size={18} />
+                Hubungi Penjual via WhatsApp
               </a>
               {waLinkAlt && (
-                <a
-                  href={waLinkAlt}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="no-underline"
-                >
-                  <button className="btn-secondary w-full text-sm md:text-base py-3 md:py-3.5">
-                    <Icon name="phone" size={16} />
-                    Kontak Alternatif
-                  </button>
+                <a href={waLinkAlt} target="_blank" rel="noopener noreferrer" className="btn-secondary w-full py-3 text-sm md:py-3.5 md:text-base">
+                  <Icon name="phone" size={16} />
+                  Kontak Alternatif
                 </a>
               )}
             </div>
@@ -400,36 +412,19 @@ export default async function ProductDetailPage({ params }) {
       </div>
 
       {/* ===== Sticky bar bawah (mobile): harga + tombol Beli & WA ===== */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-cream-warm px-4 py-3 flex items-center gap-3">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 flex items-center gap-3 border-t border-cream-warm bg-white/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(10,37,64,0.1)] backdrop-blur-xl">
         <div className="min-w-0 shrink-0">
-          <div className="font-mono text-[10px] uppercase tracking-wider text-warm-gray mb-0.5">
-            Harga
-          </div>
-          <div className="text-sm md:text-base font-bold text-forest truncate">
-            {price}
-          </div>
+          <div className="font-mono text-[10px] uppercase tracking-wider text-warm-gray mb-0.5">Harga</div>
+          <div className="text-sm font-bold text-forest truncate">{price}</div>
         </div>
-        <div className="flex-1 flex gap-2 shrink-0">
+        <div className="flex flex-1 gap-2 shrink-0">
           {showPrice && (
-            <Link
-              href={`/product/${product.id}/checkout`}
-              className="no-underline flex-1"
-            >
-              <button className="btn-primary w-full text-sm py-3">
-                <Icon name="shoppingBagFilled" size={16} /> Beli
-              </button>
+            <Link href={`/product/${product.id}/checkout`} className="btn-primary min-w-0 flex-1 px-3 py-3 text-sm">
+              <Icon name="shoppingBagFilled" size={16} /> Beli
             </Link>
           )}
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="no-underline"
-            aria-label="Hubungi penjual via WhatsApp"
-          >
-            <button className="btn-wa w-full text-sm py-3 px-3">
-              <Icon name="whatsapp" size={16} />
-            </button>
+          <a href={waLink} target="_blank" rel="noopener noreferrer" className="btn-wa px-3 py-3 text-sm" aria-label="Hubungi penjual via WhatsApp">
+            <Icon name="whatsapp" size={17} />
           </a>
         </div>
       </div>
