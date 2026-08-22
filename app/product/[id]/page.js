@@ -412,20 +412,30 @@ export default async function ProductDetailPage({ params }) {
       </div>
 
       {/* ===== Sticky bar bawah (mobile): harga + tombol Beli & WA ===== */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 flex items-center gap-3 border-t border-cream-warm bg-white/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(10,37,64,0.1)] backdrop-blur-xl">
-        <div className="min-w-0 shrink-0">
-          <div className="font-mono text-[10px] uppercase tracking-wider text-warm-gray mb-0.5">Harga</div>
-          <div className="text-sm font-bold text-forest truncate">{price}</div>
-        </div>
-        <div className="flex flex-1 gap-2 shrink-0">
-          {showPrice && (
-            <Link href={`/product/${product.id}/checkout`} className="btn-primary min-w-0 flex-1 px-3 py-3 text-sm">
-              <Icon name="shoppingBagFilled" size={16} /> Beli
-            </Link>
-          )}
-          <a href={waLink} target="_blank" rel="noopener noreferrer" className="btn-wa px-3 py-3 text-sm" aria-label="Hubungi penjual via WhatsApp">
-            <Icon name="whatsapp" size={17} />
-          </a>
+      <div className="md:hidden fixed inset-x-0 bottom-0 z-40 border-t border-cream-warm/90 bg-white/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(10,37,64,0.1)] backdrop-blur-xl">
+        <div className="mx-auto flex w-full max-w-md items-stretch gap-2.5">
+          <div className="flex min-w-0 flex-1 flex-col justify-center rounded-2xl border border-cream-warm bg-cream-pure px-3.5 py-2.5">
+            <div className="mb-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-warm-gray">Harga</div>
+            <div className="truncate text-sm font-bold leading-tight text-forest">{price}</div>
+          </div>
+          <div className="flex min-w-0 flex-1 items-stretch gap-2">
+            {showPrice && (
+              <Link href={`/product/${product.id}/checkout`} className="btn-primary min-w-0 flex-1 px-3 text-sm">
+                <Icon name="shoppingBagFilled" size={16} />
+                <span>Beli</span>
+              </Link>
+            )}
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`btn-wa shrink-0 px-0 ${showPrice ? "w-12" : "flex-1 px-3.5"}`}
+              aria-label="Hubungi penjual via WhatsApp"
+            >
+              <Icon name="whatsapp" size={18} />
+              {!showPrice && <span>Hubungi</span>}
+            </a>
+          </div>
         </div>
       </div>
     </div>
