@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import FeaturedProducts from "@/components/product/FeaturedProducts";
 import Icon from "@/components/common/Icon";
+import EmptyState from "@/components/common/EmptyState";
 import CategoryVisualIcon from "@/components/category/CategoryVisualIcon";
 
 import MultiPinMap from "@/components/common/MultiPinMap";
@@ -348,7 +349,14 @@ export default async function HomePage() {
           </div>
           {/* Di mobile: tampil 4 produk dulu, tombol "Lihat Semua" menampilkan
               sisa 4 produk (maksimal 8) dengan animasi. Di desktop: 8 sekaligus. */}
-          <FeaturedProducts products={featured} categories={categories} />
+          {featured.length > 0 ? (
+            <FeaturedProducts products={featured} categories={categories} />
+          ) : (
+            <EmptyState
+              title="Belum ada produk unggulan"
+              description="Produk yang ditambahkan oleh UMKM akan tampil di sini setelah tersedia di database."
+            />
+          )}
         </div>
       </section>
 
