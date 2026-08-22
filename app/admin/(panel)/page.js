@@ -28,7 +28,7 @@ export default async function AdminDashboard() {
     { label: "Produk", value: products, href: "/admin/products", icon: "package", highlight: false },
     { label: "Toko / UMKM", value: sellers, href: "/admin/sellers", icon: "store", highlight: false },
     { label: "Banner", value: banners, href: "/admin/banners", icon: "image", highlight: false },
-    { label: "Kategori", value: categories, href: "/admin/products", icon: "tag", highlight: false },
+    { label: "Kategori", value: categories, href: "/admin/categories", icon: "tag", highlight: false },
     { label: "Komentar menunggu", value: pendingReviews, href: "/admin/reviews", icon: "star", highlight: true },
     { label: "Pesan belum dibaca", value: unreadMessages, href: "/admin/messages", icon: "send", highlight: true },
     { label: "Permintaan gabung", value: pendingJoins, href: "/admin/join", icon: "whatsapp", highlight: true },

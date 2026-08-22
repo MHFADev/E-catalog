@@ -246,8 +246,22 @@ export async function deleteMessage(formData) {
 }
 
 // ===== Categories =====
+const categorySlug = (name) => {
+  const base = name
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/[\s-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return base || `kategori-${Date.now().toString(36)}`;
+};
+
 export async function saveCategory(formData) {
-  // Page already protected by AdminLayout isAdmin() check
+  await requireAdmin();
+
   const id = (formData.get("id") || "").toString().trim();
   const name = (formData.get("name") || "").toString().trim();
   const icon = (formData.get("icon") || "").toString().trim();
@@ -255,37 +269,65 @@ export async function saveCategory(formData) {
   const description = (formData.get("description") || "").toString().trim();
 
   if (!name) throw new Error("Nama kategori wajib diisi");
+  if (name.length > 80) throw new Error("Nama kategori maksimal 80 karakter");
 
-  const slug =
-    id ||
-    name
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .trim()
-      .replace(/\s+/g, "-");
-
-  const payload = { name, icon: icon || null, image: image || null, description: description || null };
+  const payload = {
+    name,
+    icon: icon || null,
+    image: image || null,
+    description: description || null,
+  };
 
   const supabase = await createAdminClient();
-  const { error } = id
-    ? await supabase.from("categories").update(payload).eq("id", id)
-    : await supabase.from("categories").insert({ id: slug, ...payload });
+  let error;
+
+  if (id) {
+    ({ error } = await supabase.from("categories").update(payload).eq("id", id));
+  } else {
+    const slug = categorySlug(name);
+    const { data: existing, error: duplicateCheckError } = await supabase
+      .from("categories")
+      .select("id")
+      .eq("id", slug)
+      .maybeSingle();
+
+    if (duplicateCheckError) throw new Error(duplicateCheckError.message);
+    if (existing) throw new Error("Kategori dengan nama tersebut sudah ada");
+
+    ({ error } = await supabase.from("categories").insert({ id: slug, ...payload }));
+  }
+
   if (error) throw new Error(error.message);
+
   revalidatePath("/admin/categories");
+  revalidatePath(`/admin/categories/${id}`);
   revalidatePath("/");
   revalidatePath("/catalog");
   revalidateTag("catalog");
 }
 
 export async function deleteCategory(formData) {
-  // Page already protected by AdminLayout isAdmin() check
-  const id = formData.get("id");
+  await requireAdmin();
+
+  const id = (formData.get("id") || "").toString().trim();
   if (!id) throw new Error("Parameter salah");
 
   const supabase = await createAdminClient();
+  const { count, error: productCheckError } = await supabase
+    .from("products")
+    .select("id", { count: "exact", head: true })
+    .eq("category_id", id);
+
+  if (productCheckError) throw new Error(productCheckError.message);
+  if ((count ?? 0) > 0) {
+    throw new Error(`Kategori masih digunakan oleh ${count} produk. Pindahkan atau hapus produk tersebut terlebih dahulu.`);
+  }
+
   const { error } = await supabase.from("categories").delete().eq("id", id);
   if (error) throw new Error(error.message);
+
   revalidatePath("/admin/categories");
+  revalidatePath(`/admin/categories/${id}`);
   revalidatePath("/");
   revalidatePath("/catalog");
   revalidateTag("catalog");

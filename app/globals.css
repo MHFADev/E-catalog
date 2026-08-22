@@ -3,108 +3,198 @@
 @tailwind utilities;
 
 :root {
-  /* [TEMA BIRU] CSS custom properties mengikuti palette biru */
+  /* Palet utama: blue (#0055A0), navy (#12284B), dan neutral terang. */
+  --brand-primary: #0055a0;
+  --brand-deep: #003d73;
+  --brand-navy: #12284b;
+  --brand-sky: #8cc1e9;
+  --surface-base: #f5f6f8;
+  --surface-soft: #e8eef4;
+  --surface-card: #ffffff;
+  --support-clay: #f97316;
   --color-glass-forest: rgba(0, 85, 160, 0.12);
   --color-glass-cream: rgba(255, 255, 255, 0.9);
+  --shadow-soft: 0 1px 2px rgba(10, 37, 64, 0.04), 0 10px 28px rgba(10, 37, 64, 0.07);
+  --shadow-lift: 0 4px 10px rgba(10, 37, 64, 0.08), 0 18px 40px rgba(10, 37, 64, 0.14);
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 }
+
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
+
 body {
-  font-family:
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
-  color: #12284b;
-  background: #F5F6F8;
+  min-width: 320px;
+  overflow-x: hidden;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--brand-navy);
+  background:
+    radial-gradient(circle at 15% -10%, rgba(140, 193, 233, 0.18), transparent 31rem),
+    var(--surface-base);
 }
+
+::selection {
+  color: #fff;
+  background: var(--brand-primary);
+}
+
 a {
   color: inherit;
   text-decoration: none;
 }
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
 button {
-  font-family: inherit;
   cursor: pointer;
 }
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(0, 85, 160, 0.4);
+  outline-offset: 3px;
+}
+
 .text-accent {
-  color: #0055a0;
+  color: var(--brand-primary);
 }
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.4rem;
-  font-weight: 600;
-  border-radius: 999px;
-  border: none;
-  background: #0055a0;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 51, 102, 0.15);
-}
-.btn-primary:hover {
-  background: #003d73;
-  box-shadow: 0 4px 14px rgba(0, 85, 160, 0.3);
-}
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.4rem;
-  font-weight: 600;
-  border-radius: 999px;
-  background: white;
-  color: #0055a0;
-  border: 1px solid #c8d8e8;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.btn-secondary:hover {
-  background: #F5F6F8;
-  border-color: #0055a0;
-}
+
+.btn-primary,
+.btn-secondary,
 .btn-wa {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.7rem 1.4rem;
-  font-weight: 600;
+  min-height: 2.75rem;
+  padding: 0.7rem 1.35rem;
   border-radius: 999px;
-  border: none;
-  background: #25d366;
-  color: #063b1c;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 220ms var(--ease-out-expo), box-shadow 220ms ease, background-color 180ms ease, border-color 180ms ease;
 }
+
+.btn-primary {
+  border: 1px solid transparent;
+  color: #fff;
+  background: var(--brand-primary);
+  box-shadow: 0 6px 16px rgba(0, 85, 160, 0.19);
+}
+
+.btn-primary:hover {
+  background: var(--brand-deep);
+  box-shadow: 0 10px 24px rgba(0, 85, 160, 0.28);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  border: 1px solid #c8d8e8;
+  color: var(--brand-primary);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.btn-secondary:hover {
+  border-color: rgba(0, 85, 160, 0.48);
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-2px);
+}
+
+.btn-wa {
+  border: 1px solid transparent;
+  color: #063b1c;
+  background: #25d366;
+}
+
 .btn-wa:hover {
   background: #1fb85a;
+  box-shadow: 0 10px 22px rgba(37, 211, 102, 0.22);
+  transform: translateY(-2px);
 }
-/* ===== Glassmorphism (40% modern) ===== */
+
 .glass {
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px) saturate(155%);
+  -webkit-backdrop-filter: blur(16px) saturate(155%);
 }
+
 .glass-forest {
   background: var(--color-glass-forest);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
-/* ===== Sembunyikan scrollbar (pakai untuk carousel horizontal) ===== */
+
+.surface-card {
+  border: 1px solid rgba(200, 216, 232, 0.92);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow-soft);
+}
+
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--brand-primary);
+  font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.section-kicker::before {
+  width: 1.5rem;
+  height: 2px;
+  border-radius: 999px;
+  content: "";
+  background: var(--support-clay);
+}
+
+/* Scrollbar tetap halus pada desktop tanpa menyembunyikan akses visual. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #b8c9db transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 0.55rem;
+  height: 0.55rem;
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 2px solid var(--surface-base);
+  border-radius: 999px;
+  background: #b8c9db;
+}
+
 .scrollbar-none {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
+
 @keyframes cardEntrance {
   from {
     opacity: 0;
@@ -115,7 +205,7 @@ button {
     transform: translateX(0) scale(1);
   }
 }
-/* ===== [POP UP DAFTAR UMKM] Animasi modal turun dari atas ===== */
+
 @keyframes modalSlideDown {
   from {
     opacity: 0;
@@ -126,11 +216,11 @@ button {
     transform: translateY(0);
   }
 }
-/* Kelas ini dipakai pada kartu modal (JoinModal) agar muncul turun ke bawah */
+
 .modal-slide-down {
-  animation: modalSlideDown 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: modalSlideDown 0.35s var(--ease-out-expo);
 }
-/* Animasi backdrop (latar gelap) agar memudar halus, tidak langsung muncul */
+
 @keyframes modalFadeIn {
   from {
     opacity: 0;
@@ -139,15 +229,11 @@ button {
     opacity: 1;
   }
 }
+
 .modal-fade-in {
   animation: modalFadeIn 0.3s ease;
 }
 
-/* ===== [MARQUEE TESTIMONI MOBILE] =====
-   Track berisi 2 salinan kartu testimoni yang identik (untuk loop tanpa
-   henti/seamless). Animasi dimulai dari translateX(-50%) — posisi awal
-   salinan kedua yang tampak identik dengan salinan pertama — lalu bergerak
-   ke translateX(0), sehingga kartu bergerak dari KIRI ke KANAN. */
 @keyframes marquee-ltr {
   from {
     transform: translateX(-50%);
@@ -156,26 +242,16 @@ button {
     transform: translateX(0);
   }
 }
-/* Kecepatan sengaja lambat (45 detik sekali putaran) agar kartu mudah dibaca */
+
 .marquee-ltr {
   animation: marquee-ltr 45s linear infinite;
   will-change: transform;
 }
-/* Jeda animasi saat pointer di atas marquee agar lebih mudah dibaca */
+
 .marquee-ltr:hover {
   animation-play-state: paused;
 }
-/* Hormati pengguna yang menonaktifkan animasi berlebih */
-@media (prefers-reduced-motion: reduce) {
-  .marquee-ltr {
-    animation: none;
-  }
-}
 
-/* ===== [TOMBOL "LIHAT SEMUA" PRODUK UNGGULAN] =====
-   Kartu produk baru (ke-5 s/d ke-8) muncul halus dari bawah saat tombol
-   "Lihat Semua" ditekan. Delay antar kartu diatur inline via
-   animation-delay di komponen sehingga muncul bertahap (beruntun). */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -186,11 +262,11 @@ button {
     transform: translateY(0);
   }
 }
+
 .fade-in-up {
-  animation: fadeInUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: fadeInUp 0.45s var(--ease-out-expo) both;
 }
 
-/* ===== Transisi pindah halaman (smooth) ===== */
 @keyframes pageEnter {
   from {
     opacity: 0;
@@ -201,6 +277,52 @@ button {
     transform: none;
   }
 }
+
 .page-enter {
-  animation: pageEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: pageEnter 0.36s var(--ease-out-expo);
+}
+
+@keyframes menuEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.menu-enter {
+  transform-origin: top center;
+  animation: menuEnter 0.24s var(--ease-out-expo) both;
+}
+
+@keyframes ambientFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, 14px, 0) scale(1.04);
+  }
+}
+
+.ambient-float {
+  animation: ambientFloat 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

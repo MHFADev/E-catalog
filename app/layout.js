@@ -5,9 +5,33 @@ import PageTransition from "@/components/layout/PageTransition";
 import OnboardingGate from "@/components/onboarding/OnboardingGate";
 
 export const metadata = {
-  title: "UMKM Kemayoran — Katalog Digital Produk Lokal",
+  title: {
+    default: "UMKM Kemayoran — Katalog Digital Produk Lokal",
+    template: "%s | UMKM Kemayoran",
+  },
   description:
     "Temukan produk UMKM unggulan dari Kemayoran, Gunung Putri, Bogor. Belanja langsung dari pengrajin lokal.",
+  keywords: [
+    "UMKM Kemayoran",
+    "produk lokal",
+    "katalog UMKM",
+    "UMKM Gunung Putri",
+    "produk UMKM Bogor",
+  ],
+  category: "shopping",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    siteName: "UMKM Kemayoran",
+    title: "UMKM Kemayoran — Katalog Digital Produk Lokal",
+    description:
+      "Jelajahi produk UMKM unggulan dan belanja langsung dari pelaku usaha lokal.",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -21,7 +45,7 @@ export default function RootLayout({ children }) {
         <OnboardingGate />
         <Navbar />
         <PageTransition>
-          <main className="min-h-screen pt-3 md:pt-4">{children}</main>
+          <main className="min-h-screen">{children}</main>
         </PageTransition>
         <Footer />
       </body>

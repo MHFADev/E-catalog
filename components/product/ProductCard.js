@@ -6,13 +6,13 @@ import Icon from '@/components/common/Icon'
 // Dipakai sebagai gambar kartu untuk produk yang tidak punya foto (images kosong),
 // misal produk contoh 1-15. Di halaman detail (/product/[id]) gambar tetap kosong.
 const CATEGORY_FALLBACK_IMAGES = {
-  kuliner: "/images/categories/kuliner.svg",
-  "fasion-aksesoris": "/images/categories/aksesoris-fashion.svg",
-  "camilan-minuman": "/images/categories/frozen-minuman.svg",
-  "frozen-food": "/images/categories/frozen-minuman.svg",
-  "masakan-siap-saji": "/images/categories/masakan-siap-saji.svg",
-  "makanan-hampers": "/images/categories/jajanan-hampers.svg",
-  "sembako-rumah-tangga": "/images/categories/sembako-rumah-tangga.svg",
+  kuliner: "/images/category-icons/kuliner.png",
+  "fasion-aksesoris": "/images/category-icons/fasion-aksesoris.png",
+  "camilan-minuman": "/images/category-icons/camilan-minuman.png",
+  "frozen-food": "/images/category-icons/frozen-food.png",
+  "masakan-siap-saji": "/images/category-icons/masakan-siap-saji.png",
+  "makanan-hampers": "/images/category-icons/makanan-hampers.png",
+  "sembako-rumah-tangga": "/images/category-icons/sembako-rumah-tangga.png",
 };
 
 // Harga produk: data pakai format campuran, rapikan di sini.
@@ -40,15 +40,16 @@ export default function ProductCard({ product, category }) {
   const [imgError, setImgError] = useState(false)
   // [FIX] Fallback gambar lama dipindah: kini /images/webp-2/camilan-ciangsana.webp
   // [PRODUK CONTOH] Jika produk tak punya foto, pakai ikon kategori sebagai gambar kartu.
-  const fallbackImg = CATEGORY_FALLBACK_IMAGES[product.categoryId] || '/images/webp-2/camilan-ciangsana.webp';
-  const productImg = imgError ? fallbackImg : (product.images?.[0] || fallbackImg)
+  const fallbackImg = CATEGORY_FALLBACK_IMAGES[product.categoryId] || "/images/webp-2/camilan-ciangsana.webp";
+  const hasProductImage = Boolean(product.images?.[0]) && !imgError;
+  const productImg = hasProductImage ? product.images[0] : fallbackImg;
   const price = priceParts(product)
   return (
-    <Link href={`/product/${product.id}`} className="group relative flex flex-col bg-white rounded-2xl overflow-hidden shadow-card ring-1 ring-black/5 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 hover:ring-forest/30">
-      <div className="relative aspect-square bg-cream-warm overflow-hidden">
-        <img src={productImg} alt={product.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onError={() => setImgError(true)} />
+    <Link href={`/product/${product.id}`} className="group relative flex h-full flex-col overflow-hidden rounded-[1.35rem] md:rounded-[1.75rem] bg-white shadow-card ring-1 ring-black/[0.045] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover hover:ring-forest/30 focus-visible:outline-none">
+      <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-cream-pure to-cream-warm">
+        <img src={productImg} alt={product.name} className={`h-full w-full transition-transform duration-500 group-hover:scale-105 ${hasProductImage ? "object-cover" : "object-contain p-4 md:p-6"}`} onError={() => setImgError(true)} />
         {category?.name && (
-          <span className="absolute top-2 left-2 md:top-3 md:left-3 px-2 md:px-2.5 py-0.5 md:py-1 text-[9px] md:text-[11px] font-semibold text-forest-dark glass rounded-full uppercase tracking-wide">
+          <span className="absolute top-2 left-2 md:top-3 md:left-3 px-2.5 py-1 text-[9px] md:text-[11px] font-bold text-forest-dark glass rounded-full uppercase tracking-wide shadow-sm">
             {category.name}
           </span>
         )}
@@ -58,11 +59,11 @@ export default function ProductCard({ product, category }) {
             <Icon name="star" size={10} /> Unggulan
           </span>
         )}
-        <span className="absolute inset-x-2 bottom-2 md:inset-x-3 md:bottom-3 flex items-center justify-center gap-1.5 py-2 text-xs md:text-sm font-bold text-white bg-forest/90 rounded-full opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 backdrop-blur-sm">
+        <span className="absolute inset-x-2 bottom-2 md:inset-x-3 md:bottom-3 flex items-center justify-center gap-1.5 rounded-full bg-forest/90 py-2 text-xs md:text-sm font-bold text-white opacity-100 translate-y-0 transition-all duration-300 backdrop-blur-sm md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0">
           <Icon name="shoppingBasket" size={14} /> Lihat Produk
         </span>
       </div>
-      <div className="p-2.5 md:p-4 flex flex-col gap-1 md:gap-1.5">
+      <div className="flex flex-1 flex-col gap-1.5 p-3 md:p-4.5">
         {/* [PO & HALAL] Badge status produk & kehalalan */}
         {(product.isPreOrder || (product.halalStatus === "halal" || product.halalStatus === "non_halal")) && (
           <div className="flex flex-wrap items-center gap-1.5">
@@ -83,9 +84,9 @@ export default function ProductCard({ product, category }) {
             )}
           </div>
         )}
-        <h3 className="text-xs md:text-base font-semibold text-noir leading-tight line-clamp-2">{product.name}</h3>
+        <h3 className="text-sm md:text-base font-bold text-noir leading-snug line-clamp-2">{product.name}</h3>
         {product.showPrice !== false && price ? (
-          <span className="text-sm md:text-lg font-bold text-forest leading-tight">
+          <span className="mt-0.5 text-base md:text-lg font-extrabold text-forest leading-tight">
             {price.main}
             {price.suffix && <span className="text-[10px] md:text-xs font-medium text-warm-gray ml-1">{price.suffix}</span>}
           </span>

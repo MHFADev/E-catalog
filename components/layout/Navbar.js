@@ -3,14 +3,14 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Icon from "@/components/common/Icon";
-import JoinModal from "@/components/common/JoinModal";
+
 import { useUser } from "@/lib/useUser";
 import { useSellerAccount } from "@/lib/useSellerAccount";
 import { createClient } from "@/lib/supabase/client";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [joinOpen, setJoinOpen] = useState(false);
+  
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
   const [term, setTerm] = useState("");
@@ -31,9 +31,7 @@ export default function Navbar() {
     setMenuOpen(false);
     setProfileOpen(false);
     setMobileProfileOpen(false);
-    // [POP UP DAFTAR UMKM] Tutup modal gabung saat pindah halaman,
-    // agar pop up tidak ikut tampil di halaman yang dituju
-    setJoinOpen(false);
+    
   }, [pathname]);
 
   useEffect(() => {
@@ -73,7 +71,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-cream-warm shadow-navbar">
+    <header className="sticky top-0 z-50 border-b border-cream-warm/80 bg-white/82 shadow-navbar backdrop-blur-xl supports-[backdrop-filter]:bg-white/72">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="h-14 md:h-16 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 shrink-0">
@@ -128,7 +126,7 @@ export default function Navbar() {
             {user && !isSeller && (
               <Link
                 href="/seller"
-                className="inline-flex items-center justify-center gap-2 px-5 h-11 text-sm font-semibold text-noir-soft hover:bg-white border border-create rounded-2xl transition-colors"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-forest/25 bg-white px-4 text-sm font-semibold text-forest transition-all hover:-translate-y-0.5 hover:border-forest hover:shadow-sm"
               >
                 <Icon name="arrowRight" size={15} /> Daftar UMKM
               </Link>
@@ -221,8 +219,9 @@ export default function Navbar() {
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-cream transition-colors"
-            aria-label="Menu"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-full border border-transparent hover:border-cream-warm hover:bg-cream transition-all"
+            aria-label="Menu navigasi"
+            aria-expanded={menuOpen}
           >
             {menuOpen ? (
               <Icon name="close" size={22} />
@@ -255,7 +254,7 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden border-t border-cream-warm bg-white">
+        <div className="menu-enter md:hidden border-t border-cream-warm bg-white/95 backdrop-blur-xl">
           <div className="px-4 py-3 space-y-1">
             {links.map((l) => {
               const isActive = pathname === l.href;
@@ -354,7 +353,7 @@ export default function Navbar() {
                 <Link
                   href="/seller"
                   onClick={() => setMenuOpen(false)}
-                  className="inline-flex items-center justify-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-noir-soft hover:bg-white border border-create w-full"
+                  className="inline-flex w-full items-center justify-center gap-3 rounded-xl border border-forest/25 bg-white px-4 py-3 text-base font-semibold text-forest transition-all hover:border-forest hover:bg-forest/5"
                 >
                   <Icon name="arrowRight" size={18} /> Daftar UMKM
                 </Link>
@@ -363,8 +362,7 @@ export default function Navbar() {
           </div>
         </div>
       )}
-
-      <JoinModal open={joinOpen} onClose={() => setJoinOpen(false)} />
+
     </header>
   );
 }

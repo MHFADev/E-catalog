@@ -1,21 +1,14 @@
 ﻿import Link from "next/link";
 import FeaturedProducts from "@/components/product/FeaturedProducts";
 import Icon from "@/components/common/Icon";
+import CategoryVisualIcon from "@/components/category/CategoryVisualIcon";
+
 import MultiPinMap from "@/components/common/MultiPinMap";
 import PartnerLogos from "@/components/common/PartnerLogos";
 import { getProducts, getSellers, getCategories } from "@/lib/catalog";
 import { getBanners } from "@/lib/banners";
 
-const catColors = [
-  "bg-clay/15 text-clay-deep",
-  "bg-forest/15 text-forest",
-  "bg-langit/15 text-laut",
-  "bg-amber-400/25 text-amber-600",
-  "bg-sky-500/15 text-sky-600",
-  "bg-rose-500/15 text-rose-500",
-  "bg-violet-500/15 text-violet-600",
-  "bg-emerald-500/15 text-emerald-600",
-];
+
 
 const events = [
   {
@@ -125,11 +118,11 @@ export default async function HomePage() {
   return (
     <>
       {/* ===== HERO + BANNER (video kiri, 2 banner statis kanan) ===== */}
-      <section className="relative overflow-clip bg-gradient-to-b from-cream-pure to-cream">
-        <div className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/5 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 w-64 h-64 rounded-full bg-clay/5 blur-3xl" />
+      <section className="relative overflow-clip bg-gradient-to-b from-cream-pure via-cream-pure to-cream">
+        <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/10 blur-3xl ambient-float" />
+        <div aria-hidden="true" className="absolute -bottom-20 left-1/3 w-64 h-64 rounded-full bg-langit/20 blur-3xl ambient-float" />
 
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-16">
+        <div className="relative max-w-7xl mx-auto px-4 md:px-6 py-7 sm:py-10 md:py-16 lg:py-20">
           <div
             className={`grid gap-3 sm:gap-4 md:gap-6 items-stretch ${
               banners?.length
@@ -138,7 +131,7 @@ export default async function HomePage() {
             }`}
           >
             {/* Card video (full-width 16/9 di mobile, kiri 16/10 di tablet/desktop) */}
-            <div className="relative aspect-video md:aspect-[16/10] min-w-0 min-h-0 max-h-full rounded-2xl sm:rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-forest/10 bg-slate-900">
+            <div className="relative aspect-video md:aspect-[16/10] min-w-0 min-h-0 max-h-full rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-[0_20px_45px_rgba(10,37,64,0.22)] ring-1 ring-forest/15 bg-hutan animate-[fadeInUp_0.7s_var(--ease-out-expo)_both]">
               <video
                 autoPlay
                 muted
@@ -153,9 +146,10 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
 
               <div className="absolute inset-0 flex flex-col items-center justify-end text-center p-4 sm:p-6 md:p-8 lg:p-10 text-white">
-                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight drop-shadow-md">
+                <p className="mb-2 inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">Pasar digital UMKM lokal</p>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.05] tracking-tight drop-shadow-md">
                   Bangga Produk{" "}
-                  <span className="text-white underline decoration-emerald-400 decoration-4 underline-offset-4">
+                  <span className="text-white underline decoration-langit decoration-[3px] sm:decoration-4 underline-offset-4">
                     Lokal Kemayoran
                   </span>
                 </h1>
@@ -167,7 +161,7 @@ export default async function HomePage() {
                 <div className="mt-3 md:mt-5 flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3">
                   <Link
                     href="/catalog"
-                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 text-white text-xs sm:text-sm font-bold hover:bg-emerald-700 shadow-lg shadow-black/20 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-forest text-white text-xs sm:text-sm font-bold hover:bg-forest-deep shadow-lg shadow-black/20 transition-all hover:-translate-y-0.5"
                   >
                     Jelajahi Produk <Icon name="arrowRight" size={14} />
                   </Link>
@@ -270,11 +264,12 @@ export default async function HomePage() {
       </section>
 
       {/* ===== KATEGORI POPULER ===== */}
-      <section className="py-10 md:py-16 bg-white">
+      <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex items-end justify-between mb-6 md:mb-10">
             <div>
-              <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight">
+              <span className="section-kicker">Mulai dari kebutuhanmu</span>
+              <h2 className="mt-2 text-xl md:text-3xl lg:text-4xl font-bold tracking-tight">
                 Kategori <span className="text-forest">Populer</span>
               </h2>
               <p className="text-xs md:text-sm text-warm-gray mt-1">
@@ -299,10 +294,13 @@ export default async function HomePage() {
                   href={`/catalog?category=${cat.id}`}
                   className="group flex flex-col items-center gap-2.5 md:gap-3 text-center"
                 >
-                  <span
-                    className={`flex items-center justify-center w-14 h-14 md:w-20 md:h-20 rounded-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg ${catColors[i % catColors.length]}`}
-                  >
-                    <Icon name={cat.icon} size={24} className="md:w-8 md:h-8" />
+                  <span className="relative flex items-center justify-center w-16 h-16 md:w-24 md:h-24 rounded-[22px] md:rounded-[28px] bg-[#FFF9EF] border border-cream-warm/80 shadow-[0_7px_18px_rgba(91,57,31,0.11)] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:rotate-2 group-hover:shadow-[0_14px_24px_rgba(91,57,31,0.18)]">
+                    <span className="absolute inset-1.5 rounded-[17px] md:rounded-[22px] bg-gradient-to-br from-white to-[#F7E8D0] opacity-80" />
+                    <CategoryVisualIcon
+                      category={cat}
+                      className="relative z-10 w-12 h-12 md:w-[4.5rem] md:h-[4.5rem] drop-shadow-[0_4px_2px_rgba(80,44,18,0.18)] transition-transform duration-300 group-hover:scale-110"
+                      fallbackSize={30}
+                    />
                   </span>
                   <span className="text-xs md:text-sm font-semibold text-noir-soft group-hover:text-forest transition-colors leading-tight">
                     {cat.name}
@@ -368,19 +366,19 @@ export default async function HomePage() {
       {/* ===== STATISTIK =====
           Section hijau dipersempit (tidak full-width): diberi margin
           horizontal + sudut membulat agar tampak seperti kartu. */}
-      <section className="relative overflow-hidden bg-emerald-900 rounded-2xl md:rounded-3xl mx-2 md:mx-4 lg:mx-6 py-10 md:py-14">
+      <section className="relative overflow-hidden bg-hutan rounded-[1.75rem] md:rounded-[2.5rem] mx-3 md:mx-5 lg:mx-8 py-11 md:py-16 shadow-[0_22px_46px_rgba(10,37,64,0.18)]">
         <div className="absolute inset-0 opacity-[0.04]" />
         {/* Konten dipersempit (max-w-4xl) dan jarak antar lingkaran dikurangi
             (gap-2 mobile, gap-6 md+) agar ke-4 lingkaran tampak lebih dekat */}
         <div className="relative max-w-4xl mx-auto px-4 md:px-6">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center text-white mb-8 md:mb-12">
-            UMKM Kemayoran <span className="text-emerald">Dalam Angka</span>
+            UMKM Kemayoran <span className="text-langit">Dalam Angka</span>
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6">
             {stats.map((s, i) => (
               <div
                 key={i}
-                className="flex flex-col items-center justify-center text-center bg-white/5 border border-white/10 rounded-full aspect-square w-full max-w-[132px] md:max-w-[190px] lg:max-w-none mx-auto p-2.5 md:p-5"
+                className="flex flex-col items-center justify-center text-center bg-white/[0.07] border border-white/15 rounded-[1.5rem] md:rounded-[2rem] aspect-square w-full max-w-[132px] md:max-w-[190px] lg:max-w-none mx-auto p-2.5 md:p-5 backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1"
               >
                 <div className="text-xl md:text-4xl font-bold text-white leading-none">
                   {s.value}
@@ -395,7 +393,7 @@ export default async function HomePage() {
       </section>
 
       {/* ===== MENGAPA MEMILIH ===== */}
-      <section className="py-10 md:py-16 bg-white">
+      <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
             Mengapa Memilih <span className="text-forest">Kami</span>
@@ -498,7 +496,7 @@ export default async function HomePage() {
       </section>
 
       {/* ===== TESTIMONI ===== */}
-      <section className="py-10 md:py-16 bg-white">
+      <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
             Apa Kata <span className="text-forest">Mereka</span>
@@ -556,9 +554,9 @@ export default async function HomePage() {
       </section>
 
       {/* ===== CTA ===== */}
-      <section className="py-10 md:py-16 bg-white">
+      <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="rounded-2xl md:rounded-3xl overflow-hidden bg-hutan relative px-6 md:px-14 py-10 md:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden bg-hutan relative px-6 md:px-14 py-10 md:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-[0_18px_42px_rgba(10,37,64,0.16)]">
             <div className="relative z-10">
               <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-white leading-tight">
                 Punya Usaha di Kemayoran?
@@ -572,7 +570,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/gabung"
-              className="relative z-10 inline-flex items-center gap-2 px-6 md:px-8 py-3.5 rounded-full bg-clay text-white text-sm md:text-base font-bold hover:bg-clay-deep shadow-card transition-all hover:shadow-card-hover shrink-0"
+              className="relative z-10 inline-flex items-center gap-2 px-6 md:px-8 py-3.5 rounded-full bg-forest text-white text-sm md:text-base font-bold hover:bg-forest-deep shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5 shrink-0"
             >
               Daftar Sekarang <Icon name="arrowRight" size={16} />
             </Link>
