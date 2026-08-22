@@ -4,7 +4,7 @@ import { useState } from "react";
 import Icon from "@/components/common/Icon";
 
 /**
- * Ikon kategori ilustratif bertekstur hand-drawn semi-3D.
+ * Ikon kategori PNG gambar tangan 2D dengan garis organik bergaya signage lokal.
  * Aset dipetakan dengan id kategori agar tetap bekerja untuk data Supabase maupun JSON fallback.
  */
 export default function CategoryVisualIcon({
@@ -25,6 +25,7 @@ export default function CategoryVisualIcon({
       alt=""
       aria-hidden="true"
       draggable="false"
+      decoding="async"
       className={`object-contain select-none ${className}`}
       onError={() => setFailed(true)}
     />
