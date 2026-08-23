@@ -4,17 +4,15 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { deleteCategory } from "../actions";
+import ActionConfirmDialog from "@/components/common/ActionConfirmDialog";
 
 export default function CategoryActions({ categoryId }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const handleDelete = () => {
-    if (!window.confirm("Hapus kategori ini? Kategori yang masih dipakai produk tidak dapat dihapus.")) {
-      return;
-    }
-
     startTransition(async () => {
       setError("");
       const formData = new FormData();
@@ -22,6 +20,7 @@ export default function CategoryActions({ categoryId }) {
 
       try {
         await deleteCategory(formData);
+        setDeleteOpen(false);
         router.refresh();
       } catch (deleteError) {
         setError(deleteError?.message || "Kategori gagal dihapus.");
@@ -40,14 +39,25 @@ export default function CategoryActions({ categoryId }) {
         </Link>
         <button
           type="button"
-          onClick={handleDelete}
+          onClick={() => setDeleteOpen(true)}
           disabled={isPending}
           className="px-3 py-1.5 text-xs font-semibold rounded-full bg-red-50 text-red-700 hover:bg-red-100 transition-all disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isPending ? "Menghapus..." : "Hapus"}
         </button>
       </div>
-      {error && <p className="mt-2 text-[11px] leading-relaxed text-red-700">{error}</p>}
+      {error && <p className="mt-2 text-[11px] leading-relaxed text-red-700" role="alert">{error}</p>}
+      <ActionConfirmDialog
+        open={deleteOpen}
+        title="Hapus kategori ini?"
+        description="Kategori akan dihapus bila sudah tidak dipakai oleh produk. Pindahkan atau hapus produk terkait terlebih dahulu bila sistem menolaknya."
+        confirmLabel="Ya, hapus kategori"
+        icon="trashFilled"
+        tone="danger"
+        busy={isPending}
+        onCancel={() => !isPending && setDeleteOpen(false)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

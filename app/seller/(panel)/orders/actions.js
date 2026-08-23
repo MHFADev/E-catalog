@@ -19,8 +19,11 @@ async function requireSellerOrder(orderId) {
   return { order, supabase };
 }
 
-async function setOrderStatus(orderId, status, extra = {}) {
+async function setOrderStatus(orderId, status, allowedCurrentStatuses, extra = {}) {
   const { order, supabase } = await requireSellerOrder(orderId);
+  if (!allowedCurrentStatuses.includes(order.status)) {
+    throw new Error("Status pesanan sudah berubah. Muat ulang halaman sebelum melanjutkan.");
+  }
   const payload = { status, ...extra, updated_at: new Date().toISOString() };
   const { error } = await supabase.from("orders").update(payload).eq("id", order.id);
   if (error) throw new Error(error.message);
@@ -31,7 +34,7 @@ async function setOrderStatus(orderId, status, extra = {}) {
 export async function processOrder(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
-  await setOrderStatus(id, "diproses");
+  await setOrderStatus(id, "diproses", ["menunggu_konfirmasi", "menunggu_verifikasi"]);
 }
 
 // Penjual TOLAK pesanan karena dana belum masuk / bukti tidak valid.
@@ -39,12 +42,17 @@ export async function rejectOrder(formData) {
   const id = formData.get("id");
   const reason = (formData.get("reason") || "").toString().trim();
   if (!id) throw new Error("Parameter salah");
-  await setOrderStatus(id, "ditolak", { rejection_reason: reason || null });
+  await setOrderStatus(
+    id,
+    "ditolak",
+    ["menunggu_konfirmasi", "menunggu_verifikasi"],
+    { rejection_reason: reason || null },
+  );
 }
 
 // Pesanan selesai dikirim / diserahkan.
 export async function completeOrder(formData) {
   const id = formData.get("id");
   if (!id) throw new Error("Parameter salah");
-  await setOrderStatus(id, "selesai");
+  await setOrderStatus(id, "selesai", ["diproses"]);
 }

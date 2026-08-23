@@ -16,6 +16,7 @@ const links = [
   { href: "/admin/categories", label: "Kategori", icon: "tag" },
   { href: "/admin/articles", label: "Artikel", icon: "file" },
   { href: "/admin/accounts", label: "Akun Penjual", icon: "users" },
+  { href: "/admin/buyers", label: "Pembeli & Pembelian", icon: "shoppingBagFilled" },
   { href: "/admin/reviews", label: "Komentar", icon: "star" },
   { href: "/admin/messages", label: "Pesan", icon: "send" },
   { href: "/admin/join", label: "Permintaan Gabung", icon: "whatsapp" },

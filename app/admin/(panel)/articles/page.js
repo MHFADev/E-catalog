@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
+import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
 import { createAdminClient } from "@/lib/supabase/admin";
 import ArticleForm from "./ArticleForm";
 import { deleteArticle } from "../actions";
@@ -68,12 +69,12 @@ export default async function AdminArticlesPage() {
               >
                 Edit
               </Link>
-              <form action={deleteArticle}>
-                <input type="hidden" name="id" value={a.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
-                  Hapus
-                </button>
-              </form>
+              <DeleteConfirmButton
+                action={deleteArticle}
+                id={a.id}
+                entityLabel={`artikel “${a.title}”`}
+                description={`Artikel “${a.title}” akan dihapus permanen dan tidak lagi dapat diakses oleh pengunjung.`}
+              />
             </div>
           </div>
         ))}

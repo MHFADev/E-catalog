@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
+import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
 import { createAdminClient } from "@/lib/supabase/admin";
 import SellerForm from "./SellerForm";
 import { deleteSeller } from "../actions";
@@ -67,12 +68,12 @@ export default async function AdminSellersPage() {
               >
                 Edit
               </Link>
-              <form action={deleteSeller}>
-                <input type="hidden" name="id" value={s.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-all">
-                  Hapus
-                </button>
-              </form>
+              <DeleteConfirmButton
+                action={deleteSeller}
+                id={s.id}
+                entityLabel={`toko “${s.name}”`}
+                description={`Toko “${s.name}” akan dihapus dari katalog. Produk yang masih terhubung harus ditangani terlebih dahulu agar data tidak hilang tanpa sengaja.`}
+              />
             </div>
           </div>
         ))}

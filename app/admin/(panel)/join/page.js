@@ -1,5 +1,6 @@
 ﻿import Icon from "@/components/common/Icon";
 import { createAdminClient } from "@/lib/supabase/admin";
+import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
 import { approveJoin, rejectJoin, deleteJoin } from "../actions";
 
 const statusBadge = {
@@ -150,12 +151,12 @@ export default async function AdminJoinPage() {
                   </button>
                 </form>
               )}
-              <form action={deleteJoin}>
-                <input type="hidden" name="id" value={j.id} />
-                <button className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
-                  <Icon name="trashFilled" size={13} /> Hapus
-                </button>
-              </form>
+              <DeleteConfirmButton
+                action={deleteJoin}
+                id={j.id}
+                entityLabel="permintaan gabung ini"
+                description="Permintaan gabung akan dihapus permanen dari antrean administrasi. Pastikan data pemohon tidak lagi diperlukan sebelum melanjutkan."
+              />
             </div>
           </div>
         ))}

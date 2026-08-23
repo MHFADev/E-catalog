@@ -411,10 +411,10 @@ export default async function ProductDetailPage({ params }) {
                   Beli Sekarang — Bayar Manual
                 </Link>
               )}
-              <a href={waLink} target="_blank" rel="noopener noreferrer" className="btn-wa w-full py-3 text-sm md:py-3.5 md:text-base">
+              <Link href={`/product/${product.id}/checkout?mode=whatsapp`} className="btn-wa w-full py-3 text-sm md:py-3.5 md:text-base">
                 <Icon name="whatsapp" size={18} />
-                Hubungi Penjual via WhatsApp
-              </a>
+                Pesan via WhatsApp
+              </Link>
               {waLinkAlt && (
                 <a href={waLinkAlt} target="_blank" rel="noopener noreferrer" className="btn-secondary w-full py-3 text-sm md:py-3.5 md:text-base">
                   <Icon name="phone" size={16} />
@@ -467,16 +467,14 @@ export default async function ProductDetailPage({ params }) {
                 <span>Beli</span>
               </Link>
             )}
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={`/product/${product.id}/checkout?mode=whatsapp`}
               className={`btn-wa shrink-0 px-0 ${showPrice ? "w-12" : "flex-1 px-3.5"}`}
-              aria-label="Hubungi penjual via WhatsApp"
+              aria-label="Pesan via WhatsApp"
             >
               <Icon name="whatsapp" size={18} />
-              {!showPrice && <span>Hubungi</span>}
-            </a>
+              {!showPrice && <span>Pesan</span>}
+            </Link>
           </div>
         </div>
       </div>

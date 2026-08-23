@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Icon from "@/components/common/Icon";
+import ActionConfirmDialog from "@/components/common/ActionConfirmDialog";
 import PaymentLogo from "@/components/common/PaymentLogo";
 import { compressImage } from "@/lib/compressImage";
 import { savePaymentMethod, togglePaymentMethod, deletePaymentMethod } from "@/app/seller/(panel)/payment/actions";
@@ -52,7 +53,23 @@ const typeMeta = {
 function MethodRow({ method }) {
   const [busy, setBusy] = useState("");
   const [err, setErr] = useState("");
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const meta = typeMeta[method.method_type] || typeMeta.bank;
+
+  async function removeMethod() {
+    const formData = new FormData();
+    formData.set("id", method.id);
+    setBusy("del");
+    setErr("");
+    try {
+      await deletePaymentMethod(formData);
+      setDeleteOpen(false);
+    } catch (exception) {
+      setErr(exception.message || "Metode pembayaran belum dapat dihapus.");
+    } finally {
+      setBusy("");
+    }
+  }
 
   return (
     <div className="bg-cream-pure border border-cream-warm rounded-xl p-3 md:p-4">
@@ -127,30 +144,28 @@ function MethodRow({ method }) {
               {method.is_active ? "Aktif" : "Nonaktif"}
             </button>
           </form>
-          <form
-            action={async (fd) => {
-              setBusy("del");
-              setErr("");
-              try {
-                await deletePaymentMethod(fd);
-              } catch (e) {
-                setErr(e.message || "Gagal.");
-              }
-              setBusy("");
-            }}
+          <button
+            type="button"
+            disabled={busy === "del"}
+            onClick={() => setDeleteOpen(true)}
+            className="px-3 py-1.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 transition-all disabled:opacity-50"
           >
-            <input type="hidden" name="id" value={method.id} />
-            <button
-              type="submit"
-              disabled={busy === "del"}
-              className="px-3 py-1.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition-all disabled:opacity-50"
-            >
-              Hapus
-            </button>
-          </form>
+            Hapus
+          </button>
         </div>
       </div>
-      {err && <p className="text-[11px] text-red-600 mt-1.5">{err}</p>}
+      {err && <p className="text-[11px] text-red-700 mt-1.5" role="alert">{err}</p>}
+      <ActionConfirmDialog
+        open={deleteOpen}
+        title="Hapus metode pembayaran?"
+        description={`Metode ${method.label || meta.title} akan dihapus dari toko Anda dan tidak lagi ditampilkan kepada pembeli. Tindakan ini tidak dapat dibatalkan.`}
+        confirmLabel="Ya, hapus metode"
+        icon="trashFilled"
+        tone="danger"
+        busy={busy === "del"}
+        onCancel={() => !busy && setDeleteOpen(false)}
+        onConfirm={removeMethod}
+      />
     </div>
   );
 }

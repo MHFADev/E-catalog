@@ -1,5 +1,6 @@
 ﻿import { createAdminClient } from "@/lib/supabase/admin";
 import Icon from "@/components/common/Icon";
+import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
 import { setReviewStatus, deleteReview } from "../actions";
 
 const statusBadge = {
@@ -91,12 +92,12 @@ export default async function AdminReviewsPage() {
                   </button>
                 </form>
               )}
-              <form action={deleteReview}>
-                <input type="hidden" name="id" value={r.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
-                  Hapus
-                </button>
-              </form>
+              <DeleteConfirmButton
+                action={deleteReview}
+                id={r.id}
+                entityLabel="ulasan ini"
+                description={`Ulasan dari ${r.name} untuk ${r.products?.name || "produk ini"} akan dihapus permanen dan tidak lagi tampil di katalog.`}
+              />
             </div>
           </div>
         ))}

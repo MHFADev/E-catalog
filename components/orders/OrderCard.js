@@ -1,24 +1,43 @@
 "use client";
+
 import { useState } from "react";
 import Icon from "@/components/common/Icon";
-import { processOrder, rejectOrder, completeOrder } from "@/app/seller/(panel)/orders/actions";
-
-// ============================================================
-// Kartu pesanan untuk penjual. Saat status 'Menunggu Verifikasi',
-// menampilkan PERINGATAN KEAMANAN yang mencolok + bukti transfer
-// pembeli + dua tombol: "Verifikasi & Proses" / "Tolak (Dana Tidak Masuk)".
-// ============================================================
+import ActionConfirmDialog from "@/components/common/ActionConfirmDialog";
+import {
+  processOrder,
+  rejectOrder,
+  completeOrder,
+} from "@/app/seller/(panel)/orders/actions";
 
 export const ORDER_STATUS = {
-  menunggu_verifikasi: { label: "Menunggu Verifikasi", cls: "bg-amber-100 text-amber-700" },
-  diproses: { label: "Diproses", cls: "bg-sky-100 text-sky-700" },
-  selesai: { label: "Selesai", cls: "bg-emerald-100 text-emerald-700" },
-  ditolak: { label: "Ditolak", cls: "bg-red-100 text-red-700" },
-  dibatalkan: { label: "Dibatalkan", cls: "bg-gray-100 text-gray-600" },
+  menunggu_konfirmasi: {
+    label: "Menunggu Konfirmasi WA",
+    cls: "bg-sky-100 text-sky-800 border border-sky-200",
+  },
+  menunggu_verifikasi: {
+    label: "Menunggu Verifikasi",
+    cls: "bg-amber-100 text-amber-800 border border-amber-200",
+  },
+  diproses: {
+    label: "Diproses",
+    cls: "bg-violet-100 text-violet-800 border border-violet-200",
+  },
+  selesai: {
+    label: "Selesai",
+    cls: "bg-emerald-100 text-emerald-800 border border-emerald-200",
+  },
+  ditolak: {
+    label: "Ditolak",
+    cls: "bg-red-100 text-red-800 border border-red-200",
+  },
+  dibatalkan: {
+    label: "Dibatalkan",
+    cls: "bg-gray-100 text-gray-700 border border-gray-200",
+  },
 };
 
 const WARNING_TEXT =
-  "⚠️ PERINGATAN KEAMANAN: Jangan langsung memproses pesanan. Selalu cek mutasi rekening atau aplikasi e-wallet Anda untuk memastikan dana BENAR-BENAR sudah masuk. Waspada bukti transfer palsu atau editan!";
+  "Jangan langsung memproses pesanan. Cek mutasi rekening atau aplikasi e-wallet Anda untuk memastikan dana benar-benar sudah masuk. Waspadai bukti transfer palsu atau hasil edit.";
 
 function fmtDate(iso) {
   return new Date(iso).toLocaleString("id-ID", {
@@ -30,224 +49,225 @@ function fmtDate(iso) {
   });
 }
 
-function formatMoney(n) {
-  return n != null ? `Rp${Number(n).toLocaleString("id-ID")}` : "Hubungi penjual";
+function formatMoney(value) {
+  return value != null ? `Rp${Number(value).toLocaleString("id-ID")}` : "Konfirmasi harga";
 }
 
 export default function OrderCard({ order }) {
   const [busy, setBusy] = useState("");
-  const [err, setErr] = useState("");
-  const [showReject, setShowReject] = useState(false);
+  const [error, setError] = useState("");
+  const [rejectOpen, setRejectOpen] = useState(false);
+  const [rejectionReason, setRejectionReason] = useState("");
 
   const status = ORDER_STATUS[order.status] || ORDER_STATUS.dibatalkan;
-  const pending = order.status === "menunggu_verifikasi";
-  const processing = order.status === "diproses";
-  const pay = order.payment_methods;
+  const isManualVerification = order.status === "menunggu_verifikasi";
+  const isWhatsAppConfirmation = order.status === "menunggu_konfirmasi";
+  const isProcessing = order.status === "diproses";
+  const isWhatsApp = order.order_channel === "whatsapp";
+  const payment = order.payment_methods;
   const product = order.products;
 
+  async function runAction(action) {
+    const handlers = {
+      process: processOrder,
+      reject: rejectOrder,
+      complete: completeOrder,
+    };
+    const formData = new FormData();
+    formData.set("id", order.id);
+    if (action === "reject" && rejectionReason.trim()) {
+      formData.set("reason", rejectionReason.trim());
+    }
+
+    setBusy(action);
+    setError("");
+    try {
+      await handlers[action](formData);
+      setRejectOpen(false);
+    } catch (exception) {
+      setError(exception.message || "Tindakan belum dapat diproses.");
+    } finally {
+      setBusy("");
+    }
+  }
+
   return (
-    <div className="bg-white rounded-2xl border border-cream-warm overflow-hidden">
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-4 md:px-5 py-3 border-b border-cream-warm bg-cream-pure/60">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="font-mono text-xs md:text-sm font-bold text-noir truncate">
-            {order.order_number}
+    <article className="overflow-hidden rounded-2xl border border-cream-warm bg-white">
+      <header className="flex flex-wrap items-center justify-between gap-2 border-b border-cream-warm bg-cream-pure/60 px-4 py-3 md:px-5">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
+          <span className="font-mono text-xs font-bold text-noir md:text-sm">{order.order_number}</span>
+          <span className="text-[10px] text-warm-gray md:text-xs">{fmtDate(order.created_at)}</span>
+        </div>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold md:text-xs ${status.cls}`}>
+            {status.label}
           </span>
-          <span className="text-[10px] md:text-xs text-warm-gray shrink-0">
-            {fmtDate(order.created_at)}
+          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold md:text-xs ${isWhatsApp ? "bg-emerald-50 text-emerald-700" : "bg-violet-50 text-violet-700"}`}>
+            <Icon name={isWhatsApp ? "whatsapp" : "money"} size={11} />
+            {isWhatsApp ? "WhatsApp" : "Transfer"}
           </span>
         </div>
-        <span
-          className={`px-2.5 py-1 rounded-full text-[10px] md:text-xs font-bold ${
-            status.cls
-          }`}
-        >
-          {status.label}
-        </span>
-      </div>
+      </header>
 
-      <div className="grid md:grid-cols-[1fr_auto] gap-4 md:gap-6 p-4 md:p-5">
-        {/* Info pesanan & pembeli */}
-        <div className="min-w-0 space-y-2 text-xs md:text-sm">
+      <div className="grid gap-4 p-4 md:grid-cols-[1fr_auto] md:gap-6 md:p-5">
+        <div className="min-w-0 space-y-3 text-xs md:text-sm">
           <div className="flex items-start gap-3">
-            {product?.images?.[0] && (
+            {product?.images?.[0] ? (
               <img
                 src={product.images[0]}
                 alt={product?.name || "Produk"}
-                className="w-12 h-12 rounded-xl object-cover border border-cream-warm shrink-0"
+                className="h-12 w-12 shrink-0 rounded-xl border border-cream-warm object-cover"
               />
+            ) : (
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cream-pure text-forest">
+                <Icon name="package" size={18} />
+              </span>
             )}
             <div className="min-w-0">
-              <div className="font-semibold text-noir truncate">
-                {product?.name || "Produk"}
-              </div>
-              <div className="text-warm-gray">
-                {order.quantity} pcs • {formatMoney(order.total)}
-              </div>
+              <p className="truncate font-semibold text-noir">{product?.name || "Produk"}</p>
+              <p className="text-warm-gray">{order.quantity} item · {formatMoney(order.total)}</p>
             </div>
           </div>
 
-          <div className="border-t border-cream-warm pt-2 text-warm-gray leading-relaxed">
-            <div>
-              <span className="font-semibold text-noir">Pemesan:</span>{" "}
-              {order.buyer_name}
+          <div className="grid gap-3 border-t border-cream-warm pt-3 sm:grid-cols-2">
+            <div className="min-w-0 text-warm-gray leading-relaxed">
+              <p className="text-[10px] font-bold uppercase tracking-wide text-warm-gray">Data pemesan</p>
+              <p className="mt-0.5 font-semibold text-noir">{order.buyer_name}</p>
+              {order.buyer_phone && <p>WhatsApp: +{order.buyer_phone}</p>}
+              {order.buyer_country && <p>Negara: {order.buyer_country}</p>}
             </div>
-            {order.buyer_phone && <div>📱 {order.buyer_phone}</div>}
-            {order.buyer_address && <div>📍 {order.buyer_address}</div>}
-            {order.notes && (
-              <div className="italic">“{order.notes}”</div>
-            )}
-            {pay && (
-              <div className="mt-1">
-                <span className="font-semibold text-noir">Bayar via:</span>{" "}
-                {pay.label || pay.method_type}
-                {pay.account_number ? ` (${pay.account_number})` : ""}
-              </div>
-            )}
-            {order.status === "ditolak" && order.rejection_reason && (
-              <div className="mt-2 text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-                Alasan tolak: {order.rejection_reason}
-              </div>
-            )}
+            <div className="min-w-0 text-warm-gray leading-relaxed">
+              <p className="text-[10px] font-bold uppercase tracking-wide text-warm-gray">Pengiriman & catatan</p>
+              <p className="mt-0.5">{order.buyer_address || "Alamat belum diisi"}</p>
+              {order.notes && <p className="mt-1 italic">“{order.notes}”</p>}
+            </div>
           </div>
+
+          {payment && (
+            <p className="rounded-xl border border-cream-warm bg-cream-pure px-3 py-2 text-warm-gray">
+              <span className="font-semibold text-noir">Metode transfer:</span> {payment.label || payment.method_type}
+              {payment.account_number ? ` (${payment.account_number})` : ""}
+            </p>
+          )}
+
+          {order.status === "ditolak" && order.rejection_reason && (
+            <p className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-red-700">
+              <span className="font-semibold">Alasan penolakan:</span> {order.rejection_reason}
+            </p>
+          )}
         </div>
 
-        {/* Bukti transfer + aksi (khusus menunggu verifikasi) */}
-        {pending && (
-          <div className="md:w-[320px] space-y-3">
+        {isManualVerification && (
+          <aside className="space-y-3 md:w-80">
             <div>
-              <div className="flex items-center gap-1.5 text-xs font-bold text-noir mb-2">
-                <Icon name="image" size={14} className="text-forest" />
-                Bukti Transfer Pembeli
-              </div>
+              <p className="mb-2 flex items-center gap-1.5 text-xs font-bold text-noir">
+                <Icon name="image" size={14} className="text-forest" /> Bukti transfer pembeli
+              </p>
               {order.receipt_path ? (
                 <img
                   src={`/api/orders/${order.id}/receipt`}
                   alt="Bukti transfer pembeli"
-                  className="w-full max-w-[280px] aspect-[3/4] object-contain bg-cream-warm rounded-xl border border-cream-warm"
+                  className="aspect-[3/4] w-full max-w-[280px] rounded-xl border border-cream-warm bg-cream-warm object-contain"
                 />
               ) : (
-                <div className="text-[11px] text-warm-gray bg-cream-warm rounded-xl px-3 py-4 text-center">
-                  Tidak ada bukti transfer diunggah.
-                </div>
+                <p className="rounded-xl bg-cream-warm px-3 py-4 text-center text-[11px] text-warm-gray">Tidak ada bukti transfer diunggah.</p>
               )}
             </div>
-
-            {/* Peringatan keamanan anti-fraud (WAJIB tampil) */}
-            <div className="bg-red-600 text-white rounded-xl p-3 md:p-4 text-[11px] md:text-xs font-semibold leading-relaxed shadow-lg ring-2 ring-red-600 ring-offset-2">
+            <div className="rounded-xl bg-red-600 p-3 text-[11px] font-semibold leading-relaxed text-white shadow-lg ring-2 ring-red-600 ring-offset-2">
               {WARNING_TEXT}
             </div>
-
-            {/* Aksi verifikasi */}
             <div className="space-y-2">
-              <form
-                action={async (fd) => {
-                  setBusy("process");
-                  setErr("");
-                  try {
-                    await processOrder(fd);
-                  } catch (e) {
-                    setErr(e.message || "Gagal memproses.");
-                  }
-                  setBusy("");
-                }}
+              <button
+                type="button"
+                disabled={busy === "process"}
+                onClick={() => runAction("process")}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white transition-all hover:bg-emerald-700 disabled:opacity-60"
               >
-                <input type="hidden" name="id" value={order.id} />
-                <button
-                  type="submit"
-                  disabled={busy === "process"}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white text-sm font-bold transition-all"
-                >
-                  {busy === "process" ? (
-                    <span className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                  ) : (
-                    <Icon name="check" size={16} />
-                  )}
-                  Verifikasi &amp; Proses
-                </button>
-              </form>
-
-              {showReject ? (
-                <form
-                  action={async (fd) => {
-                    setBusy("reject");
-                    setErr("");
-                    try {
-                      await rejectOrder(fd);
-                    } catch (e) {
-                      setErr(e.message || "Gagal menolak.");
-                    }
-                    setBusy("");
-                  }}
-                  className="space-y-2"
-                >
-                  <input type="hidden" name="id" value={order.id} />
-                  <input
-                    name="reason"
-                    placeholder="Alasan penolakan (opsional, mis. dana belum masuk)"
-                    className="w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2 text-xs text-noir placeholder:text-muted focus:outline-none focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                  />
-                  <div className="flex gap-2">
-                    <button
-                      type="submit"
-                      disabled={busy === "reject"}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white text-xs font-bold transition-all"
-                    >
-                      {busy === "reject" ? "Menolak..." : "Konfirmasi Tolak"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setShowReject(false)}
-                      className="px-3 py-2.5 rounded-xl bg-cream-warm text-noir-soft text-xs font-semibold"
-                    >
-                      Batal
-                    </button>
-                  </div>
-                </form>
-              ) : (
-                <button
-                  onClick={() => setShowReject(true)}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-bold transition-all"
-                >
-                  <Icon name="ban" size={16} />
-                  Tolak (Dana Tidak Masuk)
-                </button>
-              )}
+                {busy === "process" ? "Memproses..." : <><Icon name="check" size={16} /> Verifikasi & Proses</>}
+              </button>
+              <button
+                type="button"
+                onClick={() => setRejectOpen(true)}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-3 text-sm font-bold text-white transition-all hover:bg-red-700"
+              >
+                <Icon name="ban" size={16} /> Tolak pesanan
+              </button>
             </div>
-          </div>
+          </aside>
         )}
 
-        {/* Aksi selesai */}
-        {processing && (
-          <div className="md:w-[220px] flex flex-col justify-center">
-            <form
-              action={async (fd) => {
-                setBusy("complete");
-                setErr("");
-                try {
-                  await completeOrder(fd);
-                } catch (e) {
-                  setErr(e.message || "Gagal.");
-                }
-                setBusy("");
-              }}
-            >
-              <input type="hidden" name="id" value={order.id} />
-              <button
-                type="submit"
-                disabled={busy === "complete"}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-forest hover:bg-forest-deep disabled:opacity-60 text-white text-sm font-bold transition-all"
+        {isWhatsAppConfirmation && (
+          <aside className="space-y-3 md:w-80">
+            <div className="rounded-2xl border border-sky-200 bg-sky-50 p-4 text-xs leading-relaxed text-sky-900">
+              <p className="flex items-center gap-1.5 font-bold"><Icon name="whatsapp" size={14} /> Pesanan dari WhatsApp</p>
+              <p className="mt-1 text-sky-800">Konfirmasi ketersediaan, ongkir, dan cara pembayaran melalui percakapan dengan pembeli sebelum mulai memproses pesanan.</p>
+            </div>
+            {order.buyer_phone && (
+              <a
+                href={`https://wa.me/${order.buyer_phone}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-wa w-full py-3 text-sm"
               >
-                Tandai Selesai
-              </button>
-            </form>
-          </div>
+                <Icon name="whatsapp" size={16} /> Hubungi pembeli
+              </a>
+            )}
+            <button
+              type="button"
+              disabled={busy === "process"}
+              onClick={() => runAction("process")}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white transition-all hover:bg-emerald-700 disabled:opacity-60"
+            >
+              {busy === "process" ? "Memproses..." : <><Icon name="check" size={16} /> Konfirmasi & Proses</>}
+            </button>
+            <button
+              type="button"
+              onClick={() => setRejectOpen(true)}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-3 text-sm font-bold text-white transition-all hover:bg-red-700"
+            >
+              <Icon name="ban" size={16} /> Tolak pesanan
+            </button>
+          </aside>
+        )}
+
+        {isProcessing && (
+          <aside className="flex flex-col justify-center md:w-56">
+            <button
+              type="button"
+              disabled={busy === "complete"}
+              onClick={() => runAction("complete")}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-forest px-4 py-3 text-sm font-bold text-white transition-all hover:bg-forest-deep disabled:opacity-60"
+            >
+              {busy === "complete" ? "Menyimpan..." : <><Icon name="check" size={16} /> Tandai selesai</>}
+            </button>
+          </aside>
         )}
       </div>
 
-      {err && (
-        <p className="px-4 pb-3 text-xs text-red-600">{err}</p>
-      )}
-    </div>
+      {error && <p className="px-4 pb-3 text-xs text-red-700" role="alert">{error}</p>}
+
+      <ActionConfirmDialog
+        open={rejectOpen}
+        title="Tolak pesanan ini?"
+        description="Pesanan akan ditandai sebagai ditolak. Pembeli akan melihat status ini pada riwayat pesanan mereka."
+        confirmLabel="Ya, tolak pesanan"
+        icon="ban"
+        tone="danger"
+        busy={busy === "reject"}
+        onCancel={() => !busy && setRejectOpen(false)}
+        onConfirm={() => runAction("reject")}
+      >
+        <label className="block">
+          <span className="mb-1 block text-xs font-semibold text-noir">Alasan penolakan <span className="font-normal text-warm-gray">(opsional)</span></span>
+          <textarea
+            value={rejectionReason}
+            onChange={(event) => setRejectionReason(event.target.value.slice(0, 500))}
+            rows={3}
+            placeholder="Contoh: stok habis atau alamat belum dapat dijangkau"
+            className="w-full resize-y rounded-xl border border-cream-warm bg-cream-pure px-3 py-2 text-xs text-noir placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-red-100"
+          />
+        </label>
+      </ActionConfirmDialog>
+    </article>
   );
 }

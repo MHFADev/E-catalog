@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 
 const TABS = [
   { key: "", label: "Semua" },
+  { key: "menunggu_konfirmasi", label: "Perlu Konfirmasi" },
   { key: "menunggu_verifikasi", label: "Menunggu Verifikasi" },
   { key: "diproses", label: "Diproses" },
   { key: "selesai", label: "Selesai" },
@@ -22,7 +23,7 @@ export default async function SellerOrdersPage({ searchParams }) {
   let query = supabase
     .from("orders")
     .select(
-      "id, order_number, product_id, seller_id, buyer_name, buyer_phone, buyer_address, quantity, unit_price, total, notes, receipt_path, receipt_image_url, status, rejection_reason, created_at, products(name, images), payment_methods(label, method_type, account_number, account_name)",
+      "id, order_number, product_id, seller_id, buyer_name, buyer_phone, buyer_country, buyer_address, quantity, unit_price, total, notes, receipt_path, receipt_image_url, order_channel, status, rejection_reason, created_at, products(name, images), payment_methods(label, method_type, account_number, account_name)",
     )
     .eq("seller_id", account.seller_id)
     .order("created_at", { ascending: false });
@@ -35,7 +36,7 @@ export default async function SellerOrdersPage({ searchParams }) {
       .from("orders")
       .select("id", { count: "exact", head: true })
       .eq("seller_id", account.seller_id)
-      .eq("status", "menunggu_verifikasi"),
+      .in("status", ["menunggu_konfirmasi", "menunggu_verifikasi"]),
   ]);
 
   const counts = orders?.reduce(
@@ -43,7 +44,7 @@ export default async function SellerOrdersPage({ searchParams }) {
       acc[o.status] = (acc[o.status] || 0) + 1;
       return acc;
     },
-    { menunggu_verifikasi: 0 },
+    { menunggu_konfirmasi: 0, menunggu_verifikasi: 0 },
   );
 
   return (
@@ -55,7 +56,7 @@ export default async function SellerOrdersPage({ searchParams }) {
         {pendingCount > 0 && (
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-600 text-white text-[11px] font-bold">
             <Icon name="bellFilled" size={12} />
-            {pendingCount} menunggu verifikasi
+            {pendingCount} perlu ditindaklanjuti
           </span>
         )}
       </div>
@@ -94,8 +95,7 @@ export default async function SellerOrdersPage({ searchParams }) {
       )}
 
       <p className="text-[11px] text-warm-gray mt-4">
-        Ingat: verifikasi bukti transfer dengan mengecek mutasi rekening /
-        e-wallet Anda sebelum memproses pesanan.
+        Pesanan WhatsApp perlu dikonfirmasi lewat chat terlebih dahulu. Untuk transfer manual, cek mutasi rekening atau e-wallet sebelum memproses pesanan.
       </p>
     </div>
   );

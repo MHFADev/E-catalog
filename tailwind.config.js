@@ -4,27 +4,25 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // [TEMA BIRU] Palet biru utama menggantikan hijau sebelumnya.
-        // #0055A0 = biru utama (brand), #438BC4 = biru medium,
-        // #8CC1E9 = biru muda, #12284B = navy gelap, #FFFFFF = krem.
+        // Turunan ikon utama: biru royal, navy buku, dan oranye hangat.
         forest: {
-          DEFAULT: "#0055A0",
-          light: "#438BC4",
-          deep: "#003D73",
-          bright: "#A8D8F0",
-          dark: "#0A2540",
+          DEFAULT: "#147FC1",
+          light: "#3FA6DC",
+          deep: "#0A3A78",
+          bright: "#CBEAF8",
+          dark: "#102D57",
         },
-        emerald: { DEFAULT: "#059669", dark: "#047857", light: "#10B981" },
-        hutan: { DEFAULT: "#12284B", dark: "#0A1628", light: "#1A4A6E" },
-        laut: { DEFAULT: "#438BC4", deep: "#0D2240", light: "#5BA3D9" },
-        langit: { DEFAULT: "#8CC1E9", light: "#B8D9F0", deep: "#438BC4" },
-        cream: { DEFAULT: "#F5F6F8", warm: "#E8EEF4", pure: "#FFFFFF" },
-        clay: { DEFAULT: "#F97316", light: "#FB923C", deep: "#EA580C" },
-        noir: { DEFAULT: "#12284B", soft: "#1A2D42", light: "#4A5A6A" },
-        "energy-gold": "#D4A017",
-        "warm-gray": "#7A8A9A",
-        "cool-gray": "#5A6A7A",
-        muted: "#8AA0B0",
+        emerald: { DEFAULT: "#058C68", dark: "#067052", light: "#10B981" },
+        hutan: { DEFAULT: "#102D57", dark: "#081B37", light: "#1B4B82" },
+        laut: { DEFAULT: "#147FC1", deep: "#0A3A78", light: "#65BCE8" },
+        langit: { DEFAULT: "#B9E1F5", light: "#DDF2FC", deep: "#3FA6DC" },
+        cream: { DEFAULT: "#FFF9F1", warm: "#FCEBD9", pure: "#FFFFFF" },
+        clay: { DEFAULT: "#EF7B19", light: "#F6A54B", deep: "#C85F0A" },
+        noir: { DEFAULT: "#102D57", soft: "#264467", light: "#58708A" },
+        "energy-gold": "#D98A17",
+        "warm-gray": "#6E8093",
+        "cool-gray": "#4D6178",
+        muted: "#7F97AB",
       },
       fontFamily: {
         display: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],

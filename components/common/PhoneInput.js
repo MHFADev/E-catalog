@@ -6,9 +6,19 @@ const COUNTRIES = [
   { code: "+62", flag: "🇮🇩", country: "Indonesia" },
   { code: "+60", flag: "🇲🇾", country: "Malaysia" },
   { code: "+65", flag: "🇸🇬", country: "Singapura" },
-  { code: "+63", flag: "🇵🇭", country: "Filipina" },
-  { code: "+61", flag: "🇦🇺", country: "Australia" },
   { code: "+673", flag: "🇧🇳", country: "Brunei" },
+  { code: "+66", flag: "🇹🇭", country: "Thailand" },
+  { code: "+63", flag: "🇵🇭", country: "Filipina" },
+  { code: "+84", flag: "🇻🇳", country: "Vietnam" },
+  { code: "+855", flag: "🇰🇭", country: "Kamboja" },
+  { code: "+61", flag: "🇦🇺", country: "Australia" },
+  { code: "+81", flag: "🇯🇵", country: "Jepang" },
+  { code: "+82", flag: "🇰🇷", country: "Korea Selatan" },
+  { code: "+86", flag: "🇨🇳", country: "Tiongkok" },
+  { code: "+91", flag: "🇮🇳", country: "India" },
+  { code: "+971", flag: "🇦🇪", country: "Uni Emirat Arab" },
+  { code: "+44", flag: "🇬🇧", country: "Inggris Raya" },
+  { code: "+1", flag: "🇺🇸", country: "Amerika Serikat / Kanada" },
 ];
 
 const DEFAULT_DIAL = "+62";

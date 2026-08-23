@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
+import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
 import { createAdminClient } from "@/lib/supabase/admin";
 import ProductForm from "./ProductForm";
 import { toggleProduct, deleteProduct } from "../actions";
@@ -87,12 +88,12 @@ export default async function AdminProductsPage() {
               >
                 Edit
               </Link>
-              <form action={deleteProduct}>
-                <input type="hidden" name="id" value={p.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
-                  Hapus
-                </button>
-              </form>
+              <DeleteConfirmButton
+                action={deleteProduct}
+                id={p.id}
+                entityLabel={`produk “${p.name}”`}
+                description={`Produk “${p.name}” akan dihapus dari katalog. Foto dan data produk terkait tidak dapat dipulihkan.`}
+              />
             </div>
           </div>
         ))}

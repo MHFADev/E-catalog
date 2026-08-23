@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
+import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
 import { createAdminClient } from "@/lib/supabase/admin";
 import BannerForm from "./BannerForm";
 import { toggleBanner, deleteBanner } from "../actions";
@@ -110,12 +111,12 @@ export default async function AdminBannersPage() {
                   {b.active ? "Nonaktifkan" : "Aktifkan"}
                 </button>
               </form>
-              <form action={deleteBanner}>
-                <input type="hidden" name="id" value={b.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-all">
-                  Hapus
-                </button>
-              </form>
+              <DeleteConfirmButton
+                action={deleteBanner}
+                id={b.id}
+                entityLabel={`banner “${b.title || "tanpa judul"}”`}
+                description={`Banner “${b.title || "tanpa judul"}” akan dihapus permanen dan tidak lagi ditampilkan di beranda.`}
+              />
             </div>
           </div>
         ))}

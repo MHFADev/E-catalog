@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import CheckoutForm from "@/components/checkout/CheckoutForm";
+import WhatsAppOrderForm from "@/components/checkout/WhatsAppOrderForm";
 import { getProducts, getSellers } from "@/lib/catalog";
 import { getSellerPaymentMethods } from "@/lib/paymentMethods";
 import { getCurrentProfile } from "@/lib/profile";
@@ -9,8 +10,10 @@ import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function CheckoutPage({ params }) {
+export default async function CheckoutPage({ params, searchParams }) {
   const { id } = await params;
+  const { mode } = await searchParams;
+  const isWhatsAppOrder = mode === "whatsapp";
   const [products, sellers] = await Promise.all([getProducts(), getSellers()]);
   const product = products.find((p) => p.id === id);
   if (!product) notFound();
@@ -42,9 +45,10 @@ export default async function CheckoutPage({ params }) {
           <Icon name="arrowLeft" size={14} /> Kembali ke produk
         </Link>
 
-        <h1 className="text-lg md:text-2xl font-bold tracking-tight text-noir mb-4 md:mb-6">
-          Checkout — <span className="text-forest">Buat Pesanan</span>
-        </h1>
+          <h1 className="text-lg md:text-2xl font-bold tracking-tight text-noir mb-4 md:mb-6">
+            {isWhatsAppOrder ? "Pesan via " : "Checkout — "}
+            <span className="text-forest">{isWhatsAppOrder ? "WhatsApp" : "Buat Pesanan"}</span>
+          </h1>
 
         {product.isAvailable === false ? (
           <div className="bg-white rounded-2xl p-6 border border-cream-warm text-center text-sm text-warm-gray">
@@ -64,21 +68,30 @@ export default async function CheckoutPage({ params }) {
               pesanan Anda.
             </p>
             <Link
-              href={`/login?next=${encodeURIComponent(`/product/${product.id}/checkout`)}`}
+              href={`/login?next=${encodeURIComponent(`/product/${product.id}/checkout${isWhatsAppOrder ? "?mode=whatsapp" : ""}`)}`}
               className="btn-primary text-sm py-2.5 px-6"
             >
               Masuk / Daftar
             </Link>
           </div>
         ) : (
-          <CheckoutForm
-            product={product}
-            seller={seller}
-            paymentMethods={methods}
-            userId={user.id}
-            defaultBuyerName={profile?.username || fullName}
-            defaultBuyerPhone={profile?.phone_number || ""}
-          />
+          isWhatsAppOrder ? (
+            <WhatsAppOrderForm
+              product={product}
+              seller={seller}
+              defaultBuyerName={profile?.username || fullName}
+              defaultBuyerPhone={profile?.phone_number || ""}
+            />
+          ) : (
+            <CheckoutForm
+              product={product}
+              seller={seller}
+              paymentMethods={methods}
+              userId={user.id}
+              defaultBuyerName={profile?.username || fullName}
+              defaultBuyerPhone={profile?.phone_number || ""}
+            />
+          )
         )}
       </div>
     </div>
