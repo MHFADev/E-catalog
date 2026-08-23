@@ -54,27 +54,49 @@ export async function generateMetadata({ params }) {
   const description = product.description
     ? product.description.slice(0, 155)
     : `Temukan ${product.name} dari UMKM Kemayoran dan hubungi toko langsung untuk informasi pemesanan.`;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-  const productUrl = siteUrl ? `${siteUrl}/product/${id}` : undefined;
-  const primaryImage = product.images?.[0];
+  const configuredOrigin =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.VERCEL_URL ||
+    "https://e-catalog-gamma.vercel.app";
+  const siteUrl = configuredOrigin.startsWith("http")
+    ? configuredOrigin.replace(/\/$/, "")
+    : `https://${configuredOrigin.replace(/\/$/, "")}`;
+  const productUrl = `${siteUrl}/product/${id}`;
+  const storedImage = product.images?.[0];
+  const primaryImage = storedImage
+    ? new URL(storedImage, siteUrl).toString()
+    : `${siteUrl}/icon.png`;
+  const imageType = primaryImage.toLowerCase().includes(".webp")
+    ? "image/webp"
+    : primaryImage.toLowerCase().includes(".png")
+      ? "image/png"
+      : "image/jpeg";
+  const image = {
+    url: primaryImage,
+    secureUrl: primaryImage,
+    type: imageType,
+    alt: `Foto produk ${product.name}`,
+  };
 
   return {
     title: product.name,
     description,
-    alternates: productUrl ? { canonical: productUrl } : undefined,
+    alternates: { canonical: productUrl },
     openGraph: {
+      type: "website",
+      locale: "id_ID",
+      siteName: "UMKM Kemayoran",
       title: `${product.name} | UMKM Kemayoran`,
       description,
       url: productUrl,
-      images: primaryImage
-        ? [{ url: primaryImage, alt: product.name }]
-        : undefined,
+      images: [image],
     },
     twitter: {
-      card: primaryImage ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title: `${product.name} | UMKM Kemayoran`,
       description,
-      images: primaryImage ? [primaryImage] : undefined,
+      images: [image],
     },
   };
 }
