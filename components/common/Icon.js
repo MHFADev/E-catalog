@@ -69,7 +69,11 @@ import {
   FaMobile,
   FaMoneyBillWave,
   FaScrewdriverWrench,
+  FaShareNodes,
+  FaCopy,
+  FaXTwitter,
 } from "react-icons/fa6";
+import { FaFacebookF, FaTelegramPlane } from "react-icons/fa";
 
 const icons = {
   search: FaMagnifyingGlass,
@@ -141,6 +145,11 @@ const icons = {
   tag: FaTag,
   ban: FaBan,
   camera: FaCamera,
+  share: FaShareNodes,
+  copy: FaCopy,
+  facebook: FaFacebookF,
+  telegram: FaTelegramPlane,
+  xTwitter: FaXTwitter,
   // Indonesian Banks
   bankBca: (
     <svg viewBox="0 0 24 24" fill="none">

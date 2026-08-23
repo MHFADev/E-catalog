@@ -5,6 +5,7 @@ import ProductGallery from "@/components/product/ProductGallery";
 import ProductGrid from "@/components/product/ProductGrid";
 import ReviewSection from "@/components/product/ReviewSection";
 import PaymentMethods from "@/components/product/PaymentMethods";
+import ProductShare from "@/components/product/ProductShare";
 import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
 import { WHATSAPP_PREFILL } from "@/lib/constants";
 import { getSellerPaymentMethods } from "@/lib/paymentMethods";
@@ -53,13 +54,27 @@ export async function generateMetadata({ params }) {
   const description = product.description
     ? product.description.slice(0, 155)
     : `Temukan ${product.name} dari UMKM Kemayoran dan hubungi toko langsung untuk informasi pemesanan.`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const productUrl = siteUrl ? `${siteUrl}/product/${id}` : undefined;
+  const primaryImage = product.images?.[0];
 
   return {
     title: product.name,
     description,
+    alternates: productUrl ? { canonical: productUrl } : undefined,
     openGraph: {
       title: `${product.name} | UMKM Kemayoran`,
       description,
+      url: productUrl,
+      images: primaryImage
+        ? [{ url: primaryImage, alt: product.name }]
+        : undefined,
+    },
+    twitter: {
+      card: primaryImage ? "summary_large_image" : "summary",
+      title: `${product.name} | UMKM Kemayoran`,
+      description,
+      images: primaryImage ? [primaryImage] : undefined,
     },
   };
 }
@@ -258,6 +273,8 @@ export default async function ProductDetailPage({ params }) {
                   </span>
                 ))}
               </div>
+
+              <ProductShare productName={product.name} sellerName={seller.name} />
             </div>
 
             {/* ===== Kartu deskripsi + tags ===== */}
