@@ -6,13 +6,7 @@ import ActionConfirmDialog from "@/components/common/ActionConfirmDialog";
 import PaymentLogo from "@/components/common/PaymentLogo";
 import { compressImage } from "@/lib/compressImage";
 import { savePaymentMethod, togglePaymentMethod, deletePaymentMethod } from "@/app/seller/(panel)/payment/actions";
-import {
-  BUCKET_PRODUCTS,
-  dataUrlToBlob,
-  publicImageUrl,
-  sanitizeFileName,
-  uploadToStorage,
-} from "@/lib/storage";
+import { uploadImage } from "@/lib/github";
 
 // ============================================================
 // Pengaturan Metode Pembayaran UMKM (manual, gratis, tanpa gateway).
@@ -49,6 +43,12 @@ const typeMeta = {
   ewallet: { icon: "mobile", title: "E-Wallet" },
   qris: { icon: "qrcode", title: "QRIS" },
 };
+
+function resolveExistingPublicImage(url) {
+  if (!url || /^https?:\/\//.test(url)) return url || "";
+  const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  return baseUrl ? `${baseUrl}/storage/v1/object/public/catalog-images/${url}` : url;
+}
 
 function MethodRow({ method }) {
   const [busy, setBusy] = useState("");
@@ -107,7 +107,7 @@ function MethodRow({ method }) {
           </div>
           {method.method_type === "qris" && method.qris_image_url && (
             <img
-              src={publicImageUrl(method.qris_image_url)}
+              src={resolveExistingPublicImage(method.qris_image_url)}
               alt="QRIS"
               className="mt-2 w-24 h-24 aspect-square object-cover rounded-lg border border-cream-warm bg-white"
             />
@@ -190,15 +190,13 @@ export default function PaymentSettingsManager({ sellerId, methods = [] }) {
     setQrisBusy(true);
     setErr("");
     try {
-      const dataUrl = await compressImage(file, 1000, 0.82);
-      const blob = dataUrlToBlob(dataUrl);
-      const fileName = sanitizeFileName(file.name.replace(/\.[^.]+$/, ""), "qris");
-      const path = await uploadToStorage({
-        bucket: BUCKET_PRODUCTS,
-        folder: sellerId ? `qris/${sellerId}` : "qris",
-        file: new File([blob], fileName, { type: blob.type }),
+      const base64 = await compressImage(file, 1000, 0.82);
+      const { url } = await uploadImage({
+        base64,
+        name: `qris-${sellerId || "umkm"}-${file.name.replace(/\.[^.]+$/, "")}`,
       });
-      setQrisUrl(publicImageUrl(path));
+      if (!url) throw new Error("URL QRIS dari GitHub tidak tersedia.");
+      setQrisUrl(url);
     } catch (ex) {
       setErr(ex.message || "Gagal mengunggah QRIS.");
     }
@@ -324,7 +322,7 @@ export default function PaymentSettingsManager({ sellerId, methods = [] }) {
               </div>
               <input type="hidden" name="qrisImageUrl" value={qrisUrl} />
               <span className="block text-[10px] text-warm-gray mt-1">
-                Disimpan di Supabase Storage.
+                Disimpan di repository GitHub.
               </span>
             </div>
           )}
