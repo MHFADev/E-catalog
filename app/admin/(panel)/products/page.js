@@ -1,11 +1,14 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
+import AdminSearchInput from "@/components/common/AdminSearchInput";
 import { createAdminClient } from "@/lib/supabase/admin";
 import ProductForm from "./ProductForm";
 import { toggleProduct, deleteProduct } from "../actions";
 
-export default async function AdminProductsPage() {
+// Halaman ini adalah Server Component — searchParams diterima sebagai prop
+// dari Next.js App Router berdasarkan query string ?q=...
+export default async function AdminProductsPage({ searchParams }) {
   const supabase = await createAdminClient();
   const [{ data: products }, { data: categories }, { data: sellers }] =
     await Promise.all([
@@ -14,13 +17,27 @@ export default async function AdminProductsPage() {
       supabase.from("sellers").select("id, name").order("name"),
     ]);
 
+  // Ambil query pencarian dari URL (?q=...) —붕어빵 lowercase untuk case-insensitive
+  const { q: query } = await searchParams;
+  const search = (query || "").trim();
+
   const catName = (id) => categories?.find((c) => c.id === id)?.name || id;
+
+  // Filter produk berdasarkan query pencarian (nama produk saja)
+  const filteredProducts = search
+    ? products?.filter((p) =>
+        p.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : products;
 
   return (
     <div>
       <h2 className="text-sm md:text-base font-bold text-noir mb-4">
-        Kelola Produk ({products?.length ?? 0})
+        Kelola Produk ({filteredProducts?.length ?? 0})
       </h2>
+
+      {/* Input pencarian — client component, update URL ?q=... */}
+      <AdminSearchInput placeholder="Cari nama produk..." />
 
       <details className="bg-white rounded-2xl border border-cream-warm mb-6 overflow-hidden">
         <summary className="flex items-center gap-1.5 px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
@@ -32,13 +49,13 @@ export default async function AdminProductsPage() {
       </details>
 
       <div className="space-y-3">
-        {products?.length === 0 && (
+        {filteredProducts?.length === 0 && (
           <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
-            Belum ada produk.
+            {search ? `Tidak ada produk yang cocok dengan "${search}".` : "Belum ada produk."}
           </p>
         )}
 
-        {products?.map((p) => (
+        {filteredProducts?.map((p) => (
           <div
             key={p.id}
             className="bg-white rounded-2xl p-4 border border-cream-warm flex flex-wrap items-center gap-3"
