@@ -84,7 +84,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-cream-warm/80 bg-white/82 shadow-navbar backdrop-blur-xl supports-[backdrop-filter]:bg-white/72">
+    <header className="market-header sticky top-0 z-50 border-b shadow-navbar backdrop-blur-xl">
       <div ref={searchRef} className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="h-14 md:h-16 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 shrink-0">
@@ -101,7 +101,7 @@ export default function Navbar() {
           {/* Search bar (desktop) */}
           <form
             onSubmit={submitSearch}
-            className="relative hidden lg:flex flex-1 max-w-xl items-center gap-2 pl-4 pr-1.5 h-11 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
+            className="relative hidden lg:flex flex-1 max-w-xl items-center gap-2 pl-4 pr-1.5 h-11 bg-white/80 border border-forest/15 rounded-xl focus-within:border-laut/50 focus-within:bg-white focus-within:ring-4 focus-within:ring-laut/10 transition-all"
           >
             <Icon name="search" size={16} className="text-muted" />
             <input
@@ -115,7 +115,7 @@ export default function Navbar() {
             />
             <button
               type="submit"
-              className="shrink-0 flex items-center gap-1 px-4 h-8 text-sm font-bold text-white bg-forest hover:bg-forest-deep rounded-full transition-colors"
+              className="shrink-0 flex items-center gap-1 px-4 h-8 text-sm font-bold text-white bg-laut hover:bg-laut-deep rounded-lg transition-colors"
             >
               <Icon name="search" size={13} /> Cari
             </button>
@@ -249,7 +249,7 @@ export default function Navbar() {
         {/* Search bar (mobile) */}
         <form
           onSubmit={submitSearch}
-          className="relative lg:hidden flex items-center gap-2 pl-4 pr-1.5 h-11 mb-3 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
+          className="relative lg:hidden flex items-center gap-2 pl-4 pr-1.5 h-11 mb-3 bg-white/80 border border-forest/15 rounded-xl focus-within:border-laut/50 focus-within:bg-white focus-within:ring-4 focus-within:ring-laut/10 transition-all"
         >
           <Icon name="search" size={16} className="text-muted" />
           <input
@@ -262,7 +262,7 @@ export default function Navbar() {
           />
           <button
             type="submit"
-            className="shrink-0 flex items-center gap-1 px-4 h-8 text-sm font-bold text-white bg-forest hover:bg-forest-deep rounded-full transition-colors"
+            className="shrink-0 flex items-center gap-1 px-4 h-8 text-sm font-bold text-white bg-laut hover:bg-laut-deep rounded-lg transition-colors"
           >
             <Icon name="search" size={13} /> Cari
           </button>
@@ -271,7 +271,7 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="menu-enter md:hidden border-t border-cream-warm bg-white/95 backdrop-blur-xl">
+        <div className="menu-enter md:hidden border-t border-forest/10 bg-[var(--carrom-white)]/95 backdrop-blur-xl">
           <div className="px-4 py-3 space-y-1">
             {links.map((l) => {
               const isActive = pathname === l.href;
