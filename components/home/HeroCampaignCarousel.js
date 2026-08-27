@@ -60,28 +60,36 @@ export default function HeroCampaignCarousel({ banners = [] }) {
   };
 
   const picture = (
-    <img
-      key={active.id}
-      src={active.imageUrl}
-      alt={active.title || "Kampanye pilihan UMKM Kemayoran"}
-      className="absolute inset-0 h-full w-full object-cover motion-safe:animate-[heroCampaignIn_600ms_var(--ease-out-expo)_both]"
-      loading="eager"
-    />
+    <div key={active.id} className="absolute inset-0 overflow-hidden bg-[#E7EFE5]">
+      <img
+        src={active.imageUrl}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-35 blur-2xl saturate-75"
+      />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/55 via-transparent to-[#123F4A]/15" />
+      <img
+        src={active.imageUrl}
+        alt={active.title || "Kampanye pilihan UMKM Kemayoran"}
+        className="relative z-[1] h-full w-full object-contain motion-safe:animate-[heroCampaignIn_600ms_var(--ease-out-expo)_both]"
+        loading="eager"
+      />
+    </div>
   );
 
   return (
     <aside
       aria-label="Kampanye pilihan"
-      className="hero-campaign relative overflow-hidden rounded-[1.45rem] border border-[#123F4A]/10 bg-[#FFF7E8] p-2 shadow-[0_20px_42px_rgba(18,63,74,0.16)] motion-safe:animate-[fadeInUp_0.75s_var(--ease-out-expo)_100ms_both] sm:rounded-[2rem] sm:p-3 lg:flex lg:h-full lg:flex-col"
+      className="hero-campaign relative overflow-hidden rounded-[1.45rem] border border-[#123F4A]/10 bg-white/95 p-2.5 shadow-[0_20px_48px_rgba(18,63,74,0.16)] ring-1 ring-white/70 motion-safe:animate-[fadeInUp_0.75s_var(--ease-out-expo)_100ms_both] sm:rounded-[2rem] sm:p-3.5 lg:col-span-4 lg:flex lg:aspect-[16/11] lg:flex-col"
       onMouseEnter={() => setIsInteractionPaused(true)}
       onMouseLeave={() => setIsInteractionPaused(false)}
       onFocusCapture={() => setIsInteractionPaused(true)}
       onBlurCapture={() => setIsInteractionPaused(false)}
     >
-      <div className="flex items-center justify-between gap-3 px-1.5 pb-2.5 sm:pb-3 lg:pb-3.5">
+      <div className="flex items-center justify-between gap-3 px-1.5 pb-2.5 pt-0.5 sm:pb-3 lg:pb-3.5">
         <span className="inline-flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#123F4A]">
           <span className="h-2 w-2 rounded-full bg-[#C87055] ring-4 ring-[#C87055]/15" />
-          Pilihan Kemayoran
+          Promo & agenda pilihan
         </span>
         <span className="font-mono text-[10px] font-bold tabular-nums text-[#1D6E4D]/65">
           {String(activeIndex + 1).padStart(2, "0")} — {String(total).padStart(2, "0")}
@@ -89,7 +97,7 @@ export default function HeroCampaignCarousel({ banners = [] }) {
       </div>
 
       <div
-        className="group relative aspect-[16/10] overflow-hidden rounded-[1.05rem] bg-[#123F4A] sm:rounded-[1.45rem] lg:min-h-0 lg:flex-1 lg:aspect-auto"
+        className="group relative aspect-[16/10] min-h-0 overflow-hidden rounded-[1.05rem] border border-[#123F4A]/10 bg-[#E7EFE5] sm:rounded-[1.45rem] lg:flex-1 lg:aspect-auto"
         role="region"
         aria-roledescription="carousel"
         aria-label={`Banner ${activeIndex + 1} dari ${total}`}
@@ -103,23 +111,7 @@ export default function HeroCampaignCarousel({ banners = [] }) {
         ) : (
           picture
         )}
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(18,63,74,0.06)_22%,rgba(18,63,74,0.20)_50%,rgba(18,63,74,0.86)_100%)]" />
-
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-3.5 sm:p-4 lg:p-5">
-          <div className="min-w-0">
-            <span className="mb-1.5 inline-flex border-l-2 border-[#d9f0bf] pl-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/80">
-              Cerita pilihan
-            </span>
-            <p className="line-clamp-2 max-w-[20rem] text-[15px] font-extrabold leading-[1.14] tracking-tight text-white drop-shadow-sm sm:text-lg lg:text-xl">
-              {active.title || "Pilihan spesial UMKM Kemayoran"}
-            </p>
-          </div>
-          {active.link && (
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/35 bg-white/15 text-white backdrop-blur-sm sm:h-9 sm:w-9">
-              <Icon name="arrowRight" size={15} />
-            </span>
-          )}
-        </div>
+        <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/40" />
 
         {total > 1 && (
           <>
@@ -127,7 +119,7 @@ export default function HeroCampaignCarousel({ banners = [] }) {
               type="button"
               aria-label="Banner sebelumnya"
               onClick={previous}
-              className="absolute left-3 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-[#123F4A]/55 text-white opacity-0 backdrop-blur-sm transition-all hover:bg-[#123F4A]/80 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white group-hover:opacity-100 sm:flex"
+              className="absolute left-3 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-[#123F4A]/65 text-white opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-[#123F4A]/90 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white group-hover:opacity-100 sm:flex"
             >
               <Icon name="chevronLeft" size={17} />
             </button>
@@ -135,7 +127,7 @@ export default function HeroCampaignCarousel({ banners = [] }) {
               type="button"
               aria-label="Banner berikutnya"
               onClick={next}
-              className="absolute right-3 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-[#123F4A]/55 text-white opacity-0 backdrop-blur-sm transition-all hover:bg-[#123F4A]/80 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white group-hover:opacity-100 sm:flex"
+              className="absolute right-3 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-[#123F4A]/65 text-white opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-[#123F4A]/90 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white group-hover:opacity-100 sm:flex"
             >
               <Icon name="chevronRight" size={17} />
             </button>
@@ -143,8 +135,24 @@ export default function HeroCampaignCarousel({ banners = [] }) {
         )}
       </div>
 
+      <div className="flex items-center justify-between gap-4 px-1.5 pb-0.5 pt-3 sm:px-2 sm:pt-3.5">
+        <div className="min-w-0">
+          <span className="mb-1 inline-flex border-l-2 border-[#C87055] pl-2 text-[9px] font-extrabold uppercase tracking-[0.15em] text-[#1D6E4D]/75">
+            Pilihan UMKM
+          </span>
+          <p className="line-clamp-2 text-[15px] font-extrabold leading-[1.18] tracking-tight text-[#123F4A] sm:text-base lg:text-lg">
+            {active.title || "Pilihan spesial UMKM Kemayoran"}
+          </p>
+        </div>
+        {active.link && (
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1D6E4D] text-white shadow-[0_8px_18px_rgba(29,110,77,0.24)] transition-transform group-hover:translate-x-0.5 sm:h-10 sm:w-10">
+            <Icon name="arrowRight" size={15} />
+          </span>
+        )}
+      </div>
+
       {total > 1 && (
-        <div className="flex items-center justify-between gap-3 px-1.5 py-2 sm:pb-0 sm:pt-3">
+        <div className="flex items-center justify-between gap-3 px-1.5 pb-0.5 pt-3 sm:px-2">
           <div className="flex items-center gap-1.5" aria-label="Pilih banner">
             {items.map((item, index) => (
               <button

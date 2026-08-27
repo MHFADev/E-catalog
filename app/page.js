@@ -129,16 +129,16 @@ export default async function HomePage() {
         <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/10 blur-3xl ambient-float" />
         <div aria-hidden="true" className="absolute -bottom-20 left-1/3 w-64 h-64 rounded-full bg-langit/20 blur-3xl ambient-float" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-5 sm:py-10 md:px-6 md:py-16 lg:py-20">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-5 sm:py-10 md:px-6 md:py-14 lg:py-16">
           <div
-            className={`grid items-stretch gap-4 sm:gap-5 lg:gap-8 ${
+            className={`grid items-start gap-4 sm:gap-5 lg:gap-6 xl:gap-8 ${
               banners?.length
-                ? "grid-cols-1 lg:grid-cols-[minmax(0,1.22fr)_minmax(22rem,0.78fr)]"
+                ? "grid-cols-1 lg:grid-cols-12"
                 : "grid-cols-1"
             }`}
           >
             {/* Video adalah headline utama; campaign berperan sebagai cerita pendukung yang terpisah. */}
-            <div className="hero-film relative aspect-[16/11] min-w-0 overflow-hidden rounded-[1.45rem] bg-hutan ring-1 ring-forest/20 shadow-[0_22px_46px_rgba(18,63,74,0.20)] animate-[fadeInUp_0.7s_var(--ease-out-expo)_both] sm:aspect-[16/10] sm:rounded-[2rem] md:rounded-[2.5rem] lg:aspect-[16/11]">
+            <div className={`hero-film relative aspect-[4/5] min-w-0 overflow-hidden rounded-[1.45rem] bg-hutan ring-1 ring-forest/20 shadow-[0_22px_46px_rgba(18,63,74,0.20)] animate-[fadeInUp_0.7s_var(--ease-out-expo)_both] min-[420px]:aspect-[4/3] sm:aspect-[16/10] sm:rounded-[2rem] md:rounded-[2.5rem] ${banners?.length ? "lg:col-span-8 lg:aspect-[16/11]" : "lg:aspect-[21/9]"}`}>
               <video
                 autoPlay
                 muted
