@@ -3,7 +3,7 @@ import FeaturedProducts from "@/components/product/FeaturedProducts";
 import Icon from "@/components/common/Icon";
 import EmptyState from "@/components/common/EmptyState";
 import CategoryVisualIcon from "@/components/category/CategoryVisualIcon";
-import HeroCampaignCarousel from "@/components/home/HeroCampaignCarousel";
+import HeroPromoGrid from "@/components/home/HeroPromoGrid";
 import HeroFilm from "@/components/home/HeroFilm";
 import ScrollRevealObserver from "@/components/home/ScrollRevealObserver";
 
@@ -122,45 +122,60 @@ export default async function HomePage() {
   return (
     <>
       <ScrollRevealObserver />
-      {/* ===== HERO + CAMPAIGN: satu cerita utama, satu rekomendasi editorial ===== */}
+      {/* ===== HERO: copy utama, video hero, lalu dua banner editorial ===== */}
       <section className="home-hero market-frame relative overflow-clip">
-        <img src="/images/decor/market-leaf-wave.png" alt="" aria-hidden="true" className="decor-asset left-1/2 top-3 hidden w-72 -translate-x-1/2 opacity-35 lg:block" />
+        <img src="/images/decor/market-leaf-wave.png" alt="" aria-hidden="true" className="decor-asset -left-10 bottom-5 hidden w-64 -rotate-[10deg] opacity-20 lg:block" />
         <img src="/images/decor/market-leaf-spray.png" alt="" aria-hidden="true" className="decor-asset -right-10 -bottom-16 hidden w-64 rotate-[8deg] opacity-[0.12] xl:block" />
-        <div aria-hidden="true" className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-forest/10 blur-3xl md:h-96 md:w-96" />
+        <div aria-hidden="true" className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-forest/10 blur-3xl md:h-96 md:w-96" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-5 sm:py-9 md:px-6 md:py-12 lg:py-16">
-          <div className={`grid items-stretch gap-4 sm:gap-6 lg:gap-7 xl:gap-9 ${banners?.length ? "grid-cols-1 lg:grid-cols-12" : "grid-cols-1"}`}>
-            <HeroFilm className={banners?.length ? "lg:col-span-8" : "lg:aspect-[21/9]"}>
-              <p className="mb-3 hidden rounded-lg border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm sm:inline-flex">
-                Pasar digital UMKM lokal
-              </p>
-              <h1 className="max-w-[19rem] text-[1.85rem] font-extrabold leading-[1.03] tracking-tight drop-shadow-md min-[420px]:text-[2.1rem] sm:max-w-2xl sm:text-4xl md:text-5xl lg:text-[3.35rem]">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-7 sm:py-10 md:px-6 md:py-14 lg:py-16">
+          <div className="grid grid-cols-1 items-stretch gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-10 xl:gap-x-10">
+            <div className="hero-copy flex flex-col justify-center lg:col-span-4 lg:py-5">
+              <span className="section-kicker">UMKM Kemayoran</span>
+              <h1 className="mt-4 max-w-[23rem] text-[2.25rem] font-extrabold leading-[1.02] tracking-[-0.045em] text-noir-soft min-[420px]:text-[2.65rem] sm:text-5xl lg:text-[3.35rem]">
                 Bangga Produk{" "}
-                <span className="text-[#D9F0BF] underline decoration-langit decoration-[3px] underline-offset-4 sm:decoration-4">
-                  Lokal Kemayoran
+                <span className="text-forest underline decoration-sky-soft decoration-[3px] underline-offset-[0.14em] sm:decoration-4">
+                  Lokal Kemayoran.
                 </span>
               </h1>
-              <p className="mt-3 hidden max-w-xl text-sm leading-relaxed text-white/90 sm:block md:text-base">
+              <p className="mt-5 max-w-[28rem] text-sm leading-7 text-warm-gray sm:text-base">
                 Pilih kebutuhanmu, belanja langsung ke UMKM, dan bantu ekonomi Kemayoran tumbuh dari lingkungan sendiri.
               </p>
-              <div className="mt-5 flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:gap-3">
-                <Link href="/catalog" className="btn-primary w-full sm:w-auto">
-                  Jelajahi Produk <Icon name="arrowRight" size={15} />
+
+              <div className="mt-7 grid max-w-[25rem] grid-cols-3 gap-2.5 border-y border-forest/12 py-4 sm:gap-4 sm:py-5">
+                <div className="flex flex-col gap-2 text-left">
+                  <Icon name="shoppingBagFilled" size={18} className="text-forest" />
+                  <span className="text-[11px] font-bold leading-[1.25] text-noir-soft sm:text-xs">Produk<br className="hidden sm:block" /> berkualitas</span>
+                </div>
+                <div className="flex flex-col gap-2 text-left">
+                  <Icon name="heart" size={18} className="text-forest" />
+                  <span className="text-[11px] font-bold leading-[1.25] text-noir-soft sm:text-xs">Dukung<br className="hidden sm:block" /> UMKM lokal</span>
+                </div>
+                <div className="flex flex-col gap-2 text-left">
+                  <Icon name="badgeCheck" size={18} className="text-forest" />
+                  <span className="text-[11px] font-bold leading-[1.25] text-noir-soft sm:text-xs">Aman &<br className="hidden sm:block" /> terpercaya</span>
+                </div>
+              </div>
+
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Link href="/catalog" className="btn-primary min-h-12 w-full justify-center sm:w-auto">
+                  Jelajahi Katalog <Icon name="arrowRight" size={15} />
                 </Link>
-                <Link href="/gabung" className="hidden min-h-11 items-center justify-center gap-2 rounded-xl border border-white/35 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 sm:inline-flex">
-                  Daftar Sebagai UMKM
+                <Link href="/about" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-forest/20 bg-white/65 px-5 text-sm font-bold text-noir-soft transition-colors hover:border-forest/40 hover:bg-white hover:text-forest">
+                  Tentang Kami <Icon name="arrowRight" size={13} />
                 </Link>
               </div>
-            </HeroFilm>
+            </div>
 
-            {banners?.length > 0 && <HeroCampaignCarousel banners={banners} />}
+            <HeroFilm className="lg:col-span-8" />
+            <HeroPromoGrid banners={banners} />
           </div>
 
           {/* ===== SEARCH BAR ===== */}
           <form
             action="/catalog"
             method="get"
-            className="market-search relative mt-7 md:mt-12 rounded-2xl md:rounded-3xl p-4 md:p-5 hidden lg:grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
+            className="market-search relative mt-8 hidden items-center gap-3 rounded-2xl p-4 md:mt-12 md:rounded-3xl md:p-5 lg:grid lg:grid-cols-[1fr_auto_auto] md:gap-4"
           >
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-gray pointer-events-none">

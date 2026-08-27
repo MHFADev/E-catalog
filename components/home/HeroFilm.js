@@ -62,7 +62,7 @@ export default function HeroFilm({ children, className = "" }) {
   };
 
   return (
-    <div className={`hero-film relative aspect-[4/5] min-w-0 overflow-hidden rounded-[1.5rem] bg-hutan ring-1 ring-forest/20 shadow-[0_24px_52px_rgba(18,63,74,0.20)] motion-safe:animate-[fadeInUp_0.7s_var(--ease-out-expo)_both] min-[420px]:aspect-[4/3] sm:aspect-[16/10] sm:rounded-[2rem] md:rounded-[2.5rem] lg:aspect-[16/11] ${className}`}>
+    <div className={`hero-film relative aspect-[16/10] min-w-0 overflow-hidden rounded-[1.35rem] bg-hutan ring-1 ring-forest/20 shadow-[0_24px_52px_rgba(18,63,74,0.20)] motion-safe:animate-[fadeInUp_0.7s_var(--ease-out-expo)_both] sm:aspect-[16/10] sm:rounded-[2rem] md:rounded-[2.5rem] lg:aspect-auto lg:min-h-[31rem] ${className}`}>
       <video
         ref={videoRef}
         autoPlay
@@ -97,7 +97,7 @@ export default function HeroFilm({ children, className = "" }) {
         </button>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-[1] flex flex-col items-start p-5 text-left text-white sm:p-7 md:p-9 lg:p-10">
+      <div className="absolute inset-x-0 bottom-0 z-[1] flex flex-col items-start p-4 text-left text-white sm:p-7 md:p-9 lg:p-10">
         {children}
       </div>
     </div>
