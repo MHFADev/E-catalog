@@ -210,8 +210,9 @@ export default function CatalogContent({ categories, productsData, sellersData }
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-10 pb-28 md:pb-0">
       <section className="catalog-hero market-frame rounded-[1.75rem] md:rounded-[2.25rem] p-5 sm:p-7 md:p-9 mb-5 md:mb-8">
-        <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-leaf-arch right-0 -bottom-10 opacity-[0.12] rotate-[18deg]" />
+        <img src="/images/decor/market-basket-sprig.svg" alt="" aria-hidden="true" className="decor-asset -right-16 -bottom-24 hidden w-72 opacity-[0.18] md:block" />
         <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles right-[30%] top-4 hidden md:block opacity-35" />
+        <img src="/images/decor/market-braid-divider.svg" alt="" aria-hidden="true" className="decor-asset bottom-3 left-7 hidden w-52 opacity-35 lg:block" />
         <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl fade-in-up">
             <span className="section-kicker text-[#d9f0bf]">Etalase UMKM Kemayoran</span>

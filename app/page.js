@@ -122,6 +122,7 @@ export default async function HomePage() {
       <section className="home-hero market-frame relative overflow-clip">
         <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-leaf-arch" />
         <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles left-[4%] top-[10%] hidden md:block" />
+        <img src="/images/decor/market-braid-divider.svg" alt="" aria-hidden="true" className="decor-asset left-1/2 top-4 hidden w-56 -translate-x-1/2 opacity-35 lg:block" />
         <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/10 blur-3xl ambient-float" />
         <div aria-hidden="true" className="absolute -bottom-20 left-1/3 w-64 h-64 rounded-full bg-langit/20 blur-3xl ambient-float" />
 
@@ -269,6 +270,7 @@ export default async function HomePage() {
       {/* ===== KATEGORI POPULER ===== */}
       <section className="market-frame py-12 md:py-20 bg-white">
         <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-sprig left-auto right-0 top-0 hidden lg:block -rotate-[18deg]" />
+        <img src="/images/decor/market-braid-divider.svg" alt="" aria-hidden="true" className="decor-asset -left-10 bottom-3 hidden w-64 opacity-45 lg:block" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex items-end justify-between mb-6 md:mb-10">
             <div>
@@ -568,7 +570,7 @@ export default async function HomePage() {
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="market-frame rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden bg-hutan relative px-6 md:px-14 py-10 md:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-[0_18px_42px_rgba(10,37,64,0.16)]">
-            <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-leaf-arch right-0 -bottom-16 opacity-20 rotate-[4deg]" />
+            <img src="/images/decor/market-basket-sprig.svg" alt="" aria-hidden="true" className="decor-asset right-[-3.5rem] -bottom-20 hidden w-64 opacity-35 md:block md:w-80" />
             <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles right-[35%] top-5 hidden md:block opacity-35" />
             <div className="relative z-10">
               <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-white leading-tight">
