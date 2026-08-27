@@ -162,6 +162,20 @@ export default function AccountsManager({ accounts }) {
   const [pending, setPending] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  // State untuk kata kunci pencarian akun — filter by nama usaha, toko, atau ID
+  const [search, setSearch] = useState("");
+
+  // Filter akun berdasarkan query pencarian (case-insensitive)
+  const searchLower = search.toLowerCase().trim();
+  const filtered = searchLower
+    ? accounts?.filter(
+        (a) =>
+          (a.business_name || "").toLowerCase().includes(searchLower) ||
+          (a.sellers?.name || "").toLowerCase().includes(searchLower) ||
+          (a.user_id || "").toLowerCase().includes(searchLower) ||
+          (a.whatsapp || "").includes(searchLower)
+      )
+    : accounts;
 
   const run = async (action, account) => {
     setBusy(true);
@@ -180,14 +194,38 @@ export default function AccountsManager({ accounts }) {
 
   return (
     <div>
+      {/* Input pencarian akun — filter langsung di client tanpa reload */}
+      <div className="relative mb-4">
+        <svg
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-warm-gray pointer-events-none"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+        <input
+          type="text"
+          placeholder="Cari nama usaha, toko, WhatsApp, atau ID..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-cream-warm bg-white text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all"
+        />
+      </div>
+
       <div className="space-y-3">
-        {accounts?.length === 0 && (
+        {filtered?.length === 0 && (
           <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
-            Belum ada akun penjual terdaftar.
+            {search ? `Tidak ada akun yang cocok dengan "${search}".` : "Belum ada akun penjual terdaftar."}
           </p>
         )}
 
-        {accounts?.map((a) => (
+        {filtered?.map((a) => (
           <div
             key={a.user_id}
             className="bg-white rounded-2xl p-4 border border-cream-warm"
