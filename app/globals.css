@@ -415,6 +415,11 @@ video {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes heroCampaignIn {
+  from { opacity: 0; transform: scale(1.025); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 .fade-in-up { animation: fadeInUp 0.45s var(--ease-out-expo) both; }
 .reveal-delay-1 { animation-delay: 80ms; }
 .reveal-delay-2 { animation-delay: 160ms; }
