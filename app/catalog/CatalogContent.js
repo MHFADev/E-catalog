@@ -58,6 +58,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
   const [halal, setHalal] = useState("all");
   const [loading, setLoading] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [showAllSellers, setShowAllSellers] = useState(false);
   // [LIHAT LEBIH BANYAK] Jumlah produk awal yang ditampilkan (sampai produk ke-18).
   const INITIAL_VISIBLE = 18;
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
@@ -154,24 +155,61 @@ export default function CatalogContent({ categories, productsData, sellersData }
     [enriched, sellersData, baseOpts],
   );
 
-  // ==== Hitungan produk per opsi filter (untuk sidebar) ====
+  // ==== Hitungan produk per opsi filter (efficient cross-filtered counts) ====
   const counts = useMemo(() => {
-    const when = (patch) => filterProducts(enriched, sellersData, { ...baseOpts, ...patch }).length;
-    const categories = {};
-    for (const c of sortedCategories) categories[c.id] = when({ categoryIds: [c.id] });
-
-    const sellers = {};
-    for (const s of sellersData) sellers[s.id] = when({ sellerId: s.id });
-
-    return {
-      categories,
-      sellers,
-      po: when({ preOrder: "po" }),
-      ready: when({ preOrder: "ready" }),
-      halal: when({ halal: "halal" }),
-      nonHalal: when({ halal: "non_halal" }),
+    const result = {
+      categories: {},
+      sellers: {},
+      po: 0,
+      ready: 0,
+      halal: 0,
+      nonHalal: 0,
     };
-  }, [enriched, sellersData, baseOpts, sortedCategories]);
+
+    const q = debouncedSearch?.toLowerCase() || "";
+
+    // Pre-filter: apply search (shared across all dimensions)
+    const base = q
+      ? enriched.filter((p) => {
+          const seller = sellersData.find((s) => s.id === p.sellerId);
+          return (
+            p.name.toLowerCase().includes(q) ||
+            seller?.name.toLowerCase().includes(q) ||
+            p.tags?.some((t) => t.toLowerCase().includes(q))
+          );
+        })
+      : enriched;
+
+    // Helper: apply filters except the excluded dimension
+    const match = (p, exclude) => {
+      if (exclude !== "category" && selectedCategory && p.categoryId !== selectedCategory) return false;
+      if (exclude !== "seller" && sellerId !== "all" && p.sellerId !== sellerId) return false;
+      if (exclude !== "preOrder" && preOrder === "po" && p.isPreOrder !== true) return false;
+      if (exclude !== "preOrder" && preOrder === "ready" && p.isPreOrder === true) return false;
+      if (exclude !== "halal" && halal === "halal" && p.halalStatus !== "halal") return false;
+      if (exclude !== "halal" && halal === "non_halal" && p.halalStatus !== "non_halal") return false;
+      return true;
+    };
+
+    for (const p of base) {
+      if (match(p, "category")) {
+        if (p.categoryId) result.categories[p.categoryId] = (result.categories[p.categoryId] || 0) + 1;
+      }
+      if (match(p, "seller")) {
+        if (p.sellerId) result.sellers[p.sellerId] = (result.sellers[p.sellerId] || 0) + 1;
+      }
+      if (match(p, "preOrder")) {
+        if (p.isPreOrder === true) result.po++;
+        else result.ready++;
+      }
+      if (match(p, "halal")) {
+        if (p.halalStatus === "halal") result.halal++;
+        else if (p.halalStatus === "non_halal") result.nonHalal++;
+      }
+    }
+
+    return result;
+  }, [enriched, sellersData, debouncedSearch, selectedCategory, sellerId, preOrder, halal]);
 
   const visibleProducts = filtered.slice(0, visibleCount);
 
@@ -215,7 +253,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
         <img src="/images/decor/market-flower-divider.png" alt="" aria-hidden="true" className="decor-asset bottom-3 left-7 hidden w-52 opacity-45 lg:block" />
         <div className="relative z-10 flex flex-col gap-4 px-5 pt-6 sm:gap-5 sm:p-0 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl fade-in-up">
-            <span className="section-kicker text-[#d9f0bf]">Etalase UMKM Kemayoran</span>
+            <span className="section-kicker text-[#ffffff]">Etalase UMKM Kemayoran</span>
             <h1 className="mt-2 max-w-[19rem] text-[1.6rem] font-extrabold leading-[1.12] tracking-tight text-white sm:max-w-2xl sm:text-3xl md:text-4xl lg:text-[2.7rem]">
               Temukan produk lokal<br className="sm:hidden" /> yang <span className="text-[#d9f0bf] ink-outline">tepat untukmu.</span>
             </h1>
@@ -339,7 +377,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
                   active={sellerId === "all"}
                   onClick={() => setSellerId("all")}
                 />
-                {sellersData.map((s) => (
+                {(showAllSellers ? sellersData : sellersData.slice(0, 5)).map((s) => (
                   <SidebarOption
                     key={s.id}
                     label={s.name}
@@ -348,6 +386,14 @@ export default function CatalogContent({ categories, productsData, sellersData }
                     onClick={() => setSellerId(sellerId === s.id ? "all" : s.id)}
                   />
                 ))}
+                {sellersData.length > 5 && (
+                  <button
+                    onClick={() => setShowAllSellers((v) => !v)}
+                    className="w-full text-center text-[11px] font-semibold text-forest hover:underline py-1.5"
+                  >
+                    {showAllSellers ? "Tampilkan lebih sedikit" : `Lihat semua (${sellersData.length})`}
+                  </button>
+                )}
               </SidebarSection>
             )}
           </div>
@@ -408,8 +454,8 @@ export default function CatalogContent({ categories, productsData, sellersData }
         .scrollbar-thin::-webkit-scrollbar-thumb { background: #0055A0; border-radius: 2px; }
       `}</style>
 
-      {/* [MOBILE] Bottom bar filter — tetap terlihat tanpa scroll */}
-      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-forest/10 bg-[var(--carrom-white)]/95 px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(16,72,46,0.1)] backdrop-blur-xl">
+      {/* [MOBILE] Bottom bar filter — tetap terlihat tanpa scroll, hidden di desktop */}
+      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-forest/10 bg-[var(--carrom-white)]/95 px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(16,72,46,0.1)] backdrop-blur-xl lg:hidden">
         <button
           onClick={() => setFilterOpen(true)}
           className={`w-full flex items-center justify-center gap-2 py-3 rounded-full text-sm font-bold transition-all shadow-lg ${
