@@ -1,22 +1,41 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
+import AdminSearchInput from "@/components/common/AdminSearchInput";
 import { createAdminClient } from "@/lib/supabase/admin";
 import SellerForm from "./SellerForm";
 import { deleteSeller } from "../actions";
 
-export default async function AdminSellersPage() {
+// Halaman ini adalah Server Component — searchParams diterima sebagai prop
+// dari Next.js App Router berdasarkan query string ?q=...
+export default async function AdminSellersPage({ searchParams }) {
   const supabase = await createAdminClient();
   const { data: sellers } = await supabase
     .from("sellers")
     .select("*, products(id)")
     .order("name");
 
+  // Ambil query pencarian dari URL (?q=...) — case-insensitive
+  const { q: query } = await searchParams;
+  const search = (query || "").trim();
+
+  // Filter toko berdasarkan query pencarian (nama toko atau nama pemilik)
+  const filteredSellers = search
+    ? sellers?.filter(
+        (s) =>
+          s.name.toLowerCase().includes(search.toLowerCase()) ||
+          (s.owner || "").toLowerCase().includes(search.toLowerCase())
+      )
+    : sellers;
+
   return (
     <div>
       <h2 className="text-sm md:text-base font-bold text-noir mb-4">
-        Kelola Toko / UMKM ({sellers?.length ?? 0})
+        Kelola Toko / UMKM ({filteredSellers?.length ?? 0})
       </h2>
+
+      {/* Input pencarian — client component, update URL ?q=... */}
+      <AdminSearchInput placeholder="Cari nama toko atau pemilik..." />
 
       <details className="bg-white rounded-2xl border border-cream-warm mb-6 overflow-hidden">
         <summary className="flex items-center gap-1.5 px-4 py-3 text-sm font-semibold text-forest cursor-pointer hover:bg-cream-warm/50 transition-colors">
@@ -28,13 +47,13 @@ export default async function AdminSellersPage() {
       </details>
 
       <div className="space-y-3">
-        {sellers?.length === 0 && (
+        {filteredSellers?.length === 0 && (
           <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
-            Belum ada toko.
+            {search ? `Tidak ada toko yang cocok dengan "${search}".` : "Belum ada toko."}
           </p>
         )}
 
-        {sellers?.map((s) => (
+        {filteredSellers?.map((s) => (
           <div
             key={s.id}
             className="bg-white rounded-2xl p-4 border border-cream-warm flex flex-wrap items-center gap-3"
