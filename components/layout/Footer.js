@@ -80,11 +80,13 @@ export default function Footer() {
   const toggle = (key) => setOpenSection((prev) => (prev === key ? null : key));
 
   return (
-    <footer className="bg-hutan border-t border-forest-light/25 mt-16 overflow-hidden">
+    <footer className="market-frame bg-hutan border-t border-forest-light/25 mt-16 overflow-hidden">
+      <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-leaf-arch right-[-2rem] -bottom-24 opacity-[0.13] rotate-[20deg]" />
+      <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles left-[5%] top-16 hidden lg:block opacity-30" />
       {/* Aksen hias atas */}
-      <div className="h-1.5 bg-gradient-to-r from-laut via-[#8dcceb] to-[#d9f0bf] w-full" />
+      <div className="relative z-10 h-1.5 w-full bg-gradient-to-r from-laut via-[#8dcceb] to-[#d9f0bf]" />
 
-      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-10">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pb-10 lg:pb-12 border-b border-white/10">
           {/* Brand */}
           <div className="lg:col-span-4">
@@ -228,7 +230,7 @@ export default function Footer() {
                 Daftar gratis dan tampilkan produk Anda di katalog digital ini.{" "}
                 <Link
                   href="/gabung"
-                  className="text-[#d9f0bf] font-semibold hover:underline"
+                  className="font-semibold text-forest hover:underline"
                 >
                   Mulai di sini.
                 </Link>

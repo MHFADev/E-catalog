@@ -119,11 +119,13 @@ export default async function HomePage() {
   return (
     <>
       {/* ===== HERO + BANNER (video kiri, 2 banner statis kanan) ===== */}
-      <section className="home-hero relative overflow-clip">
+      <section className="home-hero market-frame relative overflow-clip">
+        <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-leaf-arch" />
+        <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles left-[4%] top-[10%] hidden md:block" />
         <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/10 blur-3xl ambient-float" />
         <div aria-hidden="true" className="absolute -bottom-20 left-1/3 w-64 h-64 rounded-full bg-langit/20 blur-3xl ambient-float" />
 
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6 py-7 sm:py-10 md:py-16 lg:py-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-7 sm:py-10 md:py-16 lg:py-20">
           <div
             className={`grid gap-3 sm:gap-4 md:gap-6 items-stretch ${
               banners?.length
@@ -265,8 +267,9 @@ export default async function HomePage() {
       </section>
 
       {/* ===== KATEGORI POPULER ===== */}
-      <section className="py-12 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
+      <section className="market-frame py-12 md:py-20 bg-white">
+        <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-sprig left-auto right-0 top-0 hidden lg:block -rotate-[18deg]" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex items-end justify-between mb-6 md:mb-10">
             <div>
               <span className="section-kicker">Mulai dari kebutuhanmu</span>
@@ -373,11 +376,12 @@ export default async function HomePage() {
       {/* ===== STATISTIK =====
           Section hijau dipersempit (tidak full-width): diberi margin
           horizontal + sudut membulat agar tampak seperti kartu. */}
-      <section className="relative overflow-hidden bg-hutan rounded-[1.75rem] md:rounded-[2.5rem] mx-3 md:mx-5 lg:mx-8 py-11 md:py-16 shadow-[0_22px_46px_rgba(10,37,64,0.18)]">
+      <section className="market-frame relative overflow-hidden bg-hutan rounded-[1.75rem] md:rounded-[2.5rem] mx-3 md:mx-5 lg:mx-8 py-11 md:py-16 shadow-[0_22px_46px_rgba(10,37,64,0.18)]">
+        <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles right-[5%] bottom-[10%] opacity-30" />
         <div className="absolute inset-0 opacity-[0.04]" />
         {/* Konten dipersempit (max-w-4xl) dan jarak antar lingkaran dikurangi
             (gap-2 mobile, gap-6 md+) agar ke-4 lingkaran tampak lebih dekat */}
-        <div className="relative max-w-4xl mx-auto px-4 md:px-6">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 md:px-6">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center text-white mb-8 md:mb-12">
             UMKM Kemayoran <span className="text-langit">Dalam Angka</span>
           </h2>
@@ -563,7 +567,9 @@ export default async function HomePage() {
       {/* ===== CTA ===== */}
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden bg-hutan relative px-6 md:px-14 py-10 md:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-[0_18px_42px_rgba(10,37,64,0.16)]">
+          <div className="market-frame rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden bg-hutan relative px-6 md:px-14 py-10 md:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-[0_18px_42px_rgba(10,37,64,0.16)]">
+            <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-leaf-arch right-0 -bottom-16 opacity-20 rotate-[4deg]" />
+            <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles right-[35%] top-5 hidden md:block opacity-35" />
             <div className="relative z-10">
               <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-white leading-tight">
                 Punya Usaha di Kemayoran?

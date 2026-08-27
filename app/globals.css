@@ -15,6 +15,9 @@
   --surface-soft: #eef0e5;
   --surface-card: #ffffff;
   --support-clay: #d98a2b;
+  --sky-mist: #dcedf7;
+  --sky-soft: #8dcceb;
+  --ink-muted: #486477;
   --color-glass-forest: rgba(31, 107, 69, 0.12);
   --color-glass-cream: rgba(255, 255, 255, 0.9);
   --shadow-soft: 0 1px 2px rgba(23, 63, 49, 0.04), 0 12px 30px rgba(23, 63, 49, 0.09);
@@ -33,7 +36,7 @@ body {
   min-width: 320px;
   overflow-x: hidden;
   color: var(--brand-navy);
-  font-family: "Inter", "Aptos", "Segoe UI", sans-serif;
+  font-family: var(--font-manrope), "Aptos", "Segoe UI", sans-serif;
   background-color: var(--surface-base);
   background-image:
     radial-gradient(circle at 0% 8%, rgba(207, 230, 182, 0.46), transparent 24rem),
@@ -51,8 +54,9 @@ body {
 h1,
 h2,
 .market-panel-title {
-  font-family: Georgia, "Times New Roman", serif;
-  letter-spacing: -0.028em;
+  font-family: var(--font-sora), var(--font-manrope), "Aptos", sans-serif;
+  font-weight: 750;
+  letter-spacing: -0.042em;
 }
 
 a {
@@ -226,8 +230,8 @@ video {
   align-items: center;
   gap: 0.5rem;
   color: var(--leaf);
-  font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
-  font-size: 0.68rem;
+  font-family: var(--font-manrope), "Aptos", sans-serif;
+  font-size: 0.67rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   line-height: 1;
@@ -250,13 +254,61 @@ video {
 
 .home-hero {
   background:
-    radial-gradient(circle at 92% 8%, rgba(207, 230, 182, 0.56), transparent 20rem),
-    linear-gradient(180deg, #fbfaf2 0%, #f0f3e8 100%);
+    radial-gradient(circle at 90% 6%, rgba(141, 204, 235, 0.35), transparent 17rem),
+    radial-gradient(circle at 8% 88%, rgba(207, 230, 182, 0.58), transparent 21rem),
+    linear-gradient(180deg, #fbfaf2 0%, #eff3e8 52%, #fbfaf2 100%);
 }
 
 .hero-film {
-  box-shadow: 0 28px 54px rgba(16, 72, 46, 0.23);
+  box-shadow: 0 30px 62px rgba(10, 75, 134, 0.16), 0 14px 30px rgba(16, 72, 46, 0.16);
 }
+
+/* Ornamen terpusat pada momen penting: hero, katalog, dan ajakan bergabung. */
+.decor-asset {
+  position: absolute;
+  z-index: 0;
+  display: block;
+  width: auto;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.decor-leaf-arch {
+  right: -3rem;
+  bottom: -4.5rem;
+  width: clamp(14rem, 27vw, 25rem);
+  opacity: 0.15;
+  transform: rotate(10deg);
+}
+
+.decor-sprig {
+  top: -4rem;
+  right: -3rem;
+  width: clamp(11rem, 20vw, 19rem);
+  opacity: 0.17;
+  transform: rotate(10deg);
+}
+
+.decor-sparkles {
+  width: clamp(8rem, 15vw, 13rem);
+  opacity: 0.55;
+}
+
+.market-frame {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ink-outline {
+  text-decoration: underline;
+  text-decoration-color: var(--sky-soft);
+  text-decoration-thickness: 0.18em;
+  text-underline-offset: 0.12em;
+  text-decoration-skip-ink: none;
+}
+
 
 .market-search {
   border: 1px solid rgba(31, 107, 69, 0.16);
@@ -293,8 +345,9 @@ video {
 }
 
 .market-panel-title {
-  font-family: Georgia, "Times New Roman", serif;
-  letter-spacing: -0.025em;
+  font-family: var(--font-sora), var(--font-manrope), "Aptos", sans-serif;
+  font-weight: 750;
+  letter-spacing: -0.04em;
 }
 
 /* Scrollbar tetap terlihat sebagai affordance pada kontrol horizontal. */
@@ -390,6 +443,8 @@ video {
 @media (max-width: 639px) {
   .catalog-hero::before { right: -5rem; }
   .catalog-hero::after { right: -9rem; }
+  .decor-leaf-arch { right: -4.25rem; bottom: -2.5rem; width: 15rem; opacity: 0.12; }
+  .decor-sprig { top: -3.5rem; right: -4.5rem; width: 13rem; opacity: 0.13; }
 }
 
 @media (prefers-reduced-motion: reduce) {

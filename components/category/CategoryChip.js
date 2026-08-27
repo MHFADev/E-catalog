@@ -3,7 +3,7 @@
 import { useState } from "react";
 import CategoryVisualIcon from "@/components/category/CategoryVisualIcon";
 
-// Tombol kategori dengan bingkai ikon tetap agar semua ilustrasi memiliki pusat dan skala yang konsisten.
+// Tombol kategori mempertahankan ukuran ikon yang konsisten tanpa kotak latar agar ilustrasi outline tampil utuh.
 export default function CategoryChip({ category, active, onClick }) {
   const [imgError, setImgError] = useState(false);
 
@@ -36,16 +36,14 @@ export default function CategoryChip({ category, active, onClick }) {
 
       <span className="relative z-10 flex min-w-0 items-center gap-2.5">
         <span
-          className={`category-icon-frame flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl p-1 transition-transform duration-300 ${
-            active
-              ? "scale-105 bg-cream-pure/95 shadow-[0_4px_10px_rgba(0,0,0,0.18)]"
-              : "bg-[#FFF9EF] border border-cream-warm/80 shadow-[0_3px_7px_rgba(78,52,38,0.10)]"
+          className={`category-icon-frame flex h-10 w-10 shrink-0 items-center justify-center overflow-visible p-0 transition-transform duration-300 ${
+            active ? "scale-105" : "md:group-hover:scale-[1.06]"
           }`}
         >
           <CategoryVisualIcon
             category={category}
-            className="category-icon-art block h-full w-full drop-shadow-[0_2px_1px_rgba(80,44,18,0.18)]"
-            fallbackSize={18}
+            className="category-icon-art block h-full w-full"
+            fallbackSize={20}
           />
         </span>
         <span className="leading-tight">{category.name}</span>

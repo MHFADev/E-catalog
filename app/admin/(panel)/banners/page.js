@@ -8,13 +8,14 @@ import { toggleBanner, deleteBanner } from "../actions";
 export default async function AdminBannersPage() {
   let banners = [];
   let loadError = null;
-  const supabase = await createAdminClient();
   try {
-    const { data } = await supabase
+    const supabase = await createAdminClient();
+    const { data, error } = await supabase
       .from("banners")
       .select("id, image_url, title, link, sort_order, active, created_at")
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: true });
+    if (error) throw error;
     banners = data || [];
   } catch (err) {
     loadError = err?.message || "Gagal membaca banner.";

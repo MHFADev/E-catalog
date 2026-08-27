@@ -209,12 +209,14 @@ export default function CatalogContent({ categories, productsData, sellersData }
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-10 pb-28 md:pb-0">
-      <section className="catalog-hero rounded-[1.75rem] md:rounded-[2.25rem] p-5 sm:p-7 md:p-9 mb-5 md:mb-8">
+      <section className="catalog-hero market-frame rounded-[1.75rem] md:rounded-[2.25rem] p-5 sm:p-7 md:p-9 mb-5 md:mb-8">
+        <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-leaf-arch right-0 -bottom-10 opacity-[0.12] rotate-[18deg]" />
+        <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles right-[30%] top-4 hidden md:block opacity-35" />
         <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl fade-in-up">
             <span className="section-kicker text-[#d9f0bf]">Etalase UMKM Kemayoran</span>
             <h1 className="mt-2 text-2xl md:text-4xl lg:text-[2.7rem] font-extrabold tracking-tight leading-[1.05] text-white">
-              Temukan produk lokal yang <span className="text-[#d9f0bf]">tepat untukmu.</span>
+              Temukan produk lokal yang <span className="text-[#d9f0bf] ink-outline">tepat untukmu.</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm md:text-base leading-relaxed text-white/80">
               Jelajahi pilihan dari pelaku usaha sekitar, kemudian hubungi toko langsung saat sudah menemukan produk yang kamu suka.
@@ -354,7 +356,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
         <div className="min-w-0">
           <div ref={productsRef} className="scroll-mt-24">
             <div className="mb-4 flex items-center justify-between gap-3 md:mb-6">
-              <p className="font-mono text-[10px] md:text-xs text-warm-gray tracking-wider">
+              <p className="font-semibold text-[10px] md:text-xs uppercase text-warm-gray tracking-[0.12em]">
                 {loading ? "Memuat etalase..." : `${filtered.length} produk ditemukan`}
               </p>
               {!loading && filtered.length > 0 && <span className="hidden sm:inline-flex rounded-full border border-cream-warm bg-white px-3 py-1 text-[11px] font-semibold text-cool-gray">Pilihan terbaru & unggulan</span>}

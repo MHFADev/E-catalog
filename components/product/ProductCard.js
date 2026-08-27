@@ -2,17 +2,19 @@
 import { useState } from 'react'
 import Icon from '@/components/common/Icon'
 
-// [PRODUK CONTOH] Peta id kategori -> ikon kategori di /images/categories.
-// Dipakai sebagai gambar kartu untuk produk yang tidak punya foto (images kosong),
-// misal produk contoh 1-15. Di halaman detail (/product/[id]) gambar tetap kosong.
+// Ilustrasi fallback ketika produk belum memiliki foto. Seluruh aset memakai gaya
+// outline biru-putih bergambar tangan agar konsisten dengan pilihan kategori.
 const CATEGORY_FALLBACK_IMAGES = {
-  kuliner: "/images/category-icons/kuliner.png",
-  "fasion-aksesoris": "/images/category-icons/fasion-aksesoris.png",
-  "camilan-minuman": "/images/category-icons/camilan-minuman.png",
-  "frozen-food": "/images/category-icons/frozen-food.png",
-  "masakan-siap-saji": "/images/category-icons/masakan-siap-saji.png",
-  "makanan-hampers": "/images/category-icons/makanan-hampers.png",
-  "sembako-rumah-tangga": "/images/category-icons/sembako-rumah-tangga.png",
+  kuliner: "/images/category-icons/transparent/kuliner.png",
+  "fasion-aksesoris": "/images/category-icons/transparent/fasion-aksesoris.png",
+  "camilan-minuman": "/images/category-icons/transparent/camilan-minuman.png",
+  "frozen-food": "/images/category-icons/transparent/frozen-food.png",
+  "masakan-siap-saji": "/images/category-icons/transparent/masakan-siap-saji.png",
+  "makanan-hampers": "/images/category-icons/transparent/makanan-hampers.png",
+  "sembako-rumah-tangga": "/images/category-icons/transparent/sembako-rumah-tangga.png",
+  "kerajinan-aksesori": "/images/category-icons/transparent/kerajinan-aksesori.png",
+  "kebutuhan-hewan": "/images/category-icons/transparent/kebutuhan-hewan.png",
+  "layanan-digital": "/images/category-icons/transparent/layanan-digital.png",
 };
 
 // Harga produk: data pakai format campuran, rapikan di sini.

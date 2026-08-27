@@ -9,32 +9,54 @@ import { toggleProduct, deleteProduct } from "../actions";
 // Halaman ini adalah Server Component — searchParams diterima sebagai prop
 // dari Next.js App Router berdasarkan query string ?q=...
 export default async function AdminProductsPage({ searchParams }) {
-  const supabase = await createAdminClient();
-  const [{ data: products }, { data: categories }, { data: sellers }] =
-    await Promise.all([
+  let products = [];
+  let categories = [];
+  let sellers = [];
+  let loadError = "";
+
+  try {
+    const supabase = await createAdminClient();
+    const [productsResult, categoriesResult, sellersResult] = await Promise.all([
       supabase.from("products").select("*, sellers(name)").order("name"),
       supabase.from("categories").select("id, name").order("name"),
       supabase.from("sellers").select("id, name").order("name"),
     ]);
+    const failedQuery = [productsResult, categoriesResult, sellersResult].find(
+      (result) => result.error,
+    );
+    if (failedQuery?.error) throw failedQuery.error;
 
-  // Ambil query pencarian dari URL (?q=...) —붕어빵 lowercase untuk case-insensitive
+    products = productsResult.data || [];
+    categories = categoriesResult.data || [];
+    sellers = sellersResult.data || [];
+  } catch (error) {
+    loadError = error?.message || "Gagal membaca data produk.";
+  }
+
+  // Ambil query pencarian dari URL (?q=...) untuk pencarian case-insensitive.
   const { q: query } = await searchParams;
   const search = (query || "").trim();
 
-  const catName = (id) => categories?.find((c) => c.id === id)?.name || id;
+  const catName = (id) => categories.find((c) => c.id === id)?.name || id;
 
   // Filter produk berdasarkan query pencarian (nama produk saja)
   const filteredProducts = search
-    ? products?.filter((p) =>
-        p.name.toLowerCase().includes(search.toLowerCase())
+    ? products.filter((product) =>
+        String(product.name || "").toLowerCase().includes(search.toLowerCase()),
       )
     : products;
 
   return (
     <div>
       <h2 className="text-sm md:text-base font-bold text-noir mb-4">
-        Kelola Produk ({filteredProducts?.length ?? 0})
+        Kelola Produk ({filteredProducts.length})
       </h2>
+
+      {loadError && (
+        <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-relaxed text-amber-800" role="alert">
+          <strong>Data produk belum dapat dimuat.</strong> {loadError}
+        </div>
+      )}
 
       {/* Input pencarian — client component, update URL ?q=... */}
       <AdminSearchInput placeholder="Cari nama produk..." />
@@ -44,18 +66,18 @@ export default async function AdminProductsPage({ searchParams }) {
           <Icon name="plus" size={14} /> Tambah Produk Baru
         </summary>
         <div className="p-4 md:p-5 border-t border-cream-warm">
-          <ProductForm categories={categories ?? []} sellers={sellers ?? []} />
+          <ProductForm categories={categories} sellers={sellers} />
         </div>
       </details>
 
       <div className="space-y-3">
-        {filteredProducts?.length === 0 && (
+        {filteredProducts.length === 0 && (
           <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
             {search ? `Tidak ada produk yang cocok dengan "${search}".` : "Belum ada produk."}
           </p>
         )}
 
-        {filteredProducts?.map((p) => (
+        {filteredProducts.map((p) => (
           <div
             key={p.id}
             className="bg-white rounded-2xl p-4 border border-cream-warm flex flex-wrap items-center gap-3"

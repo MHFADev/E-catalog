@@ -9,30 +9,45 @@ import { deleteSeller } from "../actions";
 // Halaman ini adalah Server Component — searchParams diterima sebagai prop
 // dari Next.js App Router berdasarkan query string ?q=...
 export default async function AdminSellersPage({ searchParams }) {
-  const supabase = await createAdminClient();
-  const { data: sellers } = await supabase
-    .from("sellers")
-    .select("*, products(id)")
-    .order("name");
+  let sellers = [];
+  let loadError = "";
 
-  // Ambil query pencarian dari URL (?q=...) — case-insensitive
+  try {
+    const supabase = await createAdminClient();
+    const { data, error } = await supabase
+      .from("sellers")
+      .select("*, products(id)")
+      .order("name");
+    if (error) throw error;
+    sellers = data || [];
+  } catch (error) {
+    loadError = error?.message || "Gagal membaca data toko.";
+  }
+
+  // Ambil query pencarian dari URL (?q=...) untuk pencarian case-insensitive.
   const { q: query } = await searchParams;
   const search = (query || "").trim();
 
   // Filter toko berdasarkan query pencarian (nama toko atau nama pemilik)
   const filteredSellers = search
-    ? sellers?.filter(
-        (s) =>
-          s.name.toLowerCase().includes(search.toLowerCase()) ||
-          (s.owner || "").toLowerCase().includes(search.toLowerCase())
+    ? sellers.filter(
+        (seller) =>
+          String(seller.name || "").toLowerCase().includes(search.toLowerCase()) ||
+          String(seller.owner || "").toLowerCase().includes(search.toLowerCase()),
       )
     : sellers;
 
   return (
     <div>
       <h2 className="text-sm md:text-base font-bold text-noir mb-4">
-        Kelola Toko / UMKM ({filteredSellers?.length ?? 0})
+        Kelola Toko / UMKM ({filteredSellers.length})
       </h2>
+
+      {loadError && (
+        <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-relaxed text-amber-800" role="alert">
+          <strong>Data toko belum dapat dimuat.</strong> {loadError}
+        </div>
+      )}
 
       {/* Input pencarian — client component, update URL ?q=... */}
       <AdminSearchInput placeholder="Cari nama toko atau pemilik..." />
@@ -47,13 +62,13 @@ export default async function AdminSellersPage({ searchParams }) {
       </details>
 
       <div className="space-y-3">
-        {filteredSellers?.length === 0 && (
+        {filteredSellers.length === 0 && (
           <p className="text-sm text-warm-gray bg-white rounded-2xl border border-cream-warm p-6 text-center">
             {search ? `Tidak ada toko yang cocok dengan "${search}".` : "Belum ada toko."}
           </p>
         )}
 
-        {filteredSellers?.map((s) => (
+        {filteredSellers.map((s) => (
           <div
             key={s.id}
             className="bg-white rounded-2xl p-4 border border-cream-warm flex flex-wrap items-center gap-3"

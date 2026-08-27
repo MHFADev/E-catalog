@@ -1,8 +1,21 @@
 import "./globals.css";
+import { Manrope, Sora } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageTransition from "@/components/layout/PageTransition";
 import OnboardingGate from "@/components/onboarding/OnboardingGate";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  display: "swap",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
+  display: "swap",
+});
 
 const configuredOrigin =
   process.env.NEXT_PUBLIC_SITE_URL ||
@@ -50,7 +63,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
       </head>
-      <body suppressHydrationWarning>
+      <body className={`${manrope.variable} ${sora.variable}`} suppressHydrationWarning>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" />
         <OnboardingGate />
         <Navbar />

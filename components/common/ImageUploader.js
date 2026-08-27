@@ -86,7 +86,7 @@ export default function ImageUploader({
       </label>
       {/* Catatan kecil format yang didukung + hint tambahan dari parent. */}
       <span className="block text-[10px] text-warm-gray mt-1">
-        Format: {ALLOWED_LABEL} {hint ? `• ${hint}` : ""}
+        Format: {ALLOWED_LABEL} • maks. 10 MB {hint ? `• ${hint}` : ""}
       </span>
       <textarea
         name={name}
@@ -104,7 +104,7 @@ export default function ImageUploader({
           className="mt-2 h-24 w-24 object-cover rounded-xl border border-cream-warm"
         />
       )}
-      {err && <p className="text-xs text-forest mt-1.5">{err}</p>}
+      {err && <p className="mt-1.5 text-xs text-red-700" role="alert">{err}</p>}
     </div>
   );
 }

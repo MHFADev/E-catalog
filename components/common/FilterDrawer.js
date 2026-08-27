@@ -16,11 +16,11 @@ function DrawerOption({ label, count, active, onClick, category }) {
     >
             <span className="flex min-w-0 items-center gap-2.5">
         {category && (
-                      <span className={`category-icon-frame flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl p-1 ${active ? "bg-white/95 shadow-sm" : "bg-[#FFF8EC] border border-cream-warm/70"}`}>
+          <span className="category-icon-frame flex h-10 w-10 shrink-0 items-center justify-center overflow-visible p-0">
               <CategoryVisualIcon
                 category={category}
-                className="category-icon-art block h-full w-full drop-shadow-[0_1px_1px_rgba(80,44,18,0.16)]"
-                fallbackSize={18}
+                className="category-icon-art block h-full w-full"
+                fallbackSize={20}
               />
             </span>
 

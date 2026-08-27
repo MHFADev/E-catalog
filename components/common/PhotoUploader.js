@@ -62,7 +62,7 @@ export default function PhotoUploader({
             <input
               ref={inputRef}
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
               onChange={onFile}
               disabled={busy}
               className="hidden"
@@ -78,8 +78,8 @@ export default function PhotoUploader({
               </>
             )}
           </label>
-          {hint && <span className="text-[10px] text-warm-gray">{hint}</span>}
-          {err && <span className="text-[11px] text-forest">{err}</span>}
+          <span className="text-[10px] text-warm-gray">JPG, PNG, atau WebP • maks. 10 MB{hint ? ` • ${hint}` : ""}</span>
+          {err && <span className="text-[11px] text-red-700" role="alert">{err}</span>}
         </div>
       </div>
     </div>
