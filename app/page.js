@@ -528,23 +528,23 @@ export default async function HomePage() {
       {/* ===== CTA ===== */}
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="market-frame rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden bg-hutan relative px-6 md:px-14 py-10 md:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-[0_18px_42px_rgba(10,37,64,0.16)]">
+          <div className="market-frame relative flex flex-col items-start justify-between gap-7 overflow-hidden rounded-[1.75rem] bg-hutan px-6 py-9 shadow-[0_18px_42px_rgba(10,37,64,0.16)] md:flex-row md:items-center md:gap-6 md:rounded-[2.5rem] md:px-14 md:py-14">
             <img src="/images/decor/market-basket-sprig.svg" alt="" aria-hidden="true" className="decor-asset right-[-3.5rem] -bottom-20 hidden w-64 opacity-35 md:block md:w-80" />
             <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles right-[35%] top-5 hidden md:block opacity-35" />
-            <div className="relative z-10">
-              <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-white leading-tight">
+            <div className="relative z-10 max-w-lg">
+              <span className="mb-3 inline-flex border-l-2 border-forest-bright pl-2 text-[10px] font-bold uppercase tracking-[0.14em] text-forest-bright">Untuk pelaku usaha</span>
+              <h2 className="max-w-[16rem] text-[1.65rem] font-bold leading-[1.12] tracking-tight text-white sm:max-w-none md:text-3xl lg:text-4xl">
                 Punya Usaha di Kemayoran?
                 <br />
                 <span className="text-forest-bright">Bergabung Sekarang!</span>
               </h2>
-              <p className="text-xs md:text-sm text-white/70 mt-2 max-w-lg">
-                Gratis, mudah, dan bantu usahamu lebih dikenal warga serta
-                wisatawan. Daftar sebagai UMKM di katalog digital Kemayoran.
+              <p className="mt-3 max-w-[29rem] text-sm leading-5 text-white/75 md:text-sm md:leading-relaxed">
+                Gratis, mudah, dan bantu usahamu lebih dikenal warga serta wisatawan. Daftar sebagai UMKM di katalog digital Kemayoran.
               </p>
             </div>
             <Link
               href="/gabung"
-              className="relative z-10 inline-flex items-center gap-2 px-6 md:px-8 py-3.5 rounded-xl bg-laut text-white text-sm md:text-base font-bold hover:bg-laut-deep shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5 shrink-0"
+              className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-laut px-6 py-3.5 text-sm font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-laut-deep hover:shadow-card-hover sm:w-auto md:px-8 md:text-base"
             >
               Daftar Sekarang <Icon name="arrowRight" size={16} />
             </Link>

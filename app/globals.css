@@ -446,8 +446,16 @@ video {
 .ambient-float { animation: ambientFloat 9s ease-in-out infinite; }
 
 @media (max-width: 639px) {
-  .catalog-hero::before { right: -5rem; }
-  .catalog-hero::after { right: -9rem; }
+  /* Mobile memakai satu momen visual yang tenang: konten mendapat prioritas di atas ornamen. */
+  .catalog-hero {
+    background:
+      radial-gradient(circle at 94% 8%, rgba(207, 230, 182, 0.20), transparent 9rem),
+      linear-gradient(135deg, #10482e 0%, #1f6b45 100%);
+  }
+  .catalog-hero::before,
+  .catalog-hero::after {
+    display: none;
+  }
   .decor-leaf-arch { right: -4.25rem; bottom: -2.5rem; width: 15rem; opacity: 0.12; }
   .decor-sprig { top: -3.5rem; right: -4.5rem; width: 13rem; opacity: 0.13; }
 }

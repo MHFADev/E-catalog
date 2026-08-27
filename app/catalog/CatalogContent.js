@@ -209,26 +209,26 @@ export default function CatalogContent({ categories, productsData, sellersData }
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-10 pb-28 md:pb-0">
-      <section className="catalog-hero market-frame rounded-[1.75rem] md:rounded-[2.25rem] p-5 sm:p-7 md:p-9 mb-5 md:mb-8">
+      <section className="catalog-hero market-frame mb-5 overflow-hidden rounded-[1.6rem] p-0 sm:rounded-[1.75rem] sm:p-7 md:mb-8 md:rounded-[2.25rem] md:p-9">
         <img src="/images/decor/market-basket-sprig.svg" alt="" aria-hidden="true" className="decor-asset -right-16 -bottom-24 hidden w-72 opacity-[0.18] md:block" />
         <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles right-[30%] top-4 hidden md:block opacity-35" />
         <img src="/images/decor/market-braid-divider.svg" alt="" aria-hidden="true" className="decor-asset bottom-3 left-7 hidden w-52 opacity-35 lg:block" />
-        <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div className="relative z-10 flex flex-col gap-4 px-5 pt-6 sm:gap-5 sm:p-0 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl fade-in-up">
             <span className="section-kicker text-[#d9f0bf]">Etalase UMKM Kemayoran</span>
-            <h1 className="mt-2 text-2xl md:text-4xl lg:text-[2.7rem] font-extrabold tracking-tight leading-[1.05] text-white">
-              Temukan produk lokal yang <span className="text-[#d9f0bf] ink-outline">tepat untukmu.</span>
+            <h1 className="mt-2 max-w-[19rem] text-[1.6rem] font-extrabold leading-[1.12] tracking-tight text-white sm:max-w-2xl sm:text-3xl md:text-4xl lg:text-[2.7rem]">
+              Temukan produk lokal<br className="sm:hidden" /> yang <span className="text-[#d9f0bf] ink-outline">tepat untukmu.</span>
             </h1>
-            <p className="mt-3 max-w-xl text-sm md:text-base leading-relaxed text-white/80">
+            <p className="mt-3 max-w-xl text-[13px] leading-5 text-white/80 sm:text-sm sm:leading-relaxed md:text-base">
               Jelajahi pilihan dari pelaku usaha sekitar, kemudian hubungi toko langsung saat sudah menemukan produk yang kamu suka.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2 fade-in-up reveal-delay-1">
-            <span className="stat-chip"><Icon name="store" size={14} /> {sellersData.length} UMKM lokal</span>
-            <span className="stat-chip"><Icon name="shoppingBasket" size={14} /> {productsData.length} produk</span>
+          <div className="-mt-0.5 flex flex-wrap gap-2 fade-in-up reveal-delay-1 sm:mt-0">
+            <span className="stat-chip text-[11px]"><Icon name="store" size={13} /> {sellersData.length} UMKM lokal</span>
+            <span className="stat-chip text-[11px]"><Icon name="shoppingBasket" size={13} /> {productsData.length} produk</span>
           </div>
         </div>
-        <div className="relative z-10 mt-5 md:mt-7 scale-in reveal-delay-2">
+        <div className="relative z-10 mt-5 border-t border-white/15 bg-white/[0.035] px-3 pb-3 pt-3 scale-in reveal-delay-2 sm:mt-7 sm:border-0 sm:bg-transparent sm:p-0">
           <SearchBar
             value={searchInput}
             onChange={setSearchInput}
