@@ -286,7 +286,7 @@ export default function ReviewSection({ initial = [], productId }) {
             Login untuk mengirim komentar
           </p>
           <p className="text-xs text-warm-gray mb-4">
-            Komentar Anda akan tampil setelah disetujui admin.
+            Rating dan komentar Anda tampil setelah berhasil dikirim.
           </p>
           <Link href="/login" className="btn-primary text-sm py-2.5 px-6">
             Masuk / Daftar

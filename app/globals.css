@@ -401,3 +401,16 @@ video {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Category icon alignment: keeps varied hand-drawn artwork optically centered in every filter control. */
+.category-icon-frame {
+  line-height: 0;
+  isolation: isolate;
+}
+
+.category-icon-art {
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  transform-origin: center;
+}
