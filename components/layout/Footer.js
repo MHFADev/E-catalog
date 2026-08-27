@@ -14,8 +14,8 @@ import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
 
 function FooterHeading({ children }) {
   return (
-    <h4 className="text-xs md:text-sm font-bold tracking-[0.14em] uppercase text-noir mb-5 flex items-center gap-2">
-      <span className="w-1 h-4 bg-forest rounded-sm" />
+    <h4 className="text-xs md:text-sm font-bold tracking-[0.14em] uppercase text-white mb-5 flex items-center gap-2">
+      <span className="w-1 h-4 bg-[#d9f0bf] rounded-sm" />
       {children}
     </h4>
   );
@@ -25,9 +25,9 @@ function FooterLink({ href, children }) {
   return (
     <Link
       href={href}
-      className="text-sm text-warm-gray hover:text-forest transition-colors flex items-center gap-1.5 w-fit"
+      className="text-sm text-white/70 hover:text-[#d9f0bf] transition-colors flex items-center gap-1.5 w-fit"
     >
-      <span className="text-forest/50">›</span>
+      <span className="text-[#d9f0bf]/70">›</span>
       {children}
     </Link>
   );
@@ -35,7 +35,7 @@ function FooterLink({ href, children }) {
 
 function MobileAccordionItem({ title, open, onToggle, children }) {
   return (
-    <div className="border-b border-cream-warm">
+    <div className="border-b border-white/10">
       <button
         type="button"
         onClick={onToggle}
@@ -44,8 +44,8 @@ function MobileAccordionItem({ title, open, onToggle, children }) {
         className="flex w-full items-center justify-between py-4 text-left"
       >
         <span className="flex items-center gap-2">
-          <span className="w-1 h-4 bg-forest rounded-sm" />
-          <span className="text-xs font-bold tracking-[0.14em] uppercase text-noir">
+          <span className="w-1 h-4 bg-[#d9f0bf] rounded-sm" />
+          <span className="text-xs font-bold tracking-[0.14em] uppercase text-white">
             {title}
           </span>
         </span>
@@ -80,12 +80,12 @@ export default function Footer() {
   const toggle = (key) => setOpenSection((prev) => (prev === key ? null : key));
 
   return (
-    <footer className="bg-white border-t border-cream-warm mt-16 overflow-hidden">
+    <footer className="bg-hutan border-t border-forest-light/25 mt-16 overflow-hidden">
       {/* Aksen hias atas */}
-      <div className="h-1.5 bg-gradient-to-r from-forest via-forest/60 to-clay w-full" />
+      <div className="h-1.5 bg-gradient-to-r from-laut via-[#8dcceb] to-[#d9f0bf] w-full" />
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pb-10 lg:pb-12 border-b border-cream-warm">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pb-10 lg:pb-12 border-b border-white/10">
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link href="/" className="flex items-center gap-2.5">
@@ -95,15 +95,15 @@ export default function Footer() {
                 className="h-9 md:h-10 w-auto"
               />
               <div>
-                <div className="font-extrabold text-base md:text-lg text-noir leading-tight">
+                <div className="font-extrabold text-base md:text-lg text-white leading-tight">
                   UMKM Kemayoran
                 </div>
-                <div className="text-[10px] md:text-[11px] text-warm-gray uppercase tracking-wider">
+                <div className="text-[10px] md:text-[11px] text-white/55 uppercase tracking-wider">
                   E-Catalog Lokal
                 </div>
               </div>
             </Link>
-            <p className="mt-4 text-sm text-cool-gray leading-relaxed max-w-sm">
+            <p className="mt-4 text-sm text-white/72 leading-relaxed max-w-sm">
               Katalog digital untuk mendukung pertumbuhan UMKM Kemayoran —
               belanja langsung, transparan, dan dekat dengan warga sekitar.
             </p>
@@ -114,7 +114,7 @@ export default function Footer() {
                 href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-forest font-semibold hover:underline no-underline"
+                className="flex items-center gap-2 text-white font-semibold hover:text-[#d9f0bf] hover:underline no-underline"
               >
                 <span className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
                   <Icon name="whatsapp" size={15} />
@@ -123,14 +123,14 @@ export default function Footer() {
               </a>
               <a
                 href="mailto:hallo@umkm-kemayoran.id"
-                className="flex items-center gap-2 text-warm-gray hover:text-forest transition-colors no-underline"
+                className="flex items-center gap-2 text-white/70 hover:text-[#d9f0bf] transition-colors no-underline"
               >
                 <span className="w-8 h-8 rounded-full bg-forest/10 text-forest flex items-center justify-center shrink-0">
                   <Icon name="send" size={14} />
                 </span>
                 hallo@umkm-kemayoran.id
               </a>
-              <div className="flex items-center gap-2 text-warm-gray">
+              <div className="flex items-center gap-2 text-white/70">
                 <span className="w-8 h-8 rounded-full bg-clay/10 text-clay-deep flex items-center justify-center shrink-0">
                   <Icon name="mapPin" size={14} />
                 </span>
@@ -139,8 +139,8 @@ export default function Footer() {
             </div>
 
             {/* [OPSI 3b] Mitra Pendukung di samping info kontak */}
-            <div className="mt-7 pt-5 border-t border-cream-warm">
-              <div className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-warm-gray font-semibold mb-3">
+            <div className="mt-7 pt-5 border-t border-white/10">
+              <div className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-white/55 font-semibold mb-3">
                 Mitra Pendukung
               </div>
               <PartnerLogos variant="footer" />
@@ -169,15 +169,15 @@ export default function Footer() {
               <FooterLink href="/admin/login">Panel Admin</FooterLink>
             </div>
 
-            <div className="mt-6 bg-cream-pure border border-cream-warm rounded-2xl px-4 py-3.5">
-              <div className="text-[11px] md:text-xs font-bold text-noir mb-1">
+            <div className="mt-6 bg-white/10 border border-white/15 rounded-2xl px-4 py-3.5">
+              <div className="text-[11px] md:text-xs font-bold text-white mb-1">
                 Punya usaha di Kemayoran?
               </div>
-              <div className="text-[11px] md:text-xs text-warm-gray leading-relaxed">
+              <div className="text-[11px] md:text-xs text-white/65 leading-relaxed">
                 Daftar gratis dan tampilkan produk Anda di katalog digital ini.{" "}
                 <Link
                   href="/gabung"
-                  className="text-forest font-semibold hover:underline"
+                  className="text-[#d9f0bf] font-semibold hover:underline"
                 >
                   Mulai di sini.
                 </Link>
@@ -228,7 +228,7 @@ export default function Footer() {
                 Daftar gratis dan tampilkan produk Anda di katalog digital ini.{" "}
                 <Link
                   href="/gabung"
-                  className="text-forest font-semibold hover:underline"
+                  className="text-[#d9f0bf] font-semibold hover:underline"
                 >
                   Mulai di sini.
                 </Link>
@@ -250,11 +250,11 @@ export default function Footer() {
 
         {/* Bar bawah */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6">
-          <p className="text-xs text-warm-gray text-center sm:text-left">
+          <p className="text-xs text-white/55 text-center sm:text-left">
             &copy; {new Date().getFullYear()} E-Catalog UMKM Kemayoran. Semua hak
             dilindungi.
           </p>
-          <div className="flex items-center gap-3 text-[11px] text-warm-gray">
+          <div className="flex items-center gap-3 text-[11px] text-white/55">
             <span>Dibuat untuk pelaku UMKM lokal</span>
             <span className="w-1 h-1 rounded-full bg-clay/40" />
             <span>Dari Kemayoran, untuk Indonesia</span>

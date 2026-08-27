@@ -4,28 +4,29 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Turunan ikon utama: biru royal, navy buku, dan oranye hangat.
+        // Palet "Pasar di Bawah Rindang": hijau daun dominan, biru dari logo sebagai aksen tindakan.
         forest: {
-          DEFAULT: "#147FC1",
-          light: "#3FA6DC",
-          deep: "#0A3A78",
-          bright: "#CBEAF8",
-          dark: "#102D57",
+          DEFAULT: "#1F6B45",
+          light: "#4F956B",
+          deep: "#10482E",
+          bright: "#CFE6B6",
+          dark: "#173F31",
         },
-        emerald: { DEFAULT: "#058C68", dark: "#067052", light: "#10B981" },
-        hutan: { DEFAULT: "#102D57", dark: "#081B37", light: "#1B4B82" },
-        laut: { DEFAULT: "#147FC1", deep: "#0A3A78", light: "#65BCE8" },
-        langit: { DEFAULT: "#B9E1F5", light: "#DDF2FC", deep: "#3FA6DC" },
-        cream: { DEFAULT: "#FFF9F1", warm: "#FCEBD9", pure: "#FFFFFF" },
-        clay: { DEFAULT: "#EF7B19", light: "#F6A54B", deep: "#C85F0A" },
-        noir: { DEFAULT: "#102D57", soft: "#264467", light: "#58708A" },
-        "energy-gold": "#D98A17",
-        "warm-gray": "#6E8093",
-        "cool-gray": "#4D6178",
-        muted: "#7F97AB",
+        emerald: { DEFAULT: "#177E5A", dark: "#105D42", light: "#51A979" },
+        hutan: { DEFAULT: "#123F2B", dark: "#09291C", light: "#245F42" },
+        laut: { DEFAULT: "#147FC1", deep: "#0A4B86", light: "#B9E1F5" },
+        langit: { DEFAULT: "#DDF2FC", light: "#F0FAFF", deep: "#65BCE8" },
+        cream: { DEFAULT: "#FBFAF2", warm: "#E8EAD9", pure: "#FFFFFF" },
+        clay: { DEFAULT: "#D98A2B", light: "#F0B55F", deep: "#A95F13" },
+        noir: { DEFAULT: "#173247", soft: "#315166", light: "#668091" },
+        "energy-gold": "#D98A2B",
+        "warm-gray": "#6A7A72",
+        "cool-gray": "#496172",
+        muted: "#81918A",
       },
       fontFamily: {
-        display: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        display: ["Georgia", "Times New Roman", "serif"],
+        sans: ["Inter", "Aptos", "Segoe UI", "sans-serif"],
         mono: ["JetBrains Mono", "SF Mono", "Consolas", "monospace"],
       },
       borderRadius: {
@@ -33,11 +34,9 @@ module.exports = {
         "3xl": "24px",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(10, 37, 64, 0.05), 0 2px 8px rgba(10, 37, 64, 0.06)",
-        "card-hover":
-          "0 2px 4px rgba(10, 37, 64, 0.08), 0 10px 28px rgba(10, 37, 64, 0.14)",
-        navbar:
-          "0 1px 2px rgba(18, 40, 75, 0.04), 0 4px 12px rgba(18, 40, 75, 0.05)",
+        card: "0 1px 2px rgba(23, 63, 49, 0.04), 0 10px 24px rgba(23, 63, 49, 0.08)",
+        "card-hover": "0 4px 10px rgba(23, 63, 49, 0.08), 0 20px 42px rgba(23, 63, 49, 0.16)",
+        navbar: "0 1px 2px rgba(23, 63, 49, 0.04), 0 8px 28px rgba(23, 63, 49, 0.06)",
       },
     },
   },

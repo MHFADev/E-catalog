@@ -167,7 +167,7 @@ export default async function ProductDetailPage({ params }) {
   }));
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cream-pure via-cream to-cream pb-24 md:pb-0">
+    <div className="min-h-screen bg-[var(--carrom-white)] pb-24 md:pb-0">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-10">
         {/* ===== Breadcrumb: Beranda / Katalog / Kategori ===== */}
         <nav className="flex items-center gap-1.5 text-xs md:text-sm text-warm-gray mb-4 md:mb-6 whitespace-nowrap overflow-x-auto">
@@ -225,7 +225,7 @@ export default async function ProductDetailPage({ params }) {
                 </div>
               </div>
 
-              <h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-noir mb-2 md:mb-3">
+              <h1 className="market-panel-title text-xl md:text-3xl lg:text-4xl font-bold tracking-tight text-noir mb-2 md:mb-3">
                 {product.name}
               </h1>
 
@@ -301,7 +301,7 @@ export default async function ProductDetailPage({ params }) {
 
             {/* ===== Kartu deskripsi + tags ===== */}
             <div className="surface-raised rounded-[1.65rem] md:rounded-[2.25rem] p-5 md:p-7">
-              <h2 className="flex items-center gap-2 text-sm md:text-base font-bold text-noir mb-2 md:mb-3">
+              <h2 className="market-panel-title flex items-center gap-2 text-base md:text-lg font-bold text-noir mb-2 md:mb-3">
                 <span className="w-0.5 h-4 bg-forest rounded-sm" />
                 Deskripsi Produk
               </h2>
@@ -434,7 +434,7 @@ export default async function ProductDetailPage({ params }) {
         {relatedEnriched.length > 0 && (
           <div className="mt-8 md:mt-12">
             <div className="flex items-center justify-between mb-4 md:mb-6">
-              <h2 className="flex items-center gap-2 text-base md:text-xl font-bold tracking-tight text-noir">
+              <h2 className="market-panel-title flex items-center gap-2 text-lg md:text-2xl font-bold tracking-tight text-noir">
                 <span className="w-1 h-5 md:w-1 md:h-6 bg-forest rounded-sm" />
                 Produk Serupa
               </h2>
@@ -454,7 +454,7 @@ export default async function ProductDetailPage({ params }) {
       </div>
 
       {/* ===== Sticky bar bawah (mobile): harga + tombol Beli & WA ===== */}
-      <div className="md:hidden fixed inset-x-0 bottom-0 z-40 border-t border-cream-warm/90 bg-white/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(10,37,64,0.1)] backdrop-blur-xl">
+      <div className="md:hidden fixed inset-x-0 bottom-0 z-40 border-t border-forest/10 bg-[var(--carrom-white)]/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(16,72,46,0.1)] backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-md items-stretch gap-2.5">
           <div className="flex min-w-0 flex-1 flex-col justify-center rounded-2xl border border-cream-warm bg-cream-pure px-3.5 py-2.5">
             <div className="mb-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-warm-gray">Harga</div>

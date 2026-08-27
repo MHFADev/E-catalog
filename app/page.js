@@ -119,7 +119,7 @@ export default async function HomePage() {
   return (
     <>
       {/* ===== HERO + BANNER (video kiri, 2 banner statis kanan) ===== */}
-      <section className="relative overflow-clip bg-gradient-to-b from-cream-pure via-cream-pure to-cream">
+      <section className="home-hero relative overflow-clip">
         <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/10 blur-3xl ambient-float" />
         <div aria-hidden="true" className="absolute -bottom-20 left-1/3 w-64 h-64 rounded-full bg-langit/20 blur-3xl ambient-float" />
 
@@ -132,7 +132,7 @@ export default async function HomePage() {
             }`}
           >
             {/* Card video (full-width 16/9 di mobile, kiri 16/10 di tablet/desktop) */}
-            <div className="relative aspect-video md:aspect-[16/10] min-w-0 min-h-0 max-h-full rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-[0_20px_45px_rgba(10,37,64,0.22)] ring-1 ring-forest/15 bg-hutan animate-[fadeInUp_0.7s_var(--ease-out-expo)_both]">
+            <div className="hero-film relative aspect-video md:aspect-[16/10] min-w-0 min-h-0 max-h-full rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] overflow-hidden ring-1 ring-forest/20 bg-hutan animate-[fadeInUp_0.7s_var(--ease-out-expo)_both]">
               <video
                 autoPlay
                 muted
@@ -147,10 +147,10 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
 
               <div className="absolute inset-0 flex flex-col items-center justify-end text-center p-4 sm:p-6 md:p-8 lg:p-10 text-white">
-                <p className="mb-2 inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">Pasar digital UMKM lokal</p>
+                <p className="mb-2 inline-flex rounded-lg border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">Pasar digital UMKM lokal</p>
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.05] tracking-tight drop-shadow-md">
                   Bangga Produk{" "}
-                  <span className="text-white underline decoration-langit decoration-[3px] sm:decoration-4 underline-offset-4">
+                  <span className="text-[#d9f0bf] underline decoration-langit decoration-[3px] sm:decoration-4 underline-offset-4">
                     Lokal Kemayoran
                   </span>
                 </h1>
@@ -162,13 +162,13 @@ export default async function HomePage() {
                 <div className="mt-3 md:mt-5 flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3">
                   <Link
                     href="/catalog"
-                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-forest text-white text-xs sm:text-sm font-bold hover:bg-forest-deep shadow-lg shadow-black/20 transition-all hover:-translate-y-0.5"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-laut text-white text-xs sm:text-sm font-bold hover:bg-laut-deep shadow-lg shadow-black/20 transition-all hover:-translate-y-0.5"
                   >
                     Jelajahi Produk <Icon name="arrowRight" size={14} />
                   </Link>
                   <Link
                     href="/gabung"
-                    className="hidden sm:inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-md border border-white/40 text-white text-xs sm:text-sm font-semibold hover:bg-white/25 transition-all"
+                    className="hidden sm:inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/15 backdrop-blur-md border border-white/40 text-white text-xs sm:text-sm font-semibold hover:bg-white/25 transition-all"
                   >
                     Daftar Sebagai UMKM
                   </Link>
@@ -222,7 +222,7 @@ export default async function HomePage() {
           <form
             action="/catalog"
             method="get"
-            className="relative mt-8 md:mt-12 glass rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xl hidden lg:grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
+            className="market-search relative mt-8 md:mt-12 rounded-2xl md:rounded-3xl p-4 md:p-5 hidden lg:grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
           >
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-gray pointer-events-none">
@@ -256,7 +256,7 @@ export default async function HomePage() {
             </div>
             <button
               type="submit"
-              className="flex items-center justify-center gap-2 px-6 md:px-8 py-3 rounded-full bg-forest text-white text-sm md:text-base font-bold hover:bg-forest-deep shadow-card transition-all hover:shadow-card-hover"
+              className="flex items-center justify-center gap-2 px-6 md:px-8 py-3 rounded-xl bg-laut text-white text-sm md:text-base font-bold hover:bg-laut-deep shadow-card transition-all hover:shadow-card-hover"
             >
               <Icon name="search" size={16} /> Cari
             </button>
@@ -577,7 +577,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/gabung"
-              className="relative z-10 inline-flex items-center gap-2 px-6 md:px-8 py-3.5 rounded-full bg-forest text-white text-sm md:text-base font-bold hover:bg-forest-deep shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5 shrink-0"
+              className="relative z-10 inline-flex items-center gap-2 px-6 md:px-8 py-3.5 rounded-xl bg-laut text-white text-sm md:text-base font-bold hover:bg-laut-deep shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5 shrink-0"
             >
               Daftar Sekarang <Icon name="arrowRight" size={16} />
             </Link>

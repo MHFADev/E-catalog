@@ -3,20 +3,22 @@
 @tailwind utilities;
 
 :root {
-  /* Turunan ikon utama: navy buku, biru royal, dan oranye hangat. */
+  /* Pasar di Bawah Rindang — warna utama yang mengikat seluruh permukaan publik. */
   --brand-primary: #147fc1;
-  --brand-deep: #0a3a78;
-  --brand-navy: #102d57;
-  --brand-sky: #b9e1f5;
-  --brand-orange: #ef7b19;
-  --surface-base: #fff9f1;
-  --surface-soft: #fcebd9;
+  --brand-deep: #0a4b86;
+  --brand-navy: #173247;
+  --leaf: #1f6b45;
+  --leaf-deep: #10482e;
+  --leaf-soft: #cfe6b6;
+  --carrom-white: #fbfaf2;
+  --surface-base: #fbfaf2;
+  --surface-soft: #eef0e5;
   --surface-card: #ffffff;
-  --support-clay: #ef7b19;
-  --color-glass-forest: rgba(20, 127, 193, 0.12);
+  --support-clay: #d98a2b;
+  --color-glass-forest: rgba(31, 107, 69, 0.12);
   --color-glass-cream: rgba(255, 255, 255, 0.9);
-  --shadow-soft: 0 1px 2px rgba(16, 45, 87, 0.05), 0 10px 28px rgba(16, 45, 87, 0.09);
-  --shadow-lift: 0 4px 10px rgba(16, 45, 87, 0.09), 0 18px 40px rgba(16, 45, 87, 0.16);
+  --shadow-soft: 0 1px 2px rgba(23, 63, 49, 0.04), 0 12px 30px rgba(23, 63, 49, 0.09);
+  --shadow-lift: 0 5px 12px rgba(23, 63, 49, 0.08), 0 24px 48px rgba(23, 63, 49, 0.17);
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -30,17 +32,27 @@ html {
 body {
   min-width: 320px;
   overflow-x: hidden;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--brand-navy);
-  background:
-    radial-gradient(circle at 10% -8%, rgba(20, 127, 193, 0.16), transparent 28rem),
-    radial-gradient(circle at 96% 14%, rgba(239, 123, 25, 0.10), transparent 24rem),
-    var(--surface-base);
+  font-family: "Inter", "Aptos", "Segoe UI", sans-serif;
+  background-color: var(--surface-base);
+  background-image:
+    radial-gradient(circle at 0% 8%, rgba(207, 230, 182, 0.46), transparent 24rem),
+    radial-gradient(circle at 100% 26%, rgba(185, 225, 245, 0.42), transparent 26rem),
+    linear-gradient(90deg, rgba(23, 63, 49, 0.018) 1px, transparent 1px),
+    linear-gradient(rgba(23, 63, 49, 0.018) 1px, transparent 1px);
+  background-size: auto, auto, 28px 28px, 28px 28px;
 }
 
 ::selection {
   color: #fff;
-  background: var(--brand-primary);
+  background: var(--leaf);
+}
+
+h1,
+h2,
+.market-panel-title {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: -0.028em;
 }
 
 a {
@@ -70,7 +82,7 @@ video {
 }
 
 :focus-visible {
-  outline: 3px solid rgba(20, 127, 193, 0.45);
+  outline: 3px solid rgba(20, 127, 193, 0.48);
   outline-offset: 3px;
 }
 
@@ -87,33 +99,33 @@ video {
   gap: 0.5rem;
   min-height: 2.75rem;
   padding: 0.7rem 1.35rem;
-  border-radius: 999px;
-  font-weight: 700;
+  border-radius: 0.85rem;
+  font-weight: 750;
   line-height: 1;
   transition: transform 220ms var(--ease-out-expo), box-shadow 220ms ease, background-color 180ms ease, border-color 180ms ease;
 }
 
 .btn-primary {
-  border: 1px solid transparent;
+  border: 1px solid rgba(10, 75, 134, 0.2);
   color: #fff;
-  background: var(--brand-primary);
-  box-shadow: 0 6px 16px rgba(20, 127, 193, 0.22);
+  background: linear-gradient(135deg, #147fc1, #0a5c9e);
+  box-shadow: 0 9px 18px rgba(20, 127, 193, 0.2);
 }
 
 .btn-primary:hover {
-  background: var(--brand-deep);
-  box-shadow: 0 10px 24px rgba(20, 127, 193, 0.3);
+  background: linear-gradient(135deg, #0a5c9e, #0a4b86);
+  box-shadow: 0 14px 28px rgba(20, 127, 193, 0.28);
   transform: translateY(-2px);
 }
 
 .btn-secondary {
-  border: 1px solid #c9ddeb;
-  color: var(--brand-primary);
-  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(31, 107, 69, 0.24);
+  color: var(--leaf-deep);
+  background: rgba(255, 255, 255, 0.78);
 }
 
 .btn-secondary:hover {
-  border-color: rgba(20, 127, 193, 0.5);
+  border-color: var(--leaf);
   background: #fff;
   box-shadow: var(--shadow-soft);
   transform: translateY(-2px);
@@ -121,19 +133,19 @@ video {
 
 .btn-wa {
   border: 1px solid transparent;
-  color: #063b1c;
-  background: #25d366;
+  color: #073b20;
+  background: #55d587;
 }
 
 .btn-wa:hover {
-  background: #1fb85a;
+  background: #36bd69;
   box-shadow: 0 10px 22px rgba(37, 211, 102, 0.22);
   transform: translateY(-2px);
 }
 
 .glass {
   background: rgba(255, 255, 255, 0.76);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.74);
   backdrop-filter: blur(16px) saturate(155%);
   -webkit-backdrop-filter: blur(16px) saturate(155%);
 }
@@ -144,38 +156,54 @@ video {
   -webkit-backdrop-filter: blur(10px);
 }
 
-.surface-card {
-  border: 1px solid rgba(201, 221, 235, 0.92);
-  background: rgba(255, 255, 255, 0.94);
+.surface-card,
+.surface-raised {
+  border: 1px solid rgba(31, 107, 69, 0.12);
+  background: rgba(255, 255, 255, 0.92);
   box-shadow: var(--shadow-soft);
 }
 
 .surface-raised {
-  border: 1px solid rgba(201, 221, 235, 0.9);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(247, 252, 255, 0.94));
-  box-shadow: var(--shadow-soft);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.99), rgba(249, 251, 243, 0.96)),
+    var(--surface-card);
 }
 
+/* Hero katalog: kanopi daun sebagai satu momen visual, bukan dekorasi tersebar. */
 .catalog-hero {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(201, 221, 235, 0.9);
+  border: 1px solid rgba(16, 72, 46, 0.22);
+  color: #fff;
   background:
-    radial-gradient(circle at 92% 10%, rgba(239, 123, 25, 0.18), transparent 15rem),
-    radial-gradient(circle at 72% 100%, rgba(20, 127, 193, 0.15), transparent 18rem),
-    linear-gradient(140deg, #ffffff 0%, #f3faff 100%);
-  box-shadow: var(--shadow-soft);
+    radial-gradient(circle at 89% 18%, rgba(207, 230, 182, 0.34), transparent 13rem),
+    radial-gradient(circle at 6% 112%, rgba(20, 127, 193, 0.32), transparent 18rem),
+    linear-gradient(122deg, #10482e 0%, #1f6b45 52%, #245f42 100%);
+  box-shadow: var(--shadow-lift);
+}
+
+.catalog-hero::before,
+.catalog-hero::after {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  content: "";
+}
+
+.catalog-hero::before {
+  top: -7rem;
+  right: 8%;
+  width: 17rem;
+  height: 17rem;
 }
 
 .catalog-hero::after {
-  position: absolute;
-  top: -4rem;
-  right: 12%;
-  width: 9rem;
-  height: 9rem;
-  border: 1px solid rgba(20, 127, 193, 0.14);
-  border-radius: 999px;
-  content: "";
+  right: 20%;
+  bottom: -10rem;
+  width: 22rem;
+  height: 22rem;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0 2px, transparent 2px);
+  background-size: 18px 18px;
 }
 
 .stat-chip {
@@ -184,19 +212,20 @@ video {
   gap: 0.45rem;
   min-height: 2rem;
   padding: 0.35rem 0.7rem;
-  border: 1px solid rgba(20, 127, 193, 0.14);
-  border-radius: 999px;
-  color: var(--brand-primary);
-  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 0.7rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 750;
+  backdrop-filter: blur(8px);
 }
 
 .section-kicker {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--brand-primary);
+  color: var(--leaf);
   font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
   font-size: 0.68rem;
   font-weight: 700;
@@ -213,10 +242,65 @@ video {
   background: var(--support-clay);
 }
 
-/* Scrollbar tetap halus pada desktop tanpa menyembunyikan akses visual. */
+/* Komponen karakter utama. Kartu tampak seperti etalase yang bisa disentuh, bukan tile generik. */
+.market-header {
+  border-color: rgba(31, 107, 69, 0.14);
+  background: rgba(251, 250, 242, 0.88);
+}
+
+.home-hero {
+  background:
+    radial-gradient(circle at 92% 8%, rgba(207, 230, 182, 0.56), transparent 20rem),
+    linear-gradient(180deg, #fbfaf2 0%, #f0f3e8 100%);
+}
+
+.hero-film {
+  box-shadow: 0 28px 54px rgba(16, 72, 46, 0.23);
+}
+
+.market-search {
+  border: 1px solid rgba(31, 107, 69, 0.16);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 16px 35px rgba(16, 72, 46, 0.12);
+}
+
+.product-card {
+  border: 1px solid rgba(31, 107, 69, 0.12);
+  box-shadow: 0 7px 18px rgba(16, 72, 46, 0.08);
+}
+
+.product-card:hover {
+  border-color: rgba(20, 127, 193, 0.36);
+  box-shadow: var(--shadow-lift);
+}
+
+.product-card__media {
+  background:
+    radial-gradient(circle at 76% 18%, rgba(207, 230, 182, 0.6), transparent 40%),
+    linear-gradient(135deg, #f6f8ef, #e4eddf);
+}
+
+.product-card__label {
+  border: 1px solid rgba(255, 255, 255, 0.66);
+  color: var(--leaf-deep);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+.product-card__action {
+  background: linear-gradient(135deg, #147fc1, #0a5c9e);
+  box-shadow: 0 8px 18px rgba(20, 127, 193, 0.28);
+}
+
+.market-panel-title {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: -0.025em;
+}
+
+/* Scrollbar tetap terlihat sebagai affordance pada kontrol horizontal. */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #9cc7df transparent;
+  scrollbar-color: #84af98 transparent;
 }
 
 *::-webkit-scrollbar {
@@ -227,7 +311,7 @@ video {
 *::-webkit-scrollbar-thumb {
   border: 2px solid var(--surface-base);
   border-radius: 999px;
-  background: #9cc7df;
+  background: #84af98;
 }
 
 .scrollbar-none {
@@ -240,153 +324,77 @@ video {
 }
 
 @keyframes cardEntrance {
-  from {
-    opacity: 0;
-    transform: translateX(40px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
+  from { opacity: 0; transform: translateX(40px) scale(0.95); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
 }
 
 @keyframes modalSlideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-28px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-28px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.modal-slide-down {
-  animation: modalSlideDown 0.35s var(--ease-out-expo);
-}
+.modal-slide-down { animation: modalSlideDown 0.35s var(--ease-out-expo); }
 
 @keyframes modalFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.modal-fade-in {
-  animation: modalFadeIn 0.3s ease;
-}
+.modal-fade-in { animation: modalFadeIn 0.3s ease; }
 
 @keyframes marquee-ltr {
-  from {
-    transform: translateX(-50%);
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
 
-.marquee-ltr {
-  animation: marquee-ltr 45s linear infinite;
-  will-change: transform;
-}
-
-.marquee-ltr:hover {
-  animation-play-state: paused;
-}
+.marquee-ltr { animation: marquee-ltr 45s linear infinite; will-change: transform; }
+.marquee-ltr:hover { animation-play-state: paused; }
 
 @keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-.scale-in {
-  animation: scaleIn 0.38s var(--ease-out-expo) both;
-}
+.scale-in { animation: scaleIn 0.38s var(--ease-out-expo) both; }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.fade-in-up {
-  animation: fadeInUp 0.45s var(--ease-out-expo) both;
-}
-
-.reveal-delay-1 {
-  animation-delay: 80ms;
-}
-
-.reveal-delay-2 {
-  animation-delay: 160ms;
-}
+.fade-in-up { animation: fadeInUp 0.45s var(--ease-out-expo) both; }
+.reveal-delay-1 { animation-delay: 80ms; }
+.reveal-delay-2 { animation-delay: 160ms; }
 
 @keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
 }
 
-.page-enter {
-  animation: pageEnter 0.36s var(--ease-out-expo);
-}
+.page-enter { animation: pageEnter 0.36s var(--ease-out-expo); }
 
 @keyframes menuEnter {
-  from {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(-8px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.menu-enter {
-  transform-origin: top center;
-  animation: menuEnter 0.24s var(--ease-out-expo) both;
-}
+.menu-enter { transform-origin: top center; animation: menuEnter 0.24s var(--ease-out-expo) both; }
 
 @keyframes ambientFloat {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(0, 14px, 0) scale(1.04);
-  }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, 14px, 0) scale(1.04); }
 }
 
-.ambient-float {
-  animation: ambientFloat 9s ease-in-out infinite;
+.ambient-float { animation: ambientFloat 9s ease-in-out infinite; }
+
+@media (max-width: 639px) {
+  .catalog-hero::before { right: -5rem; }
+  .catalog-hero::after { right: -9rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

@@ -212,11 +212,11 @@ export default function CatalogContent({ categories, productsData, sellersData }
       <section className="catalog-hero rounded-[1.75rem] md:rounded-[2.25rem] p-5 sm:p-7 md:p-9 mb-5 md:mb-8">
         <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl fade-in-up">
-            <span className="section-kicker">Etalase UMKM Kemayoran</span>
-            <h1 className="mt-2 text-2xl md:text-4xl lg:text-[2.7rem] font-extrabold tracking-tight leading-[1.05] text-noir">
-              Temukan produk lokal yang <span className="text-forest">tepat untukmu.</span>
+            <span className="section-kicker text-[#d9f0bf]">Etalase UMKM Kemayoran</span>
+            <h1 className="mt-2 text-2xl md:text-4xl lg:text-[2.7rem] font-extrabold tracking-tight leading-[1.05] text-white">
+              Temukan produk lokal yang <span className="text-[#d9f0bf]">tepat untukmu.</span>
             </h1>
-            <p className="mt-3 max-w-xl text-sm md:text-base leading-relaxed text-cool-gray">
+            <p className="mt-3 max-w-xl text-sm md:text-base leading-relaxed text-white/80">
               Jelajahi pilihan dari pelaku usaha sekitar, kemudian hubungi toko langsung saat sudah menemukan produk yang kamu suka.
             </p>
           </div>
@@ -406,13 +406,13 @@ export default function CatalogContent({ categories, productsData, sellersData }
       `}</style>
 
       {/* [MOBILE] Bottom bar filter — tetap terlihat tanpa scroll */}
-      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-cream-warm bg-white/95 px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(10,37,64,0.08)] backdrop-blur-xl">
+      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-forest/10 bg-[var(--carrom-white)]/95 px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(16,72,46,0.1)] backdrop-blur-xl">
         <button
           onClick={() => setFilterOpen(true)}
           className={`w-full flex items-center justify-center gap-2 py-3 rounded-full text-sm font-bold transition-all shadow-lg ${
             hasActiveFilter
-              ? "bg-forest text-white shadow-forest/25"
-              : "bg-forest text-white shadow-forest/25"
+              ? "bg-laut text-white shadow-[0_12px_22px_rgba(20,127,193,0.24)]"
+              : "bg-laut text-white shadow-[0_12px_22px_rgba(20,127,193,0.24)]"
           }`}
         >
           <Icon name="filter" size={16} />

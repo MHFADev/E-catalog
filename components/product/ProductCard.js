@@ -45,11 +45,11 @@ export default function ProductCard({ product, category }) {
   const productImg = hasProductImage ? product.images[0] : fallbackImg;
   const price = priceParts(product)
   return (
-    <Link href={`/product/${product.id}`} className="group relative flex h-full flex-col overflow-hidden rounded-[1.35rem] md:rounded-[1.75rem] bg-white shadow-card ring-1 ring-black/[0.045] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover hover:ring-forest/30 focus-visible:outline-none">
-      <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-cream-pure to-cream-warm">
+    <Link href={`/product/${product.id}`} className="product-card group relative flex h-full flex-col overflow-hidden rounded-[1.35rem] md:rounded-[1.75rem] bg-white transition-all duration-300 hover:-translate-y-1.5 focus-visible:outline-none">
+      <div className="product-card__media relative aspect-square overflow-hidden">
         <img src={productImg} alt={product.name} className={`h-full w-full transition-transform duration-500 group-hover:scale-105 ${hasProductImage ? "object-cover" : "object-contain p-4 md:p-6"}`} onError={() => setImgError(true)} />
         {category?.name && (
-          <span className="absolute top-2 left-2 md:top-3 md:left-3 px-2.5 py-1 text-[9px] md:text-[11px] font-bold text-forest-dark glass rounded-full uppercase tracking-wide shadow-sm">
+          <span className="product-card__label absolute top-2 left-2 md:top-3 md:left-3 px-2.5 py-1 text-[9px] md:text-[11px] font-bold rounded-lg uppercase tracking-wide shadow-sm">
             {category.name}
           </span>
         )}
@@ -59,11 +59,11 @@ export default function ProductCard({ product, category }) {
             <Icon name="star" size={10} /> Unggulan
           </span>
         )}
-        <span className="absolute inset-x-2 bottom-2 md:inset-x-3 md:bottom-3 flex items-center justify-center gap-1.5 rounded-full bg-forest/90 py-2 text-xs md:text-sm font-bold text-white opacity-100 translate-y-0 transition-all duration-300 backdrop-blur-sm md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0">
+        <span className="product-card__action absolute inset-x-2 bottom-2 md:inset-x-3 md:bottom-3 flex items-center justify-center gap-1.5 rounded-lg py-2 text-xs md:text-sm font-bold text-white opacity-100 translate-y-0 transition-all duration-300 backdrop-blur-sm md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0">
           <Icon name="shoppingBasket" size={14} /> Lihat Produk
         </span>
       </div>
-      <div className="flex flex-1 flex-col gap-1.5 p-3 md:p-4.5">
+      <div className="flex flex-1 flex-col gap-1.5 p-3.5 md:p-4.5">
         {/* [PO & HALAL] Badge status produk & kehalalan */}
         {(product.isPreOrder || (product.halalStatus === "halal" || product.halalStatus === "non_halal")) && (
           <div className="flex flex-wrap items-center gap-1.5">
@@ -84,7 +84,7 @@ export default function ProductCard({ product, category }) {
             )}
           </div>
         )}
-        <h3 className="text-sm md:text-base font-bold text-noir leading-snug line-clamp-2">{product.name}</h3>
+        <h3 className="text-sm md:text-base font-bold text-noir leading-snug line-clamp-2 transition-colors group-hover:text-forest-deep">{product.name}</h3>
         {product.showPrice !== false && price ? (
           <span className="mt-0.5 text-base md:text-lg font-extrabold text-forest leading-tight">
             {price.main}
