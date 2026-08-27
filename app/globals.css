@@ -420,6 +420,41 @@ video {
   to { opacity: 1; transform: scale(1); }
 }
 
+@keyframes scrollReveal {
+  from { opacity: 0; transform: translate3d(0, 1.5rem, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes scrollRevealFromRight {
+  from { opacity: 0; transform: translate3d(1.5rem, 0.5rem, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* Reveal dikendalikan observer kecil di client; tanpa JavaScript konten selalu tetap terlihat. */
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-reveal--ready {
+    opacity: 0;
+    transform: translate3d(0, 1.5rem, 0);
+    will-change: opacity, transform;
+  }
+
+  .scroll-reveal--from-right.scroll-reveal--ready {
+    transform: translate3d(1.5rem, 0.5rem, 0);
+  }
+
+  .scroll-reveal--visible {
+    animation: scrollReveal 700ms var(--ease-out-expo) both;
+  }
+
+  .scroll-reveal--from-right.scroll-reveal--visible {
+    animation-name: scrollRevealFromRight;
+  }
+
+  .scroll-reveal--slow.scroll-reveal--visible {
+    animation-duration: 900ms;
+  }
+}
+
 .fade-in-up { animation: fadeInUp 0.45s var(--ease-out-expo) both; }
 .reveal-delay-1 { animation-delay: 80ms; }
 .reveal-delay-2 { animation-delay: 160ms; }

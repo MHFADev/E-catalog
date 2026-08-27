@@ -4,6 +4,7 @@ import Icon from "@/components/common/Icon";
 import EmptyState from "@/components/common/EmptyState";
 import CategoryVisualIcon from "@/components/category/CategoryVisualIcon";
 import HeroCampaignCarousel from "@/components/home/HeroCampaignCarousel";
+import ScrollRevealObserver from "@/components/home/ScrollRevealObserver";
 
 import MultiPinMap from "@/components/common/MultiPinMap";
 import PartnerLogos from "@/components/common/PartnerLogos";
@@ -119,24 +120,25 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ===== HERO + BANNER (video kiri, 2 banner statis kanan) ===== */}
+      <ScrollRevealObserver />
+      {/* ===== HERO + CAMPAIGN: video sebagai headline, campaign sebagai cerita pilihan ===== */}
       <section className="home-hero market-frame relative overflow-clip">
-        <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-leaf-arch" />
-        <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles left-[4%] top-[10%] hidden md:block" />
-        <img src="/images/decor/market-braid-divider.svg" alt="" aria-hidden="true" className="decor-asset left-1/2 top-4 hidden w-56 -translate-x-1/2 opacity-35 lg:block" />
+        <img src="/images/decor/market-leaf-spray.png" alt="" aria-hidden="true" className="decor-asset -right-10 -bottom-16 hidden w-64 rotate-[8deg] opacity-[0.14] sm:block md:-right-4 md:w-80" />
+        <img src="/images/decor/market-sun-cloud.png" alt="" aria-hidden="true" className="decor-asset left-[4%] top-[8%] hidden w-48 opacity-30 md:block" />
+        <img src="/images/decor/market-leaf-wave.png" alt="" aria-hidden="true" className="decor-asset left-1/2 top-4 hidden w-72 -translate-x-1/2 opacity-50 lg:block" />
         <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/10 blur-3xl ambient-float" />
         <div aria-hidden="true" className="absolute -bottom-20 left-1/3 w-64 h-64 rounded-full bg-langit/20 blur-3xl ambient-float" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-7 sm:py-10 md:py-16 lg:py-20">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-5 sm:py-10 md:px-6 md:py-16 lg:py-20">
           <div
-            className={`grid items-stretch gap-5 lg:gap-8 ${
+            className={`grid items-stretch gap-4 sm:gap-5 lg:gap-8 ${
               banners?.length
-                ? "grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.92fr)]"
+                ? "grid-cols-1 lg:grid-cols-[minmax(0,1.22fr)_minmax(22rem,0.78fr)]"
                 : "grid-cols-1"
             }`}
           >
-            {/* Video tetap menjadi fokus utama; rasio lebih tenang agar tidak menenggelamkan kampanye di sampingnya. */}
-            <div className="hero-film relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[16/11] min-w-0 overflow-hidden rounded-[1.6rem] ring-1 ring-forest/20 bg-hutan shadow-[0_22px_46px_rgba(18,63,74,0.20)] animate-[fadeInUp_0.7s_var(--ease-out-expo)_both] sm:rounded-[2rem] md:rounded-[2.5rem]">
+            {/* Video adalah headline utama; campaign berperan sebagai cerita pendukung yang terpisah. */}
+            <div className="hero-film relative aspect-[16/11] min-w-0 overflow-hidden rounded-[1.45rem] bg-hutan ring-1 ring-forest/20 shadow-[0_22px_46px_rgba(18,63,74,0.20)] animate-[fadeInUp_0.7s_var(--ease-out-expo)_both] sm:aspect-[16/10] sm:rounded-[2rem] md:rounded-[2.5rem] lg:aspect-[16/11]">
               <video
                 autoPlay
                 muted
@@ -149,9 +151,9 @@ export default async function HomePage() {
               </video>
               <div className="absolute inset-0 bg-gradient-to-t from-[#123F4A]/90 via-[#123F4A]/24 to-transparent" />
 
-              <div className="absolute inset-0 flex flex-col items-center justify-end p-5 text-center text-white sm:p-7 md:p-9 lg:p-10">
-                <p className="mb-2 inline-flex rounded-lg border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">Pasar digital UMKM lokal</p>
-                <h1 className="max-w-2xl text-2xl font-extrabold leading-[1.05] tracking-tight drop-shadow-md sm:text-3xl md:text-4xl lg:text-5xl">
+              <div className="absolute inset-0 flex flex-col items-center justify-end p-4 text-center text-white sm:p-7 md:p-9 lg:p-10">
+                <p className="mb-2 hidden rounded-lg border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm sm:inline-flex">Pasar digital UMKM lokal</p>
+                <h1 className="max-w-[18rem] text-[1.7rem] font-extrabold leading-[1.05] tracking-tight drop-shadow-md sm:max-w-2xl sm:text-3xl md:text-4xl lg:text-5xl">
                   Bangga Produk{" "}
                   <span className="text-[#d9f0bf] underline decoration-langit decoration-[3px] underline-offset-4 sm:decoration-4">
                     Lokal Kemayoran
@@ -163,7 +165,7 @@ export default async function HomePage() {
                 <div className="mt-3 flex flex-col items-center gap-2.5 sm:mt-5 sm:flex-row sm:gap-3">
                   <Link
                     href="/catalog"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-laut px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-laut-deep sm:text-sm"
+                    className="inline-flex min-w-[10.5rem] items-center justify-center gap-2 rounded-xl bg-laut px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-laut-deep sm:min-w-0 sm:text-sm"
                   >
                     Jelajahi Produk <Icon name="arrowRight" size={14} />
                   </Link>
@@ -228,9 +230,9 @@ export default async function HomePage() {
 
       {/* ===== KATEGORI POPULER ===== */}
       <section className="market-frame py-12 md:py-20 bg-white">
-        <img src="/images/decor/leaf-arch.svg" alt="" aria-hidden="true" className="decor-asset decor-sprig left-auto right-0 top-0 hidden lg:block -rotate-[18deg]" />
-        <img src="/images/decor/market-braid-divider.svg" alt="" aria-hidden="true" className="decor-asset -left-10 bottom-3 hidden w-64 opacity-45 lg:block" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6">
+        <img src="/images/decor/market-leafy-sprig.png" alt="" aria-hidden="true" className="decor-asset -right-5 -top-6 hidden w-56 rotate-[8deg] opacity-25 lg:block" />
+        <img src="/images/decor/market-flower-divider.png" alt="" aria-hidden="true" className="decor-asset -left-10 bottom-3 hidden w-64 opacity-55 lg:block" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 scroll-reveal">
           <div className="flex items-end justify-between mb-6 md:mb-10">
             <div>
               <span className="section-kicker">Mulai dari kebutuhanmu</span>
@@ -292,7 +294,7 @@ export default async function HomePage() {
 
       {/* ===== PRODUK UNGGULAN ===== */}
       <section className="py-10 md:py-16 bg-cream">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 scroll-reveal">
           <div className="flex items-end justify-between mb-6 md:mb-10">
             <div>
               <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight">
@@ -342,7 +344,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 opacity-[0.04]" />
         {/* Konten dipersempit (max-w-4xl) dan jarak antar lingkaran dikurangi
             (gap-2 mobile, gap-6 md+) agar ke-4 lingkaran tampak lebih dekat */}
-        <div className="relative z-10 max-w-4xl mx-auto px-4 md:px-6">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 md:px-6 scroll-reveal scroll-reveal--slow">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center text-white mb-8 md:mb-12">
             UMKM Kemayoran <span className="text-langit">Dalam Angka</span>
           </h2>
@@ -366,7 +368,7 @@ export default async function HomePage() {
 
       {/* ===== MENGAPA MEMILIH ===== */}
       <section className="py-12 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 scroll-reveal">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
             Mengapa Memilih <span className="text-forest">Kami</span>
           </h2>
@@ -414,7 +416,7 @@ export default async function HomePage() {
 
       {/* ===== EVENT & KEGIATAN ===== */}
       <section className="py-10 md:py-16 bg-cream">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 scroll-reveal">
           <div className="flex items-end justify-between mb-6 md:mb-10">
             <div>
               <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight">
@@ -469,7 +471,7 @@ export default async function HomePage() {
 
       {/* ===== TESTIMONI ===== */}
       <section className="py-12 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 scroll-reveal">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-8 md:mb-12">
             Apa Kata <span className="text-forest">Mereka</span>
           </h2>
@@ -501,7 +503,7 @@ export default async function HomePage() {
         id="peta"
         className="py-10 md:py-16 bg-gradient-to-b from-cream-pure to-langit/5"
       >
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 scroll-reveal scroll-reveal--slow">
           <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-center mb-2 md:mb-3">
             Peta <span className="text-forest">Lokasi UMKM</span>
           </h2>
@@ -527,10 +529,10 @@ export default async function HomePage() {
 
       {/* ===== CTA ===== */}
       <section className="py-12 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 scroll-reveal">
           <div className="market-frame relative flex flex-col items-start justify-between gap-7 overflow-hidden rounded-[1.75rem] bg-hutan px-6 py-9 shadow-[0_18px_42px_rgba(10,37,64,0.16)] md:flex-row md:items-center md:gap-6 md:rounded-[2.5rem] md:px-14 md:py-14">
-            <img src="/images/decor/market-basket-sprig.svg" alt="" aria-hidden="true" className="decor-asset right-[-3.5rem] -bottom-20 hidden w-64 opacity-35 md:block md:w-80" />
-            <img src="/images/decor/market-sparkles.svg" alt="" aria-hidden="true" className="decor-asset decor-sparkles right-[35%] top-5 hidden md:block opacity-35" />
+            <img src="/images/decor/market-gift-basket.png" alt="" aria-hidden="true" className="decor-asset right-[-4rem] -bottom-24 hidden w-64 rotate-[5deg] opacity-35 md:block md:w-80" />
+            <img src="/images/decor/market-flower-wave.png" alt="" aria-hidden="true" className="decor-asset right-[27%] top-5 hidden w-52 opacity-35 md:block" />
             <div className="relative z-10 max-w-lg">
               <span className="mb-3 inline-flex border-l-2 border-forest-bright pl-2 text-[10px] font-bold uppercase tracking-[0.14em] text-forest-bright">Untuk pelaku usaha</span>
               <h2 className="max-w-[16rem] text-[1.65rem] font-bold leading-[1.12] tracking-tight text-white sm:max-w-none md:text-3xl lg:text-4xl">
