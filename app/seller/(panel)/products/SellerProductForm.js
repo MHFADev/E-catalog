@@ -1,15 +1,15 @@
 ﻿"use client";
 import { useState } from "react";
 import { saveSellerProduct } from "../../actions";
-import ImageUploader from "@/components/common/ImageUploader";
+import MultiImageUploader from "@/components/product/MultiImageUploader";
 
 const inputClass =
   "w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all";
 
-export default function SellerProductForm({ categories, initial = null }) {
+export default function SellerProductForm({ categories, initial = null, sellerId }) {
   const [message, setMessage] = useState("");
-  // Naikkan resetKey usai sukses menyimpan supaya ImageUploader dibersihkan
-  // (URL gambar yang sudah terpakai tidak tertinggal untuk input berikutnya).
+  // Naikkan resetKey usai sukses menyimpan supaya MultiImageUploader dibersihkan
+  // (foto yang sudah terpakai tidak tertinggal untuk input berikutnya).
   const [resetKey, setResetKey] = useState(0);
 
   return (
@@ -65,10 +65,10 @@ export default function SellerProductForm({ categories, initial = null }) {
           className={inputClass}
         />
         <div className="sm:col-span-2">
-          <ImageUploader
+          <MultiImageUploader
             name="images"
-            label="Gambar Produk"
-            defaultValue={initial?.images?.join(", ") ?? ""}
+            sellerId={sellerId}
+            defaultImages={initial?.images ?? []}
             resetSignal={resetKey}
           />
         </div>

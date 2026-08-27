@@ -7,9 +7,11 @@ const inputClass =
   "w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all";
 
 export default function SellerLocationForm({ seller }) {
-  const has = seller.location;
-  const [lat, setLat] = useState(has ? String(has.lat) : "");
-  const [lng, setLng] = useState(has ? String(has.lng) : "");
+  // Terima format DB (location_lat/lng) maupun format objek (location.lat/lng)
+  const latInit = seller?.location?.lat ?? seller?.location_lat;
+  const lngInit = seller?.location?.lng ?? seller?.location_lng;
+  const [lat, setLat] = useState(latInit != null ? String(latInit) : "");
+  const [lng, setLng] = useState(lngInit != null ? String(lngInit) : "");
   const [address, setAddress] = useState(seller.address || "");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");

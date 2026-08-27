@@ -1,5 +1,6 @@
 ﻿import Icon from "@/components/common/Icon";
 import { createAdminClient } from "@/lib/supabase/admin";
+import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
 import { approveJoin, rejectJoin, deleteJoin } from "../actions";
 
 const statusBadge = {
@@ -103,10 +104,14 @@ export default async function AdminJoinPage() {
             <div className="grid sm:grid-cols-2 gap-x-4 gap-y-1 text-xs text-noir-soft mb-2">
               {j.owner_name && <div>Pemilik: {j.owner_name}</div>}
               {j.email && <div>Email: {j.email}</div>}
+              {j.business_type && <div>Bidang usaha: {j.business_type}</div>}
               {j.category_product && (
-                <div>Kategori produk: {j.category_product}</div>
+                <div>Produk / layanan: {j.category_product}</div>
               )}
-              {j.address && <div>Alamat: {j.address}</div>}
+              {j.address && <div>Lokasi: {j.address}</div>}
+              {j.service_area && <div>Area layanan: {j.service_area}</div>}
+              {j.business_hours && <div>Jam operasional: {j.business_hours}</div>}
+              {j.instagram_handle && <div>Media sosial: {j.instagram_handle}</div>}
             </div>
 
             <div className="flex flex-wrap gap-3">
@@ -118,9 +123,14 @@ export default async function AdminJoinPage() {
                 />
               )}
               {(j.description || j.notes) && (
-                <p className="flex-1 min-w-[200px] text-xs md:text-sm text-cool-gray leading-relaxed">
-                  {j.description || j.notes}
-                </p>
+                <div className="min-w-[200px] flex-1 space-y-1.5 text-xs leading-relaxed text-cool-gray md:text-sm">
+                  {j.description && <p>{j.description}</p>}
+                  {j.notes && (
+                    <p className="rounded-lg bg-cream-pure px-2.5 py-2 text-[11px] text-warm-gray">
+                      <span className="font-semibold text-noir-soft">Catatan pemohon:</span> {j.notes}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
 
@@ -141,12 +151,12 @@ export default async function AdminJoinPage() {
                   </button>
                 </form>
               )}
-              <form action={deleteJoin}>
-                <input type="hidden" name="id" value={j.id} />
-                <button className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
-                  <Icon name="trashFilled" size={13} /> Hapus
-                </button>
-              </form>
+              <DeleteConfirmButton
+                action={deleteJoin}
+                id={j.id}
+                entityLabel="permintaan gabung ini"
+                description="Permintaan gabung akan dihapus permanen dari antrean administrasi. Pastikan data pemohon tidak lagi diperlukan sebelum melanjutkan."
+              />
             </div>
           </div>
         ))}

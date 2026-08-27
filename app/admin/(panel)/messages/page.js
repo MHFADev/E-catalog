@@ -1,4 +1,5 @@
 ﻿import { createAdminClient } from "@/lib/supabase/admin";
+import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
 import { toggleMessageRead, deleteMessage } from "../actions";
 
 export default async function AdminMessagesPage() {
@@ -60,12 +61,12 @@ export default async function AdminMessagesPage() {
                   {m.is_read ? "Tandai belum dibaca" : "Tandai sudah dibaca"}
                 </button>
               </form>
-              <form action={deleteMessage}>
-                <input type="hidden" name="id" value={m.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
-                  Hapus
-                </button>
-              </form>
+              <DeleteConfirmButton
+                action={deleteMessage}
+                id={m.id}
+                entityLabel="pesan ini"
+                description={`Pesan dari ${m.name} dengan subjek “${m.subject || "tanpa subjek"}” akan dihapus permanen dari kotak pesan.`}
+              />
             </div>
           </div>
         ))}

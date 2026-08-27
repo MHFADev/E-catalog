@@ -1,9 +1,10 @@
 ﻿"use client";
 import { useEffect } from "react";
 import Icon from "@/components/common/Icon";
-import CategoryChip from "@/components/category/CategoryChip";
+import CategoryVisualIcon from "@/components/category/CategoryVisualIcon";
 
-function DrawerOption({ label, count, active, onClick }) {
+function DrawerOption({ label, count, active, onClick, category }) {
+
   return (
     <button
       onClick={onClick}
@@ -13,7 +14,19 @@ function DrawerOption({ label, count, active, onClick }) {
           : "bg-white text-noir-soft hover:bg-forest/5 hover:text-forest"
       }`}
     >
-      <span className="truncate">{label}</span>
+            <span className="flex min-w-0 items-center gap-2.5">
+        {category && (
+          <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${active ? "bg-white/95 shadow-sm" : "bg-[#FFF8EC] border border-cream-warm/70"}`}>
+            <CategoryVisualIcon
+              category={category}
+              className="h-5 w-5 drop-shadow-[0_1px_1px_rgba(80,44,18,0.16)]"
+              fallbackSize={14}
+            />
+          </span>
+        )}
+        <span className="truncate">{label}</span>
+      </span>
+
       <span
         className={`shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-full ${
           active ? "bg-white/20 text-white" : "bg-cream-pure text-warm-gray"
@@ -92,8 +105,10 @@ export default function FilterDrawer({
                 key={cat.id}
                 label={cat.name}
                 count={counts.categories?.[cat.id] ?? 0}
-                active={selectedCategory === cat.id}
+                                active={selectedCategory === cat.id}
+                category={cat}
                 onClick={() => onSelectCategory(selectedCategory === cat.id ? null : cat.id)}
+
               />
             ))}
           </DrawerSection>

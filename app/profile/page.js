@@ -17,13 +17,25 @@ export default async function ProfilePage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username, username_updated_at, created_at")
+    .select("username, username_updated_at, created_at, avatar_url")
     .eq("id", user.id)
     .maybeSingle();
 
   const sellerAccount = await getSellerAccount();
   const approvedSeller =
     sellerAccount?.status === "approved" && Boolean(sellerAccount?.seller_id);
+
+  let seller = null;
+  let sellerLogo = null;
+  if (approvedSeller && sellerAccount.seller_id) {
+    const { data } = await supabase
+      .from("sellers")
+      .select("id, name, whatsapp, description, logo")
+      .eq("id", sellerAccount.seller_id)
+      .maybeSingle();
+    seller = data;
+    sellerLogo = data?.logo || null;
+  }
 
   const lastChange = profile?.username_updated_at
     ? new Date(profile.username_updated_at).getTime()
@@ -44,6 +56,8 @@ export default async function ProfilePage() {
       profile={profile}
       canRename={canRename}
       approvedSeller={approvedSeller}
+      sellerLogo={sellerLogo}
+      seller={seller}
     />
   );
 }

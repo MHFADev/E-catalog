@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getSellerAccount } from "@/lib/auth";
 import PendingProfile from "../PendingProfile";
+import StoreSwitcher from "./StoreSwitcher";
 
 export default async function SellerLayout({ children }) {
   const supabase = await createClient();
@@ -30,6 +31,12 @@ export default async function SellerLayout({ children }) {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            {approved && (
+              <StoreSwitcher
+                stores={account.accessible_stores}
+                activeSellerId={account.seller_id}
+              />
+            )}
             <Link
               href="/"
               className="text-xs md:text-sm text-warm-gray hover:text-forest px-3 py-2"
@@ -77,10 +84,22 @@ export default async function SellerLayout({ children }) {
                 Dashboard
               </Link>
               <Link
+                href="/seller/orders"
+                className="shrink-0 px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-white border border-cream-warm text-noir-soft hover:border-forest hover:text-forest transition-all"
+              >
+                Pesanan
+              </Link>
+              <Link
                 href="/seller/products"
                 className="shrink-0 px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-white border border-cream-warm text-noir-soft hover:border-forest hover:text-forest transition-all"
               >
                 Produk Saya
+              </Link>
+              <Link
+                href="/seller/payment"
+                className="shrink-0 px-4 py-2 text-xs md:text-sm font-semibold rounded-full bg-white border border-cream-warm text-noir-soft hover:border-forest hover:text-forest transition-all"
+              >
+                Pembayaran
               </Link>
             </nav>
             {children}

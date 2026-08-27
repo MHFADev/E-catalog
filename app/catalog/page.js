@@ -3,6 +3,19 @@ import CatalogContent from "./CatalogContent";
 import { SkeletonGrid } from "@/components/common/Loader";
 import { getProducts, getSellers, getCategories } from "@/lib/catalog";
 
+export const metadata = {
+  title: "Katalog Produk UMKM Lokal",
+  description:
+    "Jelajahi katalog produk UMKM Kemayoran, dari kuliner dan camilan hingga hampers serta kebutuhan rumah tangga.",
+  openGraph: {
+    title: "Katalog Produk UMKM Kemayoran",
+    description:
+      "Temukan produk lokal dan hubungi pelaku UMKM langsung dari katalog digital Kemayoran.",
+  },
+};
+
+
+
 export default async function CatalogPage() {
   const [productsData, sellersData, categories] = await Promise.all([
     getProducts(),

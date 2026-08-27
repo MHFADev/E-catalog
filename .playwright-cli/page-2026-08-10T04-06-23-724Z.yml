@@ -1,0 +1,356 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "UMKM Kemayoran" [ref=e6]
+        - button "Menu" [ref=e7] [cursor=pointer]
+      - generic [ref=e10]:
+        - textbox "Cari produk" [ref=e13]:
+          - /placeholder: Cari produk UMKM Kemayoran…
+        - button "Cari" [ref=e14] [cursor=pointer]
+  - main [ref=e18]:
+    - generic [ref=e23]:
+      - generic [ref=e27]:
+        - heading "Bangga Produk Lokal Kemayoran" [level=1] [ref=e28]
+        - link "Jelajahi Produk" [ref=e30] [cursor=pointer]:
+          - /url: /catalog
+      - generic [ref=e33]:
+        - link [ref=e35] [cursor=pointer]:
+          - /url: https://id.wikipedia.org/wiki/Kubus
+          - img "kubus" [ref=e36]
+        - link [ref=e38] [cursor=pointer]:
+          - /url: https://id.wikipedia.org/wiki/Krabby_Patty
+          - img "burger" [ref=e39]
+    - generic [ref=e41]:
+      - generic [ref=e43]:
+        - heading "Kategori Populer" [level=2] [ref=e44]
+        - paragraph [ref=e45]: Temukan produk favoritmu berdasarkan kategori
+      - generic [ref=e46]:
+        - link "Camilan & Minuman 7+ Produk" [ref=e47] [cursor=pointer]:
+          - /url: /catalog?category=camilan-minuman
+          - generic [ref=e51]: Camilan & Minuman
+          - generic [ref=e52]: 7+ Produk
+        - link "Fasion & Aksesoris 9+ Produk" [ref=e53] [cursor=pointer]:
+          - /url: /catalog?category=fasion-aksesoris
+          - generic [ref=e57]: Fasion & Aksesoris
+          - generic [ref=e58]: 9+ Produk
+        - link "Frozen Food 2+ Produk" [ref=e59] [cursor=pointer]:
+          - /url: /catalog?category=frozen-food
+          - generic [ref=e63]: Frozen Food
+          - generic [ref=e64]: 2+ Produk
+        - link "Jasa 0+ Produk" [ref=e65] [cursor=pointer]:
+          - /url: /catalog?category=jasa
+          - generic [ref=e67]: Jasa
+          - generic [ref=e68]: 0+ Produk
+        - link "Kuliner 14+ Produk" [ref=e69] [cursor=pointer]:
+          - /url: /catalog?category=kuliner
+          - generic [ref=e73]: Kuliner
+          - generic [ref=e74]: 14+ Produk
+        - link "Makanan & Hampers 3+ Produk" [ref=e75] [cursor=pointer]:
+          - /url: /catalog?category=makanan-hampers
+          - generic [ref=e79]: Makanan & Hampers
+          - generic [ref=e80]: 3+ Produk
+        - link "Masakan Siap Saji 4+ Produk" [ref=e81] [cursor=pointer]:
+          - /url: /catalog?category=masakan-siap-saji
+          - generic [ref=e85]: Masakan Siap Saji
+          - generic [ref=e86]: 4+ Produk
+        - link "Sembako & Rumah Tangga 2+ Produk" [ref=e87] [cursor=pointer]:
+          - /url: /catalog?category=sembako-rumah-tangga
+          - generic [ref=e91]: Sembako & Rumah Tangga
+          - generic [ref=e92]: 2+ Produk
+        - link "Semua" [ref=e93] [cursor=pointer]:
+          - /url: /catalog
+    - generic [ref=e99]:
+      - heading "UMKM Unggulan" [level=2] [ref=e102]
+      - generic [ref=e103]:
+        - link "cilok Camilan & Minuman Unggulan Lihat Produk Halal cilok Rp10.00050000 Aneka Cemilan 39" [ref=e106] [cursor=pointer]:
+          - /url: /product/prod-1786154016204
+          - generic [ref=e107]:
+            - img "cilok" [ref=e108]
+            - generic [ref=e109]: Camilan & Minuman
+            - generic [ref=e110]: Unggulan
+            - generic [ref=e113]: Lihat Produk
+          - generic [ref=e116]:
+            - generic [ref=e117]: Halal
+            - heading "cilok" [level=3] [ref=e121]
+            - generic [ref=e122]: Rp10.00050000
+            - generic [ref=e123]: Aneka Cemilan 39
+        - link "Keripik Pisang Kuliner Unggulan Lihat Produk Keripik Pisang Rp15.000– Rp33.000 4.7 rating Aneka Cemilan 39" [ref=e128] [cursor=pointer]:
+          - /url: /product/prod-0003
+          - generic [ref=e129]:
+            - img "Keripik Pisang" [ref=e130]
+            - generic [ref=e131]: Kuliner
+            - generic [ref=e132]: Unggulan
+            - generic [ref=e135]: Lihat Produk
+          - generic [ref=e138]:
+            - heading "Keripik Pisang" [level=3] [ref=e139]
+            - generic [ref=e140]: Rp15.000– Rp33.000
+            - generic [ref=e141]:
+              - generic [ref=e144]: "4.7"
+              - generic [ref=e145]: rating
+            - generic [ref=e146]: Aneka Cemilan 39
+        - link "Kerupuk Rambak Djawa (Stick) 250g Kuliner Unggulan Lihat Produk Kerupuk Rambak Djawa (Stick) 250g Rp120.000/ ikat 4.7 rating Kerupuk Rambak Djawa (Lancar Barokah)" [ref=e151] [cursor=pointer]:
+          - /url: /product/prod-0007
+          - generic [ref=e152]:
+            - img "Kerupuk Rambak Djawa (Stick) 250g" [ref=e153]
+            - generic [ref=e154]: Kuliner
+            - generic [ref=e155]: Unggulan
+            - generic [ref=e158]: Lihat Produk
+          - generic [ref=e161]:
+            - heading "Kerupuk Rambak Djawa (Stick) 250g" [level=3] [ref=e162]
+            - generic [ref=e163]: Rp120.000/ ikat
+            - generic [ref=e164]:
+              - generic [ref=e167]: "4.7"
+              - generic [ref=e168]: rating
+            - generic [ref=e169]: Kerupuk Rambak Djawa (Lancar Barokah)
+        - link "Kue Jintan Manis Kuliner Unggulan Lihat Produk Kue Jintan Manis Rp12.000– Rp42.000 4.7 rating Aneka Cemilan 39" [ref=e174] [cursor=pointer]:
+          - /url: /product/prod-0001
+          - generic [ref=e175]:
+            - img "Kue Jintan Manis" [ref=e176]
+            - generic [ref=e177]: Kuliner
+            - generic [ref=e178]: Unggulan
+            - generic [ref=e181]: Lihat Produk
+          - generic [ref=e184]:
+            - heading "Kue Jintan Manis" [level=3] [ref=e185]
+            - generic [ref=e186]: Rp12.000– Rp42.000
+            - generic [ref=e187]:
+              - generic [ref=e190]: "4.7"
+              - generic [ref=e191]: rating
+            - generic [ref=e192]: Aneka Cemilan 39
+      - button "Lihat Semua" [ref=e196] [cursor=pointer]
+    - generic [ref=e200]:
+      - heading "Mitra Akademis & Pengembang Ekosistem" [level=2] [ref=e201]
+      - generic [ref=e202]:
+        - generic "Politeknik Sains Seni Rekakreasi (SSR)":
+          - img "Politeknik Sains Seni Rekakreasi (SSR)"
+        - generic "AS Works":
+          - img "AS Works"
+    - generic [ref=e205]:
+      - heading "UMKM Kemayoran Dalam Angka" [level=2] [ref=e206]
+      - generic [ref=e207]:
+        - generic [ref=e208]:
+          - generic [ref=e209]: 8+
+          - generic [ref=e210]: Total UMKM Terverifikasi
+        - generic [ref=e211]:
+          - generic [ref=e212]: 41+
+          - generic [ref=e213]: Produk Tersedia
+        - generic [ref=e214]:
+          - generic [ref=e215]: 28.700+
+          - generic [ref=e216]: Pengunjung Bulan Ini
+        - generic [ref=e217]:
+          - generic [ref=e218]: 85+
+          - generic [ref=e219]: Mitra & Kolaborasi Aktif
+    - generic [ref=e221]:
+      - heading "Mengapa Memilih Kami" [level=2] [ref=e222]
+      - generic [ref=e223]:
+        - generic [ref=e224]:
+          - heading "Produk Berkualitas" [level=3] [ref=e228]
+          - paragraph [ref=e229]: Setiap produk dipilih dan diverifikasi dari UMKM nyata
+        - generic [ref=e230]:
+          - heading "UMKM Terverifikasi" [level=3] [ref=e234]
+          - paragraph [ref=e235]: Semua pelaku usaha sudah melalui proses pendataan
+        - generic [ref=e236]:
+          - heading "Pesan Langsung" [level=3] [ref=e240]
+          - paragraph [ref=e241]: Transaksi langsung via WhatsApp tanpa perantara
+        - generic [ref=e242]:
+          - heading "Mendukung Ekonomi Lokal" [level=3] [ref=e246]
+          - paragraph [ref=e247]: Setiap pembelian membantu perekonomian warga
+    - generic [ref=e249]:
+      - generic [ref=e250]:
+        - heading "Event & Kegiatan Terbaru" [level=2] [ref=e252]
+        - link "Lihat Semua" [ref=e253] [cursor=pointer]:
+          - /url: /artikel
+      - generic [ref=e256]:
+        - generic [ref=e258]:
+          - generic [ref=e259]:
+            - generic [ref=e260]: "12"
+            - generic [ref=e261]: AGU
+          - generic [ref=e262]:
+            - heading "Bazar UMKM Kemayoran" [level=3] [ref=e263]
+            - paragraph [ref=e264]: Pameran dan penjualan produk unggulan UMKM lokal.
+            - generic [ref=e265]:
+              - text: Lapangan Kemayoran
+              - generic [ref=e268]: ·
+              - text: 09.00 - 16.00 WIB
+        - generic [ref=e272]:
+          - generic [ref=e273]:
+            - generic [ref=e274]: "25"
+            - generic [ref=e275]: AGU
+          - generic [ref=e276]:
+            - heading "Workshop Digital Marketing" [level=3] [ref=e277]
+            - paragraph [ref=e278]: Pelatihan gratis cara memasarkan produk secara online.
+            - generic [ref=e279]:
+              - text: Balai Warga RW 05
+              - generic [ref=e282]: ·
+              - text: 13.00 - 16.00 WIB
+        - generic [ref=e286]:
+          - generic [ref=e287]:
+            - generic [ref=e288]: "08"
+            - generic [ref=e289]: SEP
+          - generic [ref=e290]:
+            - heading "Kelas Produksi & Kemasan" [level=3] [ref=e291]
+            - paragraph [ref=e292]: Belajar kemasan produk yang menarik dan food grade.
+            - generic [ref=e293]:
+              - text: Aula Kelurahan
+              - generic [ref=e296]: ·
+              - text: 09.00 - 12.00 WIB
+    - generic [ref=e300]:
+      - heading "Apa Kata Mereka" [level=2] [ref=e301]
+      - generic [ref=e303]:
+        - generic [ref=e305]:
+          - generic [ref=e306]:
+            - generic [ref=e307]: SN
+            - generic [ref=e308]:
+              - generic [ref=e309]: Siti Nurhaliza
+              - generic [ref=e310]: Pemilik Aneka Cemilan 39
+          - paragraph [ref=e322]: “Sejak bergabung, produk saya semakin dikenal. Banyak pelanggan baru yang datang lewat katalog ini.”
+        - generic [ref=e324]:
+          - generic [ref=e325]:
+            - generic [ref=e326]: AR
+            - generic [ref=e327]:
+              - generic [ref=e328]: Ahmad Rizki
+              - generic [ref=e329]: Pembeli
+          - paragraph [ref=e341]: “Gampang banget cari oleh-oleh khas Kemayoran. Tinggal klik langsung chat WA penjualnya.”
+        - generic [ref=e343]:
+          - generic [ref=e344]:
+            - generic [ref=e345]: DL
+            - generic [ref=e346]:
+              - generic [ref=e347]: Dewi Lestari
+              - generic [ref=e348]: Pemilik Smart Shop RW 010
+          - paragraph [ref=e360]: “Platform ini sangat membantu UMKM kecil seperti saya buat promosi tanpa biaya.”
+        - generic [ref=e362]:
+          - generic [ref=e363]:
+            - generic [ref=e364]: SN
+            - generic [ref=e365]:
+              - generic [ref=e366]: Siti Nurhaliza
+              - generic [ref=e367]: Pemilik Aneka Cemilan 39
+          - paragraph [ref=e379]: “Sejak bergabung, produk saya semakin dikenal. Banyak pelanggan baru yang datang lewat katalog ini.”
+        - generic [ref=e381]:
+          - generic [ref=e382]:
+            - generic [ref=e383]: AR
+            - generic [ref=e384]:
+              - generic [ref=e385]: Ahmad Rizki
+              - generic [ref=e386]: Pembeli
+          - paragraph [ref=e398]: “Gampang banget cari oleh-oleh khas Kemayoran. Tinggal klik langsung chat WA penjualnya.”
+        - generic [ref=e400]:
+          - generic [ref=e401]:
+            - generic [ref=e402]: DL
+            - generic [ref=e403]:
+              - generic [ref=e404]: Dewi Lestari
+              - generic [ref=e405]: Pemilik Smart Shop RW 010
+          - paragraph [ref=e417]: “Platform ini sangat membantu UMKM kecil seperti saya buat promosi tanpa biaya.”
+    - generic [ref=e419]:
+      - heading "Peta Lokasi UMKM" [level=2] [ref=e420]
+      - paragraph [ref=e421]: Semua toko UMKM Kemayoran terpasang di peta. Klik pin untuk melihat nama toko, lalu kunjungi detailnya.
+      - generic [ref=e424]:
+        - link "Leaflet" [ref=e425] [cursor=pointer]:
+          - /url: https://leafletjs.com
+        - text: "| ©"
+        - link "OSM" [ref=e430] [cursor=pointer]:
+          - /url: https://openstreetmap.org/copyright
+    - generic [ref=e433]:
+      - generic [ref=e434]:
+        - heading "Punya Usaha di Kemayoran? Bergabung Sekarang!" [level=2] [ref=e435]: Punya Usaha di Kemayoran?Bergabung Sekarang!
+        - paragraph [ref=e436]: Gratis, mudah, dan bantu usahamu lebih dikenal warga serta wisatawan. Daftar sebagai UMKM di katalog digital Kemayoran.
+      - link "Daftar Sekarang" [ref=e437] [cursor=pointer]:
+        - /url: /gabung
+  - contentinfo [ref=e440]:
+    - generic [ref=e442]:
+      - generic [ref=e443]:
+        - generic [ref=e444]:
+          - link "UMKM Kemayoran UMKM Kemayoran E-Catalog Lokal" [ref=e445] [cursor=pointer]:
+            - /url: /
+            - img "UMKM Kemayoran" [ref=e446]
+            - generic [ref=e447]:
+              - generic [ref=e448]: UMKM Kemayoran
+              - generic [ref=e449]: E-Catalog Lokal
+          - paragraph [ref=e450]: Katalog digital untuk mendukung pertumbuhan UMKM Kemayoran — belanja langsung, transparan, dan dekat dengan warga sekitar.
+          - generic [ref=e451]:
+            - link [ref=e452] [cursor=pointer]:
+              - /url: https://wa.me/6281314946638?text=Halo%2C%20saya%20ingin%20bergabung%20sebagai%20mitra%20UMKM%20di%20E-Catalog%20Kemayoran.%20Mohon%20informasinya.
+            - link [ref=e456] [cursor=pointer]:
+              - /url: mailto:hallo@umkm-kemayoran.id
+            - generic [ref=e460]: Jl. Kemayoran, Jakarta Pusat
+          - generic [ref=e464]:
+            - generic [ref=e465]: Mitra Pendukung
+            - generic [ref=e466]:
+              - generic "Politeknik Sains Seni Rekakreasi (SSR)":
+                - img "Politeknik Sains Seni Rekakreasi (SSR)"
+              - generic "AS Works":
+                - img "AS Works"
+        - generic [ref=e467]:
+          - heading "Navigasi" [level=4] [ref=e468]
+          - generic [ref=e470]:
+            - link "› Beranda" [ref=e471] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e472]: ›
+              - text: Beranda
+            - link "› Katalog Produk" [ref=e473] [cursor=pointer]:
+              - /url: /catalog
+              - generic [ref=e474]: ›
+              - text: Katalog Produk
+            - link "› Artikel & Event" [ref=e475] [cursor=pointer]:
+              - /url: /artikel
+              - generic [ref=e476]: ›
+              - text: Artikel & Event
+            - link "› Tentang Kami" [ref=e477] [cursor=pointer]:
+              - /url: /about
+              - generic [ref=e478]: ›
+              - text: Tentang Kami
+            - link "› Peta Lokasi" [ref=e479] [cursor=pointer]:
+              - /url: /#peta
+              - generic [ref=e480]: ›
+              - text: Peta Lokasi
+        - generic [ref=e481]:
+          - heading "Untuk UMKM" [level=4] [ref=e482]
+          - generic [ref=e484]:
+            - link "› Gabung Katalog" [ref=e485] [cursor=pointer]:
+              - /url: /gabung
+              - generic [ref=e486]: ›
+              - text: Gabung Katalog
+            - link "› Area Penjual" [ref=e487] [cursor=pointer]:
+              - /url: /seller
+              - generic [ref=e488]: ›
+              - text: Area Penjual
+            - link "› Kelola Produk" [ref=e489] [cursor=pointer]:
+              - /url: /seller/products
+              - generic [ref=e490]: ›
+              - text: Kelola Produk
+            - link "› Panel Admin" [ref=e491] [cursor=pointer]:
+              - /url: /admin/login
+              - generic [ref=e492]: ›
+              - text: Panel Admin
+          - generic [ref=e493]:
+            - generic [ref=e494]: Punya usaha di Kemayoran?
+            - generic [ref=e495]:
+              - text: Daftar gratis dan tampilkan produk Anda di katalog digital ini.
+              - link "Mulai di sini." [ref=e496] [cursor=pointer]:
+                - /url: /gabung
+        - generic [ref=e497]:
+          - heading "Bantuan" [level=4] [ref=e498]
+          - generic [ref=e500]:
+            - link "› FAQ & Bantuan" [ref=e501] [cursor=pointer]:
+              - /url: /about
+              - generic [ref=e502]: ›
+              - text: FAQ & Bantuan
+            - link "› Cara Menjadi Mitra" [ref=e503] [cursor=pointer]:
+              - /url: /gabung
+              - generic [ref=e504]: ›
+              - text: Cara Menjadi Mitra
+            - link "› Cara Belanja" [ref=e505] [cursor=pointer]:
+              - /url: /catalog
+              - generic [ref=e506]: ›
+              - text: Cara Belanja
+            - link "› Panduan & Berita" [ref=e507] [cursor=pointer]:
+              - /url: /artikel
+              - generic [ref=e508]: ›
+              - text: Panduan & Berita
+      - generic [ref=e509]:
+        - paragraph [ref=e510]: © 2026 E-Catalog UMKM Kemayoran. Semua hak dilindungi.
+        - generic [ref=e511]:
+          - generic [ref=e512]: Dibuat untuk pelaku UMKM lokal
+          - generic [ref=e514]: Dari Kemayoran, untuk Indonesia
+  - button "Open Next.js Dev Tools" [ref=e520] [cursor=pointer]
+  - alert [ref=e524]

@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import { useUser } from "@/lib/useUser";
+import { useProfile } from "@/lib/useProfile";
 
 // ===== Bintang rating (5 bintang, ada/tidak aktif) =====
 function Stars({ value, size = 12, className = "" }) {
@@ -39,17 +40,26 @@ function fmtDate(iso) {
   });
 }
 
-// ===== Kartu satu komentar =====
+// ===== Kartu satu komentar (username/avatar dari join tabel profiles) =====
 function ReviewCard({ review }) {
+  const displayName = review.username || review.name || "Pengguna";
   return (
     <div className="bg-white rounded-2xl p-4 md:p-5 border border-cream-warm">
       <div className="flex items-center gap-3 mb-2">
-        <span className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
-          {initials(review.name)}
-        </span>
+        {review.avatarUrl ? (
+          <img
+            src={review.avatarUrl}
+            alt={displayName}
+            className="w-9 h-9 md:w-10 md:h-10 rounded-full object-cover border border-cream-warm shrink-0"
+          />
+        ) : (
+          <span className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
+            {initials(displayName)}
+          </span>
+        )}
         <div className="min-w-0 flex-1">
           <div className="text-sm font-semibold text-noir truncate">
-            {review.name}
+            {displayName}
           </div>
           <div className="flex items-center gap-2">
             <Stars value={review.rating} />
@@ -66,22 +76,24 @@ function ReviewCard({ review }) {
   );
 }
 
-// ===== Form komentar baru (disimpan ke database via API, moderasi admin) =====
-function CommentForm({ productId, onAdd }) {
-  const [name, setName] = useState("");
+// ===== Form komentar baru — otomatis memakai identitas akun yang login =====
+function CommentForm({ productId, onAdd, profile }) {
   const [rating, setRating] = useState(5);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
   const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
+
+  const displayName = profile?.username || "Pengguna";
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!name.trim() || !comment.trim()) return;
+    if (!comment.trim()) return;
 
     setStatus("sending");
+    setError("");
     const payload = {
       productId,
-      name: name.trim(),
       rating,
       comment: comment.trim(),
     };
@@ -92,25 +104,21 @@ function CommentForm({ productId, onAdd }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("gagal");
-      onAdd({
-        ...payload,
-        date: new Date().toISOString().slice(0, 10),
-      });
+      const data = await res.json();
+      if (!res.ok || !data?.review) {
+        throw new Error(data?.error || "Rating belum dapat disimpan.");
+      }
+
+      // Hanya tampilkan setelah API mengonfirmasi data benar-benar tersimpan.
+      onAdd(data.review);
+      setComment("");
+      setRating(5);
       setStatus("sent");
-    } catch {
-      // Fallback: tanpa DB, simpan lokal di perangkat ini
-      onAdd({
-        ...payload,
-        date: new Date().toISOString().slice(0, 10),
-      });
+      setTimeout(() => setStatus(""), 5000);
+    } catch (submitError) {
+      setError(submitError.message || "Rating belum dapat disimpan.");
       setStatus("error");
     }
-
-    setName("");
-    setRating(5);
-    setComment("");
-    setTimeout(() => setStatus(""), 5000);
   };
 
   return (
@@ -123,36 +131,45 @@ function CommentForm({ productId, onAdd }) {
         Tulis Komentar
       </h3>
 
-      <div className="grid md:grid-cols-2 gap-3 mb-3">
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Nama kamu"
-          className="w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all"
-        />
-        {/* Pilih bintang saat hover */}
-        <div className="flex items-center gap-1 bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <button
-              type="button"
-              key={i}
-              onMouseEnter={() => setHover(i)}
-              onMouseLeave={() => setHover(0)}
-              onClick={() => setRating(i)}
-              className={`text-lg md:text-xl transition-transform hover:scale-110 ${
-                i <= (hover || rating) ? "text-amber-500" : "text-muted/40"
-              }`}
-              aria-label={`${i} bintang`}
-            >
-              <Icon
-                name="starFilled"
-                size={18}
-                className={i <= (hover || rating) ? "text-amber-500" : "text-muted/40"}
-              />
-            </button>
-          ))}
-        </div>
+      {/* Identitas otomatis dari akun — tanpa input nama manual */}
+      <div className="flex items-center gap-2.5 mb-3">
+        {profile?.avatarUrl ? (
+          <img
+            src={profile.avatarUrl}
+            alt={displayName}
+            className="w-9 h-9 rounded-full object-cover border border-cream-warm"
+          />
+        ) : (
+          <span className="w-9 h-9 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-xs shrink-0">
+            {initials(displayName)}
+          </span>
+        )}
+        <span className="text-xs md:text-sm text-noir-soft">
+          Mengomentari sebagai{" "}
+          <span className="font-bold text-forest">@{displayName}</span>
+        </span>
+      </div>
+
+      <div className="flex items-center gap-1 bg-cream-pure border border-cream-warm rounded-xl px-3 py-2.5 mb-3">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <button
+            type="button"
+            key={i}
+            onMouseEnter={() => setHover(i)}
+            onMouseLeave={() => setHover(0)}
+            onClick={() => setRating(i)}
+            className={`text-lg md:text-xl transition-transform hover:scale-110 ${
+              i <= (hover || rating) ? "text-amber-500" : "text-muted/40"
+            }`}
+            aria-label={`${i} bintang`}
+          >
+            <Icon
+              name="starFilled"
+              size={18}
+              className={i <= (hover || rating) ? "text-amber-500" : "text-muted/40"}
+            />
+          </button>
+        ))}
       </div>
 
       <textarea
@@ -172,13 +189,13 @@ function CommentForm({ productId, onAdd }) {
       </button>
 
       {status === "sent" && (
-        <p className="mt-2 text-xs text-emerald-600">
-          Komentar terkirim. Akan tampil setelah disetujui admin.
+        <p className="mt-2 text-xs text-emerald-700">
+          Rating tersimpan dan sekarang tampil secara publik.
         </p>
       )}
       {status === "error" && (
-        <p className="mt-2 text-xs text-amber-600">
-          Gagal terhubung database. Komentar tersimpan lokal di perangkat ini.
+        <p role="alert" className="mt-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+          {error}
         </p>
       )}
     </form>
@@ -189,6 +206,7 @@ function CommentForm({ productId, onAdd }) {
 export default function ReviewSection({ initial = [], productId }) {
   const [reviews, setReviews] = useState(initial);
   const { user, loading } = useUser();
+  const { profile } = useProfile();
 
   const total = reviews.length;
   const avg = total
@@ -258,6 +276,7 @@ export default function ReviewSection({ initial = [], productId }) {
       {loading ? null : user ? (
         <CommentForm
           productId={productId}
+          profile={profile}
           onAdd={(rev) => setReviews((prev) => [rev, ...prev])}
         />
       ) : (

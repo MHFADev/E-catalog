@@ -208,24 +208,35 @@ export default function CatalogContent({ categories, productsData, sellersData }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-12 pb-28 md:pb-0">
-      <div className="mb-5 md:mb-8">
-        <h1 className="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight">
-          Katalog <span className="text-forest">Produk</span>
-        </h1>
-      </div>
-
-      <div className="mb-4 md:mb-8">
-        <SearchBar
-          value={searchInput}
-          onChange={setSearchInput}
-          placeholder="Cari produk atau UMKM..."
-        />
-      </div>
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-10 pb-28 md:pb-0">
+      <section className="catalog-hero rounded-[1.75rem] md:rounded-[2.25rem] p-5 sm:p-7 md:p-9 mb-5 md:mb-8">
+        <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl fade-in-up">
+            <span className="section-kicker">Etalase UMKM Kemayoran</span>
+            <h1 className="mt-2 text-2xl md:text-4xl lg:text-[2.7rem] font-extrabold tracking-tight leading-[1.05] text-noir">
+              Temukan produk lokal yang <span className="text-forest">tepat untukmu.</span>
+            </h1>
+            <p className="mt-3 max-w-xl text-sm md:text-base leading-relaxed text-cool-gray">
+              Jelajahi pilihan dari pelaku usaha sekitar, kemudian hubungi toko langsung saat sudah menemukan produk yang kamu suka.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2 fade-in-up reveal-delay-1">
+            <span className="stat-chip"><Icon name="store" size={14} /> {sellersData.length} UMKM lokal</span>
+            <span className="stat-chip"><Icon name="shoppingBasket" size={14} /> {productsData.length} produk</span>
+          </div>
+        </div>
+        <div className="relative z-10 mt-5 md:mt-7 scale-in reveal-delay-2">
+          <SearchBar
+            value={searchInput}
+            onChange={setSearchInput}
+            placeholder="Cari produk atau UMKM..."
+          />
+        </div>
+      </section>
 
       {/* [MOBILE FILTER] Scroll horizontal kategori saja — tombol filter di bottom bar */}
       <div className="md:hidden flex items-center gap-2 mb-4">
-        <button onClick={() => scrollCat(-1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cream-warm shadow-sm shrink-0 text-noir-soft hover:text-forest transition-all">
+        <button onClick={() => scrollCat(-1)} aria-label="Geser kategori ke kiri" className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cream-warm shadow-sm shrink-0 text-noir-soft hover:text-forest transition-all">
           <Icon name="chevronLeft" size={16} />
         </button>
         <div ref={catScrollRef} className="flex-1 flex gap-2 overflow-x-auto scrollbar-thin py-1 scroll-smooth">
@@ -238,16 +249,27 @@ export default function CatalogContent({ categories, productsData, sellersData }
             />
           ))}
         </div>
-        <button onClick={() => scrollCat(1)} className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cream-warm shadow-sm shrink-0 text-noir-soft hover:text-forest transition-all">
+        <button onClick={() => scrollCat(1)} aria-label="Geser kategori ke kanan" className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-cream-warm shadow-sm shrink-0 text-noir-soft hover:text-forest transition-all">
           <Icon name="chevronRight" size={16} />
         </button>
       </div>
+
+      {hasActiveFilter && (
+        <div className="mb-5 flex flex-wrap items-center gap-2 rounded-2xl border border-forest/15 bg-forest/[0.045] p-3 md:mb-7 md:px-4">
+          <span className="text-xs font-bold text-forest">Filter aktif</span>
+          {selectedCategory && <span className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-noir-soft shadow-sm">{categories.find((category) => category.id === selectedCategory)?.name}</span>}
+          {sellerId !== "all" && <span className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-noir-soft shadow-sm">{sellersData.find((seller) => seller.id === sellerId)?.name}</span>}
+          {preOrder !== "all" && <span className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-noir-soft shadow-sm">{preOrder === "po" ? "Pre-Order" : "Ready Stock"}</span>}
+          {halal !== "all" && <span className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-noir-soft shadow-sm">{halal === "halal" ? "Halal" : "Non-Halal"}</span>}
+          <button onClick={resetFilters} className="ml-auto px-2 py-1 text-xs font-bold text-forest transition-colors hover:text-forest-deep hover:underline">Hapus semua</button>
+        </div>
+      )}
 
       {/* ===== Layout: sidebar filter kiri (desktop) + daftar produk ===== */}
       <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-8 lg:items-start">
         {/* Sidebar (hidden on mobile; pakai FilterDrawer di mobile) */}
         <aside className="hidden lg:block lg:sticky lg:top-24">
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-cream-warm">
+          <div className="surface-raised rounded-[2rem] p-6">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-sm md:text-base font-bold tracking-tight">
                 Filter Produk
@@ -331,9 +353,12 @@ export default function CatalogContent({ categories, productsData, sellersData }
         {/* Daftar produk */}
         <div className="min-w-0">
           <div ref={productsRef} className="scroll-mt-24">
-            <p className="font-mono text-[10px] md:text-xs text-warm-gray tracking-wider mb-4 md:mb-6">
-              {loading ? "Memuat..." : `${filtered.length} produk ditemukan`}
-            </p>
+            <div className="mb-4 flex items-center justify-between gap-3 md:mb-6">
+              <p className="font-mono text-[10px] md:text-xs text-warm-gray tracking-wider">
+                {loading ? "Memuat etalase..." : `${filtered.length} produk ditemukan`}
+              </p>
+              {!loading && filtered.length > 0 && <span className="hidden sm:inline-flex rounded-full border border-cream-warm bg-white px-3 py-1 text-[11px] font-semibold text-cool-gray">Pilihan terbaru & unggulan</span>}
+            </div>
 
             {loading ? (
               <SkeletonGrid count={8} />
@@ -343,7 +368,7 @@ export default function CatalogContent({ categories, productsData, sellersData }
                 description="Coba ubah kata kunci pencarian, pilih kategori lain, atau atur ulang filter."
               />
             ) : (
-              <ProductGrid products={visibleProducts} categories={categories} />
+              <div className="fade-in-up"><ProductGrid products={visibleProducts} categories={categories} /></div>
             )}
           </div>
 
@@ -377,11 +402,11 @@ export default function CatalogContent({ categories, productsData, sellersData }
       <style>{`
         .scrollbar-thin::-webkit-scrollbar { height: 4px; }
         .scrollbar-thin::-webkit-scrollbar-track { background: #F3EDDF; border-radius: 2px; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background: #1E7A3D; border-radius: 2px; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #0055A0; border-radius: 2px; }
       `}</style>
 
       {/* [MOBILE] Bottom bar filter — tetap terlihat tanpa scroll */}
-      <div className="fixed bottom-0 inset-x-0 z-40 md:hidden bg-white/95 backdrop-blur-xl border-t border-cream-warm px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-cream-warm bg-white/95 px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(10,37,64,0.08)] backdrop-blur-xl">
         <button
           onClick={() => setFilterOpen(true)}
           className={`w-full flex items-center justify-center gap-2 py-3 rounded-full text-sm font-bold transition-all shadow-lg ${

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request) {
@@ -8,7 +9,7 @@ export async function POST(request) {
   } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json(
-      { error: "Harus login untuk mengirim komentar" },
+      { error: "Silakan login untuk mengirim rating dan komentar." },
       { status: 401 },
     );
   }
@@ -17,31 +18,71 @@ export async function POST(request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "JSON tidak valid" }, { status: 400 });
+    return NextResponse.json({ error: "Data ulasan tidak valid." }, { status: 400 });
   }
 
-  const { productId, name, rating, comment } = body || {};
-  if (!productId || !name?.trim() || !comment?.trim()) {
-    return NextResponse.json({ error: "Field wajib tidak lengkap" }, { status: 400 });
+  const productId = String(body?.productId || "").trim();
+  const comment = String(body?.comment || "").trim();
+  const rating = Number(body?.rating);
+
+  if (!productId || !comment) {
+    return NextResponse.json({ error: "Rating dan komentar wajib diisi." }, { status: 400 });
   }
-  const r = Number(rating);
-  if (!Number.isInteger(r) || r < 1 || r > 5) {
-    return NextResponse.json({ error: "Rating harus antara 1 dan 5" }, { status: 400 });
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+    return NextResponse.json({ error: "Rating harus bernilai antara 1 sampai 5." }, { status: 400 });
   }
-  if (name.trim().length > 60 || comment.trim().length > 1000) {
-    return NextResponse.json({ error: "Teks terlalu panjang" }, { status: 400 });
+  if (comment.length < 3 || comment.length > 1000) {
+    return NextResponse.json({ error: "Komentar harus berisi 3–1000 karakter." }, { status: 400 });
   }
 
-  const { error } = await supabase.from("reviews").insert({
-    product_id: productId,
-    name: name.trim(),
-    rating: r,
-    comment: comment.trim(),
-    status: "pending",
-  });
+  // Identitas diambil dari profil akun aktif; pengunjung tidak dapat memilih
+  // nama atau user_id lain untuk rating yang mereka kirim.
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("username, avatar_url")
+    .eq("id", user.id)
+    .maybeSingle();
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  const name = profile?.username || user.email?.split("@")[0] || "Pengguna";
+  const { data: review, error } = await supabase
+    .from("reviews")
+    .insert({
+      product_id: productId,
+      name,
+      user_id: user.id,
+      rating,
+      comment,
+      // Rating baru dipublikasikan langsung agar terlihat lintas browser.
+      status: "approved",
+    })
+    .select("id, product_id, name, rating, comment, date, user_id")
+    .single();
+
+  if (error || !review) {
+    return NextResponse.json(
+      { error: error?.message || "Rating belum dapat disimpan." },
+      { status: 500 },
+    );
   }
-  return NextResponse.json({ ok: true }, { status: 201 });
+
+  revalidateTag("catalog");
+  revalidatePath(`/product/${productId}`);
+
+  return NextResponse.json(
+    {
+      ok: true,
+      review: {
+        id: review.id,
+        productId: review.product_id,
+        name: review.name,
+        username: profile?.username || null,
+        avatarUrl: profile?.avatar_url || null,
+        rating: review.rating,
+        comment: review.comment,
+        date: review.date,
+        userId: review.user_id,
+      },
+    },
+    { status: 201 },
+  );
 }

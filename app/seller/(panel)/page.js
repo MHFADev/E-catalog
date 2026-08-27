@@ -8,7 +8,12 @@ export default async function SellerDashboardPage() {
   const account = await getSellerAccount();
   const seller = account?.sellers;
   const supabase = await createClient();
-  const [{ count }, { data: sellerRow }] = await Promise.all([
+  const [
+    { count },
+    { data: sellerRow },
+    { count: pendingWhatsAppOrders },
+    { count: pendingTransferOrders },
+  ] = await Promise.all([
     seller
       ? supabase
           .from("products")
@@ -18,6 +23,20 @@ export default async function SellerDashboardPage() {
     seller
       ? supabase.from("sellers").select("*").eq("id", seller.id).maybeSingle()
       : Promise.resolve({ data: null }),
+    seller
+      ? supabase
+          .from("orders")
+          .select("id", { count: "exact", head: true })
+          .eq("seller_id", seller.id)
+          .eq("status", "menunggu_konfirmasi")
+      : Promise.resolve({ count: 0 }),
+    seller
+      ? supabase
+          .from("orders")
+          .select("id", { count: "exact", head: true })
+          .eq("seller_id", seller.id)
+          .eq("status", "menunggu_verifikasi")
+      : Promise.resolve({ count: 0 }),
   ]);
 
   const full = sellerRow || seller;
@@ -35,7 +54,12 @@ export default async function SellerDashboardPage() {
             />
           )}
           <div className="min-w-0">
-            <div className="text-sm font-semibold text-noir mb-1">{full?.name}</div>
+            <div className="flex flex-wrap items-center gap-2 mb-1">
+              <div className="text-sm font-semibold text-noir">{full?.name}</div>
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                <Icon name="badgeCheck" size={10} /> Akun penjual aktif
+              </span>
+            </div>
             {full?.description && (
               <p className="text-xs md:text-sm text-cool-gray leading-relaxed mb-2">
                 {full.description}
@@ -49,17 +73,49 @@ export default async function SellerDashboardPage() {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid sm:grid-cols-3 gap-4">
         <div className="bg-white rounded-2xl p-5 border border-cream-warm">
           <div className="text-3xl font-bold text-forest">{count ?? 0}</div>
           <div className="text-xs text-warm-gray mt-1">Produk Anda di katalog</div>
         </div>
-        <div className="bg-white rounded-2xl p-5 border border-cream-warm flex flex-col justify-center">
+        <div className="bg-white rounded-2xl p-5 border border-sky-200">
+          <Link href="/seller/orders?status=menunggu_konfirmasi" className="flex items-center justify-between gap-3 group">
+            <div>
+              <div className={`text-3xl font-bold ${pendingWhatsAppOrders > 0 ? "text-sky-800" : "text-noir"}`}>
+                {pendingWhatsAppOrders ?? 0}
+              </div>
+              <div className="text-xs text-warm-gray mt-1">Pesanan WA perlu respons</div>
+            </div>
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-forest group-hover:underline">
+              Kelola <Icon name="arrowRight" size={12} />
+            </span>
+          </Link>
+        </div>
+        <div className="bg-white rounded-2xl p-5 border border-amber-200">
+          <Link href="/seller/orders?status=menunggu_verifikasi" className="flex items-center justify-between gap-3 group">
+            <div>
+              <div className={`text-3xl font-bold ${pendingTransferOrders > 0 ? "text-amber-700" : "text-noir"}`}>
+                {pendingTransferOrders ?? 0}
+              </div>
+              <div className="text-xs text-warm-gray mt-1">Transfer perlu diverifikasi</div>
+            </div>
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-forest group-hover:underline">
+              Kelola <Icon name="arrowRight" size={12} />
+            </span>
+          </Link>
+        </div>
+        <div className="bg-white rounded-2xl p-5 border border-cream-warm sm:col-span-3 flex flex-col gap-2">
           <Link
             href="/seller/products"
             className="btn-primary text-sm py-2.5 text-center"
           >
             Kelola Produk Saya
+          </Link>
+          <Link
+            href="/seller/payment"
+            className="btn-secondary text-sm py-2.5 text-center"
+          >
+            Atur Metode Pembayaran
           </Link>
         </div>
       </div>
@@ -95,10 +151,7 @@ export default async function SellerDashboardPage() {
 
       <div className="bg-forest/5 border border-forest/20 rounded-2xl p-4 md:p-5">
         <p className="text-xs md:text-sm text-noir-soft leading-relaxed">
-          <strong>Cara:</strong> buka menu <strong>Produk Saya</strong> untuk
-          menambah atau mengubah produk. Isi lokasi di atas agar pelanggan
-          mudah menemukan toko Anda. Perubahan langsung tampil di katalog
-          publik.
+          <strong>Akun toko ini bersifat individual:</strong> Anda hanya dapat mengelola produk, metode pembayaran, dan pesanan milik toko sendiri. Tanggapi pesanan WhatsApp terlebih dahulu, lalu verifikasi transfer secara mandiri sebelum memproses pesanan.
         </p>
       </div>
     </div>

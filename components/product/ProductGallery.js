@@ -1,74 +1,114 @@
 ﻿"use client";
-import { useState } from "react";
+
+import { useRef, useState } from "react";
 import Icon from "@/components/common/Icon";
 
+const FALLBACK_IMAGE = "/images/webp-2/camilan-ciangsana.webp";
+
 export default function ProductGallery({ images, name }) {
-  // Fallback ke gambar default kalau produk tidak punya foto
-  // [FIX] Fallback gambar lama dipindah: kini /images/webp-2/camilan-ciangsana.webp
-  const imgs = images?.length ? images : ["/images/webp-2/camilan-ciangsana.webp"];
+  const imgs = images?.length ? images : [FALLBACK_IMAGE];
   const [idx, setIdx] = useState(0);
-  const [err, setErr] = useState(false); // kalau gambar error, pakai gambar default
-  const src = err ? "/images/webp-2/camilan-ciangsana.webp" : imgs[idx];
-  const showThumbs = imgs.length > 1; // thumbnail cuma muncul kalau foto lebih dari satu
+  const [err, setErr] = useState(false);
+  const touchStartX = useRef(null);
+  const src = err ? FALLBACK_IMAGE : imgs[idx];
+  const showThumbs = imgs.length > 1;
+
+  const moveTo = (nextIndex) => {
+    setErr(false);
+    setIdx((nextIndex + imgs.length) % imgs.length);
+  };
+
+  const previous = () => moveTo(idx - 1);
+  const next = () => moveTo(idx + 1);
+
+  const onTouchEnd = (event) => {
+    if (touchStartX.current == null) return;
+    const distance = event.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+
+    if (Math.abs(distance) < 42) return;
+    if (distance > 0) previous();
+    else next();
+  };
 
   return (
-    <div>
-      <div className="relative aspect-square lg:aspect-auto lg:h-[55vh] lg:min-h-[420px] bg-cream-warm rounded-2xl md:rounded-3xl overflow-hidden">
+    <div className="min-w-0">
+      <div
+        className="surface-raised relative aspect-square overflow-hidden rounded-[1.65rem] md:rounded-[2.25rem] lg:aspect-auto lg:h-[55vh] lg:min-h-[430px]"
+        onTouchStart={(event) => {
+          touchStartX.current = event.touches[0].clientX;
+        }}
+        onTouchEnd={onTouchEnd}
+      >
         <img
           src={src}
           alt={name}
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover transition-transform duration-500"
           onError={() => setErr(true)}
         />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-hutan/30 to-transparent" />
+
         {showThumbs && (
           <>
             <button
-              onClick={() => setIdx((idx - 1 + imgs.length) % imgs.length)}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm text-noir-soft hover:bg-white transition-all"
+              type="button"
+              onClick={previous}
+              className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-white/82 text-noir-soft shadow-sm backdrop-blur-md transition-all hover:scale-105 hover:bg-white focus-visible:outline-none md:left-4 md:h-11 md:w-11"
               aria-label="Foto sebelumnya"
             >
-              <Icon name="chevronLeft" size={16} />
+              <Icon name="chevronLeft" size={18} />
             </button>
             <button
-              onClick={() => setIdx((idx + 1) % imgs.length)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm text-noir-soft hover:bg-white transition-all"
+              type="button"
+              onClick={next}
+              className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-white/82 text-noir-soft shadow-sm backdrop-blur-md transition-all hover:scale-105 hover:bg-white focus-visible:outline-none md:right-4 md:h-11 md:w-11"
               aria-label="Foto berikutnya"
             >
-              <Icon name="chevronRight" size={16} />
+              <Icon name="chevronRight" size={18} />
             </button>
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
-              {imgs.map((_, i) => (
+            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/20 bg-hutan/35 px-2.5 py-1.5 backdrop-blur-md md:bottom-4">
+              {imgs.map((_, index) => (
                 <button
-                  key={i}
-                  onClick={() => setIdx(i)}
-                  className={`w-1.5 h-1.5 rounded-full transition-all ${
-                    i === idx ? "bg-white scale-110" : "bg-white/50"
+                  type="button"
+                  key={index}
+                  onClick={() => moveTo(index)}
+                  className={`h-1.5 rounded-full transition-all ${
+                    index === idx ? "w-5 bg-white" : "w-1.5 bg-white/55 hover:bg-white/80"
                   }`}
-                  aria-label={`Foto ${i + 1}`}
+                  aria-label={`Tampilkan foto ${index + 1}`}
+                  aria-current={index === idx ? "true" : undefined}
                 />
               ))}
             </div>
           </>
         )}
+
+        <span className="absolute right-3 top-3 rounded-full border border-white/20 bg-hutan/40 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-md md:right-4 md:top-4">
+          {idx + 1} / {imgs.length}
+        </span>
       </div>
+
       {showThumbs && (
-        <div className="flex gap-2 mt-2 overflow-x-auto pb-1">
-          {imgs.map((img, i) => (
+        <div className="mt-3 flex gap-2 overflow-x-auto pb-1.5 scrollbar-none">
+          {imgs.map((img, index) => (
             <button
-              key={i}
-              onClick={() => setIdx(i)}
-              className={`shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-xl overflow-hidden border-2 transition-all ${
-                i === idx
-                  ? "border-forest shadow-sm"
-                  : "border-transparent hover:border-forest/30"
+              type="button"
+              key={index}
+              onClick={() => moveTo(index)}
+              className={`group relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border-2 transition-all md:h-[4.5rem] md:w-[4.5rem] ${
+                index === idx
+                  ? "border-forest shadow-[0_6px_14px_rgba(0,85,160,0.18)]"
+                  : "border-transparent opacity-70 hover:border-forest/30 hover:opacity-100"
               }`}
+              aria-label={`Pilih foto ${index + 1}`}
+              aria-current={index === idx ? "true" : undefined}
             >
               <img
                 src={img}
                 alt=""
-                className="w-full h-full object-cover bg-cream-warm"
-                onError={(e) => {
-                  e.currentTarget.src = "/images/webp-2/camilan-ciangsana.webp";
+                className="h-full w-full object-cover bg-cream-warm transition-transform duration-300 group-hover:scale-105"
+                onError={(event) => {
+                  event.currentTarget.src = FALLBACK_IMAGE;
                 }}
               />
             </button>

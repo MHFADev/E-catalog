@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import DeleteConfirmButton from "@/components/common/DeleteConfirmButton";
 import { getSellerAccount } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import SellerProductForm from "./SellerProductForm";
@@ -29,7 +30,10 @@ export default async function SellerProductsPage() {
           + Tambah Produk Baru
         </summary>
         <div className="p-4 md:p-5 border-t border-cream-warm">
-          <SellerProductForm categories={categories ?? []} />
+          <SellerProductForm
+            categories={categories ?? []}
+            sellerId={account.seller_id}
+          />
         </div>
       </details>
 
@@ -55,7 +59,7 @@ export default async function SellerProductsPage() {
                 {p.name}
               </div>
               <div className="text-[11px] md:text-xs text-warm-gray">
-                {catName(p.category_id)} â€¢{" "}
+                {catName(p.category_id)} •{" "}
                 {p.price != null ? `Rp${Number(p.price).toLocaleString("id-ID")}` : p.price_unit || "Hubungi penjual"}
               </div>
             </div>
@@ -73,12 +77,12 @@ export default async function SellerProductsPage() {
               >
                 Edit
               </Link>
-              <form action={deleteSellerProduct}>
-                <input type="hidden" name="id" value={p.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
-                  Hapus
-                </button>
-              </form>
+              <DeleteConfirmButton
+                action={deleteSellerProduct}
+                id={p.id}
+                entityLabel={`produk “${p.name}”`}
+                description={`Produk “${p.name}” akan dihapus dari katalog toko Anda. Foto dan informasi produk terkait tidak dapat dipulihkan.`}
+              />
             </div>
           </div>
         ))}

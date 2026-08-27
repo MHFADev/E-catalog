@@ -14,9 +14,24 @@ export default async function AdminEditProductPage({ params }) {
       supabase.from("sellers").select("id, name").order("name"),
     ]);
 
-  if (!product) notFound();
+    if (!product) notFound();
+
+  const initialProduct = {
+    ...product,
+    categoryId: product.category_id,
+    sellerId: product.seller_id,
+    priceUnit: product.price_unit,
+    isFeatured: product.is_featured,
+    isAvailable: product.is_available,
+    showPrice: product.show_price,
+    isPreOrder: product.is_pre_order,
+    halalStatus: product.halal_status,
+    images: Array.isArray(product.images) ? product.images : [],
+    tags: Array.isArray(product.tags) ? product.tags : [],
+  };
 
   return (
+
     <div>
       <Link
         href="/admin/products"
@@ -31,7 +46,8 @@ export default async function AdminEditProductPage({ params }) {
         <ProductForm
           categories={categories ?? []}
           sellers={sellers ?? []}
-          initial={product}
+                    initial={initialProduct}
+
         />
       </div>
     </div>

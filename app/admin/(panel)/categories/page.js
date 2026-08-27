@@ -1,8 +1,8 @@
-﻿import Link from "next/link";
+﻿
 import Icon from "@/components/common/Icon";
 import { createAdminClient } from "@/lib/supabase/admin";
 import CategoryForm from "./CategoryForm";
-import { deleteCategory } from "../actions";
+import CategoryActions from "./CategoryActions";
 
 export default async function AdminCategoriesPage() {
   const supabase = await createAdminClient();
@@ -26,38 +26,36 @@ export default async function AdminCategoriesPage() {
         </div>
       </details>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {categories?.map((c) => (
-          <div
-            key={c.id}
-            className="bg-white rounded-2xl p-4 border border-cream-warm"
-          >
-            <div className="w-14 h-14 rounded-xl overflow-hidden bg-cream-warm mb-2">
-              {c.image && (
-                <img src={c.image} alt={c.name} className="w-full h-full object-cover" />
-              )}
+      {categories?.length ? (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {categories.map((category) => (
+            <div
+              key={category.id}
+              className="bg-white rounded-2xl p-4 border border-cream-warm"
+            >
+              <div className="w-14 h-14 rounded-xl overflow-hidden bg-cream-warm mb-2">
+                {category.image ? (
+                  <img src={category.image} alt={category.name} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="flex h-full w-full items-center justify-center text-warm-gray">
+                    <Icon name={category.icon || "tag"} size={20} />
+                  </span>
+                )}
+              </div>
+              <div className="text-sm font-semibold text-noir">{category.name}</div>
+              <div className="text-[11px] text-warm-gray mb-2 truncate">
+                {category.description || "Belum ada deskripsi."}
+              </div>
+              <CategoryActions categoryId={category.id} />
             </div>
-            <div className="text-sm font-semibold text-noir">{c.name}</div>
-            <div className="text-[11px] text-warm-gray mb-2 truncate">
-              {c.description || "—"}
-            </div>
-            <div className="flex gap-2">
-              <Link
-                href={`/admin/categories/${c.id}`}
-                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-cream-warm text-noir-soft hover:bg-cream transition-all"
-              >
-                Edit
-              </Link>
-              <form action={deleteCategory}>
-                <input type="hidden" name="id" value={c.id} />
-                <button className="px-3 py-1.5 text-xs font-semibold rounded-full bg-forest/10 text-forest hover:bg-forest/20 transition-all">
-                  Hapus
-                </button>
-              </form>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-dashed border-cream-warm bg-white/70 px-5 py-8 text-center">
+          <p className="text-sm font-semibold text-noir">Belum ada kategori.</p>
+          <p className="mt-1 text-xs text-warm-gray">Gunakan formulir di atas untuk membuat kategori pertama.</p>
+        </div>
+      )}
     </div>
   );
 }

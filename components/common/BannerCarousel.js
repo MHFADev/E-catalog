@@ -30,7 +30,6 @@ export default function BannerCarousel({ banners }) {
     setShowControls(true);
     hideTimerRef.current = setTimeout(() => setShowControls(false), 2000);
   }, []);
-  S;
   if (count === 0) return null;
 
   return (

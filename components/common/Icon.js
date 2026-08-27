@@ -68,7 +68,12 @@ import {
   FaQrcode,
   FaMobile,
   FaMoneyBillWave,
+  FaScrewdriverWrench,
+  FaShareNodes,
+  FaCopy,
+  FaXTwitter,
 } from "react-icons/fa6";
+import { FaFacebookF, FaTelegramPlane } from "react-icons/fa";
 
 const icons = {
   search: FaMagnifyingGlass,
@@ -140,6 +145,11 @@ const icons = {
   tag: FaTag,
   ban: FaBan,
   camera: FaCamera,
+  share: FaShareNodes,
+  copy: FaCopy,
+  facebook: FaFacebookF,
+  telegram: FaTelegramPlane,
+  xTwitter: FaXTwitter,
   // Indonesian Banks
   bankBca: (
     <svg viewBox="0 0 24 24" fill="none">
@@ -231,6 +241,7 @@ const icons = {
   qrcode: FaQrcode,
   mobile: FaMobile,
   money: FaMoneyBillWave,
+  jasa: FaScrewdriverWrench,
   google: (
     <svg viewBox="0 0 24 24">
       <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47a5.57 5.57 0 0 1-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z" />

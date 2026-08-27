@@ -3,17 +3,19 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Icon from "@/components/common/Icon";
-import JoinModal from "@/components/common/JoinModal";
+import RecentSearches, { rememberRecentSearch } from "@/components/common/RecentSearches";
+
 import { useUser } from "@/lib/useUser";
 import { useSellerAccount } from "@/lib/useSellerAccount";
 import { createClient } from "@/lib/supabase/client";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [joinOpen, setJoinOpen] = useState(false);
+
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
   const [term, setTerm] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useUser();
@@ -26,14 +28,13 @@ export default function Navbar() {
     pathname.startsWith("/admin") && pathname !== "/admin/login";
   const inputRef = useRef(null);
   const profileRef = useRef(null);
+  const searchRef = useRef(null);
 
   useEffect(() => {
     setMenuOpen(false);
     setProfileOpen(false);
     setMobileProfileOpen(false);
-    // [POP UP DAFTAR UMKM] Tutup modal gabung saat pindah halaman,
-    // agar pop up tidak ikut tampil di halaman yang dituju
-    setJoinOpen(false);
+    setSearchOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -41,19 +42,29 @@ export default function Navbar() {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setProfileOpen(false);
       }
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchOpen(false);
+      }
     };
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
-  const submitSearch = (e) => {
-    e.preventDefault();
-    const q = term.trim();
+  const goToSearch = (value) => {
+    const q = value.trim().replace(/\s+/g, " ");
+    setSearchOpen(false);
     if (!q) {
       router.push("/catalog");
       return;
     }
+    rememberRecentSearch(q);
+    setTerm(q);
     router.push(`/catalog?search=${encodeURIComponent(q)}`);
+  };
+
+  const submitSearch = (e) => {
+    e.preventDefault();
+    goToSearch(term);
   };
 
   const logout = async () => {
@@ -73,8 +84,8 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-cream-warm shadow-navbar">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+    <header className="sticky top-0 z-50 border-b border-cream-warm/80 bg-white/82 shadow-navbar backdrop-blur-xl supports-[backdrop-filter]:bg-white/72">
+      <div ref={searchRef} className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="h-14 md:h-16 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <img
@@ -90,13 +101,14 @@ export default function Navbar() {
           {/* Search bar (desktop) */}
           <form
             onSubmit={submitSearch}
-            className="hidden lg:flex flex-1 max-w-xl items-center gap-2 pl-4 pr-1.5 h-11 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
+            className="relative hidden lg:flex flex-1 max-w-xl items-center gap-2 pl-4 pr-1.5 h-11 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
           >
             <Icon name="search" size={16} className="text-muted" />
             <input
               ref={inputRef}
               value={term}
               onChange={(e) => setTerm(e.target.value)}
+              onFocus={() => setSearchOpen(true)}
               placeholder="Cari produk UMKM Kemayoran…"
               className="flex-1 bg-transparent text-sm text-noir outline-none placeholder:text-muted"
               aria-label="Cari produk"
@@ -107,6 +119,7 @@ export default function Navbar() {
             >
               <Icon name="search" size={13} /> Cari
             </button>
+            <RecentSearches query={term} open={searchOpen} onSelect={goToSearch} />
           </form>
 
           <nav className="hidden md:flex items-center gap-0.5">
@@ -123,16 +136,15 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
-            {/* [NAVBAR GUEST/LOGIN] Tombol Daftar UMKM (bergambar whatsapp) hanya
-                muncul untuk pengguna yang SUDAH LOGIN, ditempatkan setelah "Tentang".
-                Guest (belum login) tidak melihat tombol ini sama sekali. */}
-            {user && (
-              <button
-                onClick={() => setJoinOpen(true)}
-                className="flex items-center gap-1.5 px-3 py-2 ml-1 text-sm font-bold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 shadow-card transition-all hover:shadow-card-hover"
+            {/* [NAVBAR GUEST/LOGIN] Tombol Daftar UMKM hanya muncul untuk
+                pengguna yang SUDAH LOGIN dan BELUM punya toko terverifikasi. */}
+            {user && !isSeller && (
+              <Link
+                href="/seller"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-forest/25 bg-white px-4 text-sm font-semibold text-forest transition-all hover:-translate-y-0.5 hover:border-forest hover:shadow-sm"
               >
-                <Icon name="whatsapp" size={15} /> Daftar UMKM
-              </button>
+                <Icon name="arrowRight" size={15} /> Daftar UMKM
+              </Link>
             )}
           </nav>
 
@@ -222,8 +234,9 @@ export default function Navbar() {
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-cream transition-colors"
-            aria-label="Menu"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-full border border-transparent hover:border-cream-warm hover:bg-cream transition-all"
+            aria-label="Menu navigasi"
+            aria-expanded={menuOpen}
           >
             {menuOpen ? (
               <Icon name="close" size={22} />
@@ -236,12 +249,13 @@ export default function Navbar() {
         {/* Search bar (mobile) */}
         <form
           onSubmit={submitSearch}
-          className="lg:hidden flex items-center gap-2 pl-4 pr-1.5 h-11 mb-3 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
+          className="relative lg:hidden flex items-center gap-2 pl-4 pr-1.5 h-11 mb-3 bg-cream border border-cream-warm rounded-full focus-within:border-forest/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-forest/10 transition-all"
         >
           <Icon name="search" size={16} className="text-muted" />
           <input
             value={term}
             onChange={(e) => setTerm(e.target.value)}
+            onFocus={() => setSearchOpen(true)}
             placeholder="Cari produk UMKM Kemayoran…"
             className="flex-1 bg-transparent text-sm text-noir outline-none placeholder:text-muted"
             aria-label="Cari produk"
@@ -252,11 +266,12 @@ export default function Navbar() {
           >
             <Icon name="search" size={13} /> Cari
           </button>
+          <RecentSearches query={term} open={searchOpen} onSelect={goToSearch} />
         </form>
       </div>
 
       {menuOpen && (
-        <div className="md:hidden border-t border-cream-warm bg-white">
+        <div className="menu-enter md:hidden border-t border-cream-warm bg-white/95 backdrop-blur-xl">
           <div className="px-4 py-3 space-y-1">
             {links.map((l) => {
               const isActive = pathname === l.href;
@@ -350,24 +365,21 @@ export default function Navbar() {
                 </Link>
               )}
               {/* [NAVBAR GUEST/LOGIN] Di menu mobile pun, tombol Daftar UMKM
-                  hanya tampil untuk pengguna yang sudah login */}
-              {user && (
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setJoinOpen(true);
-                  }}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-bold text-white bg-forest w-full text-left"
+                  hanya tampil untuk pengguna yang sudah login dan BELUM punya toko terverifikasi */}
+              {user && !isSeller && (
+                <Link
+                  href="/seller"
+                  onClick={() => setMenuOpen(false)}
+                  className="inline-flex w-full items-center justify-center gap-3 rounded-xl border border-forest/25 bg-white px-4 py-3 text-base font-semibold text-forest transition-all hover:border-forest hover:bg-forest/5"
                 >
-                  <Icon name="whatsapp" size={20} /> Daftar UMKM
-                </button>
+                  <Icon name="arrowRight" size={18} /> Daftar UMKM
+                </Link>
               )}
             </div>
           </div>
         </div>
       )}
 
-      <JoinModal open={joinOpen} onClose={() => setJoinOpen(false)} />
     </header>
   );
 }
