@@ -72,6 +72,10 @@ import {
   FaShareNodes,
   FaCopy,
   FaXTwitter,
+  FaVolumeXmark,
+  FaVolumeHigh,
+  FaPause,
+  FaPlay,
 } from "react-icons/fa6";
 import { FaFacebookF, FaTelegramPlane } from "react-icons/fa";
 
@@ -150,6 +154,10 @@ const icons = {
   facebook: FaFacebookF,
   telegram: FaTelegramPlane,
   xTwitter: FaXTwitter,
+  volumeMute: FaVolumeXmark,
+  volumeHigh: FaVolumeHigh,
+  pause: FaPause,
+  play: FaPlay,
   // Indonesian Banks
   bankBca: (
     <svg viewBox="0 0 24 24" fill="none">

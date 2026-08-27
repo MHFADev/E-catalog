@@ -35,7 +35,6 @@ export default function HeroCampaignCarousel({ banners = [] }) {
 
   const previous = () => setActiveIndex((current) => (current - 1 + total) % total);
   const next = () => setActiveIndex((current) => (current + 1) % total);
-  const changeSlide = (index) => setActiveIndex(index);
   const onTouchStart = (event) => {
     touchStartX.current = event.touches[0]?.clientX ?? null;
     setIsInteractionPaused(true);
@@ -60,18 +59,18 @@ export default function HeroCampaignCarousel({ banners = [] }) {
   };
 
   const picture = (
-    <div key={active.id} className="absolute inset-0 overflow-hidden bg-[#E7EFE5]">
+    <div key={active.id} className="absolute inset-0 overflow-hidden bg-[#EEF0E5]">
       <img
         src={active.imageUrl}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-35 blur-2xl saturate-75"
+        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-20 blur-2xl saturate-75"
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-white/55 via-transparent to-[#123F4A]/15" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-[#123F4A]/10" />
       <img
         src={active.imageUrl}
         alt={active.title || "Kampanye pilihan UMKM Kemayoran"}
-        className="relative z-[1] h-full w-full object-contain motion-safe:animate-[heroCampaignIn_600ms_var(--ease-out-expo)_both]"
+        className="relative z-[1] h-full w-full object-contain motion-safe:animate-[heroCampaignIn_520ms_var(--ease-out-expo)_both]"
         loading="eager"
       />
     </div>
@@ -80,27 +79,36 @@ export default function HeroCampaignCarousel({ banners = [] }) {
   return (
     <aside
       aria-label="Kampanye pilihan"
-      className="hero-campaign relative overflow-hidden rounded-[1.45rem] border border-[#123F4A]/10 bg-white/95 p-2.5 shadow-[0_20px_48px_rgba(18,63,74,0.16)] ring-1 ring-white/70 motion-safe:animate-[fadeInUp_0.75s_var(--ease-out-expo)_100ms_both] sm:rounded-[2rem] sm:p-3.5 lg:col-span-4 lg:flex lg:aspect-[16/11] lg:flex-col"
+      className="hero-campaign relative overflow-hidden rounded-[1.5rem] border border-[#123F4A]/10 bg-[#FBFAF2]/95 p-2.5 shadow-[0_18px_42px_rgba(18,63,74,0.14)] ring-1 ring-white/70 motion-safe:animate-[fadeInUp_0.7s_var(--ease-out-expo)_120ms_both] sm:rounded-[2rem] sm:p-3 lg:col-span-4 lg:flex lg:h-full lg:aspect-auto lg:flex-col"
       onMouseEnter={() => setIsInteractionPaused(true)}
       onMouseLeave={() => setIsInteractionPaused(false)}
       onFocusCapture={() => setIsInteractionPaused(true)}
       onBlurCapture={() => setIsInteractionPaused(false)}
     >
-      <div className="flex items-center justify-between gap-3 px-1.5 pb-2.5 pt-0.5 sm:pb-3 lg:pb-3.5">
-        <span className="inline-flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#123F4A]">
-          <span className="h-2 w-2 rounded-full bg-[#C87055] ring-4 ring-[#C87055]/15" />
-          Promo & agenda pilihan
+      <div className="flex items-center justify-between gap-3 px-1.5 pb-2.5 pt-0.5 sm:px-2 lg:pb-3">
+        <span className="inline-flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#1D6E4D]">
+          <span className="h-2 w-2 rounded-full bg-[#C87055]" />
+          Pilihan minggu ini
         </span>
-        <span className="font-mono text-[10px] font-bold tabular-nums text-[#1D6E4D]/65">
-          {String(activeIndex + 1).padStart(2, "0")} — {String(total).padStart(2, "0")}
-        </span>
+        {total > 1 && (
+          <button
+            type="button"
+            aria-label={isUserPaused ? "Putar carousel banner" : "Jeda carousel banner"}
+            aria-pressed={isUserPaused}
+            onClick={() => setIsUserPaused((value) => !value)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#1D6E4D] transition-colors hover:bg-[#1D6E4D]/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B9AA1]"
+          >
+            <Icon name={isUserPaused ? "play" : "pause"} size={12} />
+          </button>
+        )}
       </div>
 
       <div
-        className="group relative aspect-[16/10] min-h-0 overflow-hidden rounded-[1.05rem] border border-[#123F4A]/10 bg-[#E7EFE5] sm:rounded-[1.45rem] lg:flex-1 lg:aspect-auto"
+        className="group relative aspect-video min-h-0 overflow-hidden rounded-[1.1rem] border border-[#123F4A]/10 bg-[#EEF0E5] sm:rounded-[1.5rem] lg:flex-1 lg:aspect-auto"
         role="region"
         aria-roledescription="carousel"
         aria-label={`Banner ${activeIndex + 1} dari ${total}`}
+        aria-live="polite"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
@@ -119,71 +127,53 @@ export default function HeroCampaignCarousel({ banners = [] }) {
               type="button"
               aria-label="Banner sebelumnya"
               onClick={previous}
-              className="absolute left-3 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-[#123F4A]/65 text-white opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-[#123F4A]/90 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white group-hover:opacity-100 sm:flex"
+              className="absolute left-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/65 bg-[#123F4A]/68 text-white opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-[#123F4A]/90 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white group-hover:opacity-100 lg:flex"
             >
-              <Icon name="chevronLeft" size={17} />
+              <Icon name="chevronLeft" size={16} />
             </button>
             <button
               type="button"
               aria-label="Banner berikutnya"
               onClick={next}
-              className="absolute right-3 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-[#123F4A]/65 text-white opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-[#123F4A]/90 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white group-hover:opacity-100 sm:flex"
+              className="absolute right-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/65 bg-[#123F4A]/68 text-white opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-[#123F4A]/90 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white group-hover:opacity-100 lg:flex"
             >
-              <Icon name="chevronRight" size={17} />
+              <Icon name="chevronRight" size={16} />
             </button>
           </>
         )}
       </div>
 
-      <div className="flex items-center justify-between gap-4 px-1.5 pb-0.5 pt-3 sm:px-2 sm:pt-3.5">
-        <div className="min-w-0">
-          <span className="mb-1 inline-flex border-l-2 border-[#C87055] pl-2 text-[9px] font-extrabold uppercase tracking-[0.15em] text-[#1D6E4D]/75">
-            Pilihan UMKM
-          </span>
-          <p className="line-clamp-2 text-[15px] font-extrabold leading-[1.18] tracking-tight text-[#123F4A] sm:text-base lg:text-lg">
-            {active.title || "Pilihan spesial UMKM Kemayoran"}
-          </p>
-        </div>
+      <div className="flex items-end justify-between gap-4 px-1.5 pb-0.5 pt-3 sm:px-2 sm:pt-3.5">
+        <p className="line-clamp-2 max-w-[18rem] text-[15px] font-extrabold leading-[1.2] tracking-tight text-[#123F4A] sm:text-base lg:text-lg">
+          {active.title || "Pilihan spesial UMKM Kemayoran"}
+        </p>
         {active.link && (
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1D6E4D] text-white shadow-[0_8px_18px_rgba(29,110,77,0.24)] transition-transform group-hover:translate-x-0.5 sm:h-10 sm:w-10">
+          <Link
+            href={active.link}
+            aria-label={`Buka ${active.title || "kampanye pilihan"}`}
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1D6E4D] text-white shadow-[0_8px_18px_rgba(29,110,77,0.22)] transition-transform hover:-translate-y-0.5 hover:bg-[#10482E] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B9AA1] focus-visible:ring-offset-2"
+          >
             <Icon name="arrowRight" size={15} />
-          </span>
+          </Link>
         )}
       </div>
 
       {total > 1 && (
-        <div className="flex items-center justify-between gap-3 px-1.5 pb-0.5 pt-3 sm:px-2">
-          <div className="flex items-center gap-1.5" aria-label="Pilih banner">
-            {items.map((item, index) => (
-              <button
-                type="button"
-                key={item.id}
-                aria-label={`Tampilkan banner ${index + 1}`}
-                aria-current={index === activeIndex ? "true" : undefined}
-                onClick={() => changeSlide(index)}
-                className={`h-1.5 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B9AA1] focus-visible:ring-offset-2 ${
-                  index === activeIndex
-                    ? "w-8 bg-[#1D6E4D]"
-                    : "w-1.5 bg-[#123F4A]/20 hover:bg-[#123F4A]/45"
-                }`}
-              />
-            ))}
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-[10px] font-bold tabular-nums text-[#1D6E4D]/65 sm:hidden">
-              {String(activeIndex + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-            </span>
+        <div className="flex min-h-10 items-center gap-1 px-1.5 pb-0.5 pt-2 sm:px-2" aria-label="Pilih banner">
+          {items.map((item, index) => (
             <button
               type="button"
-              aria-pressed={isUserPaused}
-              onClick={() => setIsUserPaused((value) => !value)}
-              className="inline-flex items-center gap-1 text-[10px] font-bold text-[#1D6E4D] transition-colors hover:text-[#123F4A] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B9AA1] focus-visible:ring-offset-2"
+              key={item.id}
+              aria-label={`Tampilkan banner ${index + 1}`}
+              aria-current={index === activeIndex ? "true" : undefined}
+              onClick={() => setActiveIndex(index)}
+              className={`h-10 flex-1 rounded-full px-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B9AA1] focus-visible:ring-offset-2 ${
+                index === activeIndex ? "cursor-default" : "cursor-pointer"
+              }`}
             >
-              <span aria-hidden="true" className="text-[11px] leading-none">{isUserPaused ? "▶" : "Ⅱ"}</span>
-              <span className="hidden sm:inline">{isUserPaused ? "Putar" : "Jeda"}</span>
-              <span className="sm:hidden sr-only">{isUserPaused ? "Putar" : "Jeda"} carousel</span>
+              <span className={`block h-1.5 rounded-full transition-all ${index === activeIndex ? "bg-[#1D6E4D]" : "bg-[#123F4A]/15 hover:bg-[#123F4A]/32"}`} />
             </button>
-          </div>
+          ))}
         </div>
       )}
     </aside>

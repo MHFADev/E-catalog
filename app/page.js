@@ -4,6 +4,7 @@ import Icon from "@/components/common/Icon";
 import EmptyState from "@/components/common/EmptyState";
 import CategoryVisualIcon from "@/components/category/CategoryVisualIcon";
 import HeroCampaignCarousel from "@/components/home/HeroCampaignCarousel";
+import HeroFilm from "@/components/home/HeroFilm";
 import ScrollRevealObserver from "@/components/home/ScrollRevealObserver";
 
 import MultiPinMap from "@/components/common/MultiPinMap";
@@ -121,63 +122,36 @@ export default async function HomePage() {
   return (
     <>
       <ScrollRevealObserver />
-      {/* ===== HERO + CAMPAIGN: video sebagai headline, campaign sebagai cerita pilihan ===== */}
+      {/* ===== HERO + CAMPAIGN: satu cerita utama, satu rekomendasi editorial ===== */}
       <section className="home-hero market-frame relative overflow-clip">
-        <img src="/images/decor/market-leaf-spray.png" alt="" aria-hidden="true" className="decor-asset -right-10 -bottom-16 hidden w-64 rotate-[8deg] opacity-[0.14] sm:block md:-right-4 md:w-80" />
-        <img src="/images/decor/market-sun-cloud.png" alt="" aria-hidden="true" className="decor-asset left-[4%] top-[8%] hidden w-48 opacity-30 md:block" />
-        <img src="/images/decor/market-leaf-wave.png" alt="" aria-hidden="true" className="decor-asset left-1/2 top-4 hidden w-72 -translate-x-1/2 opacity-50 lg:block" />
-        <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 md:w-96 md:h-96 rounded-full bg-forest/10 blur-3xl ambient-float" />
-        <div aria-hidden="true" className="absolute -bottom-20 left-1/3 w-64 h-64 rounded-full bg-langit/20 blur-3xl ambient-float" />
+        <img src="/images/decor/market-leaf-wave.png" alt="" aria-hidden="true" className="decor-asset left-1/2 top-3 hidden w-72 -translate-x-1/2 opacity-35 lg:block" />
+        <img src="/images/decor/market-leaf-spray.png" alt="" aria-hidden="true" className="decor-asset -right-10 -bottom-16 hidden w-64 rotate-[8deg] opacity-[0.12] xl:block" />
+        <div aria-hidden="true" className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-forest/10 blur-3xl md:h-96 md:w-96" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-5 sm:py-10 md:px-6 md:py-14 lg:py-16">
-          <div
-            className={`grid items-start gap-4 sm:gap-5 lg:gap-6 xl:gap-8 ${
-              banners?.length
-                ? "grid-cols-1 lg:grid-cols-12"
-                : "grid-cols-1"
-            }`}
-          >
-            {/* Video adalah headline utama; campaign berperan sebagai cerita pendukung yang terpisah. */}
-            <div className={`hero-film relative aspect-[4/5] min-w-0 overflow-hidden rounded-[1.45rem] bg-hutan ring-1 ring-forest/20 shadow-[0_22px_46px_rgba(18,63,74,0.20)] animate-[fadeInUp_0.7s_var(--ease-out-expo)_both] min-[420px]:aspect-[4/3] sm:aspect-[16/10] sm:rounded-[2rem] md:rounded-[2.5rem] ${banners?.length ? "lg:col-span-8 lg:aspect-[16/11]" : "lg:aspect-[21/9]"}`}>
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 h-full w-full object-cover"
-                poster="/image-header/1.webp"
-              >
-                <source src="/hero-video.mp4" type="video/mp4" />
-              </video>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#123F4A]/90 via-[#123F4A]/24 to-transparent" />
-
-              <div className="absolute inset-0 flex flex-col items-center justify-end p-4 text-center text-white sm:p-7 md:p-9 lg:p-10">
-                <p className="mb-2 hidden rounded-lg border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm sm:inline-flex">Pasar digital UMKM lokal</p>
-                <h1 className="max-w-[18rem] text-[1.7rem] font-extrabold leading-[1.05] tracking-tight drop-shadow-md sm:max-w-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                  Bangga Produk{" "}
-                  <span className="text-[#d9f0bf] underline decoration-langit decoration-[3px] underline-offset-4 sm:decoration-4">
-                    Lokal Kemayoran
-                  </span>
-                </h1>
-                <p className="mt-2 hidden max-w-xl text-sm leading-relaxed text-white/90 sm:block md:mt-3 md:text-base">
-                  Jelajahi aneka produk UMKM unggulan dari Kemayoran dan sekitarnya. Dukung ekonomi lokal dengan belanja langsung dari para pengrajin dan pelaku usaha terbaik.
-                </p>
-                <div className="mt-3 flex flex-col items-center gap-2.5 sm:mt-5 sm:flex-row sm:gap-3">
-                  <Link
-                    href="/catalog"
-                    className="inline-flex min-w-[10.5rem] items-center justify-center gap-2 rounded-xl bg-laut px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-laut-deep sm:min-w-0 sm:text-sm"
-                  >
-                    Jelajahi Produk <Icon name="arrowRight" size={14} />
-                  </Link>
-                  <Link
-                    href="/gabung"
-                    className="hidden items-center justify-center gap-2 rounded-xl border border-white/40 bg-white/15 px-5 py-2.5 text-xs font-semibold text-white backdrop-blur-md transition-all hover:bg-white/25 sm:inline-flex sm:text-sm"
-                  >
-                    Daftar Sebagai UMKM
-                  </Link>
-                </div>
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-5 sm:py-9 md:px-6 md:py-12 lg:py-16">
+          <div className={`grid items-stretch gap-4 sm:gap-6 lg:gap-7 xl:gap-9 ${banners?.length ? "grid-cols-1 lg:grid-cols-12" : "grid-cols-1"}`}>
+            <HeroFilm className={banners?.length ? "lg:col-span-8" : "lg:aspect-[21/9]"}>
+              <p className="mb-3 hidden rounded-lg border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm sm:inline-flex">
+                Pasar digital UMKM lokal
+              </p>
+              <h1 className="max-w-[19rem] text-[1.85rem] font-extrabold leading-[1.03] tracking-tight drop-shadow-md min-[420px]:text-[2.1rem] sm:max-w-2xl sm:text-4xl md:text-5xl lg:text-[3.35rem]">
+                Bangga Produk{" "}
+                <span className="text-[#D9F0BF] underline decoration-langit decoration-[3px] underline-offset-4 sm:decoration-4">
+                  Lokal Kemayoran
+                </span>
+              </h1>
+              <p className="mt-3 hidden max-w-xl text-sm leading-relaxed text-white/90 sm:block md:text-base">
+                Pilih kebutuhanmu, belanja langsung ke UMKM, dan bantu ekonomi Kemayoran tumbuh dari lingkungan sendiri.
+              </p>
+              <div className="mt-5 flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:gap-3">
+                <Link href="/catalog" className="btn-primary w-full sm:w-auto">
+                  Jelajahi Produk <Icon name="arrowRight" size={15} />
+                </Link>
+                <Link href="/gabung" className="hidden min-h-11 items-center justify-center gap-2 rounded-xl border border-white/35 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 sm:inline-flex">
+                  Daftar Sebagai UMKM
+                </Link>
               </div>
-            </div>
+            </HeroFilm>
 
             {banners?.length > 0 && <HeroCampaignCarousel banners={banners} />}
           </div>
@@ -186,7 +160,7 @@ export default async function HomePage() {
           <form
             action="/catalog"
             method="get"
-            className="market-search relative mt-8 md:mt-12 rounded-2xl md:rounded-3xl p-4 md:p-5 hidden lg:grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
+            className="market-search relative mt-7 md:mt-12 rounded-2xl md:rounded-3xl p-4 md:p-5 hidden lg:grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 md:gap-4 items-center"
           >
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-gray pointer-events-none">
