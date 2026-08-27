@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Icon from "@/components/common/Icon";
 import { compressImage } from "@/lib/compressImage";
-import { uploadImage } from "@/lib/github";
+import { uploadPublicImage } from "@/lib/publicImageUpload";
 
 // ============================================================
 // Upload foto produk multiple. File dikompres menjadi WebP di browser,
@@ -61,10 +61,10 @@ export default function MultiImageUploader({
       for (const file of files) {
         const base64 = await compressImage(file);
         const prefix = sellerId ? `produk-${sellerId}` : "produk";
-        const { url } = await uploadImage({
+        const { url } = await uploadPublicImage(
           base64,
-          name: `${prefix}-${file.name.replace(/\.[^.]+$/, "")}`,
-        });
+          `${prefix}-${file.name.replace(/\.[^.]+$/, "")}`,
+        );
         if (!url) throw new Error("URL foto dari GitHub tidak tersedia.");
         uploaded.push(url);
       }

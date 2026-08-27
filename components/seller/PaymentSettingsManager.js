@@ -6,7 +6,7 @@ import ActionConfirmDialog from "@/components/common/ActionConfirmDialog";
 import PaymentLogo from "@/components/common/PaymentLogo";
 import { compressImage } from "@/lib/compressImage";
 import { savePaymentMethod, togglePaymentMethod, deletePaymentMethod } from "@/app/seller/(panel)/payment/actions";
-import { uploadImage } from "@/lib/github";
+import { uploadPublicImage } from "@/lib/publicImageUpload";
 
 // ============================================================
 // Pengaturan Metode Pembayaran UMKM (manual, gratis, tanpa gateway).
@@ -191,10 +191,10 @@ export default function PaymentSettingsManager({ sellerId, methods = [] }) {
     setErr("");
     try {
       const base64 = await compressImage(file, 1000, 0.82);
-      const { url } = await uploadImage({
+      const { url } = await uploadPublicImage(
         base64,
-        name: `qris-${sellerId || "umkm"}-${file.name.replace(/\.[^.]+$/, "")}`,
-      });
+        `qris-${sellerId || "umkm"}-${file.name.replace(/\.[^.]+$/, "")}`,
+      );
       if (!url) throw new Error("URL QRIS dari GitHub tidak tersedia.");
       setQrisUrl(url);
     } catch (ex) {

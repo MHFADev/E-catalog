@@ -1,7 +1,7 @@
 ﻿"use client";
 import { useState, useEffect } from "react";
 import { compressImage } from "@/lib/compressImage";
-import { uploadImage } from "@/lib/github";
+import { uploadPublicImage } from "@/lib/publicImageUpload";
 
 // Format gambar yang diizinkan lewat tombol upload.
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -52,8 +52,8 @@ export default function ImageUploader({
     try {
       const dataUrl = await compressImage(file);
       const base = file.name.replace(/\.[^.]+$/, "").slice(0, 40);
-      const { url } = await uploadImage({ base64: dataUrl, name: base });
-      setAndNotify((prev) => (prev.trim() ? `${prev.trim()}, ${url}` : url));
+      const { url } = await uploadPublicImage(dataUrl, base);
+      setAndNotify(value.trim() ? `${value.trim()}, ${url}` : url);
     } catch (ex) {
       setErr(ex.message || "Gagal mengunggah gambar.");
     }

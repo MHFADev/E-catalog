@@ -2,7 +2,7 @@
 import { useState, useRef } from "react";
 import Icon from "@/components/common/Icon";
 import { compressImage } from "@/lib/compressImage";
-import { uploadImage } from "@/lib/github";
+import { uploadPublicImage } from "@/lib/publicImageUpload";
 
 // Upload satu foto (profil / logo) -> kompres webp di browser -> simpan di
 // GitHub -> kembalikan raw URL lewat onUploaded(). Persist ke DB dikerjakan
@@ -27,7 +27,7 @@ export default function PhotoUploader({
     try {
       const dataUrl = await compressImage(file, 1200, 0.78);
       const base = file.name.replace(/\.[^.]+$/, "").slice(0, 40);
-      const { url } = await uploadImage({ base64: dataUrl, name: base });
+      const { url } = await uploadPublicImage(dataUrl, base);
       await onUploaded(url);
     } catch (ex) {
       setErr(ex.message || "Gagal mengunggah foto.");
