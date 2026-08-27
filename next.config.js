@@ -8,6 +8,9 @@ const nextConfig = {
       bodySizeLimit: "2mb",
     },
   },
+  // Prevent Next.js from selecting an unrelated parent lockfile as the workspace root.
+  outputFileTracingRoot: __dirname,
+  turbopack: { root: __dirname },
 }
 
 module.exports = nextConfig

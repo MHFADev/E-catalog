@@ -78,7 +78,7 @@ export default function HeroCampaignCarousel({ banners = [] }) {
       onFocusCapture={() => setIsInteractionPaused(true)}
       onBlurCapture={() => setIsInteractionPaused(false)}
     >
-      <div className="hidden items-center justify-between gap-3 px-1.5 pb-3 sm:flex lg:pb-3.5">
+      <div className="flex items-center justify-between gap-3 px-1.5 pb-2.5 sm:pb-3 lg:pb-3.5">
         <span className="inline-flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#123F4A]">
           <span className="h-2 w-2 rounded-full bg-[#C87055] ring-4 ring-[#C87055]/15" />
           Pilihan Kemayoran
@@ -110,11 +110,9 @@ export default function HeroCampaignCarousel({ banners = [] }) {
             <span className="mb-1.5 inline-flex border-l-2 border-[#d9f0bf] pl-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/80">
               Cerita pilihan
             </span>
-            {active.title && (
-              <p className="line-clamp-2 max-w-[20rem] text-[15px] font-extrabold leading-[1.14] tracking-tight text-white drop-shadow-sm sm:text-lg lg:text-xl">
-                {active.title}
-              </p>
-            )}
+            <p className="line-clamp-2 max-w-[20rem] text-[15px] font-extrabold leading-[1.14] tracking-tight text-white drop-shadow-sm sm:text-lg lg:text-xl">
+              {active.title || "Pilihan spesial UMKM Kemayoran"}
+            </p>
           </div>
           {active.link && (
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/35 bg-white/15 text-white backdrop-blur-sm sm:h-9 sm:w-9">
