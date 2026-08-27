@@ -105,7 +105,7 @@ export default function Footer() {
                 </div>
               </div>
             </Link>
-            <p className="mt-4 text-sm text-white/72 leading-relaxed max-w-sm">
+            <p className="mt-4 text-sm text-[#F9F8F0] leading-relaxed max-w-sm">
               Katalog digital untuk mendukung pertumbuhan UMKM Kemayoran —
               belanja langsung, transparan, dan dekat dengan warga sekitar.
             </p>
