@@ -157,9 +157,16 @@ export default function CatalogContent({ categories, productsData, sellersData }
 
   // ==== Hitungan produk per opsi filter (efficient cross-filtered counts) ====
   const counts = useMemo(() => {
+    // Total produk per toko bersifat stabil: label ini menjelaskan isi asli toko,
+    // bukan jumlah hasil setelah filter kategori/status/kehalalan/pencarian.
+    const sellerTotals = {};
+    for (const p of enriched) {
+      if (p.sellerId) sellerTotals[p.sellerId] = (sellerTotals[p.sellerId] || 0) + 1;
+    }
+
     const result = {
       categories: {},
-      sellers: {},
+      sellers: sellerTotals,
       po: 0,
       ready: 0,
       halal: 0,
@@ -194,9 +201,6 @@ export default function CatalogContent({ categories, productsData, sellersData }
     for (const p of base) {
       if (match(p, "category")) {
         if (p.categoryId) result.categories[p.categoryId] = (result.categories[p.categoryId] || 0) + 1;
-      }
-      if (match(p, "seller")) {
-        if (p.sellerId) result.sellers[p.sellerId] = (result.sellers[p.sellerId] || 0) + 1;
       }
       if (match(p, "preOrder")) {
         if (p.isPreOrder === true) result.po++;
