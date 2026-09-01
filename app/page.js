@@ -4,7 +4,7 @@ import Icon from "@/components/common/Icon";
 import EmptyState from "@/components/common/EmptyState";
 import CategoryVisualIcon from "@/components/category/CategoryVisualIcon";
 import HeroPromoGrid from "@/components/home/HeroPromoGrid";
-import HeroFilm from "@/components/home/HeroFilm";
+import HeroShowcaseVideo from "@/components/home/HeroShowcaseVideo";
 import ScrollRevealObserver from "@/components/home/ScrollRevealObserver";
 
 import MultiPinMap from "@/components/common/MultiPinMap";
@@ -123,50 +123,62 @@ export default async function HomePage() {
     <>
       <ScrollRevealObserver />
       {/* ===== HERO: catalog discovery hub ===== */}
-      <section className="home-hero market-frame relative overflow-clip">
-        <img src="/images/decor/market-leaf-wave.png" alt="" aria-hidden="true" className="decor-asset -left-10 bottom-5 hidden w-64 -rotate-[10deg] opacity-20 lg:block" />
-        <img src="/images/decor/market-leaf-spray.png" alt="" aria-hidden="true" className="decor-asset -right-10 -bottom-16 hidden w-64 rotate-[8deg] opacity-[0.12] xl:block" />
-        <div aria-hidden="true" className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-forest/10 blur-3xl md:h-96 md:w-96" />
-
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-6 sm:py-9 md:px-6 md:py-12 lg:py-14">
-          <div className="hero-main-grid grid grid-cols-1 items-stretch gap-6 sm:gap-8 lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)_auto] lg:gap-x-8 lg:gap-y-7 xl:gap-x-10">
-            <div className="hero-copy flex min-w-0 flex-col justify-center lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:py-3">
-              <span className="section-kicker">UMKM Kemayoran</span>
-              <h1 className="mt-4 max-w-[23rem] text-[2.25rem] font-extrabold leading-[1.04] tracking-[-0.045em] text-noir-soft min-[420px]:text-[2.65rem] sm:text-5xl lg:max-w-[28rem] lg:text-[3.6rem]">
+      <section className="home-hero border-y border-hutan/10">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:py-9 md:px-6 md:py-11 lg:py-14">
+          <div className="grid gap-x-8 gap-y-6 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:grid-rows-[1fr_auto] lg:items-stretch xl:gap-x-12">
+            <div className="flex min-w-0 flex-col justify-end lg:col-start-1 lg:row-start-1">
+              <p className="section-kicker text-[0.75rem] sm:text-[0.8rem]">UMKM Kemayoran</p>
+              <h1 className="mt-4 max-w-[12ch] text-[clamp(2.4rem,10vw,3.15rem)] font-extrabold leading-[1.02] tracking-[-0.035em] text-hutan lg:text-[clamp(3.5rem,5vw,4.5rem)]">
                 Bangga Produk{" "}
-                <span className="text-forest underline decoration-sky-soft decoration-[3px] underline-offset-[0.14em] sm:decoration-4">
-                  Lokal Kemayoran.
+                <span className="ink-outline text-[#1D6E4D] decoration-langit">
+                  Lokal Kemayoran
                 </span>
+                .
               </h1>
-              <p className="mt-5 max-w-[28rem] text-base leading-7 text-warm-gray sm:text-[1.05rem]">
-                Pilih kebutuhanmu, belanja langsung ke UMKM, dan bantu ekonomi Kemayoran tumbuh dari lingkungan sendiri.
+              <p className="mt-5 max-w-[36rem] text-base leading-relaxed text-cool-gray lg:max-w-[31rem]">
+                Jelajahi aneka produk UMKM unggulan dari Kemayoran dan sekitarnya. Dukung ekonomi lokal dengan belanja langsung dari para pengrajin dan pelaku usaha terbaik.
               </p>
-
-              <div className="mt-7 flex flex-col gap-3 min-[390px]:flex-row sm:items-center">
-                <Link href="/catalog" className="btn-primary min-h-12 w-full justify-center min-[390px]:w-auto">
-                  Jelajahi Katalog <Icon name="arrowRight" size={15} />
+              <div className="mt-6 grid gap-3 min-[390px]:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:max-w-[26rem]">
+                <Link
+                  href="/catalog"
+                  className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-forest px-5 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(31,107,69,0.2)] transition-[background-color,box-shadow] duration-200 hover:bg-forest-deep hover:shadow-[0_10px_24px_rgba(31,107,69,0.25)] focus:outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2"
+                >
+                  Jelajahi Katalog
+                  <Icon name="arrowRight" size={14} className="transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transform-none" />
                 </Link>
-                <Link href="/about" className="btn-secondary min-h-11 w-full min-[390px]:w-auto">
-                  Tentang Kami <Icon name="arrowRight" size={13} />
+                <Link
+                  href="/about"
+                  className="inline-flex min-h-11 items-center justify-center rounded-xl border border-hutan/20 bg-white px-5 py-3 text-sm font-bold text-hutan transition-[border-color,background-color] duration-200 hover:border-forest/40 hover:bg-cream focus:outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2"
+                >
+                  Tentang Kami
                 </Link>
               </div>
             </div>
 
-            <HeroFilm className="lg:col-span-7 lg:col-start-6 lg:row-start-1 lg:min-h-0" />
+            <div className="aspect-[4/3] min-w-0 min-[480px]:aspect-[16/10] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:aspect-auto lg:min-h-[31rem]">
+              <HeroShowcaseVideo />
+            </div>
 
-            <div className="hero-benefits grid grid-cols-3 gap-2.5 border-y border-forest/12 py-4 sm:gap-4 sm:py-5 lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:max-w-[31rem]">
-              <div className="flex min-w-0 flex-col gap-2 text-left">
-                <Icon name="shoppingBagFilled" size={18} className="text-forest" />
-                <span className="text-[11px] font-bold leading-[1.3] text-noir-soft sm:text-xs">Produk<br className="hidden sm:block" /> berkualitas</span>
-              </div>
-              <div className="flex min-w-0 flex-col gap-2 text-left">
-                <Icon name="heart" size={18} className="text-forest" />
-                <span className="text-[11px] font-bold leading-[1.3] text-noir-soft sm:text-xs">Dukung<br className="hidden sm:block" /> UMKM lokal</span>
-              </div>
-              <div className="flex min-w-0 flex-col gap-2 text-left">
-                <Icon name="badgeCheck" size={18} className="text-forest" />
-                <span className="text-[11px] font-bold leading-[1.3] text-noir-soft sm:text-xs">Aman &<br className="hidden sm:block" /> terpercaya</span>
-              </div>
+            <div className="grid grid-cols-3 border-y border-hutan/15 py-4 lg:col-start-1 lg:row-start-2 lg:self-end">
+              {[
+                { icon: "badgeCheck", label: "Produk berkualitas" },
+                { icon: "heart", label: "Dukung UMKM lokal" },
+                { icon: "lock", label: "Aman & terpercaya" },
+              ].map((benefit, index) => (
+                <div
+                  key={benefit.label}
+                  className={`flex min-w-0 flex-col items-center gap-2 px-2 text-center sm:flex-row sm:justify-center sm:text-left lg:flex-col lg:text-center xl:flex-row xl:text-left ${
+                    index > 0 ? "border-l border-hutan/15" : ""
+                  }`}
+                >
+                  <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center rounded-lg bg-forest/10 text-forest">
+                    <Icon name={benefit.icon} size={14} />
+                  </span>
+                  <span className="text-[0.78rem] font-semibold leading-tight text-hutan sm:text-sm">
+                    {benefit.label}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -174,33 +186,42 @@ export default async function HomePage() {
           <form
             action="/catalog"
             method="get"
-            className="market-search relative mt-7 hidden items-center gap-3 rounded-2xl p-4 md:mt-10 md:rounded-3xl md:p-5 lg:grid lg:grid-cols-[1fr_auto_auto] md:gap-4"
+            className="market-search relative mt-6 hidden grid-cols-[1fr_auto_auto] items-center gap-3 rounded-2xl p-3 lg:grid"
           >
-            <div className="relative min-w-0">
-              <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-warm-gray">
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-gray pointer-events-none">
                 <Icon name="search" size={18} />
               </span>
               <input
                 name="search"
                 type="text"
                 placeholder="Cari produk atau UMKM..."
-                className="w-full rounded-full border border-cream-warm bg-white/70 py-3 pl-11 pr-4 text-sm text-noir-soft outline-none transition-all placeholder:text-warm-gray focus:border-forest/40 focus:bg-white focus:shadow-[0_0_0_4px_var(--color-glass-forest)] md:text-base"
+                className="w-full rounded-xl border border-cream-warm bg-white/70 py-3 pl-11 pr-4 text-sm text-noir-soft outline-none transition-all placeholder:text-warm-gray focus:border-forest/40 focus:bg-white focus:shadow-[0_0_0_4px_var(--color-glass-forest)]"
               />
             </div>
-            <div className="relative min-w-0">
-              <Icon name="chevronDown" size={16} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-warm-gray" />
+            <div className="relative">
+              <Icon
+                name="chevronDown"
+                size={16}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-warm-gray pointer-events-none"
+              />
               <select
                 name="category"
                 defaultValue=""
-                className="w-full appearance-none rounded-full border border-cream-warm bg-white/70 py-3 pl-4 pr-10 text-sm text-noir-soft outline-none transition-all focus:border-forest/40 focus:bg-white focus:shadow-[0_0_0_4px_var(--color-glass-forest)] md:text-base"
+                className="w-full appearance-none rounded-xl border border-cream-warm bg-white/70 py-3 pl-4 pr-10 text-sm text-noir-soft outline-none transition-all focus:border-forest/40 focus:bg-white focus:shadow-[0_0_0_4px_var(--color-glass-forest)]"
               >
                 <option value="">Semua Kategori</option>
                 {categories.map((c) => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
                 ))}
               </select>
             </div>
-            <button type="submit" className="flex items-center justify-center gap-2 rounded-xl bg-laut px-6 py-3 text-sm font-bold text-white shadow-card transition-all hover:bg-laut-deep hover:shadow-card-hover md:px-8 md:text-base">
+            <button
+              type="submit"
+              className="flex items-center justify-center gap-2 rounded-xl bg-laut px-7 py-3 text-sm font-bold text-white shadow-card transition-all hover:bg-laut-deep hover:shadow-card-hover"
+            >
               <Icon name="search" size={16} /> Cari
             </button>
           </form>
