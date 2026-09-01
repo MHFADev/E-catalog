@@ -7,7 +7,7 @@ export default function HeroPromoGrid({ banners = [] }) {
   if (!items.length) return null;
 
   return (
-    <div className="hero-promo-grid grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-12 lg:gap-6">
+    <div className="hero-promo-grid mt-6 grid grid-cols-1 gap-4 sm:mt-7 sm:grid-cols-2 lg:mt-8 lg:col-span-12 lg:gap-6">
       {items.map((banner, index) => {
         const content = (
           <div className="hero-promo relative min-h-[13.5rem] overflow-hidden rounded-[1.35rem] border border-forest/15 bg-white shadow-[0_16px_30px_rgba(16,72,46,0.08)] transition duration-300 ease-out sm:min-h-[15.5rem] sm:rounded-[1.75rem] hover:-translate-y-1 hover:shadow-[0_22px_38px_rgba(16,72,46,0.14)]">
