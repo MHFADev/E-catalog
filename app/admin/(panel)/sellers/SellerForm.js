@@ -1,9 +1,10 @@
-﻿"use client";
+"use client";
 import { useState } from "react";
 import { saveSeller } from "../actions";
 import ImageUploader from "@/components/common/ImageUploader";
 import PhoneInput from "@/components/common/PhoneInput";
 import Icon from "@/components/common/Icon";
+import VideoEmbed from "@/components/common/VideoEmbed";
 
 const inputClass =
   "w-full bg-cream-pure border border-cream-warm rounded-xl px-3 py-2 text-sm text-noir placeholder:text-muted focus:outline-none focus:border-forest/50 focus:ring-2 focus:ring-forest/10 transition-all";
@@ -33,6 +34,8 @@ export default function SellerForm({ initial = null }) {
   // Naikkan resetKey usai sukses menyimpan supaya ImageUploader dibersihkan
   // (URL gambar yang sudah terpakai tidak tertinggal untuk input berikutnya).
   const [resetKey, setResetKey] = useState(0);
+
+  const [videoUrl, setVideoUrl] = useState(initial?.video_url ?? "");
 
   return (
     <form
@@ -91,13 +94,38 @@ export default function SellerForm({ initial = null }) {
             resetSignal={resetKey}
           />
         </div>
-        <div className="sm:col-span-2">
+        <div className="sm:col-span-2 space-y-2">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-semibold text-noir-soft">
+              URL Video Toko (YouTube / Shorts / TikTok / Instagram / MP4)
+            </label>
+            {videoUrl && (
+              <span className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-medium">
+                Autoplay aktif
+              </span>
+            )}
+          </div>
           <input
             name="videoUrl"
-            defaultValue={initial?.video_url ?? ""}
-            placeholder="URL video (cth. link YouTube https://www.youtube.com/watch?v=...)"
+            value={videoUrl}
+            onChange={(e) => setVideoUrl(e.target.value)}
+            placeholder="cth. https://www.youtube.com/watch?v=..., Shorts, TikTok, Instagram Reel, atau .mp4"
             className={inputClass}
           />
+          <p className="text-[11px] text-warm-gray">
+            Mendukung link YouTube, YouTube Shorts, TikTok, Instagram Reels, Facebook, Vimeo, atau link file .mp4 langsung.
+          </p>
+          {videoUrl && (
+            <div className="mt-2 p-3 bg-cream-pure border border-cream-warm rounded-xl">
+              <div className="text-[11px] font-bold text-noir-soft mb-1.5 flex items-center gap-1.5">
+                <Icon name="eye" size={12} className="text-forest" />
+                <span>Pratinjau Video (Autoplay):</span>
+              </div>
+              <div className="max-w-sm">
+                <VideoEmbed url={videoUrl} title="Pratinjau Video Admin" />
+              </div>
+            </div>
+          )}
         </div>
         <div className="sm:col-span-2">
           <textarea

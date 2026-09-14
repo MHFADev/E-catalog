@@ -76,10 +76,18 @@ import {
   FaPlay,
   FaVolumeHigh,
   FaVolumeXmark,
+  FaMoon,
+  FaDownload,
+  FaCommentDots,
+  FaKey,
 } from "react-icons/fa6";
 import { FaFacebookF, FaTelegramPlane } from "react-icons/fa";
 
 const icons = {
+  moon: FaMoon,
+  download: FaDownload,
+  messageSquare: FaCommentDots,
+  key: FaKey,
   search: FaMagnifyingGlass,
   image: FaImage,
   phone: FaPhone,

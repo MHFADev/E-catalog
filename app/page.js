@@ -3,8 +3,7 @@ import FeaturedProducts from "@/components/product/FeaturedProducts";
 import Icon from "@/components/common/Icon";
 import EmptyState from "@/components/common/EmptyState";
 import CategoryVisualIcon from "@/components/category/CategoryVisualIcon";
-import HeroPromoGrid from "@/components/home/HeroPromoGrid";
-import HeroShowcaseVideo from "@/components/home/HeroShowcaseVideo";
+import HeroShowcase from "@/components/home/HeroShowcase";
 import ScrollRevealObserver from "@/components/home/ScrollRevealObserver";
 
 import MultiPinMap from "@/components/common/MultiPinMap";
@@ -122,30 +121,36 @@ export default async function HomePage() {
   return (
     <>
       <ScrollRevealObserver />
-      {/* ===== HERO: etalase lokal yang ringkas ===== */}
+      {/* ===== HERO: Etalase & Discoverability Utama dengan Banner Terintegrasi ===== */}
       <section className="home-hero border-b border-hutan/10">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:py-14 md:px-6 lg:py-20">
-          <div className="grid items-center gap-9 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14 xl:gap-20">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:py-12 md:px-6 lg:py-16">
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.15fr)] lg:gap-12 xl:gap-16">
             <div className="min-w-0">
-              <p className="hero-eyebrow">
-                <span aria-hidden="true" className="size-2 rounded-full bg-forest" />
-                Katalog UMKM Kemayoran
-              </p>
+              {/* Official verified community pill */}
+              <div className="inline-flex items-center gap-2 rounded-full border border-forest/15 bg-forest/[0.06] px-3.5 py-1.5 text-xs font-semibold text-forest">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-forest opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-forest" />
+                </span>
+                <span>Katalog Resmi UMKM Kemayoran · Jakarta Pusat</span>
+              </div>
 
-              <h1 className="mt-6 max-w-[11ch] text-[clamp(2.65rem,11vw,4.15rem)] font-bold leading-[1.02] tracking-[-0.055em] text-hutan lg:text-[clamp(3.7rem,5.2vw,5rem)]">
-                Produk lokal,
-                <span className="block text-forest">lebih dekat.</span>
+              {/* Dignified, strong headline */}
+              <h1 className="mt-5 text-3xl font-extrabold tracking-tight text-hutan sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-[1.12]">
+                Pusat Produk &amp; Karya Pilihan{" "}
+                <span className="text-forest">Warga Kemayoran.</span>
               </h1>
 
-              <p className="mt-5 max-w-[34rem] text-base leading-7 text-cool-gray sm:text-lg sm:leading-8">
-                Temukan makanan, kebutuhan harian, dan karya warga sekitar.
-                Pilih produknya, lalu pesan langsung dari penjual.
+              {/* Subheading */}
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-cool-gray sm:text-lg">
+                Jelajahi aneka kuliner autentik, kerajinan tangan, fesyen, hingga kebutuhan harian langsung dari pelaku UMKM lokal terverifikasi tanpa potongan komisi.
               </p>
 
+              {/* Modern Search bar */}
               <form
                 action="/catalog"
                 method="get"
-                className="hero-search mt-8 flex max-w-[35rem] items-center gap-2 p-1.5"
+                className="mt-6 flex max-w-xl items-center rounded-2xl border border-hutan/15 bg-white p-1.5 shadow-[0_8px_25px_rgba(18,63,43,0.06)] transition-all focus-within:border-forest focus-within:ring-4 focus-within:ring-forest/10"
               >
                 <span className="ml-3 shrink-0 text-warm-gray" aria-hidden="true">
                   <Icon name="search" size={18} />
@@ -153,33 +158,59 @@ export default async function HomePage() {
                 <input
                   name="search"
                   type="search"
-                  placeholder="Cari produk lokal..."
-                  aria-label="Cari produk lokal"
-                  className="min-w-0 flex-1 bg-transparent px-1 py-2.5 text-base text-noir outline-none placeholder:text-warm-gray"
+                  placeholder="Cari nasi uduk, kue kering, baju, souvenir..."
+                  aria-label="Cari produk UMKM lokal"
+                  className="min-w-0 flex-1 bg-transparent px-2.5 py-2.5 text-sm text-noir outline-none placeholder:text-warm-gray sm:text-base"
                 />
                 <button
                   type="submit"
-                  className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl bg-forest px-5 text-sm font-bold text-white transition-colors hover:bg-forest-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2"
+                  className="inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-xl bg-forest px-5 text-sm font-bold text-white transition-all hover:bg-forest-deep active:scale-[0.98]"
                 >
-                  Cari
+                  <span>Cari</span>
+                  <Icon name="arrowRight" size={14} />
                 </button>
               </form>
 
-              <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-warm-gray">
-                <Link
-                  href="/catalog"
-                  className="group inline-flex items-center gap-2 font-bold text-hutan transition-colors hover:text-forest"
-                >
-                  Lihat semua produk
-                  <Icon name="arrowRight" size={14} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />
-                </Link>
-                <span className="hidden h-4 w-px bg-hutan/15 sm:block" aria-hidden="true" />
-                <span>{sellersData.length} UMKM &middot; {productsData.length} produk lokal</span>
+              {/* Popular tags shortcut */}
+              <div className="mt-3.5 flex flex-wrap items-center gap-1.5 text-xs text-warm-gray">
+                <span className="font-semibold text-noir-soft">Populer:</span>
+                {["Kuliner", "Kue Kering", "Batik Betawi", "Kopi", "Kerajinan"].map((tag) => (
+                  <Link
+                    key={tag}
+                    href={`/catalog?search=${encodeURIComponent(tag.toLowerCase())}`}
+                    className="rounded-lg border border-hutan/10 bg-white/80 px-2.5 py-1 font-medium text-noir-soft transition-colors hover:border-forest/30 hover:bg-forest/5 hover:text-forest"
+                  >
+                    {tag}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Trust badges strip */}
+              <div className="mt-8 flex flex-wrap items-center gap-4 sm:gap-6 border-t border-hutan/10 pt-5 text-xs sm:text-sm text-noir-soft">
+                <div className="flex items-center gap-2">
+                  <span className="flex size-5 items-center justify-center rounded-full bg-forest/10 text-forest">
+                    <Icon name="check" size={11} />
+                  </span>
+                  <span><strong>{sellersData.length}+ UMKM</strong> Terdaftar</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="flex size-5 items-center justify-center rounded-full bg-forest/10 text-forest">
+                    <Icon name="check" size={11} />
+                  </span>
+                  <span>Chat Langsung ke WA</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="flex size-5 items-center justify-center rounded-full bg-forest/10 text-forest">
+                    <Icon name="check" size={11} />
+                  </span>
+                  <span>100% Produk Warga</span>
+                </div>
               </div>
             </div>
 
-            <div className="aspect-[4/3] min-w-0 sm:aspect-[16/10] lg:aspect-[1.14/1] lg:max-h-[39rem]">
-              <HeroShowcaseVideo />
+            {/* Right: Integrated Banner Carousel & Video Showcase */}
+            <div className="min-w-0">
+              <HeroShowcase banners={banners} />
             </div>
           </div>
         </div>
@@ -187,8 +218,6 @@ export default async function HomePage() {
 
       {/* ===== KATEGORI POPULER ===== */}
       <section className="market-frame py-12 md:py-20 bg-white">
-        <img src="/images/decor/market-leafy-sprig.png" alt="" aria-hidden="true" loading="lazy" decoding="async" className="decor-asset -right-5 -top-6 hidden w-56 rotate-[8deg] opacity-25 lg:block" />
-        <img src="/images/decor/market-flower-divider.png" alt="" aria-hidden="true" loading="lazy" decoding="async" className="decor-asset -left-10 bottom-3 hidden w-64 opacity-55 lg:block" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 scroll-reveal">
           <div className="flex items-end justify-between mb-6 md:mb-10">
             <div>
@@ -248,22 +277,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {banners.length > 0 && (
-        <section className="border-t border-hutan/10 bg-cream py-10 md:py-14">
-          <div className="mx-auto max-w-7xl px-4 md:px-6">
-            <div className="mb-5 flex items-end justify-between gap-4">
-              <div>
-                <span className="section-kicker">Pilihan minggu ini</span>
-                <h2 className="mt-2 text-xl font-bold tracking-tight text-hutan md:text-3xl">
-                  Kabar dari UMKM
-                </h2>
-              </div>
-            </div>
-            <HeroPromoGrid banners={banners} />
-          </div>
-        </section>
-      )}
 
       {/* ===== PRODUK UNGGULAN ===== */}
       <section className="py-10 md:py-16 bg-cream">

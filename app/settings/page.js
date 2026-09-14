@@ -18,7 +18,7 @@ export default async function SettingsPage() {
   const [profileRes] = await Promise.all([
     supabase
       .from("profiles")
-      .select("avatar_url")
+      .select("avatar_url, phone_number, username, date_of_birth")
       .eq("id", user.id)
       .maybeSingle(),
   ]);
@@ -27,7 +27,7 @@ export default async function SettingsPage() {
   if (account?.status === "approved" && account.seller_id) {
     const { data } = await supabase
       .from("sellers")
-      .select("id, name, whatsapp, description, logo")
+      .select("id, name, whatsapp, whatsapp_alt, address, description, logo, video_url")
       .eq("id", account.seller_id)
       .maybeSingle();
     seller = data;
@@ -41,7 +41,16 @@ export default async function SettingsPage() {
 
   return (
     <SettingsForm
-      user={{ id: user.id, email: user.email, fullName, avatarUrl }}
+      user={{
+        id: user.id,
+        email: user.email,
+        fullName,
+        avatarUrl,
+        phoneNumber: profileRes?.data?.phone_number || "",
+        username: profileRes?.data?.username || "",
+        preferences: user.user_metadata?.preferences || {},
+        createdAt: user.created_at,
+      }}
       seller={seller}
     />
   );

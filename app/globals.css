@@ -253,40 +253,19 @@ video {
 }
 
 .home-hero {
-  background: #fbfaf6;
+  background: linear-gradient(180deg, #fbfaf6 0%, #f7f5ed 100%);
 }
 
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  color: var(--leaf-deep);
-  font-size: 0.78rem;
-  font-weight: 750;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  text-transform: uppercase;
+.hero-showcase-container {
+  box-shadow: 0 10px 32px -4px rgba(18, 63, 43, 0.08), 0 2px 6px -1px rgba(18, 63, 43, 0.04);
 }
 
-.hero-search {
-  border: 1px solid rgba(16, 72, 46, 0.16);
-  border-radius: 1rem;
-  background: #fff;
-  box-shadow: 0 10px 30px rgba(23, 63, 49, 0.08);
-  transition: border-color 180ms ease, box-shadow 180ms ease;
-}
-
-.hero-search:focus-within {
-  border-color: rgba(31, 107, 69, 0.48);
-  box-shadow: 0 0 0 4px rgba(31, 107, 69, 0.1), 0 14px 34px rgba(23, 63, 49, 0.1);
-}
-
-.hero-showcase video {
+.hero-showcase-container video {
   object-position: 50% center;
 }
 
 @media (max-width: 479px) {
-  .hero-showcase video {
+  .hero-showcase-container video {
     object-position: 54% center;
   }
 }

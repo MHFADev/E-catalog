@@ -1,4 +1,4 @@
-﻿import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import ProductGallery from "@/components/product/ProductGallery";
@@ -6,6 +6,7 @@ import ProductGrid from "@/components/product/ProductGrid";
 import ReviewSection from "@/components/product/ReviewSection";
 import PaymentMethods from "@/components/product/PaymentMethods";
 import ProductShare from "@/components/product/ProductShare";
+import VideoEmbed from "@/components/common/VideoEmbed";
 import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
 import { WHATSAPP_PREFILL } from "@/lib/constants";
 import { getSellerPaymentMethods } from "@/lib/paymentMethods";
@@ -387,15 +388,14 @@ export default async function ProductDetailPage({ params }) {
 
               {seller.videoUrl && (
                 <div className="mt-3 border-t border-cream-warm pt-3">
-                  <div className="aspect-video rounded-xl overflow-hidden bg-cream-warm">
-                    <iframe
-                      src={embedUrl(seller.videoUrl)}
-                      title={`Video ${seller.name}`}
-                      className="w-full h-full"
-                      allowFullScreen
-                      loading="lazy"
-                    />
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-noir mb-2">
+                    <Icon name="play" size={12} className="text-forest" />
+                    <span>Video Suasana &amp; Profil Toko</span>
                   </div>
+                  <VideoEmbed
+                    url={seller.videoUrl}
+                    title={`Video ${seller.name}`}
+                  />
                 </div>
               )}
 

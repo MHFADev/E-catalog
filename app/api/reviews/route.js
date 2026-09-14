@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function POST(request) {
   const supabase = await createClient();
@@ -86,3 +87,95 @@ export async function POST(request) {
     { status: 201 },
   );
 }
+
+export async function DELETE(request) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json(
+      { error: "Silakan login untuk menghapus rating." },
+      { status: 401 },
+    );
+  }
+
+  let reviewId;
+  try {
+    const body = await request.json();
+    reviewId = body?.id || body?.reviewId;
+  } catch {
+    const url = new URL(request.url);
+    reviewId = url.searchParams.get("id");
+  }
+
+  if (!reviewId) {
+    return NextResponse.json(
+      { error: "ID rating tidak ditemukan." },
+      { status: 400 },
+    );
+  }
+
+  // Verifikasi rating ada dan milik pengguna yang sedang login
+  const { data: review, error: fetchError } = await supabase
+    .from("reviews")
+    .select("id, product_id, user_id")
+    .eq("id", reviewId)
+    .maybeSingle();
+
+  if (fetchError || !review) {
+    return NextResponse.json(
+      { error: "Rating tidak ditemukan." },
+      { status: 404 },
+    );
+  }
+
+  if (review.user_id !== user.id) {
+    return NextResponse.json(
+      { error: "Anda hanya dapat menghapus rating milik sendiri." },
+      { status: 403 },
+    );
+  }
+
+  let deleteError = null;
+  const { error: userDeleteError } = await supabase
+    .from("reviews")
+    .delete()
+    .eq("id", reviewId)
+    .eq("user_id", user.id);
+
+  if (userDeleteError) {
+    try {
+      const adminSupabase = await createAdminClient();
+      const { error: adminError } = await adminSupabase
+        .from("reviews")
+        .delete()
+        .eq("id", reviewId);
+      deleteError = adminError;
+    } catch {
+      deleteError = userDeleteError;
+    }
+  }
+
+  if (deleteError) {
+    return NextResponse.json(
+      { error: deleteError?.message || "Gagal menghapus rating." },
+      { status: 500 },
+    );
+  }
+
+  revalidateTag("catalog");
+  if (review.product_id) {
+    revalidatePath(`/product/${review.product_id}`);
+  }
+  revalidatePath("/");
+  revalidatePath("/catalog");
+
+  return NextResponse.json({
+    ok: true,
+    message: "Rating berhasil dihapus.",
+    reviewId,
+    productId: review.product_id,
+  });
+}
+

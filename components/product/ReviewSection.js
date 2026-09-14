@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
@@ -41,35 +41,96 @@ function fmtDate(iso) {
 }
 
 // ===== Kartu satu komentar (username/avatar dari join tabel profiles) =====
-function ReviewCard({ review }) {
+function ReviewCard({ review, isOwn, onDelete, isDeleting }) {
+  const [showConfirm, setShowConfirm] = useState(false);
   const displayName = review.username || review.name || "Pengguna";
+
   return (
-    <div className="bg-white rounded-2xl p-4 md:p-5 border border-cream-warm">
-      <div className="flex items-center gap-3 mb-2">
-        {review.avatarUrl ? (
-          <img
-            src={review.avatarUrl}
-            alt={displayName}
-            className="w-9 h-9 md:w-10 md:h-10 rounded-full object-cover border border-cream-warm shrink-0"
-          />
-        ) : (
-          <span className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
-            {initials(displayName)}
-          </span>
-        )}
-        <div className="min-w-0 flex-1">
-          <div className="text-sm font-semibold text-noir truncate">
-            {displayName}
-          </div>
-          <div className="flex items-center gap-2">
-            <Stars value={review.rating} />
-            <span className="text-[10px] md:text-xs text-warm-gray">
-              {fmtDate(review.date)}
+    <div
+      className={`bg-white rounded-2xl p-4 md:p-5 border transition-all ${
+        isOwn
+          ? "border-forest/40 bg-gradient-to-br from-white to-forest/[0.02]"
+          : "border-cream-warm"
+      }`}
+    >
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          {review.avatarUrl ? (
+            <img
+              src={review.avatarUrl}
+              alt={displayName}
+              className="w-9 h-9 md:w-10 md:h-10 rounded-full object-cover border border-cream-warm shrink-0"
+            />
+          ) : (
+            <span className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-forest/10 text-forest flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
+              {initials(displayName)}
             </span>
+          )}
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm font-semibold text-noir truncate">
+                {displayName}
+              </span>
+              {isOwn && (
+                <span className="text-[10px] font-semibold text-forest bg-forest/10 px-2 py-0.5 rounded-full shrink-0">
+                  Ulasan Anda
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <Stars value={review.rating} />
+              <span className="text-[10px] md:text-xs text-warm-gray">
+                {fmtDate(review.date)}
+              </span>
+            </div>
           </div>
         </div>
+
+        {/* Tombol Hapus untuk pengirim ulasan */}
+        {isOwn && (
+          <div className="shrink-0">
+            {!showConfirm ? (
+              <button
+                type="button"
+                onClick={() => setShowConfirm(true)}
+                disabled={isDeleting}
+                title="Hapus rating Anda"
+                className="inline-flex items-center gap-1 text-xs text-warm-gray hover:text-red-600 hover:bg-red-50 py-1 px-2 rounded-lg transition-colors"
+                aria-label="Hapus rating"
+              >
+                <Icon name="deleteFilled" size={13} className="text-current" />
+                <span className="hidden sm:inline font-medium">Hapus</span>
+              </button>
+            ) : (
+              <div className="inline-flex items-center gap-1.5 bg-red-50 border border-red-200 rounded-xl p-1">
+                <span className="text-[11px] font-semibold text-red-800 px-1">
+                  Hapus?
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowConfirm(false);
+                    onDelete(review.id);
+                  }}
+                  disabled={isDeleting}
+                  className="px-2 py-0.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-semibold transition disabled:opacity-50"
+                >
+                  {isDeleting ? "..." : "Ya"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm(false)}
+                  disabled={isDeleting}
+                  className="px-2 py-0.5 bg-white hover:bg-cream-warm text-cool-gray rounded-lg text-xs font-medium border border-cream-warm transition"
+                >
+                  Batal
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
-      <p className="text-xs md:text-sm text-cool-gray leading-relaxed">
+      <p className="text-xs md:text-sm text-cool-gray leading-relaxed break-words">
         {review.comment}
       </p>
     </div>
@@ -207,6 +268,8 @@ export default function ReviewSection({ initial = [], productId }) {
   const [reviews, setReviews] = useState(initial);
   const { user, loading } = useUser();
   const { profile } = useProfile();
+  const [deletingId, setDeletingId] = useState(null);
+  const [feedback, setFeedback] = useState(null);
 
   const total = reviews.length;
   const avg = total
@@ -219,6 +282,38 @@ export default function ReviewSection({ initial = [], productId }) {
     star,
     count: reviews.filter((r) => r.rating === star).length,
   }));
+
+  const handleDeleteReview = async (reviewId) => {
+    setDeletingId(reviewId);
+    setFeedback(null);
+
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: reviewId }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data?.ok) {
+        throw new Error(data?.error || "Rating belum dapat dihapus.");
+      }
+
+      setReviews((prev) => prev.filter((r) => r.id !== reviewId));
+      setFeedback({
+        type: "success",
+        text: "Rating Anda berhasil dihapus.",
+      });
+      setTimeout(() => setFeedback(null), 5000);
+    } catch (err) {
+      setFeedback({
+        type: "error",
+        text: err?.message || "Rating belum dapat dihapus.",
+      });
+      setTimeout(() => setFeedback(null), 6000);
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
     <section>
@@ -259,11 +354,46 @@ export default function ReviewSection({ initial = [], productId }) {
         </div>
       </div>
 
+      {/* Notifikasi feedback aksi rating */}
+      {feedback && (
+        <div
+          role={feedback.type === "error" ? "alert" : "status"}
+          className={`p-3.5 mb-4 rounded-2xl text-xs font-medium border flex items-center justify-between gap-2 transition-all ${
+            feedback.type === "success"
+              ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+              : "bg-red-50 border-red-200 text-red-800"
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <Icon
+              name={feedback.type === "success" ? "badgeCheck" : "cancelFilled"}
+              size={15}
+              className="shrink-0"
+            />
+            <span>{feedback.text}</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setFeedback(null)}
+            className="text-current opacity-70 hover:opacity-100 shrink-0 p-1"
+            aria-label="Tutup notifikasi"
+          >
+            <Icon name="close" size={12} />
+          </button>
+        </div>
+      )}
+
       {/* Daftar komentar */}
       {reviews.length > 0 ? (
         <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
           {reviews.map((r, i) => (
-            <ReviewCard key={r.id || i} review={r} />
+            <ReviewCard
+              key={r.id || i}
+              review={r}
+              isOwn={Boolean(user?.id && r.userId === user.id)}
+              onDelete={handleDeleteReview}
+              isDeleting={deletingId === r.id}
+            />
           ))}
         </div>
       ) : (
