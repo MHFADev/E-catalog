@@ -2,6 +2,7 @@
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { normalizePhoneIdentifier, phoneAliasEmail } from "@/lib/authIdentifier";
+import { ensureUsername } from "@/lib/username";
 
 function safeName(value) {
   return String(value || "").trim().replace(/\s+/g, " ").slice(0, 100);
@@ -52,5 +53,11 @@ export async function createPhoneAccount({ phone, password, fullName = "" }) {
     throw new Error("Profil akun belum dapat disiapkan. Silakan coba kembali.");
   }
 
-  return { aliasEmail, phone: normalizedPhone };
+  try {
+    const username = await ensureUsername(admin, data.user.id, fullName || normalizedPhone);
+    return { aliasEmail, phone: normalizedPhone, username };
+  } catch {
+    await admin.auth.admin.deleteUser(data.user.id);
+    throw new Error("Username akun belum dapat disiapkan. Silakan coba kembali.");
+  }
 }

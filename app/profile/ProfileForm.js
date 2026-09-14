@@ -150,7 +150,9 @@ export default function ProfileForm({
             </div>
             <div className="text-center sm:text-left">
               <div className="text-lg font-bold">{shortName}</div>
-              <div className="text-sm text-white/80">{user.email}</div>
+              <div className="text-sm text-white/80">
+                {user.emailConnected ? user.email : user.phone ? `Login nomor: ${user.phone}` : "Login dengan nomor telepon"}
+              </div>
               {current && (
                 <div className="mt-1 inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 bg-white/20 rounded-full">
                   <Icon name="user" size={12} /> @{current}
@@ -158,6 +160,18 @@ export default function ProfileForm({
               )}
             </div>
           </div>
+
+          {!user.emailConnected && (
+            <div className="mx-4 mt-4 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 sm:mx-6">
+              <Icon name="info" size={18} className="mt-0.5 shrink-0 text-amber-600" />
+              <div>
+                <p className="font-bold">Email belum terhubung</p>
+                <p className="mt-0.5 leading-relaxed text-amber-800">
+                  Anda tetap dapat login dengan nomor telepon dan menggunakan seluruh fitur akun. Email bersifat opsional dan dapat dihubungkan nanti.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* foto profil akun - untuk semua user */}
           <section className="p-6 space-y-3 border-b border-cream-warm">

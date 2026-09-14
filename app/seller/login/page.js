@@ -133,7 +133,7 @@ export default function SellerLoginPage() {
             Area <span className="text-forest">Penjual</span>
           </h1>
           <p className="text-xs text-warm-gray mb-5">
-            {mode === "login" ? "Masuk untuk mengelola produk dan pesanan UMKM Anda." : "Daftarkan UMKM untuk dikelola melalui katalog."}
+            {mode === "login" ? "Masuk dengan nomor telepon atau email untuk mengelola produk dan pesanan UMKM Anda." : "Daftarkan UMKM untuk dikelola melalui katalog."}
           </p>
 
           <button
@@ -166,7 +166,7 @@ export default function SellerLoginPage() {
               type="text"
               value={identifier}
               onChange={(event) => setIdentifier(event.target.value)}
-              placeholder="Email atau nomor telepon"
+              placeholder="Nomor telepon atau email (opsional)"
               inputMode={isPhone ? "tel" : "email"}
               autoComplete="username"
               required

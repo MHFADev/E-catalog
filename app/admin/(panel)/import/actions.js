@@ -5,6 +5,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isAdmin } from "@/lib/admin";
 import { normalizePhoneIdentifier, phoneAliasEmail } from "@/lib/authIdentifier";
+import { ensureUsername } from "@/lib/username";
 import { uploadExternalImage } from "@/lib/github";
 
 const INITIAL_PASSWORD = "UMKM-kemayoran12";
@@ -136,6 +137,11 @@ export async function importUmkmManifest(manifestText) {
     accountsByPhone.set(phone, user);
     const { error: profileError } = await admin.from("profiles").upsert({ id: user.id, phone_number: phone }, { onConflict: "id" });
     if (profileError) throw new Error(`Profil untuk ${group[0].businessName} belum dapat disiapkan.`);
+    try {
+      await ensureUsername(admin, user.id, group[0].businessName);
+    } catch {
+      throw new Error(`Username untuk ${group[0].businessName} belum dapat disiapkan.`);
+    }
   }
 
   let storesImported = 0;

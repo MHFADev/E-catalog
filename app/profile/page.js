@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getSellerAccount } from "@/lib/auth";
 import { isAutoUsername } from "@/lib/username";
+import { isPhoneAliasEmail, phoneFromAliasEmail } from "@/lib/authIdentifier";
 import ProfileForm from "./ProfileForm";
 
 const TWO_YEARS_MS = 2 * 365 * 24 * 60 * 60 * 1000;
@@ -17,7 +18,7 @@ export default async function ProfilePage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username, username_updated_at, created_at, avatar_url")
+    .select("username, username_updated_at, created_at, avatar_url, phone_number")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -44,15 +45,21 @@ export default async function ProfilePage() {
   const canRename =
     notRenamedYet || !lastChange || Date.now() - lastChange >= TWO_YEARS_MS;
 
+  const phoneOnlyAccount = isPhoneAliasEmail(user.email);
+  const emailConnected = Boolean(user.email) && !phoneOnlyAccount;
+  const phoneNumber =
+    profile?.phone_number ||
+    user.user_metadata?.phone_number ||
+    (phoneOnlyAccount ? phoneFromAliasEmail(user.email) : "");
   const fullName =
     user.user_metadata?.full_name ||
     user.user_metadata?.name ||
-    user.email?.split("@")[0] ||
+    (emailConnected ? user.email?.split("@")[0] : "") ||
     "Pengguna";
 
   return (
     <ProfileForm
-      user={{ id: user.id, email: user.email, fullName }}
+      user={{ id: user.id, email: emailConnected ? user.email : "", phone: phoneNumber, emailConnected, fullName }}
       profile={profile}
       canRename={canRename}
       approvedSeller={approvedSeller}
