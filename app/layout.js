@@ -60,11 +60,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="id">
-      <head>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      </head>
+      <head />
       <body className={`${manrope.variable} ${sora.variable}`} suppressHydrationWarning>
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" />
         <OnboardingGate />
         <Navbar />
         <PageTransition>

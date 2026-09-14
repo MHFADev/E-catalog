@@ -253,7 +253,32 @@ video {
 }
 
 .home-hero {
-  background: linear-gradient(180deg, #fbfaf2 0%, #f4f6ed 100%);
+  background: #fbfaf6;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--leaf-deep);
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero-search {
+  border: 1px solid rgba(16, 72, 46, 0.16);
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(23, 63, 49, 0.08);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.hero-search:focus-within {
+  border-color: rgba(31, 107, 69, 0.48);
+  box-shadow: 0 0 0 4px rgba(31, 107, 69, 0.1), 0 14px 34px rgba(23, 63, 49, 0.1);
 }
 
 .hero-showcase video {

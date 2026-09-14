@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import Icon from "@/components/common/Icon";
 import RecentSearches, { rememberRecentSearch } from "@/components/common/RecentSearches";
@@ -88,9 +89,12 @@ export default function Navbar() {
       <div ref={searchRef} className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="h-14 md:h-16 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <img
+            <Image
               src="/icon.png"
               alt="UMKM Kemayoran"
+              width={36}
+              height={36}
+              priority
               className="h-8 md:h-9 w-auto"
             />
             <span className="font-bold text-sm md:text-base text-noir hidden sm:block">

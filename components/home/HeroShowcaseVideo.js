@@ -37,14 +37,15 @@ export default function HeroShowcaseVideo() {
   };
 
   return (
-    <div className="hero-showcase relative h-full min-h-0 overflow-hidden rounded-[1.35rem] bg-hutan shadow-[0_18px_42px_rgba(18,63,74,0.16)] ring-1 ring-hutan/15 sm:rounded-[1.75rem] lg:rounded-[2rem]">
+    <div className="hero-showcase relative h-full min-h-0 overflow-hidden rounded-[1.5rem] bg-hutan shadow-[0_24px_60px_rgba(18,63,43,0.14)] ring-1 ring-hutan/10 sm:rounded-[2rem]">
+      {/* preload="none": browser tidak buffer video saat page load → hemat bandwidth & LCP */}
       <video
         ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="none"
         poster="/image-header/1.webp"
         className="absolute inset-0 h-full w-full object-cover object-center"
         aria-label="Showcase produk dan pelaku UMKM Kemayoran"
@@ -52,14 +53,14 @@ export default function HeroShowcaseVideo() {
         <source src="/hero-video.mp4" type="video/mp4" />
       </video>
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-hutan-dark/35 via-transparent to-black/5" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-hutan-dark/25 via-transparent to-black/5" />
 
       <div className="absolute bottom-3 right-3 flex gap-2 sm:bottom-4 sm:right-4">
         <button
           type="button"
           onClick={togglePlayback}
           aria-label={isPaused ? "Putar video" : "Jeda video"}
-          className="grid size-11 place-items-center rounded-xl border border-white/35 bg-hutan-dark/70 text-white shadow-md backdrop-blur-sm transition-colors duration-200 hover:bg-hutan-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-hutan-dark"
+          className="grid size-11 place-items-center rounded-full border border-white/35 bg-hutan-dark/65 text-white shadow-md backdrop-blur-sm transition-colors duration-200 hover:bg-hutan-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-hutan-dark"
         >
           <Icon name={isPaused ? "play" : "pause"} size={15} />
         </button>
@@ -67,7 +68,7 @@ export default function HeroShowcaseVideo() {
           type="button"
           onClick={toggleMute}
           aria-label={isMuted ? "Aktifkan suara video" : "Matikan suara video"}
-          className="grid size-11 place-items-center rounded-xl border border-white/35 bg-hutan-dark/70 text-white shadow-md backdrop-blur-sm transition-colors duration-200 hover:bg-hutan-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-hutan-dark"
+          className="grid size-11 place-items-center rounded-full border border-white/35 bg-hutan-dark/65 text-white shadow-md backdrop-blur-sm transition-colors duration-200 hover:bg-hutan-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-hutan-dark"
         >
           <Icon name={isMuted ? "volumeOff" : "volumeOn"} size={16} />
         </button>

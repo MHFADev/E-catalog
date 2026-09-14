@@ -46,7 +46,7 @@ export default function HeroPromoGrid({ banners = [] }) {
   if (!items.length) return null;
 
   return (
-    <div className="mt-5 grid gap-4 border-t border-hutan/10 pt-5 sm:grid-cols-2 sm:gap-5 sm:pt-6 lg:mt-6">
+    <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
       {items.map((banner, index) => {
         const className =
           "group overflow-hidden rounded-[1.25rem] border border-hutan/10 bg-white shadow-[0_8px_24px_rgba(18,63,74,0.08)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-forest/25 hover:shadow-[0_12px_28px_rgba(18,63,74,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 motion-reduce:transform-none motion-reduce:transition-none sm:rounded-[1.5rem]";
