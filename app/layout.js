@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageTransition from "@/components/layout/PageTransition";
 import OnboardingGate from "@/components/onboarding/OnboardingGate";
+import CookieConsent from "@/components/common/CookieConsent";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -68,6 +69,7 @@ export default function RootLayout({ children }) {
           <main className="min-h-screen">{children}</main>
         </PageTransition>
         <Footer />
+        <CookieConsent />
       </body>
     </html>
   );

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import {
   WHATSAPP_JOIN_MESSAGE,
 } from "@/lib/constants";
 import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
+import { openCookieSettings } from "@/lib/cookieConsent";
 
 function FooterHeading({ children }) {
   return (
@@ -195,6 +196,14 @@ export default function Footer() {
               <FooterLink href="/gabung">Cara Menjadi Mitra</FooterLink>
               <FooterLink href="/catalog">Cara Belanja</FooterLink>
               <FooterLink href="/artikel">Panduan &amp; Berita</FooterLink>
+              <button
+                type="button"
+                onClick={openCookieSettings}
+                className="text-sm text-white/70 hover:text-[#d9f0bf] transition-colors flex items-center gap-1.5 w-fit text-left cursor-pointer"
+              >
+                <span className="text-[#d9f0bf]/70">›</span>
+                Pengaturan Cookie
+              </button>
             </div>
           </div>
         </div>
@@ -247,6 +256,14 @@ export default function Footer() {
             <FooterLink href="/gabung">Cara Menjadi Mitra</FooterLink>
             <FooterLink href="/catalog">Cara Belanja</FooterLink>
             <FooterLink href="/artikel">Panduan &amp; Berita</FooterLink>
+            <button
+              type="button"
+              onClick={openCookieSettings}
+              className="text-sm text-white/70 hover:text-[#d9f0bf] transition-colors flex items-center gap-1.5 w-fit text-left cursor-pointer py-1"
+            >
+              <span className="text-[#d9f0bf]/70">›</span>
+              Pengaturan Cookie
+            </button>
           </MobileAccordionItem>
         </div>
 
@@ -257,7 +274,15 @@ export default function Footer() {
             dilindungi.
           </p>
           <div className="flex items-center gap-3 text-[11px] text-white/55">
-            <span>Dibuat untuk pelaku UMKM lokal</span>
+            <button
+              type="button"
+              onClick={openCookieSettings}
+              className="hover:text-[#d9f0bf] transition-colors cursor-pointer"
+            >
+              Pengaturan Cookie
+            </button>
+            <span className="w-1 h-1 rounded-full bg-clay/40" />
+            <span>Dibuat untuk UMKM lokal</span>
             <span className="w-1 h-1 rounded-full bg-clay/40" />
             <span>Dari Kemayoran, untuk Indonesia</span>
           </div>

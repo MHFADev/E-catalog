@@ -80,10 +80,17 @@ import {
   FaDownload,
   FaCommentDots,
   FaKey,
+  FaClock,
+  FaCookieBite,
+  FaSliders,
 } from "react-icons/fa6";
 import { FaFacebookF, FaTelegramPlane } from "react-icons/fa";
 
 const icons = {
+  clock: FaClock,
+  history: FaClock,
+  cookie: FaCookieBite,
+  sliders: FaSliders,
   moon: FaMoon,
   download: FaDownload,
   messageSquare: FaCommentDots,
