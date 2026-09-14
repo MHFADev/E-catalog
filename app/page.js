@@ -189,7 +189,10 @@ export default async function HomePage() {
 
             {/* Right: Integrated Banner Carousel & Video Showcase */}
             <div className="min-w-0">
-              <HeroShowcase banners={banners} />
+              <HeroShowcase
+                banners={banners}
+                sellerVideos={sellersData.filter((seller) => seller.videoUrl).slice(0, 4)}
+              />
             </div>
           </div>
         </div>

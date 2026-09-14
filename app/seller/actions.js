@@ -84,6 +84,30 @@ export async function saveSellerLocation(formData) {
   revalidateTag("catalog");
 }
 
+export async function saveSellerVideo(formData) {
+  const account = await requireApprovedSeller();
+  const videoUrl = (formData.get("videoUrl") || "").toString().trim();
+
+  if (videoUrl && !/^https:\/\//i.test(videoUrl)) {
+    throw new Error("URL video harus menggunakan https://");
+  }
+  if (videoUrl.length > 600) {
+    throw new Error("URL video terlalu panjang.");
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("sellers")
+    .update({ video_url: videoUrl || null })
+    .eq("id", account.seller_id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/seller");
+  revalidatePath("/");
+  revalidatePath("/catalog");
+  revalidateTag("catalog");
+}
+
 export async function saveSellerProduct(formData) {
   const account = await requireApprovedSeller();
   const id = (formData.get("id") || "").toString().trim();

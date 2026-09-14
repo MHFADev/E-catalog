@@ -3,6 +3,7 @@ import Icon from "@/components/common/Icon";
 import { getSellerAccount } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import SellerLocationForm from "@/components/seller/SellerLocationForm";
+import SellerMediaForm from "@/components/seller/SellerMediaForm";
 
 export default async function SellerDashboardPage() {
   const account = await getSellerAccount();
@@ -71,6 +72,19 @@ export default async function SellerDashboardPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-7 border border-cream-warm">
+        <div className="mb-4">
+          <h3 className="flex items-center gap-2 text-sm md:text-base font-bold text-noir">
+            <Icon name="play" size={16} className="text-forest" />
+            Video Profil Toko
+          </h3>
+          <p className="mt-1 text-xs leading-relaxed text-warm-gray">
+            Tambahkan video agar calon pembeli melihat suasana dan cerita usaha Anda langsung dari hero katalog.
+          </p>
+        </div>
+        <SellerMediaForm initialUrl={full?.video_url || ""} />
       </div>
 
       <div className="grid sm:grid-cols-3 gap-4">
@@ -157,4 +171,3 @@ export default async function SellerDashboardPage() {
     </div>
   );
 }
-

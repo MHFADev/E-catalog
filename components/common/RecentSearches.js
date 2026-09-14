@@ -110,14 +110,14 @@ export default function RecentSearches({
 
   return (
     <div
-      className={`absolute left-0 right-0 top-[calc(100%+0.5rem)] z-[70] overflow-hidden rounded-2xl border border-cream-warm bg-white/98 p-2.5 shadow-[0_20px_45px_rgba(15,54,82,0.18)] backdrop-blur-md animate-fade-up ${className}`}
+      className={`absolute left-0 right-0 top-[calc(100%+0.5rem)] z-[70] isolate overflow-hidden rounded-2xl border border-[#dfe7df] bg-white p-2.5 text-[#173247] opacity-100 shadow-[0_20px_45px_rgba(15,54,82,0.18)] backdrop-blur-md animate-fade-up ${className}`}
       role="region"
       aria-label="Riwayat dan rekomendasi pencarian"
     >
       {hasHistory ? (
         <>
           <div className="flex items-center justify-between px-2 pb-2 pt-1 border-b border-cream-warm/70 mb-1.5">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-noir">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-[#173247]">
               <Icon name="history" size={13} className="text-forest" />
               <span>Riwayat Pencarian</span>
             </div>
@@ -135,13 +135,13 @@ export default function RecentSearches({
               <div
                 key={item}
                 onClick={() => onSelect(item)}
-                className="group flex h-9.5 w-full items-center justify-between gap-2 rounded-xl px-2.5 text-left text-xs sm:text-sm text-noir transition-colors hover:bg-cream-pure cursor-pointer"
+                className="group flex h-9.5 w-full items-center justify-between gap-2 rounded-xl px-2.5 text-left text-xs text-[#173247] transition-colors hover:bg-[#f4f7f1] cursor-pointer sm:text-sm"
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cream-warm/60 text-warm-gray group-hover:text-forest group-hover:bg-forest/10 transition-colors">
                     <Icon name="history" size={11} />
                   </span>
-                  <span className="truncate">{item}</span>
+                  <span className="truncate font-semibold text-[#173247]">{item}</span>
                 </div>
 
                 <button

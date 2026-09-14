@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Icon from "@/components/common/Icon";
+import VideoEmbed from "@/components/common/VideoEmbed";
 
 const AUTO_SLIDE_INTERVAL = 5500;
 const SWIPE_THRESHOLD = 40;
@@ -25,7 +26,7 @@ const DEFAULT_SLIDES = [
   },
 ];
 
-export default function HeroShowcase({ banners = [] }) {
+export default function HeroShowcase({ banners = [], sellerVideos = [] }) {
   // Gunakan banners dari database jika ada, jika tidak pakai slide default kurasi
   const slides = useMemo(() => {
     if (banners && banners.length > 0) {
@@ -52,6 +53,7 @@ export default function HeroShowcase({ banners = [] }) {
 
   const total = slides.length;
   const currentSlide = slides[currentIndex] || slides[0];
+  const featuredVideo = sellerVideos.find((seller) => seller.videoUrl)?.videoUrl || "";
 
   // Auto-advance banner carousel
   useEffect(() => {
@@ -261,40 +263,54 @@ export default function HeroShowcase({ banners = [] }) {
         ) : (
           /* VIDEO SHOWCASE */
           <div className="relative h-full w-full bg-hutan">
-            <video
-              ref={videoRef}
-              autoPlay
-              muted={isVideoMuted}
-              loop
-              playsInline
-              preload="none"
-              poster="/image-header/1.webp"
-              className="absolute inset-0 h-full w-full object-cover object-center"
-              aria-label="Video profil UMKM Kemayoran"
-            >
-              <source src="/hero-video.mp4" type="video/mp4" />
-            </video>
+            {featuredVideo ? (
+              <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-hutan">
+                <VideoEmbed
+                  url={featuredVideo}
+                  title="Video profil UMKM Kemayoran"
+                  className="h-full w-full rounded-none border-0"
+                />
+              </div>
+            ) : (
+              <video
+                ref={videoRef}
+                autoPlay
+                muted={isVideoMuted}
+                loop
+                playsInline
+                preload="none"
+                poster="/image-header/1.webp"
+                className="absolute inset-0 h-full w-full object-cover object-center"
+                aria-label="Video profil UMKM Kemayoran"
+              >
+                <source src="/hero-video.mp4" type="video/mp4" />
+              </video>
+            )}
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-hutan-dark/70 via-transparent to-black/10" />
 
             {/* Video Controls overlay */}
             <div className="absolute bottom-3 right-3 z-10 flex items-center gap-2 sm:bottom-4 sm:right-4">
-              <button
-                type="button"
-                onClick={toggleVideoPlay}
-                aria-label={isVideoPlaying ? "Jeda video" : "Putar video"}
-                className="grid size-9 sm:size-10 place-items-center rounded-full border border-white/30 bg-hutan-dark/75 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-hutan-dark"
-              >
-                <Icon name={isVideoPlaying ? "pause" : "play"} size={13} />
-              </button>
-              <button
-                type="button"
-                onClick={toggleVideoMute}
-                aria-label={isVideoMuted ? "Aktifkan suara video" : "Matikan suara video"}
-                className="grid size-9 sm:size-10 place-items-center rounded-full border border-white/30 bg-hutan-dark/75 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-hutan-dark"
-              >
-                <Icon name={isVideoMuted ? "volumeOff" : "volumeOn"} size={14} />
-              </button>
+              {!featuredVideo && (
+                <>
+                  <button
+                    type="button"
+                    onClick={toggleVideoPlay}
+                    aria-label={isVideoPlaying ? "Jeda video" : "Putar video"}
+                    className="grid size-9 sm:size-10 place-items-center rounded-full border border-white/30 bg-hutan-dark/75 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-hutan-dark"
+                  >
+                    <Icon name={isVideoPlaying ? "pause" : "play"} size={13} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={toggleVideoMute}
+                    aria-label={isVideoMuted ? "Aktifkan suara video" : "Matikan suara video"}
+                    className="grid size-9 sm:size-10 place-items-center rounded-full border border-white/30 bg-hutan-dark/75 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-hutan-dark"
+                  >
+                    <Icon name={isVideoMuted ? "volumeOff" : "volumeOn"} size={14} />
+                  </button>
+                </>
+              )}
             </div>
 
             {/* Video caption */}
