@@ -124,35 +124,25 @@ export default async function HomePage() {
       <ScrollRevealObserver />
       {/* ===== HERO: Etalase & Discoverability Utama dengan Banner Terintegrasi ===== */}
       <section className="home-hero border-b border-hutan/10">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:py-12 md:px-6 lg:py-16">
-          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.15fr)] lg:gap-12 xl:gap-16">
+        <div className="mx-auto max-w-7xl px-4 py-9 sm:py-12 md:px-6 lg:py-14">
+          <div className="grid items-center gap-9 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-12 xl:gap-16">
             <div className="min-w-0">
-              {/* Official verified community pill */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-forest/15 bg-forest/[0.06] px-3.5 py-1.5 text-xs font-semibold text-forest">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-forest opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-forest" />
-                </span>
-                <span>Katalog Resmi UMKM Kemayoran · Jakarta Pusat</span>
-              </div>
+              <p className="section-kicker">Katalog resmi UMKM Kemayoran</p>
 
-              {/* Dignified, strong headline */}
-              <h1 className="mt-5 text-3xl font-extrabold tracking-tight text-hutan sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-[1.12]">
-                Pusat Produk &amp; Karya Pilihan{" "}
-                <span className="text-forest">Warga Kemayoran.</span>
+              <h1 className="mt-4 max-w-2xl text-3xl font-extrabold leading-[1.08] tracking-[-0.04em] text-hutan sm:text-4xl md:text-5xl lg:text-[3.35rem]">
+                Produk dan karya pilihan <span className="text-forest">warga Kemayoran.</span>
               </h1>
 
-              {/* Subheading */}
-              <p className="mt-4 max-w-xl text-base leading-relaxed text-cool-gray sm:text-lg">
-                Jelajahi aneka kuliner autentik, kerajinan tangan, fesyen, hingga kebutuhan harian langsung dari pelaku UMKM lokal terverifikasi tanpa potongan komisi.
+              <p className="mt-4 max-w-lg text-base leading-relaxed text-cool-gray sm:text-lg">
+                Cari kuliner, kerajinan, fesyen, dan kebutuhan harian dari usaha lokal terverifikasi.
               </p>
 
               {/* Modern Search bar with History Dropdown */}
               <HeroSearch />
 
               {/* Popular tags shortcut */}
-              <div className="mt-3.5 flex flex-wrap items-center gap-1.5 text-xs text-warm-gray">
-                <span className="font-semibold text-noir-soft">Populer:</span>
+              <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-warm-gray">
+                <span className="mr-0.5 font-semibold text-noir-soft">Coba cari:</span>
                 {["Kuliner", "Kue Kering", "Batik Betawi", "Kopi", "Kerajinan"].map((tag) => (
                   <Link
                     key={tag}
@@ -165,7 +155,7 @@ export default async function HomePage() {
               </div>
 
               {/* Trust badges strip */}
-              <div className="mt-8 flex flex-wrap items-center gap-4 sm:gap-6 border-t border-hutan/10 pt-5 text-xs sm:text-sm text-noir-soft">
+              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-hutan/10 pt-4 text-xs text-noir-soft sm:text-sm">
                 <div className="flex items-center gap-2">
                   <span className="flex size-5 items-center justify-center rounded-full bg-forest/10 text-forest">
                     <Icon name="check" size={11} />
