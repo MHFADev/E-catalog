@@ -264,6 +264,89 @@ video {
   object-position: 50% center;
 }
 
+.hero-cinematic {
+  isolation: isolate;
+}
+
+.hero-cinematic-image {
+  filter: sepia(0.16) saturate(0.72) contrast(1.08) brightness(0.82);
+  transform: scale(1.035);
+  transition: transform 8s cubic-bezier(0.16, 1, 0.3, 1), filter 700ms ease;
+}
+
+.hero-cinematic:hover .hero-cinematic-image {
+  transform: scale(1.075);
+  filter: sepia(0.12) saturate(0.85) contrast(1.08) brightness(0.86);
+}
+
+.hero-live-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: #ea580c;
+  box-shadow: 0 0 0 0.25rem rgba(234, 88, 12, 0.16);
+  animation: heroPulse 2.4s ease-in-out infinite;
+}
+
+.hero-glass-panel {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(12, 14, 12, 0.38);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+}
+
+.hero-scan-line {
+  position: absolute;
+  inset: 0 auto 0 -30%;
+  width: 30%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(234, 88, 12, 0.26), transparent);
+  animation: heroScan 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.hero-ticker {
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+}
+
+.hero-ticker-track {
+  animation: heroTicker 28s linear infinite;
+}
+
+.hero-ticker:hover .hero-ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes heroPulse {
+  0%, 100% { opacity: 0.72; transform: scale(0.92); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes heroScan {
+  0% { transform: translateX(0); }
+  55%, 100% { transform: translateX(470%); }
+}
+
+@keyframes heroTicker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-live-dot,
+  .hero-scan-line,
+  .hero-ticker-track {
+    animation: none;
+  }
+
+  .hero-cinematic-image,
+  .hero-cinematic:hover .hero-cinematic-image {
+    transform: none;
+    transition: none;
+  }
+}
+
 @media (max-width: 479px) {
   .hero-showcase-container video {
     object-position: 54% center;

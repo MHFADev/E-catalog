@@ -13,40 +13,39 @@ const DEFAULT_SLIDES = [
   {
     id: "default-1",
     imageUrl: "/image-header/1.webp",
-    title: "Katalog Resmi Produk & Kuliner UMKM Kemayoran",
-    subtitle: "Pilihan Terbaik Warga",
+    title: "Katalog resmi produk dan kuliner UMKM Kemayoran",
+    subtitle: "Pilihan warga minggu ini",
     link: "/catalog",
   },
   {
     id: "default-2",
     imageUrl: "/image-header/2.webp",
-    title: "Dukung Usaha Lokal — Transaksi Langsung via WhatsApp",
-    subtitle: "Tanpa Perantara",
+    title: "Temukan karya lokal, dukung usaha sekitar",
+    subtitle: "Transaksi langsung via WhatsApp",
     link: "/catalog",
   },
 ];
 
+const TICKER_ITEMS = ["Kuliner", "Kerajinan", "Fesyen", "Kopi lokal", "Cerita warga"];
+
 export default function HeroShowcase({ banners = [], sellerVideos = [] }) {
-  // Gunakan banners dari database jika ada, jika tidak pakai slide default kurasi
   const slides = useMemo(() => {
-    if (banners && banners.length > 0) {
-      return banners.map((b, idx) => ({
-        id: b.id || `banner-${idx}`,
-        imageUrl: b.imageUrl,
-        title: b.title || "Promo & Agenda Khusus UMKM Kemayoran",
-        subtitle: "Pilihan Minggu Ini",
-        link: b.link || null,
+    if (banners?.length) {
+      return banners.map((banner, index) => ({
+        id: banner.id || `banner-${index}`,
+        imageUrl: banner.imageUrl,
+        title: banner.title || "Promo dan agenda UMKM Kemayoran",
+        subtitle: "Pilihan minggu ini",
+        link: banner.link || null,
       }));
     }
     return DEFAULT_SLIDES;
   }, [banners]);
 
-  const [mode, setMode] = useState("banner"); // "banner" | "video"
+  const [mode, setMode] = useState("banner");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [touchStart, setTouchStart] = useState(null);
-
-  // Video state
   const videoRef = useRef(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const [isVideoMuted, setIsVideoMuted] = useState(true);
@@ -55,42 +54,29 @@ export default function HeroShowcase({ banners = [], sellerVideos = [] }) {
   const currentSlide = slides[currentIndex] || slides[0];
   const featuredVideo = sellerVideos.find((seller) => seller.videoUrl)?.videoUrl || "";
 
-  // Auto-advance banner carousel
   useEffect(() => {
-    if (mode !== "banner" || total <= 1 || isPaused) return;
-
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % total);
-    }, AUTO_SLIDE_INTERVAL);
-
+    if (mode !== "banner" || total <= 1 || isPaused) return undefined;
+    const timer = setInterval(() => setCurrentIndex((index) => (index + 1) % total), AUTO_SLIDE_INTERVAL);
     return () => clearInterval(timer);
   }, [mode, total, isPaused]);
 
-  // Touch handlers for mobile swipe
-  const handleTouchStart = (e) => {
-    setTouchStart(e.touches[0].clientX);
+  const moveSlide = (direction) => {
+    setCurrentIndex((index) => (index + direction + total) % total);
+  };
+
+  const handleTouchStart = (event) => {
+    setTouchStart(event.touches[0].clientX);
     setIsPaused(true);
   };
 
-  const handleTouchEnd = (e) => {
+  const handleTouchEnd = (event) => {
     setIsPaused(false);
     if (touchStart === null) return;
-    const touchEnd = e.changedTouches[0].clientX;
-    const diff = touchStart - touchEnd;
-
-    if (Math.abs(diff) > SWIPE_THRESHOLD) {
-      if (diff > 0) {
-        // swipe left -> next
-        setCurrentIndex((prev) => (prev + 1) % total);
-      } else {
-        // swipe right -> prev
-        setCurrentIndex((prev) => (prev - 1 + total) % total);
-      }
-    }
+    const difference = touchStart - event.changedTouches[0].clientX;
+    if (Math.abs(difference) > SWIPE_THRESHOLD) moveSlide(difference > 0 ? 1 : -1);
     setTouchStart(null);
   };
 
-  // Video controls
   const toggleVideoPlay = () => {
     const video = videoRef.current;
     if (!video) return;
@@ -112,232 +98,118 @@ export default function HeroShowcase({ banners = [], sellerVideos = [] }) {
 
   return (
     <div
-      className="hero-showcase-container relative flex flex-col overflow-hidden rounded-2xl border border-hutan/12 bg-white shadow-[0_14px_38px_rgba(18,63,43,0.08)] sm:rounded-3xl"
+      className="hero-cinematic relative overflow-hidden rounded-[1.65rem] bg-[#191918] text-white shadow-[0_28px_70px_rgba(20,45,34,0.2)] sm:rounded-[2rem]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Top Bar: Label & Mode Switcher */}
-      <div className="flex items-center justify-between border-b border-hutan/8 bg-cream/70 px-3.5 py-2.5 sm:px-5 sm:py-3">
-        {/* Left: Indicator */}
-        <div className="flex items-center gap-2">
-          <span className="flex size-2 rounded-full bg-forest" />
-          <span className="text-xs font-bold uppercase tracking-wider text-hutan">
-            {mode === "banner" ? "Info & Promo Pilihan" : "Suasana UMKM Kemayoran"}
+      <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between border-b border-white/10 bg-black/20 px-4 py-3 backdrop-blur-md sm:px-5">
+        <div className="flex items-center gap-2.5">
+          <span className="hero-live-dot" aria-hidden="true" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/75 sm:text-[11px]">
+            {mode === "banner" ? "Etalase pilihan" : "Cerita UMKM"}
           </span>
         </div>
-
-        {/* Right: Tab switch between Banner & Video */}
-        <div className="flex items-center gap-1 rounded-xl bg-hutan/[0.07] p-0.5">
+        <div className="flex items-center gap-1 rounded-full border border-white/15 bg-black/20 p-1">
           <button
             type="button"
             onClick={() => setMode("banner")}
-            className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition-all ${
-              mode === "banner"
-                ? "bg-white text-hutan shadow-sm"
-                : "text-warm-gray hover:text-hutan"
-            }`}
-            aria-label="Tampilkan Banner Promo"
+            aria-pressed={mode === "banner"}
+            className={`rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-500 ${mode === "banner" ? "bg-[#fdfbf7] text-[#1a1a19]" : "text-white/60 hover:text-white"}`}
           >
-            <Icon name="tag" size={11} />
-            <span>Banner</span>
-            {total > 1 && (
-              <span className="ml-0.5 text-[10px] text-warm-gray">
-                ({currentIndex + 1}/{total})
-              </span>
-            )}
+            Banner
           </button>
-
           <button
             type="button"
             onClick={() => setMode("video")}
-            className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition-all ${
-              mode === "video"
-                ? "bg-white text-forest shadow-sm"
-                : "text-warm-gray hover:text-hutan"
-            }`}
-            aria-label="Tonton Video Suasana"
+            aria-pressed={mode === "video"}
+            className={`rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-500 ${mode === "video" ? "bg-[#ea580c] text-white" : "text-white/60 hover:text-white"}`}
           >
-            <Icon name="play" size={10} />
-            <span>Video</span>
+            Video
           </button>
         </div>
       </div>
 
-      {/* Main Display Area */}
-      <div className="relative aspect-[16/10] w-full min-h-[220px] sm:min-h-[300px] lg:min-h-[350px] overflow-hidden bg-cream-warm/30">
+      <div
+        className="relative aspect-[4/3] min-h-[390px] w-full overflow-hidden sm:aspect-[16/11] sm:min-h-[430px]"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         {mode === "banner" ? (
-          /* BANNER CAROUSEL */
-          <div
-            className="group relative h-full w-full"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          >
-            {/* Banner Image with smooth transition */}
-            {slides.map((slide, idx) => {
-              const isActive = idx === currentIndex;
+          <div className="absolute inset-0">
+            {slides.map((slide, index) => {
+              const active = index === currentIndex;
               return (
-                <div
-                  key={slide.id}
-                  className={`absolute inset-0 transition-opacity duration-500 ease-out ${
-                    isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
-                  }`}
-                >
+                <div key={slide.id} className={`absolute inset-0 transition-opacity duration-700 ease-out ${active ? "z-10 opacity-100" : "pointer-events-none z-0 opacity-0"}`}>
                   <Image
                     src={slide.imageUrl}
-                    alt={slide.title || "Banner UMKM Kemayoran"}
+                    alt={slide.title}
                     fill
+                    priority={index === 0}
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    priority={idx === 0}
-                    loading={idx === 0 ? "eager" : "lazy"}
-                    className="object-cover object-center"
+                    className="hero-cinematic-image object-cover"
                   />
-                  {/* Subtle gradient vignette for text readability */}
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-hutan-dark/90 via-hutan-dark/30 to-transparent" />
-
-                  {/* Banner Content Caption */}
-                  <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col justify-end p-4 text-white sm:p-6">
-                    <span className="mb-1 text-[11px] font-bold uppercase tracking-wider text-forest-bright">
-                      {slide.subtitle || "Pilihan UMKM"}
-                    </span>
-                    <h3 className="line-clamp-2 text-base font-bold leading-snug sm:text-lg lg:text-xl drop-shadow-sm">
-                      {slide.title}
-                    </h3>
-
-                    {slide.link && (
-                      <div className="mt-2.5">
-                        <Link
-                          href={slide.link}
-                          className="inline-flex items-center gap-1.5 rounded-lg bg-white/90 px-3 py-1.5 text-xs font-bold text-hutan backdrop-blur-sm transition-all hover:bg-white hover:shadow-md"
-                        >
-                          <span>Buka Info</span>
-                          <Icon name="arrowRight" size={11} />
-                        </Link>
-                      </div>
-                    )}
-                  </div>
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,16,13,0.3)_0%,transparent_34%,rgba(10,12,10,0.92)_100%)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_20%,rgba(234,88,12,0.2),transparent_28%)]" />
                 </div>
               );
             })}
 
-            {/* Navigation Arrows (Desktop hover / Mobile accessible) */}
-            {total > 1 && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => setCurrentIndex((prev) => (prev - 1 + total) % total)}
-                  aria-label="Banner sebelumnya"
-                  className="absolute left-2.5 top-1/2 z-20 -translate-y-1/2 rounded-full border border-white/20 bg-black/40 p-2 text-white backdrop-blur-sm transition-all hover:bg-black/65 sm:left-4 sm:p-2.5"
-                >
-                  <Icon name="chevronLeft" size={14} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCurrentIndex((prev) => (prev + 1) % total)}
-                  aria-label="Banner berikutnya"
-                  className="absolute right-2.5 top-1/2 z-20 -translate-y-1/2 rounded-full border border-white/20 bg-black/40 p-2 text-white backdrop-blur-sm transition-all hover:bg-black/65 sm:right-4 sm:p-2.5"
-                >
-                  <Icon name="chevronRight" size={14} />
-                </button>
-              </>
-            )}
+            <div className="absolute inset-x-4 bottom-16 z-20 max-w-[34rem] sm:inset-x-6 sm:bottom-[4.7rem]">
+              <div className="hero-glass-panel relative overflow-hidden rounded-2xl p-4 sm:p-5">
+                <div className="hero-scan-line" aria-hidden="true" />
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#ffb18e]">{currentSlide.subtitle}</p>
+                <h2 className="max-w-lg text-2xl font-extrabold leading-[1.05] tracking-[-0.045em] text-[#fdfbf7] sm:text-3xl lg:text-[2.65rem]">{currentSlide.title}</h2>
+                {currentSlide.link && (
+                  <Link href={currentSlide.link} className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#fdfbf7] px-4 py-2.5 text-xs font-bold text-[#1a1a19] transition-transform duration-500 hover:scale-105">
+                    Jelajahi katalog <Icon name="arrowRight" size={13} />
+                  </Link>
+                )}
+              </div>
+            </div>
 
-            {/* Bottom Indicator Dots / Pills */}
             {total > 1 && (
-              <div className="absolute bottom-3 right-4 z-20 hidden items-center gap-1.5 sm:flex">
-                {slides.map((_, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setCurrentIndex(idx)}
-                    aria-label={`Pindah ke banner ${idx + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      idx === currentIndex
-                        ? "w-6 bg-white"
-                        : "w-1.5 bg-white/45 hover:bg-white/70"
-                    }`}
-                  />
-                ))}
+              <div className="absolute bottom-5 right-5 z-20 flex items-center gap-2 sm:right-6">
+                <button type="button" onClick={() => moveSlide(-1)} aria-label="Banner sebelumnya" className="grid size-8 place-items-center rounded-full border border-white/25 bg-black/20 text-white backdrop-blur-md transition-colors hover:bg-white hover:text-[#1a1a19]"><Icon name="chevronLeft" size={13} /></button>
+                <span className="min-w-12 text-center text-[10px] font-bold tracking-[0.18em] text-white/75">{String(currentIndex + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
+                <button type="button" onClick={() => moveSlide(1)} aria-label="Banner berikutnya" className="grid size-8 place-items-center rounded-full border border-white/25 bg-black/20 text-white backdrop-blur-md transition-colors hover:bg-white hover:text-[#1a1a19]"><Icon name="chevronRight" size={13} /></button>
               </div>
             )}
           </div>
         ) : (
-          /* VIDEO SHOWCASE */
-          <div className="relative h-full w-full bg-hutan">
+          <div className="absolute inset-0 bg-[#111]">
             {featuredVideo ? (
-              <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-hutan">
-                <VideoEmbed
-                  url={featuredVideo}
-                  title="Video profil UMKM Kemayoran"
-                  className="h-full w-full rounded-none border-0"
-                />
-              </div>
+              <VideoEmbed url={featuredVideo} title="Video profil UMKM Kemayoran" className="h-full w-full rounded-none border-0 [&>iframe]:h-full [&>iframe]:object-cover" />
             ) : (
-              <video
-                ref={videoRef}
-                autoPlay
-                muted={isVideoMuted}
-                loop
-                playsInline
-                preload="none"
-                poster="/image-header/1.webp"
-                className="absolute inset-0 h-full w-full object-cover object-center"
-                aria-label="Video profil UMKM Kemayoran"
-              >
+              <video ref={videoRef} autoPlay muted={isVideoMuted} loop playsInline preload="none" poster="/image-header/1.webp" className="absolute inset-0 h-full w-full object-cover" aria-label="Video profil UMKM Kemayoran">
                 <source src="/hero-video.mp4" type="video/mp4" />
               </video>
             )}
-
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-hutan-dark/70 via-transparent to-black/10" />
-
-            {/* Video Controls overlay */}
-            <div className="absolute bottom-3 right-3 z-10 flex items-center gap-2 sm:bottom-4 sm:right-4">
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/20" />
+            <div className="absolute inset-x-4 bottom-5 z-20 flex items-end justify-between sm:inset-x-6">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#ffb18e]">Profil usaha lokal</p>
+                <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">Geliat warga Kemayoran</h2>
+              </div>
               {!featuredVideo && (
-                <>
-                  <button
-                    type="button"
-                    onClick={toggleVideoPlay}
-                    aria-label={isVideoPlaying ? "Jeda video" : "Putar video"}
-                    className="grid size-9 sm:size-10 place-items-center rounded-full border border-white/30 bg-hutan-dark/75 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-hutan-dark"
-                  >
-                    <Icon name={isVideoPlaying ? "pause" : "play"} size={13} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={toggleVideoMute}
-                    aria-label={isVideoMuted ? "Aktifkan suara video" : "Matikan suara video"}
-                    className="grid size-9 sm:size-10 place-items-center rounded-full border border-white/30 bg-hutan-dark/75 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-hutan-dark"
-                  >
-                    <Icon name={isVideoMuted ? "volumeOff" : "volumeOn"} size={14} />
-                  </button>
-                </>
+                <div className="flex gap-2">
+                  <button type="button" onClick={toggleVideoPlay} aria-label={isVideoPlaying ? "Jeda video" : "Putar video"} className="grid size-9 place-items-center rounded-full border border-white/25 bg-black/30 text-white backdrop-blur-md hover:bg-white hover:text-black"><Icon name={isVideoPlaying ? "pause" : "play"} size={13} /></button>
+                  <button type="button" onClick={toggleVideoMute} aria-label={isVideoMuted ? "Aktifkan suara" : "Matikan suara"} className="grid size-9 place-items-center rounded-full border border-white/25 bg-black/30 text-white backdrop-blur-md hover:bg-white hover:text-black"><Icon name={isVideoMuted ? "volumeOff" : "volumeOn"} size={14} /></button>
+                </div>
               )}
-            </div>
-
-            {/* Video caption */}
-            <div className="pointer-events-none absolute bottom-3 left-4 z-10 text-xs text-white/85 sm:bottom-4 sm:left-5">
-              <span className="font-semibold text-white">Profil UMKM Kemayoran</span>
-              <span className="hidden sm:inline"> — Geliat usaha &amp; ekonomi warga</span>
             </div>
           </div>
         )}
       </div>
 
-      {/* Bottom Bar on Mobile: indicators */}
-      {mode === "banner" && total > 1 && (
-        <div className="flex items-center justify-center gap-1.5 border-t border-hutan/8 bg-cream/50 py-2 sm:hidden">
-          {slides.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setCurrentIndex(idx)}
-              aria-label={`Banner ${idx + 1}`}
-              className={`h-1 rounded-full transition-all ${
-                idx === currentIndex ? "w-5 bg-forest" : "w-1.5 bg-warm-gray/30"
-              }`}
-            />
+      <div className="hero-ticker relative z-20 flex overflow-hidden border-t border-white/10 bg-[#1a1a19] py-3" aria-label="Kategori unggulan">
+        <div className="hero-ticker-track flex min-w-max items-center gap-5 px-5">
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, index) => (
+            <span key={`${item}-${index}`} className="flex items-center gap-5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/55">
+              {item}<span className="text-[#ea580c]">✦</span>
+            </span>
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
