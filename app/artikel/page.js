@@ -1,6 +1,23 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
 import { getArticles } from "@/lib/catalog";
+import { getSiteUrl } from "@/lib/siteUrl";
+
+const siteUrl = getSiteUrl();
+
+export const metadata = {
+  title: "Artikel & Cerita UMKM Kemayoran",
+  description:
+    "Berita, cerita usaha, kegiatan, dan informasi terbaru dari pelaku UMKM Kemayoran.",
+  alternates: { canonical: `${siteUrl}/artikel` },
+  openGraph: {
+    type: "website",
+    url: `${siteUrl}/artikel`,
+    title: "Artikel & Cerita UMKM Kemayoran",
+    description:
+      "Berita, cerita usaha, kegiatan, dan informasi terbaru dari pelaku UMKM Kemayoran.",
+  },
+};
 
 export default async function ArtikelPage() {
   const articles = await getArticles();

@@ -2,6 +2,47 @@
 import { notFound } from "next/navigation";
 import Icon from "@/components/common/Icon";
 import { createClient } from "@/lib/supabase/server";
+import { getSiteUrl } from "@/lib/siteUrl";
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const supabase = await createClient();
+  const { data: article } = await supabase
+    .from("articles")
+    .select("title, excerpt, image, author, published_at")
+    .eq("slug", slug)
+    .eq("published", true)
+    .single();
+
+  if (!article) return { title: "Artikel tidak ditemukan", robots: { index: false, follow: false } };
+
+  const siteUrl = getSiteUrl();
+  const articleUrl = `${siteUrl}/artikel/${slug}`;
+  const description = article.excerpt || `Baca artikel ${article.title} dari UMKM Kemayoran.`;
+
+  return {
+    title: article.title,
+    description,
+    alternates: { canonical: articleUrl },
+    openGraph: {
+      type: "article",
+      locale: "id_ID",
+      siteName: "UMKM Kemayoran",
+      url: articleUrl,
+      title: `${article.title} | UMKM Kemayoran`,
+      description,
+      ...(article.image ? { images: [{ url: article.image, alt: article.title }] } : {}),
+      publishedTime: article.published_at || undefined,
+      authors: [article.author || "Tim Pengelola UMKM Kemayoran"],
+    },
+    twitter: {
+      card: article.image ? "summary_large_image" : "summary",
+      title: article.title,
+      description,
+      ...(article.image ? { images: [article.image] } : {}),
+    },
+  };
+}
 
 export default async function ArticleDetailPage({ params }) {
   const { slug } = await params;
@@ -19,9 +60,28 @@ export default async function ArticleDetailPage({ params }) {
     .split(/\n\s*\n/)
     .map((p) => p.trim())
     .filter(Boolean);
+  const siteUrl = getSiteUrl();
+  const articleUrl = `${siteUrl}/artikel/${article.slug}`;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+    headline: article.title,
+    description: article.excerpt || paragraphs[0]?.slice(0, 155),
+    image: article.image ? [article.image] : undefined,
+    author: { "@type": "Organization", name: article.author || "Tim Pengelola UMKM Kemayoran" },
+    publisher: { "@type": "Organization", name: "UMKM Kemayoran", url: siteUrl },
+    datePublished: article.published_at || undefined,
+    dateModified: article.updated_at || article.published_at || undefined,
+    inLanguage: "id-ID",
+  };
 
   return (
     <article className="bg-cream">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <div className="max-w-3xl mx-auto px-4 md:px-6 py-8 md:py-14">
         <Link
           href="/artikel"

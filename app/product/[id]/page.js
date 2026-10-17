@@ -10,6 +10,7 @@ import VideoEmbed from "@/components/common/VideoEmbed";
 import { generateWhatsAppLink } from "@/lib/generateWhatsAppLink";
 import { WHATSAPP_PREFILL } from "@/lib/constants";
 import { getSellerPaymentMethods } from "@/lib/paymentMethods";
+import { getSiteUrl } from "@/lib/siteUrl";
 import {
   getProducts,
   getSellers,
@@ -166,8 +167,50 @@ export default async function ProductDetailPage({ params }) {
     ...p,
     sellerName: sellers.find((s) => s.id === p.sellerId)?.name || "",
   }));
+  const siteUrl = getSiteUrl();
+  const productUrl = `${siteUrl}/product/${product.id}`;
+  const productStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description || `Produk ${product.name} dari UMKM Kemayoran.`,
+    url: productUrl,
+    image: product.images?.length ? product.images : [`${siteUrl}/icon.png`],
+    category: category?.name,
+    brand: { "@type": "Brand", name: seller?.name || "UMKM Kemayoran" },
+    ...(showPrice
+      ? {
+          offers: {
+            "@type": "Offer",
+            url: productUrl,
+            priceCurrency: "IDR",
+            price: Number(product.price),
+            availability: product.isAvailable === false
+              ? "https://schema.org/OutOfStock"
+              : "https://schema.org/InStock",
+            seller: { "@type": "Organization", name: seller?.name || "UMKM Kemayoran" },
+          },
+        }
+      : {}),
+    ...(productReviews.length
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: rating.toFixed(1),
+            reviewCount: productReviews.length,
+            bestRating: "5",
+            worstRating: "1",
+          },
+        }
+      : {}),
+  };
 
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productStructuredData) }}
+      />
     <div className="min-h-screen bg-[var(--carrom-white)] pb-24 md:pb-0">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-10">
         {/* ===== Breadcrumb: Beranda / Katalog / Kategori ===== */}
@@ -479,5 +522,6 @@ export default async function ProductDetailPage({ params }) {
         </div>
       </div>
     </div>
+    </>
   );
 }

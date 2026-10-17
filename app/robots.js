@@ -1,12 +1,23 @@
+import { getSiteUrl } from "@/lib/siteUrl";
+
 export default function robots() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const siteUrl = getSiteUrl();
 
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin/", "/api/", "/profile", "/settings", "/onboarding", "/seller/orders", "/seller/payment"],
+      disallow: [
+        "/admin/",
+        "/api/",
+        "/profile",
+        "/settings",
+        "/onboarding",
+        "/seller/orders",
+        "/seller/payment",
+      ],
     },
-    ...(siteUrl ? { sitemap: `${siteUrl}/sitemap.xml` } : {}),
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   };
 }
