@@ -15,6 +15,12 @@ const nextConfig = {
         hostname: "db.wqealargyqdxndcrtbla.supabase.co",
         pathname: "/**",
       },
+      {
+        // Banner dan gambar publik yang disimpan di repository GitHub.
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        pathname: "/**",
+      },
     ],
     // Format modern: WebP diutamakan
     formats: ["image/webp"],
