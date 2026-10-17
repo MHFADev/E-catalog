@@ -9,37 +9,8 @@ import ScrollRevealObserver from "@/components/home/ScrollRevealObserver";
 
 import MultiPinMap from "@/components/common/MultiPinMap";
 import PartnerLogos from "@/components/common/PartnerLogos";
-import { getProducts, getSellers, getCategories } from "@/lib/catalog";
+import { getProducts, getSellers, getCategories, getArticles } from "@/lib/catalog";
 import { getBanners } from "@/lib/banners";
-
-
-
-const events = [
-  {
-    day: "12",
-    month: "AGU",
-    title: "Bazar UMKM Kemayoran",
-    desc: "Pameran dan penjualan produk unggulan UMKM lokal.",
-    place: "Lapangan Kemayoran",
-    time: "09.00 - 16.00 WIB",
-  },
-  {
-    day: "25",
-    month: "AGU",
-    title: "Workshop Digital Marketing",
-    desc: "Pelatihan gratis cara memasarkan produk secara online.",
-    place: "Balai Warga RW 05",
-    time: "13.00 - 16.00 WIB",
-  },
-  {
-    day: "08",
-    month: "SEP",
-    title: "Kelas Produksi & Kemasan",
-    desc: "Belajar kemasan produk yang menarik dan food grade.",
-    place: "Aula Kelurahan",
-    time: "09.00 - 12.00 WIB",
-  },
-];
 
 const testimonials = [
   {
@@ -98,11 +69,12 @@ function TestimonialCard({ item }) {
 }
 
 export default async function HomePage() {
-  const [productsData, sellersData, categories, banners] = await Promise.all([
+  const [productsData, sellersData, categories, banners, articles] = await Promise.all([
     getProducts(),
     getSellers(),
     getCategories(),
     getBanners(),
+    getArticles(),
   ]);
 
   const enriched = productsData.map((p) => ({
@@ -111,6 +83,17 @@ export default async function HomePage() {
   }));
   // Maksimal 8 produk unggulan yang ditampilkan di beranda
   const featured = enriched.filter((p) => p.isFeatured).slice(0, 8);
+  const homepageArticles = articles.slice(0, 3).map((article) => {
+    const date = new Date(article.published_at || article.created_at);
+    const validDate = !Number.isNaN(date.getTime());
+    return {
+      ...article,
+      day: validDate ? date.toLocaleDateString("id-ID", { day: "2-digit" }) : "--",
+      month: validDate
+        ? date.toLocaleDateString("id-ID", { month: "short" }).replace(".", "").toUpperCase()
+        : "INFO",
+    };
+  });
 
   const stats = [
     { value: `${sellersData.length}+`, label: "Total UMKM Terverifikasi" },
@@ -393,36 +376,40 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {events.map((e, i) => (
+            {homepageArticles.map((article) => (
               <div
-                key={i}
+                key={article.id}
                 className="group bg-white rounded-2xl md:rounded-3xl overflow-hidden border border-cream-warm hover:border-forest/30 hover:shadow-xl hover:-translate-y-1 transition-all"
               >
                 <div className="flex">
                   <div className="flex flex-col items-center justify-center w-20 md:w-24 shrink-0 bg-forest text-white p-4 text-center">
                     <span className="text-2xl md:text-3xl font-bold leading-none">
-                      {e.day}
+                      {article.day}
                     </span>
                     <span className="text-[10px] md:text-xs font-semibold tracking-widest mt-1">
-                      {e.month}
+                      {article.month}
                     </span>
                   </div>
                   <div className="p-4 md:p-5 flex flex-col gap-1.5">
-                    <h3 className="text-sm md:text-base font-bold text-noir leading-snug group-hover:text-forest transition-colors">
-                      {e.title}
-                    </h3>
+                    <Link href={`/artikel/${article.slug}`} className="text-sm md:text-base font-bold text-noir leading-snug group-hover:text-forest transition-colors">
+                      {article.title}
+                    </Link>
                     <p className="text-xs md:text-sm text-warm-gray leading-relaxed">
-                      {e.desc}
+                      {article.excerpt || article.content?.split(/\n\s*\n/)[0]?.slice(0, 140) || "Baca informasi terbaru dari UMKM Kemayoran."}
                     </p>
                     <div className="flex items-center gap-1.5 text-[10px] md:text-xs text-cool-gray mt-auto pt-1">
-                      <Icon name="mapPin" size={12} /> {e.place}
-                      <span className="mx-1">·</span>
-                      <Icon name="calendar" size={12} /> {e.time}
+                      <Icon name="file" size={12} /> {article.author || "Tim Pengelola"}
                     </div>
                   </div>
                 </div>
               </div>
             ))}
+            {!homepageArticles.length && (
+              <div className="sm:col-span-2 lg:col-span-3 rounded-2xl md:rounded-3xl border border-dashed border-cream-warm bg-white p-6 text-center">
+                <p className="text-sm font-semibold text-noir-soft">Belum ada artikel atau kegiatan terbaru.</p>
+                <p className="mt-1 text-xs text-warm-gray">Artikel yang dipublikasikan dari panel admin akan tampil di sini.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
