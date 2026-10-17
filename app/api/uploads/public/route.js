@@ -36,17 +36,23 @@ export async function POST(request) {
   }
 
   try {
-    const [supabase, adminUser] = await Promise.all([createClient(), isAdmin()]);
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
+    // Admin panel memakai cookie admin sendiri. Jangan tetap memanggil
+    // Supabase auth.getUser() untuk sesi admin karena request itu tidak perlu
+    // dan dapat menambah latensi sebelum upload ke GitHub dimulai.
+    const adminUser = await isAdmin();
+    if (!adminUser) {
+      const supabase = await createClient();
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
 
-    if (!adminUser && userError) {
-      return jsonError("Sesi Anda tidak dapat diverifikasi. Silakan masuk kembali.", 401);
-    }
-    if (!adminUser && !user) {
-      return jsonError("Anda harus masuk sebelum mengunggah gambar.", 401);
+      if (userError) {
+        return jsonError("Sesi Anda tidak dapat diverifikasi. Silakan masuk kembali.", 401);
+      }
+      if (!user) {
+        return jsonError("Anda harus masuk sebelum mengunggah gambar.", 401);
+      }
     }
   } catch {
     return jsonError("Layanan upload belum siap. Silakan coba lagi beberapa saat lagi.", 503);
