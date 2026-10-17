@@ -5,6 +5,9 @@ import { uploadPublicImage } from "@/lib/github";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+// Beri ruang untuk validasi sesi dan retry GitHub tanpa membiarkan request
+// berjalan tanpa batas. Total retry upload di lib/github.js tetap terkontrol.
+export const maxDuration = 60;
 
 const MAX_REQUEST_BASE64_LENGTH = 1_100_000;
 
