@@ -1,13 +1,29 @@
 ﻿import Link from "next/link";
 import Icon from "@/components/common/Icon";
-import LegacyArtikel from "@/components/article/LegacyArtikel";
 import { getArticles } from "@/lib/catalog";
 
 export default async function ArtikelPage() {
   const articles = await getArticles();
 
-  // Belum ada artikel dari database -> tampilkan konten statis lama
-  if (!articles.length) return <LegacyArtikel />;
+  // Artikel publik hanya berasal dari panel admin. Jangan tampilkan konten
+  // bawaan/static ketika database belum memiliki artikel yang dipublikasikan.
+  if (!articles.length) {
+    return (
+      <div className="max-w-5xl mx-auto px-4 md:px-6 py-16 md:py-24">
+        <div className="text-center">
+          <span className="inline-block px-3 py-1 mb-3 bg-forest text-white text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-full">
+            UMKM Kemayoran
+          </span>
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tighter mb-2">
+            <span className="text-forest">Artikel</span> &amp; Cerita
+          </h1>
+          <p className="text-sm md:text-base text-warm-gray max-w-xl mx-auto">
+            Belum ada artikel yang dipublikasikan.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-16">
